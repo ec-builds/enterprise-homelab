@@ -120,6 +120,8 @@ One of the primary goals of this lab is to demonstrate that practical IT skills 
 
 ![Homelab Roadmap](assets/roadmap.png)
 
+See [Roadmap](roadmap.md)
+
 
 ---
 
