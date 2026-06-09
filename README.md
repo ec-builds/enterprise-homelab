@@ -26,7 +26,7 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ---
 
-## Planned Projects
+## Planned Projects (Expanded)
 
 ### Media Services Platform (Debian & Jellyfin)
 A self-hosted media platform running on Debian Linux and Jellyfin.
@@ -61,6 +61,19 @@ A self-hosted media platform running on Debian Linux and Jellyfin.
 - Logging and Auditing
 
 ---
+
+## Planned Labs
+
+- Network Infrastructure Lab
+- Active Directory Lab
+- Microsoft 365 & Entra ID Lab
+- Infrastructure Monitoring
+- Backup & Disaster Recovery
+- Home Network Security
+- Infrastructure Automation
+- Docker & Self-Hosted Services
+- Cloud Administration Lab
+
 
 ## Documentation Scope
 
