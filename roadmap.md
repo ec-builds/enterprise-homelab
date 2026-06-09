@@ -1,5 +1,11 @@
 ## Roadmap
 
+![Homelab Roadmap](assets/roadmap.png)
+
+---
+
+The Enterprise Homelab roadmap is organized into five phases that build upon one another, progressing from foundational infrastructure concepts to enterprise-focused operations, automation, security, and continuous improvement.
+
 ### 1. Foundation
 - Hardware Evaluation
 - Operating Systems
