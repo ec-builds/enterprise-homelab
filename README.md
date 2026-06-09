@@ -1,4 +1,5 @@
 # enterprise-homelab
+
 Enterprise-focused home lab for systems administration, infrastructure engineering, identity management, networking, automation, virtualization, and cybersecurity.
 
 ---
@@ -8,6 +9,30 @@ Welcome to my Enterprise Homelab.
 This repository documents the design, implementation, and ongoing development of a home lab environment focused on building practical skills in systems administration, infrastructure engineering, identity and access management, networking, automation, virtualization, and cybersecurity.
 
 The goal is to create a hands-on learning environment that mirrors technologies and processes commonly found in enterprise IT environments while documenting lessons learned along the way.
+
+---
+
+## Navigation
+
+### Projects
+
+- [Media Services Platform](projects/media-services-platform/)
+- [Active Directory Lab](projects/active-directory-lab/)
+- [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/)
+- [Network Infrastructure Lab](projects/network-infrastructure/)
+- [Infrastructure Monitoring](projects/infrastructure-monitoring/)
+- [Backup & Disaster Recovery](projects/backup-disaster-recovery/)
+- [Home Network Security](projects/home-network-security/)
+- [Infrastructure Automation](projects/infrastructure-automation/)
+- [Docker & Self-Hosted Services](projects/docker-self-hosted-services/)
+- [Cloud Administration Lab](projects/cloud-administration-lab/)
+
+### Repository Sections
+
+- [Areas of Focus](#areas-of-focus)
+- [Documentation Scope](#documentation-scope)
+- [Learning Philosophy](#learning-philosophy)
+- [Roadmap](#roadmap)
 
 ---
 
@@ -26,54 +51,49 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ---
 
-## Planned Projects (Expanded)
+## Projects
 
 ### Media Services Platform (Debian & Jellyfin)
-A self-hosted media platform running on Debian Linux and Jellyfin.
 
-### Virtualization Lab
-- Proxmox VE
-- Virtual Machine Management
-- Infrastructure Testing
+Self-hosted media platform focused on Linux administration, storage integration, service deployment, monitoring, and documentation.
 
-### Identity & Access Management Lab
-- Active Directory
-- Microsoft Entra ID
-- Group Policy
-- Identity Lifecycle Management
+### Active Directory Lab
 
-### Monitoring & Automation
-- Uptime Kuma
-- PowerShell Automation
-- Python Automation
-- Infrastructure Monitoring
+Enterprise identity management, Group Policy administration, DNS integration, and user lifecycle management.
 
-### Network Infrastructure
-- Network Documentation
-- DHCP Management
-- DNS Services
-- Network Segmentation
+### Microsoft 365 & Entra ID Lab
 
-### Security
-- Security Hardening
-- Vulnerability Assessment
-- Access Control
-- Logging and Auditing
+Cloud identity, licensing, conditional access, Microsoft 365 administration, and security controls.
+
+### Network Infrastructure Lab
+
+Network design, IP addressing, DNS, DHCP, wireless infrastructure, and troubleshooting.
+
+### Infrastructure Monitoring
+
+Service monitoring, health checks, alerting, availability management, and operational visibility.
+
+### Backup & Disaster Recovery
+
+Backup strategy, recovery testing, business continuity, and data protection practices.
+
+### Home Network Security
+
+Network hardening, secure remote access, segmentation, and security-focused infrastructure design.
+
+### Infrastructure Automation
+
+PowerShell and Python automation for systems administration, reporting, and operational efficiency.
+
+### Docker & Self-Hosted Services
+
+Containerized services, application deployment, maintenance, and service lifecycle management.
+
+### Cloud Administration Lab
+
+Cloud infrastructure administration, identity management, governance, and operational best practices.
 
 ---
-
-## Planned Labs
-
-- Network Infrastructure Lab
-- Active Directory Lab
-- Microsoft 365 & Entra ID Lab
-- Infrastructure Monitoring
-- Backup & Disaster Recovery
-- Home Network Security
-- Infrastructure Automation
-- Docker & Self-Hosted Services
-- Cloud Administration Lab
-
 
 ## Documentation Scope
 
@@ -97,7 +117,23 @@ One of the primary goals of this lab is to demonstrate that practical IT skills 
 
 ## Roadmap
 
-### (PENDING)
+PENDING
+
+### Current Project
+
+- Media Services Platform (Debian & Jellyfin)
+
+### Planned Projects
+
+- Active Directory Lab
+- Microsoft 365 & Entra ID Lab
+- Network Infrastructure Lab
+- Infrastructure Monitoring
+- Backup & Disaster Recovery
+- Home Network Security
+- Infrastructure Automation
+- Docker & Self-Hosted Services
+- Cloud Administration Lab
 
 ---
 
