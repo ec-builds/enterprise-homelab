@@ -30,6 +30,7 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 ### Repository Sections
 
 - [Areas of Focus](#areas-of-focus)
+- [Project Descriptions](#project-descriptions)
 - [Documentation Scope](#documentation-scope)
 - [Learning Philosophy](#learning-philosophy)
 - [Roadmap](#roadmap)
@@ -51,7 +52,7 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ---
 
-## Projects
+## Project Descriptions
 
 ### Media Services Platform (Debian & Jellyfin)
 
