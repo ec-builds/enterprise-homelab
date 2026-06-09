@@ -1,1 +1,17 @@
+# Media Services Platform (Debian & Jellyfin)
 
+## Documentation
+
+1. [Hardware](hardware.md)
+2. [Debian Installation](debian-install.md)
+3. [Base System Configuration](base-system-configuration.md)
+4. [SSH Configuration](ssh-configuration.md)
+5. [System Hardening](system-hardening.md)
+6. [SMB Storage](smb-storage.md)
+7. [Jellyfin Deployment](jellyfin-deployment.md)
+8. [Media Libraries](media-libraries.md)
+9. [Client Testing](client-testing.md)
+10. [Backup Strategy](backup-strategy.md)
+11. [Monitoring](monitoring.md)
+12. [Solution Architecture](architecture.md)
+13. [Lessons Learned](lessons-learned.md)
