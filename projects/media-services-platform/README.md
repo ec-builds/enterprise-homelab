@@ -1,5 +1,7 @@
 # Media Services Platform (Debian & Jellyfin)
 
+This project documents the deployment of a self-hosted media platform running on Debian Linux and Jellyfin.
+
 ## Documentation
 
 1. [Hardware](hardware)
