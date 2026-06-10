@@ -73,20 +73,20 @@ See [Roadmap](roadmap.md)
 
 | Project | Focus Area | Status |
 |----------|----------|----------|
-| Active Directory Lab | Windows Server, AD DS, Group Policy | 📋 Planned |
-| Azure Administration Lab | Azure Infrastructure, RBAC, Governance | 📋 Planned |
-| Backup & Disaster Recovery | Backup Strategy, DR Testing, Recovery Planning | 📋 Planned |
-| CI/CD Pipelines | GitHub Actions, Automation, Deployment | 📋 Planned |
-| Docker & Self-Hosted Services | Containers and Self-Hosted Applications | 📋 Planned |
-| Home Network Security | VPNs, Segmentation, Hardening | 📋 Planned |
-| Infrastructure Automation | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
-| Infrastructure Monitoring | Prometheus, Grafana, Observability | 📋 Planned |
-| Kubernetes Lab | Container Orchestration and k3s | 📋 Planned |
-| Media Services Platform | Debian, Jellyfin, Storage Services | ✅ Complete |
-| Microsoft 365 & Entra ID Lab | M365 Administration and Hybrid Identity | 📋 Planned |
-| Network Infrastructure | VLANs, Routing, DNS, DHCP | 📋 Planned |
-| Security Operations Lab | SIEM, Detection Engineering, Incident Response | 📋 Planned |
-| Virtualization Lab | Proxmox, Virtual Machines, Lab Foundation | 🔨 In Progress |
+| [active-directory-lab](./active-directory-lab/) | Windows Server, AD DS, Group Policy | 📋 Planned |
+| [azure-administration-lab](./azure-administration-lab/) | Azure infrastructure, RBAC, governance | 📋 Planned |
+| [backup-disaster-recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 📋 Planned |
+| [ci-cd-pipelines](./ci-cd-pipelines/) | GitHub Actions, automated build & deploy | 📋 Planned |
+| [docker-self-hosted-services](./docker-self-hosted-services/) | Containerized self-hosted applications | 📋 Planned |
+| [home-network-security](./home-network-security/) | Firewalls, segmentation, hardening, VPN | 📋 Planned |
+| [infrastructure-automation](./infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
+| [infrastructure-monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 📋 Planned |
+| [kubernetes-lab](./kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
+| [media-services-platform](./media-services-platform/) | Linux administration, storage, service deployment | ✅ Complete |
+| [microsoft-365-entra-id](./microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | 📋 Planned |
+| [network-infrastructure](./network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 📋 Planned |
+| [security-operations-lab](./security-operations-lab/) | SIEM, detection engineering, incident response | 📋 Planned |
+| [virtualization-lab](./virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🔨 In Progress |
 
 
 ---
