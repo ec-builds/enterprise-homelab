@@ -39,6 +39,7 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 | Document | Description |
 |-----------|-----------|
 | [README.md](./README.md) | Project overview, objectives, architecture summary, and navigation |
+| [Diagrams](./diagrams/) | Architecture diagrams, screenshots, and visual documentation |
 | [architecture.md](./architecture.md) | High-level architecture, component relationships, and system design |
 | [backup-strategy.md](./backup-strategy.md) | Backup procedures, recovery considerations, and data protection strategy |
 | [base-system-configuration.md](./base-system-configuration.md) | Initial Debian configuration, package setup, and system preparation |
