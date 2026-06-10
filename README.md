@@ -32,6 +32,7 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 ### Repository Sections
 
 - [Roadmap](#roadmap)
+- [Equipment](#equipment)
 - [Areas of Focus](#areas-of-focus)
 - [Project Portfolio](#project-portfolio)
 - [Documentation Scope](#documentation-scope)
@@ -46,6 +47,14 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 See [Roadmap](roadmap.md)
 
+
+---
+
+## Equipment
+
+The homelab is built using a combination of repurposed hardware, networking equipment, and storage systems that support ongoing infrastructure, networking, virtualization, and automation projects.
+
+See [Equipment Inventory](equipment/README.md)
 
 ---
 
