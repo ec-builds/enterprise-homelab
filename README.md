@@ -41,7 +41,7 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 - Microsoft Entra ID
 - Networking
 - Virtualization
-- Automation
+- Automation and Scripting
 - Cybersecurity
 - Infrastructure Documentation
 - Self-Hosted Services
