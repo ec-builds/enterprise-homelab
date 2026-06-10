@@ -8,18 +8,18 @@ The purpose of this inventory is to document system specifications, intended use
 
 ## Inventory Summary
 
-| Asset | Type | Role | Status |
-|---------|---------|---------|---------|
-| [ASUS RT-AX5400](./asus-rt-ax5400.md) | Router | Primary Home Network Router | Active |
-| [Cisco WS-C3560CG-8PC-S](./cisco-switch-3560cg.md) | Network Switch | Networking & VLAN Lab | Available |
-| [Desktop-01](./desktop-01.md) | Workstation | Pending Assignment | Available |
-| [Desktop-02](./desktop-02.md) | Workstation | Pending Assignment | Available |
-| [Latitude 7420](./latitude-7420.md) | Laptop | Administration & Testing | Active |
-| [Mac Mini (Late 2014)](./mac-mini-2014.md) | Server | Media Services Platform | Active |
-| [OptiPlex 3070](./optiplex-3070.md) | Server / Workstation | Future Infrastructure Projects | Available |
-| [OptiPlex 7040-01](./optiplex-7040-01.md) | Server / Workstation | Future Infrastructure Projects | Available |
-| [OptiPlex 7040-02](./optiplex-7040-02.md) | Server / Workstation | Future Infrastructure Projects | Available |
-| [Synology DS718+](./synology-ds718-plus.md) | Storage | Network Attached Storage (NAS) | Active |
+| Asset | Type | CPU | RAM | Storage | Role | Status |
+|---------|---------|---------|---------|---------|---------|---------|
+| [ASUS RT-AX5400](./asus-rt-ax5400.md) | Router | Pending | Pending | N/A | Primary Home Network Router | Active |
+| [Cisco WS-C3560CG-8PC-S](./cisco-switch-3560cg.md) | Network Switch | N/A | N/A | N/A | Networking & VLAN Lab | Available |
+| [Desktop-01](./desktop-01.md) | Workstation | Pending | Pending | Pending | Pending Assignment | Available |
+| [Desktop-02](./desktop-02.md) | Workstation | Pending | Pending | Pending | Pending Assignment | Available |
+| [Latitude 7420](./latitude-7420.md) | Laptop | Pending | 32 GB | Pending | Administration & Testing | Active |
+| [Mac Mini (Late 2014)](./mac-mini-2014.md) | Server | Pending | Pending | Pending | Media Services Platform | Active |
+| [OptiPlex 3070](./optiplex-3070.md) | Server / Workstation | Pending | Pending | 2× NVMe Drives | Future Infrastructure Projects | Available |
+| [OptiPlex 7040-01](./optiplex-7040-01.md) | Server / Workstation | Pending | Pending | 2× NVMe Drives | Future Infrastructure Projects | Available |
+| [OptiPlex 7040-02](./optiplex-7040-02.md) | Server / Workstation | Pending | Pending | 2× NVMe Drives | Future Infrastructure Projects | Available |
+| [Synology DS718+](./synology-ds718.md) | Storage | Intel Celeron J3455 | 2 GB | Pending | Network Attached Storage (NAS) | Active |
 
 ---
 
