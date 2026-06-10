@@ -1,4 +1,4 @@
-# enterprise-homelab
+# Enterprise Homelab
 
 Welcome to my Enterprise Homelab.
 
