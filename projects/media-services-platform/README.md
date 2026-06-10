@@ -36,14 +36,23 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 
 ## 📁 Folder Structure
 
-```
-media-services-platform/
-├── docs/            # build-notes.md, troubleshooting.md, lessons-learned.md
-├── configs/         # Sanitized configuration files
-├── scripts/         # Maintenance/automation scripts
-└── screenshots/     # Visual documentation
-```
+| Document | Description |
+|-----------|-----------|
+| [README.md](./README.md) | Project overview, objectives, architecture summary, and navigation |
+| [architecture.md](./architecture.md) | High-level architecture, component relationships, and system design |
+| [backup-strategy.md](./backup-strategy.md) | Backup procedures, recovery considerations, and data protection strategy |
+| [base-system-configuration.md](./base-system-configuration.md) | Initial Debian configuration, package setup, and system preparation |
+| [client-testing.md](./client-testing.md) | Validation testing, client access verification, and functionality checks |
+| [debian-install.md](./debian-install.md) | Debian installation process and operating system deployment notes |
+| [hardware.md](./hardware.md) | Hardware inventory, specifications, and platform selection rationale |
+| [jellyfin-deployment.md](./jellyfin-deployment.md) | Jellyfin installation, configuration, and service deployment procedures |
+| [lessons-learned.md](./lessons-learned.md) | Key takeaways, challenges encountered, and project reflections |
+| [media-libraries.md](./media-libraries.md) | Media organization, library structure, and content management configuration |
+| [monitoring.md](./monitoring.md) | System monitoring, health checks, and observability considerations |
+| [smb-storage.md](./smb-storage.md) | SMB share configuration, storage integration, and network file access |
+| [ssh-configuration.md](./ssh-configuration.md) | SSH hardening, remote access configuration, and administration practices |
+| [system-hardening.md](./system-hardening.md) | Security controls, system hardening measures, and security recommendations |
 
 ## 💡 Lessons Learned
 
-_See [docs/lessons-learned.md](./docs/lessons-learned.md) — Linux permissions, storage mounting, and service troubleshooting notes from the build._
+_See [Lessons Learned](./docs/lessons-learned.md) — Linux permissions, storage mounting, and service troubleshooting notes from the build._
