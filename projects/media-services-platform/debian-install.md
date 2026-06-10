@@ -6,7 +6,7 @@ This document outlines the process used to create bootable installation media an
 
 Debian 13 was selected as the operating system for this project due to its stability, extensive package repository, long-term maintainability, and suitability for self-hosted services.
 
-The installation media was created on **macOS Tahoe 26.5** and deployed to a dedicated host system **(2014 Mac Mini)**.
+The installation media was created on macOS and deployed to a dedicated host system **(2014 Mac Mini)**.
 
 ---
 
@@ -103,9 +103,9 @@ Replace `rdiskX` with the raw disk identifier for the target USB device.
 
 Using the raw device (`rdisk`) generally provides faster write performance on macOS.
 
-> **Note:** After writing the Debian ISO to a USB device using `dd`, macOS may not display the installation media normally in Finder or Disk Utility. The operating system may show unfamiliar partitions, a small visible volume, or large amounts of unallocated space. This behavior is expected and does not necessarily indicate that the installation media was created incorrectly.
+> **Note:** Installation media created by writing a Debian ISO directly to a USB device may not be fully recognized by macOS. Because the ISO contains Linux and EFI boot partitions, Disk Utility and Finder may display unexpected partition layouts or report unused space on the device. This is normal behavior for bootable installation media created with `dd`.
 >
-> The most reliable validation method is to boot the target system and confirm that an **EFI Boot** option is available in the startup menu.
+> Validation should be performed by booting the target system and verifying that the USB device appears as an **EFI Boot** option during startup.
 
 ---
 
@@ -145,13 +145,24 @@ The following installation choices were used:
 
 | Setting | Selection |
 |----------|----------|
-| Installation Type | Debian DVD ISO |
-| Hostname | media-services-platform |
+| Installation Media | Debian DVD ISO |
+| Hostname | media-server-lab |
 | Desktop Environment | None |
 | SSH Server | Installed |
 | Standard System Utilities | Installed |
 | Partitioning | Guided (Entire Disk) |
 | Package Repository | Debian Official Mirrors |
+
+
+### Package Selection
+
+The following package groups were selected during installation:
+
+- SSH Server
+- Standard System Utilities
+
+No desktop environment was installed.
+
 
 The server was deployed as a headless Linux system managed primarily through SSH.
 
