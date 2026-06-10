@@ -31,11 +31,12 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ### Repository Sections
 
+- [Roadmap](#roadmap)
 - [Areas of Focus](#areas-of-focus)
-- [Project Descriptions](#project-descriptions)
+- [Project Portfolio](#project-portfolio)
 - [Documentation Scope](#documentation-scope)
 - [Learning Philosophy](#learning-philosophy)
-- [Roadmap](#roadmap)
+
 
 ---
 
@@ -50,60 +51,43 @@ See [Roadmap](roadmap.md)
 
 ## Areas of Focus
 
-- Windows Administration
+- Systems Administration
+- Identity & Access Management
+- Microsoft 365 & Entra ID
+- Azure Administration
 - Linux Administration
-- Active Directory
-- Microsoft Entra ID
-- Networking
+- Networking & Network Security
 - Virtualization
-- Automation and Scripting
-- Cybersecurity
+- Containerization & Kubernetes
+- Automation & Infrastructure as Code
+- CI/CD & DevOps
+- Infrastructure Monitoring & Observability
+- Backup & Disaster Recovery
+- Cybersecurity & Security Operations
 - Infrastructure Documentation
 - Self-Hosted Services
 
 ---
 
-## Project Descriptions
+## Project Portfolio
 
-### Media Services Platform (Debian & Jellyfin)
+| Project | Focus Area | Status |
+|----------|----------|----------|
+| Active Directory Lab | Windows Server, AD DS, Group Policy | 📋 Planned |
+| Azure Administration Lab | Azure Infrastructure, RBAC, Governance | 📋 Planned |
+| Backup & Disaster Recovery | Backup Strategy, DR Testing, Recovery Planning | 📋 Planned |
+| CI/CD Pipelines | GitHub Actions, Automation, Deployment | 📋 Planned |
+| Docker & Self-Hosted Services | Containers and Self-Hosted Applications | 📋 Planned |
+| Home Network Security | VPNs, Segmentation, Hardening | 📋 Planned |
+| Infrastructure Automation | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
+| Infrastructure Monitoring | Prometheus, Grafana, Observability | 📋 Planned |
+| Kubernetes Lab | Container Orchestration and k3s | 📋 Planned |
+| Media Services Platform | Debian, Jellyfin, Storage Services | ✅ Complete |
+| Microsoft 365 & Entra ID Lab | M365 Administration and Hybrid Identity | 📋 Planned |
+| Network Infrastructure | VLANs, Routing, DNS, DHCP | 📋 Planned |
+| Security Operations Lab | SIEM, Detection Engineering, Incident Response | 📋 Planned |
+| Virtualization Lab | Proxmox, Virtual Machines, Lab Foundation | 🔨 In Progress |
 
-Self-hosted media platform focused on Linux administration, storage integration, service deployment, monitoring, and documentation.
-
-### Active Directory Lab
-
-Enterprise identity management, Group Policy administration, DNS integration, and user lifecycle management.
-
-### Microsoft 365 & Entra ID Lab
-
-Cloud identity, licensing, conditional access, Microsoft 365 administration, and security controls.
-
-### Network Infrastructure Lab
-
-Network design, IP addressing, DNS, DHCP, wireless infrastructure, and troubleshooting.
-
-### Infrastructure Monitoring
-
-Service monitoring, health checks, alerting, availability management, and operational visibility.
-
-### Backup & Disaster Recovery
-
-Backup strategy, recovery testing, business continuity, and data protection practices.
-
-### Home Network Security
-
-Network hardening, secure remote access, segmentation, and security-focused infrastructure design.
-
-### Infrastructure Automation
-
-PowerShell and Python automation for systems administration, reporting, and operational efficiency.
-
-### Docker & Self-Hosted Services
-
-Containerized services, application deployment, maintenance, and service lifecycle management.
-
-### Cloud Administration Lab
-
-Cloud infrastructure administration, identity management, governance, and operational best practices.
 
 ---
 
