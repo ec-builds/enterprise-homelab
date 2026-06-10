@@ -84,7 +84,7 @@ Replace `diskX` with the appropriate disk identifier.
 Validate the downloaded image using SHA-256.
 
 ```bash
-shasum -a 256 debian-13.0.0-amd64-netinst.iso
+shasum -a 256 debian-13.5.0-amd64-DVD-1.iso
 ```
 
 Compare the resulting hash with the checksum published by the Debian project.
@@ -96,12 +96,16 @@ Compare the resulting hash with the checksum published by the Debian project.
 Create the bootable installation media.
 
 ```bash
-pv debian-13.0.0-amd64-netinst.iso | sudo dd of=/dev/rdiskX bs=4m
+pv debian-13.5.0-amd64-DVD-1.iso | sudo dd of=/dev/rdiskX bs=4m
 ```
 
 Replace `rdiskX` with the raw disk identifier for the target USB device.
 
 Using the raw device (`rdisk`) generally provides faster write performance on macOS.
+
+> **Note:** After writing the Debian ISO to a USB device using `dd`, macOS may not display the installation media normally in Finder or Disk Utility. The operating system may show unfamiliar partitions, a small visible volume, or large amounts of unallocated space. This behavior is expected and does not necessarily indicate that the installation media was created incorrectly.
+>
+> The most reliable validation method is to boot the target system and confirm that an **EFI Boot** option is available in the startup menu.
 
 ---
 
@@ -141,7 +145,7 @@ The following installation choices were used:
 
 | Setting | Selection |
 |----------|----------|
-| Installation Type | Debian NetInstall |
+| Installation Type | Debian DVD ISO |
 | Hostname | media-services-platform |
 | Desktop Environment | None |
 | SSH Server | Installed |
