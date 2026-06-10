@@ -12,17 +12,9 @@ This design separates application services from storage, allowing media to be ma
 
 ## Architecture Diagram
 
-```text
-media-lab
-    ↓
-Debian 13
-    ↓
-Jellyfin
-    ↓
-Read-Only SMB Mount
-    ↓
-storage-lab
-```
+![Media Services Platform Architecture](./diagrams/architecture.png)
+
+The following diagram illustrates the relationship between the host system, operating system, media services, and centralized storage.
 
 ---
 
