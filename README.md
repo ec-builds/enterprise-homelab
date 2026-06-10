@@ -1,9 +1,5 @@
 # enterprise-homelab
 
-Enterprise-focused home lab for systems administration, infrastructure engineering, identity management, networking, automation, virtualization, and cybersecurity.
-
----
-
 Welcome to my Enterprise Homelab.
 
 This repository documents the design, implementation, and ongoing development of a home lab environment focused on building practical skills in systems administration, infrastructure engineering, identity and access management, networking, automation, virtualization, and cybersecurity.
