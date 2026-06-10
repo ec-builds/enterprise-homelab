@@ -10,18 +10,20 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ## Navigation
 
+
 ### Projects
 
-- [Media Services Platform](projects/media-services-platform/)
 - [Active Directory Lab](projects/active-directory-lab/)
-- [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/)
-- [Network Infrastructure Lab](projects/network-infrastructure/)
-- [Infrastructure Monitoring](projects/infrastructure-monitoring/)
 - [Backup & Disaster Recovery](projects/backup-disaster-recovery/)
+- [Cloud Administration Lab](projects/cloud-administration-lab/)
+- [Docker & Self-Hosted Services](projects/docker-self-hosted-services/)
 - [Home Network Security](projects/home-network-security/)
 - [Infrastructure Automation](projects/infrastructure-automation/)
-- [Docker & Self-Hosted Services](projects/docker-self-hosted-services/)
-- [Cloud Administration Lab](projects/cloud-administration-lab/)
+- [Infrastructure Monitoring](projects/infrastructure-monitoring/)
+- [Media Services Platform](projects/media-services-platform/)
+- [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/)
+- [Network Infrastructure](projects/network-infrastructure/)
+
 
 ### Repository Sections
 
