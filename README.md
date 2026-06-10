@@ -109,24 +109,6 @@ This repository is used to document:
 
 One of the primary goals of this lab is to demonstrate that practical IT skills can be developed using affordable and repurposed hardware. Many enterprise concepts can be learned through hands-on experimentation, documentation, and continuous improvement without requiring expensive equipment.
 
----
-
-
-### Current Project
-
-- Media Services Platform (Debian & Jellyfin)
-
-### Planned Projects
-
-- Active Directory Lab
-- Microsoft 365 & Entra ID Lab
-- Network Infrastructure Lab
-- Infrastructure Monitoring
-- Backup & Disaster Recovery
-- Home Network Security
-- Infrastructure Automation
-- Docker & Self-Hosted Services
-- Cloud Administration Lab
 
 ---
 
