@@ -1,4 +1,4 @@
-# Cloud Administration Lab
+# Azure Administration Lab
 
 ## Status
 Planned
