@@ -1,6 +1,6 @@
 # Debian Installation
 
-This document outlines the process used to create bootable installation media and install Debian 13 on the Media Services Platform host.
+This document outlines the process used to create bootable installation media and install Debian 13 **(13.5.0)** on the Media Services Platform host **(2014 Mac Mini)**.
 
 ## Overview
 
@@ -14,13 +14,44 @@ The installation media was created on **macOS Tahoe 26.5** and deployed to a ded
 
 ### Download Installation Image
 
-Download the Debian 13 NetInstall ISO from the official Debian website.
+Download the Debian 13 installation image from the official Debian website.
+
+Website:
+
+```text
+https://www.debian.org
+```
 
 Example:
 
 ```text
-debian-13.0.0-amd64-netinst.iso
+debian-13.5.0-amd64-DVD-1.iso
 ```
+
+For this project, the **DVD ISO** was used instead of the NetInstall image. The DVD image contains a large collection of Debian packages and allows installation without relying heavily on an internet connection during setup.
+
+The target platform was a **Late 2014 Mac Mini** connected to the local network via Ethernet.
+
+**Benefits of the DVD ISO:**
+
+- Includes a large package repository on the installation media
+- Less dependent on internet connectivity during installation
+- Useful for environments with limited or unreliable network access
+- Provides flexibility when installing additional packages during setup
+
+### DVD ISO vs NetInstall
+
+Debian provides multiple installation images. The two most common options are the DVD ISO and NetInstall ISO.
+
+| Feature | DVD ISO | NetInstall |
+|----------|----------|----------|
+| Download Size | Large (several GB) | Small (hundreds of MB) |
+| Internet Required | Minimal | Required for most packages |
+| Package Availability During Install | Extensive | Downloads packages as needed |
+| Installation Speed | Faster on slower networks | Faster download, slower install if many packages are required |
+| Best Use Case | Offline or limited-connectivity environments | Connected environments with reliable internet access |
+
+Either approach is valid. For this project, the DVD ISO was selected to provide a self-contained installation experience while learning the Debian deployment process.
 
 ---
 
