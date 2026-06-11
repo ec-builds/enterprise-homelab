@@ -10,6 +10,9 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
   <em>Figure 1. High-level architecture of the Media Services Platform.</em>
 </p>
 
+
+---
+
 ## Objectives
 
 - Install and configure a Debian server from scratch
