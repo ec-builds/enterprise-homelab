@@ -53,7 +53,7 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 | [smb-storage.md](./smb-storage.md) | SMB share configuration, storage integration, and network file access |
 | [ssh-configuration.md](./ssh-configuration.md) | SSH hardening, remote access configuration, and administration practices |
 | [system-hardening.md](./system-hardening.md) | Security controls, system hardening measures, and security recommendations |
-| [troubleshooting.md](./troubleshooting.md) | Common issues encountered during deployment and their resolutions |
+| [troubleshooting.md](./troubleshooting.md) | Troubleshooting procedures, validation testing, and issue resolution documentation |
 
 ## 💡 Lessons Learned
 
