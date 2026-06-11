@@ -6,7 +6,7 @@ Microsoft Azure infrastructure administration — deploying, securing, and gover
 
 **Scope note:** This project covers Azure *infrastructure* — subscriptions, compute, networking, storage, RBAC, and governance. Tenant/identity administration lives in [microsoft-365-entra-id](../microsoft-365-entra-id/).
 
-## 🎯 Objectives
+## Objectives
 
 - Manage subscriptions, resource groups, and tagging strategy
 - Deploy and harden Azure compute, networking, and storage
@@ -15,7 +15,7 @@ Microsoft Azure infrastructure administration — deploying, securing, and gover
 - Establish hybrid connectivity between the homelab and Azure
 - Skills alignment: **AZ-104** certification objectives
 
-## 🛠️ Technologies
+## Technologies
 
 - Azure portal, Azure CLI, Azure Cloud Shell
 - Virtual Networks, NSGs, Azure Bastion
@@ -23,7 +23,7 @@ Microsoft Azure infrastructure administration — deploying, securing, and gover
 - Azure Policy, Cost Management, Azure Monitor
 - VPN Gateway or WireGuard for hybrid connectivity
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Establish subscription structure with budget alerts (avoid bill surprises)
 - [ ] Define naming convention and tagging standards
@@ -35,13 +35,13 @@ Microsoft Azure infrastructure administration — deploying, securing, and gover
 - [ ] Establish site-to-site connectivity to the homelab
 - [ ] Tear down unused resources; document cost findings
 
-## 🔗 Related Projects
+## Related Projects
 
 - [infrastructure-automation](../infrastructure-automation/) — these resources get rebuilt with Terraform/Bicep
 - [kubernetes-lab](../kubernetes-lab/) — AKS deployment lands here once k3s fundamentals are done
 - [security-operations-lab](../security-operations-lab/) — Microsoft Sentinel integration
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 azure-administration-lab/
