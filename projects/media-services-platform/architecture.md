@@ -20,7 +20,7 @@ The following diagram illustrates the relationship between the host system, oper
 
 ## Components
 
-### media-lab
+### media-server-lab
 
 The host system for the Media Services Platform.
 
@@ -73,7 +73,7 @@ Network file share mounted from the NAS platform.
 
 ---
 
-### storage-lab
+### nas-lab
 
 Network-attached storage platform.
 
@@ -122,13 +122,13 @@ The current architecture is designed to support migration into a virtualized env
 ```text
 proxmox-lab
     ↓
-media-lab
+media-server-lab
     ↓
 Jellyfin
     ↓
 Read-Only SMB Mount
     ↓
-storage-lab
+nas-lab
 ```
 
 ---
