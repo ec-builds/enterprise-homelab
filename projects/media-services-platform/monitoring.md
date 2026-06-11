@@ -1,5 +1,11 @@
 # 📊 Monitoring
 
+---
+
+**Status: 🚧 Planned** — not yet implemented.
+
+---
+
 This document outlines planned monitoring capabilities for the Media Services Platform.
 
 Monitoring has not yet been implemented as part of the initial deployment. The current focus has been on establishing a stable platform, documenting the environment, and validating core functionality.
