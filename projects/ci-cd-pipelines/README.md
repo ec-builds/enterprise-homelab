@@ -4,7 +4,7 @@
 
 Automated build, validation, and deployment workflows with GitHub Actions — the connective tissue of modern cloud engineering teams.
 
-## 🎯 Objectives
+## Objectives
 
 - Build CI pipelines that lint, validate, and test on every pull request
 - Validate Terraform/IaC automatically before changes merge
@@ -12,7 +12,7 @@ Automated build, validation, and deployment workflows with GitHub Actions — th
 - Deploy applications to the k3s cluster automatically
 - Practice pipeline security: secrets management, least-privilege tokens, environments
 
-## 🛠️ Technologies
+## Technologies
 
 - GitHub Actions (workflows, runners, environments)
 - Terraform validation (`fmt`, `validate`, `plan` in CI)
@@ -20,7 +20,7 @@ Automated build, validation, and deployment workflows with GitHub Actions — th
 - kubectl/Helm deployment steps
 - Self-hosted runner on the homelab (for deploying to private infrastructure)
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Create a CI workflow that lints markdown/YAML across this repo
 - [ ] Add Terraform validation workflow for [infrastructure-automation](../infrastructure-automation/)
@@ -31,7 +31,7 @@ Automated build, validation, and deployment workflows with GitHub Actions — th
 - [ ] Manage pipeline secrets correctly; document the approach
 - [ ] Add a status badge to the root README
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 ci-cd-pipelines/
