@@ -134,6 +134,8 @@ active (running)
 enabled
 ```
 
+Example:
+
 ![Jellyfin Status](./diagrams/jellyfin-status.png)
 
 *Figure 2. Jellyfin service status showing the application running and enabled at startup.*
