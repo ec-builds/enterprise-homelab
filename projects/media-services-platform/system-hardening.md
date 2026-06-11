@@ -1,5 +1,12 @@
 # 🔒 System Hardening
 
+---
+
+**Status: 🚧 Planned** — not yet implemented.
+
+---
+
+
 This document outlines planned security improvements for the Media Services Platform.
 
 The current deployment resides on a trusted home network and is not exposed directly to the internet. As a result, security hardening has been intentionally limited during the initial deployment phase while core functionality and documentation were established.
