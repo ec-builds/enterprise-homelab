@@ -6,7 +6,7 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 
 **Scope note:** Detection and response live in [security-operations-lab](../security-operations-lab/). This project builds the defenses; that one watches them.
 
-## 🎯 Objectives
+## Objectives
 
 - Segment the network with VLANs (trusted, IoT, guest, lab, management)
 - Deploy a stateful firewall with explicit inter-VLAN rules (default deny)
@@ -14,7 +14,7 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 - Enable intrusion detection/prevention (IDS/IPS)
 - Provide secure remote access via VPN instead of port forwarding
 
-## 🛠️ Technologies
+## Technologies
 
 - Firewall platform (pfSense, OPNsense, or UniFi)
 - VLAN-capable switches and access points
@@ -22,7 +22,7 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 - IDS/IPS (Suricata)
 - VPN (WireGuard or Tailscale)
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Implement the VLAN design from [network-infrastructure](../network-infrastructure/)
 - [ ] Configure firewall rules with least-privilege inter-VLAN access
@@ -34,7 +34,7 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 - [ ] Document the rule base; schedule periodic reviews
 - [ ] Feed firewall/IDS logs to the [SIEM](../security-operations-lab/)
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 home-network-security/
