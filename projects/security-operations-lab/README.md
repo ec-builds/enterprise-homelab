@@ -6,7 +6,7 @@ The *detect and respond* side of security: SIEM deployment, log collection, dete
 
 **Scope note:** Prevention (firewalls, segmentation, hardening) lives in [home-network-security](../home-network-security/). This project is about visibility — catching and investigating activity.
 
-## 🎯 Objectives
+## Objectives
 
 - Deploy a SIEM and centralize security-relevant logs from the entire lab
 - Ship Windows event logs from the AD lab and syslog from Linux hosts
@@ -14,7 +14,7 @@ The *detect and respond* side of security: SIEM deployment, log collection, dete
 - Generate test attack activity and document detection → triage → response
 - Explore Microsoft Sentinel as the cloud-native SIEM counterpart
 
-## 🛠️ Technologies
+## Technologies
 
 - Wazuh (free SIEM/XDR — agents, rules, dashboards)
 - Windows Event Forwarding / Sysmon
@@ -22,7 +22,7 @@ The *detect and respond* side of security: SIEM deployment, log collection, dete
 - Microsoft Sentinel (Azure-side, with KQL queries)
 - Atomic Red Team or manual test cases for safe attack simulation
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Deploy Wazuh server on a dedicated VM
 - [ ] Install agents on Linux hosts and the [AD lab](../active-directory-lab/) domain controller
@@ -34,7 +34,7 @@ The *detect and respond* side of security: SIEM deployment, log collection, dete
 - [ ] Connect Microsoft Sentinel to Entra ID sign-in logs; write 2-3 KQL detections
 - [ ] Document alert tuning decisions (what was noisy, what mattered)
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 security-operations-lab/
