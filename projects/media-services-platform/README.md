@@ -12,7 +12,7 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 - Establish update, maintenance, and monitoring routines
 - Document the full build for repeatability
 
-## 🛠️ Technologies
+## Technologies
 
 - Debian (server installation, apt package management)
 - Jellyfin media server
@@ -20,14 +20,14 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 - Linux storage (fstab, mount points, permissions/ownership)
 - SSH administration
 
-## 📋 Completed Work
+## Completed Work
 
 - [x] Debian server installation and base configuration
 - [x] Jellyfin deployment and library configuration
 - [x] Storage mount configuration with correct permissions
 - [x] Client access verified across household devices
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - [ ] Migrate to a VM on the Proxmox host ([virtualization-lab](../virtualization-lab/))
 - [ ] Add hardware transcoding (GPU/QuickSync)
@@ -58,3 +58,18 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 ## 💡 Lessons Learned
 
 _See [Lessons Learned](./lessons-learned.md) — Linux permissions, storage mounting, and service troubleshooting notes from the build._
+
+
+## Outcome
+
+The Media Services Platform successfully demonstrated:
+
+- Debian server deployment
+- Linux administration fundamentals
+- SMB storage integration
+- Service management with systemd
+- Media streaming with Jellyfin
+- Client compatibility validation
+- Technical documentation practices
+
+This project serves as the foundation for future homelab initiatives involving virtualization, monitoring, automation, backup, and infrastructure management.
