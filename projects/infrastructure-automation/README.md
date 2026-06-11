@@ -4,7 +4,7 @@
 
 Infrastructure as Code for the entire lab — the goal is a single sentence: **"I can rebuild my entire lab from this git repo."**
 
-## 🎯 Objectives
+## Objectives
 
 - Provision Proxmox VMs and Azure resources declaratively with **Terraform**
 - Manage configuration with **Ansible** (idempotent, version-controlled)
@@ -13,7 +13,7 @@ Infrastructure as Code for the entire lab — the goal is a single sentence: **"
 - Treat all infrastructure changes as code review + git history
 - Skills alignment: **HashiCorp Terraform Associate** certification objectives
 
-## 🛠️ Technologies
+## Technologies
 
 - Terraform / OpenTofu (Proxmox provider, AzureRM provider)
 - Ansible (playbooks, roles, inventories, Vault for secrets)
@@ -22,7 +22,7 @@ Infrastructure as Code for the entire lab — the goal is a single sentence: **"
 - Git (all automation code version-controlled)
 - Cloud-init (first-boot VM configuration)
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Write Terraform configs to provision VMs from Proxmox templates
 - [ ] Build Ansible baseline playbook (updates, users, SSH hardening, agents)
@@ -33,7 +33,7 @@ Infrastructure as Code for the entire lab — the goal is a single sentence: **"
 - [ ] Document the full "rebuild from zero" procedure
 - [ ] Validate IaC in CI ([ci-cd-pipelines](../ci-cd-pipelines/))
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 infrastructure-automation/
