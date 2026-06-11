@@ -4,7 +4,7 @@
 
 Containerized self-hosted applications managed with Docker Compose on a dedicated VM in the Proxmox lab.
 
-## 🎯 Objectives
+## Objectives
 
 - Deploy and maintain self-hosted services as containers
 - Manage the stack with version-controlled compose files
@@ -12,14 +12,14 @@ Containerized self-hosted applications managed with Docker Compose on a dedicate
 - Apply container best practices: named volumes, custom networks, resource limits, health checks
 - Keep images updated and monitor container health
 
-## 🛠️ Technologies
+## Technologies
 
 - Docker & Docker Compose
 - Reverse proxy (Nginx Proxy Manager, Traefik, or Caddy)
 - Container management UI (Portainer or Dockge)
 - Update monitoring (Watchtower or Diun)
 
-## 🧩 Candidate Services
+## Candidate Services
 
 | Category | Examples |
 |----------|----------|
@@ -29,7 +29,7 @@ Containerized self-hosted applications managed with Docker Compose on a dedicate
 | Monitoring | Uptime Kuma |
 | Utilities | n8n, Stirling-PDF |
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Provision and harden the Docker host VM
 - [ ] Standardize compose structure with `.env` files (gitignored)
@@ -38,12 +38,12 @@ Containerized self-hosted applications managed with Docker Compose on a dedicate
 - [ ] Configure persistent volumes and add them to backup jobs
 - [ ] Document each service: purpose, ports, dependencies
 
-## 🔗 Related Projects
+## Related Projects
 
 - [kubernetes-lab](../kubernetes-lab/) — selected services later migrate to k3s as an orchestration exercise
 - [backup-disaster-recovery](../backup-disaster-recovery/) — volume backup integration
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 docker-self-hosted-services/
