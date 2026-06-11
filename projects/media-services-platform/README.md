@@ -57,4 +57,4 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 
 ## 💡 Lessons Learned
 
-_See [Lessons Learned](./docs/lessons-learned.md) — Linux permissions, storage mounting, and service troubleshooting notes from the build._
+_See [Lessons Learned](./lessons-learned.md) — Linux permissions, storage mounting, and service troubleshooting notes from the build._
