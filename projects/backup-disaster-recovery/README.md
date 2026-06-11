@@ -4,7 +4,7 @@
 
 Designing, implementing, and **testing** data protection for the entire lab — *a backup that hasn't been restored is not a backup*.
 
-## 🎯 Objectives
+## Objectives
 
 - Implement the **3-2-1 rule** (3 copies, 2 media types, 1 offsite)
 - Protect all critical workloads: Proxmox VMs, container volumes, configs, personal data
@@ -12,14 +12,14 @@ Designing, implementing, and **testing** data protection for the entire lab — 
 - Perform and document regular restore tests
 - Write a disaster recovery runbook anyone could follow
 
-## 🛠️ Technologies
+## Technologies
 
 - Proxmox Backup Server (VM-level backups with deduplication)
 - restic or BorgBackup (file-level and container volumes)
 - Offsite target (Backblaze B2 or S3-compatible storage, encrypted)
 - Network device config backups
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Inventory and classify workloads by criticality
 - [ ] Define backup schedules and retention per tier
@@ -31,7 +31,7 @@ Designing, implementing, and **testing** data protection for the entire lab — 
 - [ ] Write the DR runbook (step-by-step recovery from total loss)
 - [ ] Alert on backup job failures via [infrastructure-monitoring](../infrastructure-monitoring/)
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 backup-disaster-recovery/
