@@ -4,7 +4,7 @@
 
 The physical and logical foundation of the homelab — routing, switching, wireless, IP design, and core network services.
 
-## 🎯 Objectives
+## Objectives
 
 - Design and document a structured network topology
 - Implement a scalable IP addressing scheme and VLAN plan
@@ -12,14 +12,14 @@ The physical and logical foundation of the homelab — routing, switching, wirel
 - Establish reliable internal DNS and DHCP
 - Document everything so the network can be rebuilt from the docs alone
 
-## 🛠️ Technologies
+## Technologies
 
 - Router/firewall appliance (pfSense, OPNsense, or UniFi gateway)
 - Managed switches (VLAN trunking)
 - Wireless APs with multi-SSID/VLAN mapping
 - Internal DNS & DHCP
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Document physical topology (devices, ports, cabling)
 - [ ] Define IP addressing plan and subnet allocations per VLAN
@@ -30,12 +30,12 @@ The physical and logical foundation of the homelab — routing, switching, wirel
 - [ ] Implement config backups for all network devices
 - [ ] Maintain an IPAM record (spreadsheet or NetBox)
 
-## 🔗 Related Projects
+## Related Projects
 
 - [virtualization-lab](../virtualization-lab/) — VLAN-aware bridge connects lab VMs to this network design
 - [home-network-security](../home-network-security/) — firewall policy and segmentation built on this foundation
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 network-infrastructure/
