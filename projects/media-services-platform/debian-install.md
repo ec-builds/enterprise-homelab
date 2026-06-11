@@ -102,6 +102,10 @@ shasum -a 256 debian-13.5.0-amd64-DVD-1.iso
 
 Compare the resulting hash with the checksum published by the Debian project.
 
+```text
+https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/
+```
+
 ---
 
 ### Write the ISO to the USB Device
@@ -112,9 +116,14 @@ Create the bootable installation media.
 pv debian-13.5.0-amd64-DVD-1.iso | sudo dd of=/dev/rdiskX bs=4m
 ```
 
-Replace `rdiskX` with the raw disk identifier for the target USB device.
+This command writes the Debian installation image directly to the USB device, creating bootable installation media.
+- `pv` (Pipe Viewer) displays a progress bar, transfer speed, and estimated completion time while the ISO is being written.
+- `dd` performs a block-level copy of the ISO image to the target USB device.
+- `/dev/rdiskX` represents the raw USB device and typically provides faster write performance on macOS than `/dev/diskX`.
+- `bs=4m` sets the block size to 4 MB, improving write performance during the transfer.
 
-Using the raw device (`rdisk`) generally provides faster write performance on macOS.
+> **Warning:** Verify the target device before running this command. Writing to the wrong disk will overwrite its contents and may result in data loss.
+
 
 > **Note:** Installation media created by writing a Debian ISO directly to a USB device may not be fully recognized by macOS. Because the ISO contains Linux and EFI boot partitions, Disk Utility and Finder may display unexpected partition layouts or report unused space on the device. This is normal behavior for bootable installation media created with `dd`.
 >
