@@ -1,1 +1,1 @@
-![Jellyfin Library](./diagrams/Jellyfin-library.png)
+![Jellyfin Library](./diagrams/jellyfin-library.png)
