@@ -13,10 +13,17 @@ The mount is configured as read-only to protect source media files from accident
 ## Storage Architecture
 
 <p>
-  <img src="./diagrams/smb-architecture.png" alt="SMB Storage Architecture" width="300">
+  <img src="./diagrams/smb-architecture.png" alt="SMB Storage Architecture" width="450">
+  <br>
   <br>
   <em>Figure 1. Read-only SMB storage path from NAS storage to Jellyfin.</em>
 </p>
+
+
+> [!NOTE]
+> Access to the SMB share is performed using a dedicated read-only service account (`service-account-jellyfin`).
+>
+> Credentials are stored in a protected file on the Debian host and are not embedded directly within the mount configuration.
 
 ---
 
