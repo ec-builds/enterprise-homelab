@@ -24,7 +24,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 
 ## Technologies
 
-- Debian (server installation, apt package management)
+- Debian 13.5 (server installation, apt package management)
 - Jellyfin media server
 - systemd service management
 - Linux storage (fstab, mount points, permissions/ownership)
