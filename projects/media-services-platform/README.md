@@ -1,4 +1,4 @@
-# 🎬 Media Services Platform (Debian & Jellyfin)
+# Media Services Platform (Debian & Jellyfin)
 
 **Status: ✅ Complete** — first completed project in the lab.
 
