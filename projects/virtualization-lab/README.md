@@ -4,7 +4,7 @@
 
 Bare-metal hypervisor deployment using Proxmox VE. Every subsequent project (Active Directory, Docker, Kubernetes, monitoring) runs on this platform.
 
-## 🎯 Objectives
+## Objectives
 
 - Install and configure Proxmox VE on repurposed hardware
 - Master the VM lifecycle: create, clone, snapshot, backup, migrate
@@ -12,14 +12,14 @@ Bare-metal hypervisor deployment using Proxmox VE. Every subsequent project (Act
 - Design virtual networking (Linux bridges, VLAN-aware configuration)
 - Plan storage for VM disks, ISOs, and backups
 
-## 🛠️ Technologies
+## Technologies
 
 - Proxmox VE (KVM/QEMU, LXC containers)
 - Cloud-init for template-based provisioning
 - ZFS or LVM-thin storage
 - Linux bridge networking / VLAN tagging
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Install Proxmox VE and complete post-install configuration
 - [ ] Configure storage pools (VM disks, ISO storage, backup target)
@@ -30,11 +30,11 @@ Bare-metal hypervisor deployment using Proxmox VE. Every subsequent project (Act
 - [ ] Configure scheduled VM backups
 - [ ] Document host specs, storage layout, and naming conventions
 
-## 🔗 Downstream Projects
+## Downstream Projects
 
 This lab provides the platform for: [active-directory-lab](../active-directory-lab/), [docker-self-hosted-services](../docker-self-hosted-services/), [kubernetes-lab](../kubernetes-lab/), [infrastructure-monitoring](../infrastructure-monitoring/), and [security-operations-lab](../security-operations-lab/). VM provisioning will later be automated in [infrastructure-automation](../infrastructure-automation/).
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 virtualization-lab/
