@@ -4,7 +4,7 @@
 
 Enterprise identity and access management built on Windows Server and Active Directory Domain Services, running on the Proxmox lab.
 
-## 🎯 Objectives
+## Objectives
 
 - Deploy and manage a Windows Server domain controller
 - Design an OU structure modeling a real business
@@ -12,14 +12,14 @@ Enterprise identity and access management built on Windows Server and Active Dir
 - Manage users, groups, and computers at scale with PowerShell
 - Configure AD-integrated DNS and DHCP
 
-## 🛠️ Technologies
+## Technologies
 
 - Windows Server (AD DS, DNS, DHCP)
 - Group Policy Management Console
 - PowerShell (bulk provisioning, reporting, automation)
 - Windows 10/11 domain-joined clients
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Deploy Windows Server VM and promote to domain controller
 - [ ] Build OU structure (departments, users, workstations, servers)
@@ -30,12 +30,12 @@ Enterprise identity and access management built on Windows Server and Active Dir
 - [ ] Document DNS zones and DHCP scopes
 - [ ] Generate user/group audit reports with PowerShell
 
-## 🔗 Related Projects
+## Related Projects
 
 - [microsoft-365-entra-id](../microsoft-365-entra-id/) — this domain syncs to Entra ID via Entra Connect for hybrid identity
 - [security-operations-lab](../security-operations-lab/) — domain controller logs ship to the SIEM for detection work
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 active-directory-lab/
