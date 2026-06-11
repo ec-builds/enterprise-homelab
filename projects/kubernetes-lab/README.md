@@ -4,7 +4,7 @@
 
 Container orchestration from homelab to cloud: a k3s cluster on Proxmox VMs, then Azure Kubernetes Service (AKS) — a core differentiator for cloud engineering roles.
 
-## 🎯 Objectives
+## Objectives
 
 - Deploy a multi-node k3s cluster on the Proxmox lab
 - Learn core Kubernetes objects: Deployments, Services, Ingress, ConfigMaps, Secrets, PersistentVolumes
@@ -13,7 +13,7 @@ Container orchestration from homelab to cloud: a k3s cluster on Proxmox VMs, the
 - Graduate to AKS in the [Azure lab](../azure-administration-lab/) and compare managed vs self-hosted
 - Skills alignment: **CKA / AZ-305** trajectory
 
-## 🛠️ Technologies
+## Technologies
 
 - k3s (lightweight Kubernetes)
 - kubectl, Helm
@@ -21,7 +21,7 @@ Container orchestration from homelab to cloud: a k3s cluster on Proxmox VMs, the
 - Persistent storage (local-path, then Longhorn or NFS)
 - Azure Kubernetes Service (later phase)
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Provision cluster VMs (ideally via Terraform from [infrastructure-automation](../infrastructure-automation/))
 - [ ] Bootstrap k3s: one server node, two agent nodes
@@ -33,7 +33,7 @@ Container orchestration from homelab to cloud: a k3s cluster on Proxmox VMs, the
 - [ ] Deploy AKS and migrate one workload; compare operations
 - [ ] Wire deployments into [ci-cd-pipelines](../ci-cd-pipelines/)
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 kubernetes-lab/
