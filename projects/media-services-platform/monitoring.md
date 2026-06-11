@@ -85,7 +85,7 @@ Future monitoring should include:
 
 ---
 
-## 🛠️ Planned Solution
+## Planned Solution
 
 The current leading candidate is Uptime Kuma.
 
@@ -114,7 +114,7 @@ Additional monitoring solutions may be evaluated as the homelab environment expa
 
 ---
 
-## 🚨 Alerting Considerations
+## Alerting Considerations
 
 Future monitoring may include:
 
@@ -131,7 +131,7 @@ Alert destinations may include:
 
 ---
 
-## 📈 Future Enhancements
+## Future Enhancements
 
 Potential future additions include:
 
