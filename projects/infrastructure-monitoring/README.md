@@ -4,7 +4,7 @@
 
 Metrics, logging, alerting, and dashboards across the entire lab — know about problems before they become outages.
 
-## 🎯 Objectives
+## Objectives
 
 - Collect metrics from the Proxmox host, VMs, containers, and network devices
 - Build dashboards that answer "is everything healthy?" at a glance
@@ -12,7 +12,7 @@ Metrics, logging, alerting, and dashboards across the entire lab — know about 
 - Progress from simple uptime checks to full observability (metrics → logs → alerts)
 - Extend into Azure Monitor for cloud resources
 
-## 🛠️ Technologies
+## Technologies
 
 - Prometheus + exporters (node_exporter, cAdvisor, SNMP exporter)
 - Grafana (dashboards)
@@ -21,7 +21,7 @@ Metrics, logging, alerting, and dashboards across the entire lab — know about 
 - Alertmanager / ntfy / webhooks (notifications)
 - Azure Monitor (cloud-side observability)
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Deploy the monitoring stack (containerized on the Docker host)
 - [ ] Install exporters on all hosts and VMs
@@ -33,7 +33,7 @@ Metrics, logging, alerting, and dashboards across the entire lab — know about 
 - [ ] Test alerting end-to-end by simulating a failure
 - [ ] Configure Azure Monitor + alerts in the [Azure lab](../azure-administration-lab/)
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 infrastructure-monitoring/
