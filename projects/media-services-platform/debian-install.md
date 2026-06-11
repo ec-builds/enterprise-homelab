@@ -29,6 +29,9 @@ The installation media was created on macOS and deployed to a dedicated host sys
 
 Download the Debian 13 installation image from the official Debian website.
 
+[!Debian Download Page](debian-download-page.png)
+
+
 Website:
 
 ```text
