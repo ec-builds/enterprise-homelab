@@ -6,7 +6,7 @@ Cloud identity and tenant administration with Microsoft 365 and Microsoft Entra 
 
 **Scope note:** This project covers the *tenant* — users, licensing, identity, Conditional Access, and M365 services. Azure *infrastructure* (subscriptions, VMs, VNets) lives in [azure-administration-lab](../azure-administration-lab/).
 
-## 🎯 Objectives
+## Objectives
 
 - Administer a Microsoft 365 tenant (users, licenses, groups, services)
 - Implement identity security: MFA, Conditional Access, privileged role hygiene
@@ -14,7 +14,7 @@ Cloud identity and tenant administration with Microsoft 365 and Microsoft Entra 
 - Automate administration with Microsoft Graph PowerShell
 - Explore device management with Intune
 
-## 🛠️ Technologies
+## Technologies
 
 - Microsoft 365 admin center / Entra admin center
 - Microsoft Entra Connect (directory synchronization)
@@ -22,7 +22,7 @@ Cloud identity and tenant administration with Microsoft 365 and Microsoft Entra 
 - Microsoft Graph PowerShell SDK
 - Microsoft Intune
 
-## 📋 Key Tasks
+## Key Tasks
 
 - [ ] Set up tenant and configure custom domain
 - [ ] Create users/groups and assign licenses (portal and Graph PowerShell)
@@ -33,7 +33,7 @@ Cloud identity and tenant administration with Microsoft 365 and Microsoft Entra 
 - [ ] Enroll a test device in Intune with a compliance policy
 - [ ] Review sign-in logs and Identity Secure Score; remediate findings
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 microsoft-365-entra-id/
