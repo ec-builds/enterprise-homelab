@@ -12,17 +12,11 @@ The mount is configured as read-only to protect source media files from accident
 
 ## Storage Architecture
 
-```text
-nas-lab
-    ↓
-SMB Share
-    ↓
-Read-Only Mount
-    ↓
-/mnt/media
-    ↓
-Jellyfin
-```
+<p>
+  <img src="./diagrams/smb-architecture.png" alt="SMB Storage Architecture" width="450">
+  <br>
+  <em>Figure 1. Read-only SMB storage path from NAS storage to Jellyfin.</em>
+</p>
 
 ---
 
