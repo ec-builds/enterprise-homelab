@@ -159,6 +159,13 @@ Option (⌥)
 EFI Boot
 ```
 
+After the installer loaded, the standard Debian 13 installer menu was displayed.
+
+![Debian Installer Menu](./diagrams/debian-installer-menu.png)
+
+*Figure 1. Debian 13 installer menu displayed after selecting EFI Boot from the Apple startup manager.*
+
+
 ---
 
 ## Debian Installation
