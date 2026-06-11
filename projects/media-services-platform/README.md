@@ -4,7 +4,13 @@
 
 Self-hosted media platform built on Debian, focused on Linux administration fundamentals: OS installation, storage integration, service deployment, permissions, and documentation.
 
-## 🎯 Objectives
+<p align="left">
+  <img src="./diagrams/architecture.png" alt="Architecture Diagram" width="700">
+  <br>
+  <em>Figure 1. High-level architecture of the Media Services Platform.</em>
+</p>
+
+## Objectives
 
 - Install and configure a Debian server from scratch
 - Deploy and manage Jellyfin as a systemd service
