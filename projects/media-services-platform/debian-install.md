@@ -76,7 +76,8 @@ List all connected disks and identify the target USB device.
 diskutil list
 ```
 
-> **Note:** Verify the correct disk identifier before proceeding. Selecting the wrong device may result in data loss.
+> [!NOTE]
+> Verify the correct disk identifier before proceeding. Selecting the wrong device may result in data loss.
 
 ---
 
@@ -122,10 +123,12 @@ This command writes the Debian installation image directly to the USB device, cr
 - `/dev/rdiskX` represents the raw USB device and typically provides faster write performance on macOS than `/dev/diskX`.
 - `bs=4m` sets the block size to 4 MB, improving write performance during the transfer.
 
-> **Warning:** Verify the target device before running this command. Writing to the wrong disk will overwrite its contents and may result in data loss.
+> [!WARNING]
+> Verify the target device before running this command. Writing to the wrong disk will overwrite its contents and may result in data loss.
 
 
-> **Note:** Installation media created by writing a Debian ISO directly to a USB device may not be fully recognized by macOS. Because the ISO contains Linux and EFI boot partitions, Disk Utility and Finder may display unexpected partition layouts or report unused space on the device. This is normal behavior for bootable installation media created with `dd`.
+> [!NOTE]
+> Installation media created by writing a Debian ISO directly to a USB device may not be fully recognized by macOS. Because the ISO contains Linux and EFI boot partitions, Disk Utility and Finder may display unexpected partition layouts or report unused space on the device. This is normal behavior for bootable installation media created with `dd`.
 >
 > Validation should be performed by booting the target system and verifying that the USB device appears as an **EFI Boot** option during startup.
 
