@@ -29,9 +29,6 @@ The installation media was created on macOS and deployed to a dedicated host sys
 
 Download the Debian 13 installation image from the official Debian website.
 
-[!Debian Download Page](debian-download-page.png)
-
-
 Website:
 
 ```text
@@ -166,7 +163,7 @@ After the installer loaded, the standard Debian 13 installer menu was displayed.
 
 ![Debian Installer Menu](./diagrams/debian-installer-menu.png)
 
-*Figure 1. Debian 13 installer menu displayed after selecting EFI Boot from the Apple startup manager.*
+*Figure 2. Debian 13 installer menu displayed after selecting EFI Boot from the Apple startup manager.*
 
 
 ---
