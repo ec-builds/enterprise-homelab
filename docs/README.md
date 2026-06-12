@@ -22,7 +22,7 @@ and reflect the standards and procedures used throughout the environment.
 
 Before adding new documentation, review the following:
 
-- [Naming Conventions](./naming-conventions.md) — hostname sanitization,
+- [Naming Conventions](./standards/naming-conventions.md) — hostname sanitization,
 network naming, storage naming, and documentation guidelines
 
 ---
