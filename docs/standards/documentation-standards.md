@@ -1,4 +1,3 @@
-```markdown
 # Documentation Standards
 
 This document defines the documentation standards used across the 
@@ -281,4 +280,3 @@ Before committing any documentation:
 - [Naming Conventions](./naming-conventions.md)
 - [Repository README](../../README.md)
 - [Documentation Folder](../README.md)
-```
