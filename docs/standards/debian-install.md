@@ -231,7 +231,7 @@ Successful validation confirms that the operating system is ready for baseline c
 ## Related Documentation
 
 - [Naming Conventions](./naming-conventions.md)
-- [Debian Base System Configuration](./debian-base-system-configuration.md)
+- [Debian Base System Configuration](./debian-baseline.md)
 - [SSH Hardening Standard](./ssh-hardening.md)
 
 ---
