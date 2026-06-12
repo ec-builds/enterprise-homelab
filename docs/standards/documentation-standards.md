@@ -25,19 +25,6 @@ The goal is documentation that is:
 
 ---
 
-## Document Structure
-
-Every document should follow this general structure:
-
-1. **Title** — descriptive, matches the filename
-2. **Status badge** — reflects current state of the document
-3. **Overview** — brief explanation of what the document covers
-4. **Body sections** — organized with `##` headers
-5. **Related Documentation** — links to relevant files
-6. **Outcome** — one paragraph summarizing what was accomplished
-
----
-
 ## Repository Structure
 
 Repository content should be organized into the following major areas:
@@ -51,6 +38,21 @@ Repository content should be organized into the following major areas:
 New top-level directories should only be added when a clear organizational need exists.
 
 ---
+
+## Document Structure
+
+Every document should follow this general structure:
+
+1. **Title** — descriptive, matches the filename
+2. **Status badge** — reflects current state of the document
+3. **Overview** — brief explanation of what the document covers
+4. **Body sections** — organized with `##` headers
+5. **Related Documentation** — links to relevant files
+6. **Outcome** — one paragraph summarizing what was accomplished
+
+
+---
+
 
 ## Status Badges
 
