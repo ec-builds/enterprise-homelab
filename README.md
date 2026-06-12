@@ -29,7 +29,7 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 - [Virtualization Lab](projects/virtualization-lab/)
 
 
-### Repository Sections
+### README Sections
 
 - [Roadmap](#roadmap)
 - [Equipment](#equipment)
