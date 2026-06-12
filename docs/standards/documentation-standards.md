@@ -238,6 +238,10 @@ Use role-based sanitized names as defined in:
 
 ## Project Documentation Structure
 
+README.md serves as the project landing page and navigation hub.
+Detailed implementation information should be stored in dedicated documents rather than placing all content in the README.
+
+
 Every project folder should follow this structure:
 
 ```text
