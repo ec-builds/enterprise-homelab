@@ -7,6 +7,10 @@ initial SSH setup.
 Apply this standard to any new Debian server before beginning 
 project-specific configuration.
 
+> [!NOTE]
+> If `sudo` is not yet installed on the system, follow the
+> [Configure sudo Access](../runbooks/configure-sudo.md)
+> runbook before proceeding.
 ---
 
 ## Baseline Components
