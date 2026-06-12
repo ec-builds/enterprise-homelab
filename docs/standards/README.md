@@ -1,12 +1,13 @@
-standards/
-├── debian-install.md          ← ready now
-├── debian-baseline.md         ← ready now
-├── naming-conventions.md      ← ready now
-├── ssh-hardening.md           ← ready now
-├── documentation-standards.md ← ready now
-├── network-standards.md       ← when networking phase starts
-├── virtualization-standards.md ← when Proxmox is up
-├── backup-standards.md        ← when backup phase starts
-├── monitoring-standards.md    ← when observability phase starts
-├── security-baseline.md       ← when hardening phase starts
-└── logging-standards.md       ← when SIEM phase starts
+| Standard | Status | Description |
+|-----------|-----------|-----------|
+| Debian Installation | ✅ Ready | Standard procedure for deploying Debian 13 on Intel-based systems |
+| Debian Baseline | ✅ Ready | Required baseline packages and initial system configuration |
+| Naming Conventions | ✅ Ready | Hostname, network, storage, and documentation naming standards |
+| SSH Hardening | ✅ Ready | Secure remote administration and SSH configuration requirements |
+| Documentation Standards | ✅ Ready | Documentation structure, formatting, and repository standards |
+| Network Standards | 📋 Planned | Network architecture, addressing, DNS, DHCP, and segmentation standards |
+| Virtualization Standards | 📋 Planned | Proxmox deployment, VM lifecycle, and virtualization standards |
+| Backup Standards | 📋 Planned | Backup strategy, retention, restore testing, and disaster recovery standards |
+| Monitoring Standards | 📋 Planned | Monitoring, alerting, observability, and operational visibility standards |
+| Security Baseline | 📋 Planned | System hardening, access control, and security configuration standards |
+| Logging Standards | 📋 Planned | Centralized logging, log retention, and SIEM integration standards |
