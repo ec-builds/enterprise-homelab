@@ -34,20 +34,25 @@ Proxmox (virtualization-lab)
                            └── Operations maturity (infrastructure-monitoring → security-operations-lab → backup-disaster-recovery → home-network-security)
 ```
 
-## Documentation Standard
+Every project folder should follow this structure:
 
-Each project folder follows the same internal structure:
+```text
+projects/project-name/
+├── README.md              ← Project overview and navigation table
+├── architecture.md        ← System design and component relationships
+├── hardware.md            ← Hardware specifications (if applicable)
+├── diagrams/              ← Architecture diagrams and screenshots
+├── lessons-learned.md     ← Key takeaways and reflections
+└── [topic].md             ← Additional documentation as needed
+```
 
-```
-project-name/
-├── README.md          # Overview, objectives, architecture summary
-├── docs/
-│   ├── build-notes.md
-│   ├── troubleshooting.md
-│   └── lessons-learned.md
-├── configs/           # Sanitized configuration files
-├── scripts/           # Automation written for the project
-└── screenshots/       # Visual documentation
-```
+The `README.md` must include:
+- Status badge
+- Project objectives
+- Technologies used
+- Completed work checklist
+- Future enhancements
+- Navigation table linking to all documents in the folder
+
 
 > ⚠️ All configs and screenshots are sanitized before commit — no credentials, keys, public IPs, or license information.
