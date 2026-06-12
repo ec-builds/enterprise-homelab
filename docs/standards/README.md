@@ -3,7 +3,7 @@
 | Debian Installation | ✅ Ready | Standard procedure for deploying Debian 13 on Intel-based systems |
 | Debian Baseline | ✅ Ready | Required baseline packages and initial system configuration |
 | Naming Conventions | ✅ Ready | Hostname, network, storage, and documentation naming standards |
-| SSH Hardening | ✅ Ready | Secure remote administration and SSH configuration requirements |
+| SSH Hardening | 📋 Planned | Secure remote administration and SSH configuration requirements |
 | Documentation Standards | ✅ Ready | Documentation structure, formatting, and repository standards |
 | Network Standards | 📋 Planned | Network architecture, addressing, DNS, DHCP, and segmentation standards |
 | Virtualization Standards | 📋 Planned | Proxmox deployment, VM lifecycle, and virtualization standards |
