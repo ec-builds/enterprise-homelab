@@ -1,19 +1,10 @@
-# Docs Folder
+# Documentation Hub
 
-This folder contains cross-project documentation standards, operational 
+This folder contains cross-project documentation standards, operational
 runbooks, and quick-reference materials for the EC-Builds enterprise homelab.
 
-These documents are designed to be reusable across all projects in the lab 
+These documents are designed to be reusable across all projects in the lab
 and reflect the standards and procedures used throughout the environment.
-
----
-
-## Documentation Standards
-
-Before adding new documentation, review the following:
-
-- [Naming Conventions](./naming-conventions.md) — hostname sanitization, 
-network naming, storage naming, and documentation guidelines
 
 ---
 
@@ -27,6 +18,14 @@ network naming, storage naming, and documentation guidelines
 
 ---
 
+## Documentation Standards
+
+Before adding new documentation, review the following:
+
+- [Naming Conventions](./naming-conventions.md) — hostname sanitization,
+network naming, storage naming, and documentation guidelines
+
+---
 
 ## Related Documentation
 
