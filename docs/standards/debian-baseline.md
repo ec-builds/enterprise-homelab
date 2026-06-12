@@ -9,7 +9,7 @@ project-specific configuration.
 
 > [!NOTE]
 > If `sudo` is not yet installed on the system, follow the
-> [Configure sudo Access](../runbooks/configure-sudo.md)
+> [Configure sudo Access](../runbooks/linux/configure-sudo.md)
 > runbook before proceeding.
 ---
 
