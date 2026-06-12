@@ -38,6 +38,20 @@ Every document should follow this general structure:
 
 ---
 
+## Repository Structure
+
+Repository content should be organized into the following major areas:
+
+- docs/
+- projects/
+- diagrams/
+- assets/
+- equipment/
+
+New top-level directories should only be added when a clear organizational need exists.
+
+---
+
 ## Status Badges
 
 Every document should include a status badge near the top to clearly 
