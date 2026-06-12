@@ -166,12 +166,6 @@ diskutil eject /dev/diskX
 4. Boot using UEFI mode.
 5. Launch the Debian installer.
 
-After the installer loads, verify that the Debian installation menu appears.
-
-![Debian Installer Menu](./diagrams/debian-installer-menu.png)
-
-*Figure 1. Debian 13 installer menu displayed after booting from UEFI installation media.*
-
 ---
 
 ## Debian Installation
