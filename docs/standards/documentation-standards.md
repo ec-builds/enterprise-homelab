@@ -295,6 +295,40 @@ Before committing any documentation:
 
 ---
 
+## What's Required vs Recommended
+
+This is a one-person lab. These standards exist to maintain quality 
+and consistency — not to create overhead that slows down building.
+
+### Always Required
+
+These apply to every document, every time:
+
+- [ ] Filename uses lowercase kebab-case
+- [ ] Status badge is present and accurate
+- [ ] All commands are in fenced code blocks
+- [ ] No real hostnames, IPs, or credentials present
+- [ ] Related Documentation section with at least one link
+
+### Do When Possible
+
+These improve quality but are not blockers for publishing:
+
+- [ ] Tense is correct for the document type
+- [ ] Outcome section present (project docs only)
+- [ ] Tables used where appropriate
+- [ ] Callout notes used for warnings and important context
+- [ ] Emoji consistent with the emoji table
+
+### Periodic Review
+
+Do these on a cadence, not per-commit:
+
+- [ ] Internal links resolve correctly
+- [ ] Status badges reflect current state
+- [ ] Sanitization check across recently published docs
+
+
 ## Related Documentation
 
 - [Naming Conventions](./naming-conventions.md)
