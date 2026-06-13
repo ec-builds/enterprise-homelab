@@ -21,6 +21,10 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [security-operations-lab](./security-operations-lab/) | SIEM, detection engineering, incident response | 📋 Planned |
 | [virtualization-lab](./virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🔨 In Progress |
 
+> [!NOTE]
+> When making changes to any project, also update the main README located at [homepage README](../README.md).
+
+
 ## Build Order
 
 The projects stack on each other intentionally:
