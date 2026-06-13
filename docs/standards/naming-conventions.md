@@ -125,6 +125,6 @@ When in doubt, replace environment-specific information with a descriptive role-
 
 ## Related Documentation
 
-- [Equipment Inventory](../equipment/README.md)
-- [Network Infrastructure](../projects/network-infrastructure/)
-- [Virtualization Lab](../projects/virtualization-lab/)
+- [Equipment Inventory](../../equipment/README.md)
+- [Network Infrastructure](../../projects/network-infrastructure/)
+- [Virtualization Lab](../../projects/virtualization-lab/)
