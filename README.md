@@ -10,12 +10,17 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ## Current Environment
 
+### Current
+
 - ASUS RT-AX5400
 - Synology DS718+
 - Debian Media Server
 - GitHub Documentation Platform
-- Cisco Managed Switch (Planned)
-- Proxmox (Planned)
+
+### Planned
+
+- Cisco Managed Switch
+- Proxmox Virtualization Platform
 
 ---
 
