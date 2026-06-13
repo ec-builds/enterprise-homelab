@@ -123,6 +123,6 @@ ready for project-specific configuration.
 
 ## Related Documentation
 
-- [Naming Conventions](../naming-conventions.md)
+- [Naming Conventions](./naming-conventions.md)
 - [SSH Hardening Standard](./ssh-hardening.md)
 - [Media Services Platform](../../projects/media-services-platform/)
