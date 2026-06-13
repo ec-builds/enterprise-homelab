@@ -37,6 +37,7 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 - [Project Portfolio](#project-portfolio)
 - [Documentation Scope](#documentation-scope)
 - [Learning Philosophy](#learning-philosophy)
+- [Core Documents](#core-documents)
 
 
 ---
@@ -119,6 +120,15 @@ This repository is used to document:
 
 One of the primary goals of this lab is to demonstrate that practical IT skills can be developed using affordable and repurposed hardware. Many enterprise concepts can be learned through hands-on experimentation, documentation, and continuous improvement without requiring expensive equipment.
 
+---
+
+## Core Documents (pending links)
+
+- standards/naming-conventions.md
+- standards/documentation-standards.md
+- homelab-decisions.md
+- runbooks/
+- reference/
 
 ---
 
