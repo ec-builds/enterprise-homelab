@@ -375,4 +375,3 @@ Useful for servers, virtual machines, and remote administration.
 
 - [Debian Baseline](../standards/debian-baseline.md)
 - [SSH Hardening](../standards/ssh-hardening.md)
-- [Linux Command Reference](./linux-commands.md)
