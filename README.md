@@ -117,6 +117,10 @@ See [Equipment Inventory](equipment/README.md)
 | [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🔨 In Progress |
 
 
+The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
+
+➡️ **[Browse All Projects](./projects/README.md)**
+
 ---
 
 ## Documentation Scope
