@@ -124,11 +124,10 @@ One of the primary goals of this lab is to demonstrate that practical IT skills 
 
 ## Core Documents (pending links)
 
-- standards/naming-conventions.md
-- standards/documentation-standards.md
-- homelab-decisions.md
-- runbooks/
-- reference/
+docs/standards/
+docs/reference/
+docs/runbooks/
+docs/homelab-decisions.md
 
 ---
 
