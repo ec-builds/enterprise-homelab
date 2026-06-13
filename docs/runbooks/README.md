@@ -22,6 +22,6 @@ runbooks/
 │   ├── ubuntu/
 │   └── ...
 ├── windows/
-├── macos/
+├── mac/
 ├── networking/
 └── virtualization/
