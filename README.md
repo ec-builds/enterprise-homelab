@@ -106,7 +106,7 @@ See [Equipment Inventory](equipment/README.md)
 | [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 📋 Planned |
 | [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
-| [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | ✅ Complete |
+| [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | 📋 Planned |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🔨 In Progress |
 | [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | 📋 Planned |
