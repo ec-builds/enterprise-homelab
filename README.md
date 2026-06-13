@@ -112,7 +112,8 @@ See [Equipment Inventory](equipment/README.md)
 | [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | 📋 Planned |
 | [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🔨 In Progress |
 
-
+>[!NOTE]
+>Projects are documented independently and may progress at different rates depending on current learning objectives and infrastructure priorities.
 
 ---
 
