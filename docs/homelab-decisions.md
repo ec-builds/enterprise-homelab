@@ -83,41 +83,8 @@ Used for:
 
 May be stored elsewhere until mature enough for inclusion in GitHub documentation.
 
----
 
-# Template
 
-Copy the template below when recording future decisions.
-
-## YYYY-MM-DD — Decision Title
-
-### Status
-
-Proposed | Active | Deprecated | Replaced
-
-### Context
-
-What problem or requirement led to this decision?
-
-### Decision
-
-What was decided?
-
-### Rationale
-
-Why was this approach selected?
-
-### Consequences
-
-#### Positive
-
-- Item
-
-#### Negative
-
-- Item
-
-### Implementation
 
 How is the decision applied in practice?
 
