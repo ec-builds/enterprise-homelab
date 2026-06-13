@@ -6,20 +6,20 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 
 | Project | Focus Area | Status |
 |----------|----------|----------|
-| [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 📋 Planned |
-| [Azure Administration Lab](projects/azure-administration-lab/) | Azure infrastructure, RBAC, governance | 📋 Planned |
-| [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 📋 Planned |
-| [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | 📋 Planned |
-| [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 📋 Planned |
-| [Home Network Security](projects/home-network-security/) | Firewalls, segmentation, hardening, VPN | 📋 Planned |
-| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
-| [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 📋 Planned |
-| [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
-| [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
-| [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | 📋 Planned |
-| [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
-| [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | 📋 Planned |
-| [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🔨 In Progress |
+| [Active Directory Lab](./active-directory-lab/) | Windows Server, AD DS, Group Policy | 📋 Planned |
+| [Azure Administration Lab](./azure-administration-lab/) | Azure infrastructure, RBAC, governance | 📋 Planned |
+| [Backup & Disaster Recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 📋 Planned |
+| [CI/CD Pipelines](./ci-cd-pipelines/) | GitHub Actions, automated build & deploy | 📋 Planned |
+| [Docker & Self-Hosted Services](./docker-self-hosted-services/) | Containerized self-hosted applications | 📋 Planned |
+| [Home Network Security](./home-network-security/) | Firewalls, segmentation, hardening, VPN | 📋 Planned |
+| [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
+| [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 📋 Planned |
+| [Kubernetes Lab](./kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
+| [Media Services Platform](./media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
+| [Microsoft 365 & Entra ID Lab](./microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | 📋 Planned |
+| [Network Infrastructure](./network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
+| [Security Operations Lab](./security-operations-lab/) | SIEM, detection engineering, incident response | 📋 Planned |
+| [Virtualization Lab](./virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🔨 In Progress |
 
 > [!NOTE]
 > When making changes to any project, also update the main README located at [homepage README](../README.md).
