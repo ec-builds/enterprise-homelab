@@ -38,24 +38,6 @@ Each project is documented independently while contributing to the overall enter
 ## Navigation
 
 
-### Projects
-
-- [Active Directory Lab](projects/active-directory-lab/)
-- [Azure Administration Lab](projects/azure-administration-lab/)
-- [Backup & Disaster Recovery](projects/backup-disaster-recovery/)
-- [CI/CD Pipelines](projects/ci-cd-pipelines/)
-- [Docker & Self-Hosted Services](projects/docker-self-hosted-services/)
-- [Home Network Security](projects/home-network-security/)
-- [Infrastructure Automation](projects/infrastructure-automation/)
-- [Infrastructure Monitoring](projects/infrastructure-monitoring/)
-- [Kubernetes Lab](projects/kubernetes-lab/)
-- [Media Services Platform](projects/media-services-platform/)
-- [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/)
-- [Network Infrastructure](projects/network-infrastructure/)
-- [Security Operations Lab](projects/security-operations-lab/)
-- [Virtualization Lab](projects/virtualization-lab/)
-
-
 ### README Sections
 
 - [Roadmap](#roadmap)
