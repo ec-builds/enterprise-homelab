@@ -4,6 +4,9 @@ This document records major architectural, operational, and strategic decisions 
 
 The goal is to document **why** decisions were made so future changes can be evaluated against previous assumptions and requirements.
 
+> [!NOTE]
+> If this document becomes difficult to navigate, consider moving individual decisions into a dedicated `docs/decisions/` directory and retaining this file as a high-level index.
+
 ---
 
 ## Decision Log
@@ -14,23 +17,29 @@ The goal is to document **why** decisions were made so future changes can be eva
 
 ---
 
-# 2026-06-13 — GitHub Becomes Documentation Source of Truth
+## 2026-06-13 — GitHub Becomes Documentation Source of Truth
 
-## Status
+### Status
 
-**Active**
+Active
 
-## Context
+### Context
 
 Network and homelab documentation was originally maintained in Obsidian.
 
 As project documentation matured and multiple projects were created, maintaining documentation in both Obsidian and GitHub introduced duplicated effort and increased the risk of documentation drift.
 
-## Decision
+### Decision
 
 GitHub repositories will serve as the authoritative source of documentation for the homelab.
 
-## Rationale
+### Alternatives Considered
+
+- Continue using Obsidian as the primary documentation platform.
+- Maintain both Obsidian and GitHub documentation.
+- Move entirely to GitHub documentation.
+
+### Rationale
 
 - Eliminates duplicate documentation maintenance.
 - Provides version control for all documentation changes.
@@ -39,23 +48,23 @@ GitHub repositories will serve as the authoritative source of documentation for 
 - Creates a public portfolio demonstrating technical documentation practices.
 - Simplifies disaster recovery and backup procedures.
 
-## Consequences
+### Consequences
 
-### Positive
+#### Positive
 
 - Single source of truth.
 - Better organization and discoverability.
 - Documentation evolves alongside projects.
 - Historical change tracking through Git.
 
-### Negative
+#### Negative
 
 - Less flexibility for quick note-taking.
 - Draft ideas may require additional organization before publication.
 
-## Implementation
+### Implementation
 
-### GitHub
+#### GitHub
 
 Used for:
 
@@ -69,7 +78,7 @@ Used for:
 - Screenshots
 - Configuration examples
 
-### Bitwarden
+#### Bitwarden
 
 Used for:
 
@@ -79,15 +88,22 @@ Used for:
 - Sensitive configuration values
 - Network secrets
 
-### Temporary Notes
+#### Temporary Notes
 
 May be stored elsewhere until mature enough for inclusion in GitHub documentation.
 
-
-
-
-How is the decision applied in practice?
-
 ### Related Projects
 
-- project-name
+- network-infrastructure
+- virtualization-lab
+- media-services-platform
+- home-network-security
+- infrastructure-monitoring
+
+---
+
+## Decision Template
+
+See:
+
+- templates/homelab-decision-template.md
