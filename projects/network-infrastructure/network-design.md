@@ -41,6 +41,9 @@ Current deployment is based on an ASUS RT-AX5400 router with DHCP reservations f
 
 ## Current Network Topology
 
+![Network Topology](./diagrams/network-topology.png)
+
+
 ```text
 Internet
     │
