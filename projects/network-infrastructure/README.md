@@ -108,5 +108,5 @@ network-infrastructure/
 ├── lessons-learned.md
 ├── configs/
 ├── scripts/
-└── screenshots/
+└── diagrams/
 ```
