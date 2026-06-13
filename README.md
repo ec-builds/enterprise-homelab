@@ -19,6 +19,22 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ---
 
+## Architecture Overview
+
+The homelab is organized into several interconnected domains:
+
+- Network Infrastructure
+- Virtualization
+- Identity & Access Management
+- Security Operations
+- Infrastructure Monitoring
+- Media Services
+- Automation & DevOps
+
+Each project is documented independently while contributing to the overall enterprise-homelab environment.
+
+---
+
 ## Navigation
 
 
@@ -135,10 +151,10 @@ One of the primary goals of this lab is to demonstrate that practical IT skills 
 
 ## Core Documents (pending links)
 
-docs/standards/
-docs/reference/
-docs/runbooks/
-docs/homelab-decisions.md
+- docs/homelab-decisions.md
+- docs/runbooks/
+- docs/reference/
+- docs/standards/
 
 ---
 
