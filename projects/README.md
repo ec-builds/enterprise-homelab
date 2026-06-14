@@ -13,7 +13,7 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [Docker & Self-Hosted Services](./docker-self-hosted-services/) | Containerized self-hosted applications | 📋 Planned |
 | [Home Network Security](./home-network-security/) | Firewalls, segmentation, hardening, VPN | 📋 Planned |
 | [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
-| [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 📋 Planned |
+| [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🔨 In Progress |
 | [Kubernetes Lab](./kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
 | [Media Services Platform](./media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](./microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | 📋 Planned |
