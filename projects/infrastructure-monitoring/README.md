@@ -21,6 +21,22 @@ Metrics, logging, alerting, and dashboards across the entire lab — know about 
 - Alertmanager / ntfy / webhooks (notifications)
 - Azure Monitor (cloud-side observability)
 
+
+| Category | Technologies | Purpose |
+|-----------|-------------|----------|
+| Metrics Collection | Prometheus | Central metrics collection and storage |
+| Host Monitoring | node_exporter | Linux system metrics (CPU, RAM, disk, network) |
+| Container Monitoring | cAdvisor | Docker/container metrics |
+| Network Monitoring | SNMP Exporter | Router, switch, printer, and network device metrics |
+| Visualization | Grafana | Dashboards and observability visualization |
+| Uptime Monitoring | Uptime Kuma | Service, endpoint, and availability monitoring |
+| Log Aggregation | Loki | Centralized log storage and querying |
+| Log Collection | Promtail | Log shipping from hosts and services to Loki |
+| Alerting | Alertmanager | Alert routing, grouping, and notification management |
+| Notifications | ntfy / Webhooks | Push notifications and integrations |
+| Cloud Monitoring | Azure Monitor | Azure resource monitoring, alerts, and insights |
+
+
 ## Key Tasks
 
 - [ ] Deploy the monitoring stack (containerized on the Docker host)
