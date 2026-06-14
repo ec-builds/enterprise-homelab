@@ -44,23 +44,6 @@ Current deployment is based on an ASUS RT-AX5400 router with DHCP reservations f
 ![Network Topology](./diagrams/network-topology.png)
 
 
-```text
-Internet
-    │
-ISP Modem / ONT
-    │
-ASUS RT-AX5400 (10.10.10.1)
-├── Synology NAS
-├── Media Server
-├── Cisco Managed Switch (Planned)
-└── Wireless Clients
-
-Guest Wi-Fi
-├── IoT Devices
-├── Smart Home Devices
-└── Internet Access Only
-```
-
 ---
 
 ## IP Addressing Plan
