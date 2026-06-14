@@ -14,29 +14,22 @@ Metrics, logging, alerting, and dashboards across the entire lab — know about 
 
 ## Technologies
 
-- Prometheus + exporters (node_exporter, cAdvisor, SNMP exporter)
-- Grafana (dashboards)
-- Uptime Kuma (service/endpoint uptime)
-- Loki + Promtail (log aggregation)
-- Alertmanager / ntfy / webhooks (notifications)
-- Azure Monitor (cloud-side observability)
 
 
+| Layer | Technology | What It Monitors | Primary Purpose |
+|---------|------------|------------------|-----------------|
+| Metrics Collection | Prometheus | Infrastructure, services, applications | Central metrics collection, storage, and querying |
+| Host Monitoring | node_exporter | Linux servers and VMs | CPU, memory, disk, filesystem, and network metrics |
+| Container Monitoring | cAdvisor | Docker containers | Container performance, resource usage, and health |
+| Network Monitoring | SNMP Exporter | Routers, switches, printers, UPS devices | Network device metrics via SNMP |
+| Visualization | Grafana | Metrics and logs | Dashboards, charts, and observability visualization |
+| Uptime Monitoring | Uptime Kuma | Websites, services, APIs, endpoints | Availability and uptime monitoring |
+| Log Collection | Promtail | Servers and applications | Collects and forwards logs to Loki |
+| Log Aggregation | Loki | Infrastructure and application logs | Centralized log storage and querying |
+| Alerting | Alertmanager | Prometheus alerts | Alert routing, grouping, and notification management |
+| Notifications | ntfy / Webhooks | Alertmanager and Uptime Kuma events | Push notifications and third-party integrations |
+| Cloud Monitoring | Azure Monitor | Azure resources and services | Native Azure metrics, logs, alerts, and insights |
 
-
-| Category | Technologies | Purpose |
-|-----------|-------------|----------|
-| Metrics Collection | Prometheus | Central metrics collection and storage |
-| Host Monitoring | node_exporter | Linux system metrics (CPU, RAM, disk, network) |
-| Container Monitoring | cAdvisor | Docker/container metrics |
-| Network Monitoring | SNMP Exporter | Router, switch, printer, and network device metrics |
-| Visualization | Grafana | Dashboards and observability visualization |
-| Uptime Monitoring | Uptime Kuma | Service, endpoint, and availability monitoring |
-| Log Aggregation | Loki | Centralized log storage and querying |
-| Log Collection | Promtail | Log shipping from hosts and services to Loki |
-| Alerting | Alertmanager | Alert routing, grouping, and notification management |
-| Notifications | ntfy / Webhooks | Push notifications and integrations |
-| Cloud Monitoring | Azure Monitor | Azure resource monitoring, alerts, and insights |
 
 
 ## Key Tasks
