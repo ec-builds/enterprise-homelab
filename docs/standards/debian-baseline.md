@@ -97,27 +97,31 @@ This baseline provides:
 
 ## Validation
 
-Run the following checks after package installation to confirm the 
-system is ready for additional configuration.
+Run the following checks to verify package installation, system identity, storage visibility, network connectivity, and basic service health before proceeding with additional configuration.
 
 ```bash
-apt list --installed
-```
-
-```bash
+apt list --installed | grep -E "curl|wget|git|vim|htop|btop"
 systemctl status avahi-daemon
-```
-
-```bash
 df -h
-```
-
-```bash
 smartctl --scan
+hostnamectl
+ip addr
+ping -c 4 8.8.8.8
+ping -c 4 google.com
 ```
 
-Successful execution confirms the system baseline is complete and 
-ready for project-specific configuration.
+### Expected Results
+
+- Required packages are installed and available.
+- Avahi service is active and running.
+- Storage devices are detected and sufficient free space is available.
+- Hostname is configured correctly.
+- Network interfaces have valid IP addresses.
+- Internet connectivity is functional.
+- DNS resolution is working properly.
+
+If all checks pass, the system is ready for further configuration and service deployment.
+
 
 ---
 
