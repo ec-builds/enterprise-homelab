@@ -12,7 +12,7 @@ The purpose of this inventory is to document system specifications, intended use
 |---------|---------|---------|---------|---------|---------|---------|
 | [ASUS RT-AX5400](./asus-rt-ax5400.md) | Router | 1.5 GHz tri-core processor | 512 MB | NA | Primary Home Network Router | Active |
 | [Cisco WS-C3560CG-8PC-S](./cisco-switch-3560cg.md) | Network Switch | Embedded PowerPC-class CPU | 128 MB | NA | Networking & VLAN Lab | Available |
-| [Desktop-01](./desktop-01.md) | Workstation | AMD Ryzen 7 5700X 8-Core Processor | 64 GB | 2x 1TB NVMe Drives | Pending Assignment | Available |
+| [Desktop-01](./desktop-01.md) | Workstation | AMD Ryzen 7 5700X 8-Core Processor | 64 GB | 2x (1TB) NVMe Drives | Pending Assignment | Available |
 | [Desktop-02](./desktop-02.md) | Workstation | Pending | Pending | Pending | Pending Assignment | Available |
 | [Latitude 7420](./latitude-7420.md) | Laptop | Pending | 32 GB | Pending | Administration & Testing | Active |
 | [Mac Mini (Late 2014)](./mac-mini-2014.md) | Server | Intel(R) Core(TM) i5-4260U CPU @ 1.40GHz | 4 GB | Pending | Media Services Platform | Active |
