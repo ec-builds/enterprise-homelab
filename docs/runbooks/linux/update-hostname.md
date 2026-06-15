@@ -189,6 +189,17 @@ Verify the following:
 
 Successful validation confirms that the hostname update is complete.
 
+>[!NOTE]
+>You can quickly validate all sections requiring a hostname update with:
+>
+>```bash
+>hostnamectl
+>cat /etc/hostname
+>cat /etc/hosts
+>hostname
+>```
+
+
 ---
 
 ## Related Documentation
