@@ -11,6 +11,7 @@ project-specific configuration.
 > If `sudo` is not yet installed on the system, follow the
 > [Configure sudo Access](../runbooks/linux/configure-sudo.md)
 > runbook before proceeding.
+
 ---
 
 ## Baseline Components
@@ -56,7 +57,8 @@ cifs-utils \
 rsync \
 unzip \
 ncdu \
-smartmontools
+smartmontools \
+ca-certificates
 ```
 
 ---
@@ -100,7 +102,7 @@ This baseline provides:
 Run the following checks to verify package installation, system identity, storage visibility, network connectivity, and basic service health before proceeding with additional configuration.
 
 ```bash
-apt list --installed | grep -E "curl|wget|git|vim|htop|btop"
+apt list --installed | grep -E "curl|wget|git|vim|htop|tree"
 systemctl status avahi-daemon
 df -h
 smartctl --scan
@@ -112,15 +114,20 @@ ping -c 4 google.com
 
 ### Expected Results
 
-- Required packages are installed and available.
-- Avahi service is active and running.
-- Storage devices are detected and sufficient free space is available.
+- Required packages are installed.
+- Avahi is active and running.
+- Storage devices are detected and accessible.
 - Hostname is configured correctly.
 - Network interfaces have valid IP addresses.
-- Internet connectivity is functional.
-- DNS resolution is working properly.
+- Internet connectivity and DNS resolution are functional.
 
 If all checks pass, the system is ready for further configuration and service deployment.
+
+
+>[!TIP]
+>After applying operating system updates, consider rebooting the server
+> before beginning project-specific configuration to ensure all updates
+> are fully applied.
 
 
 ---
