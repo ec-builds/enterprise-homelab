@@ -81,6 +81,7 @@ ca-certificates
 | unzip | Archive extraction utility |
 | ncdu | Disk usage analysis and storage management |
 | smartmontools | Disk health monitoring and SMART diagnostics |
+| ca-certificates | Trusted Certificate Authority (CA) bundle required for HTTPS connections and SSL/TLS certificate validation |
 
 ---
 
