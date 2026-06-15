@@ -64,7 +64,6 @@ communicate its current state.
 | Complete | `✅ Complete` | Fully implemented and documented |
 | In Progress | `🔨 In Progress` | Actively being built or documented |
 | Planned | `📋 Planned` | Not yet started |
-| Work in Progress | `🚧 Work in Progress` | Started but incomplete |
 
 Example usage:
 
