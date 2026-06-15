@@ -10,7 +10,7 @@ The purpose of this inventory is to document system specifications, intended use
 
 | Asset | Type | CPU | RAM | Storage | Role | Status |
 |---------|---------|---------|---------|---------|---------|---------|
-| [ASUS RT-AX5400](./asus-rt-ax5400.md) | Router | Pending | Pending | NA | Primary Home Network Router | Active |
+| [ASUS RT-AX5400](./asus-rt-ax5400.md) | Router | 1.5 GHz tri-core processor | 512 MB | NA | Primary Home Network Router | Active |
 | [Cisco WS-C3560CG-8PC-S](./cisco-switch-3560cg.md) | Network Switch | NA | NA | NA | Networking & VLAN Lab | Available |
 | [Desktop-01](./desktop-01.md) | Workstation | Pending | Pending | Pending | Pending Assignment | Available |
 | [Desktop-02](./desktop-02.md) | Workstation | Pending | Pending | Pending | Pending Assignment | Available |
