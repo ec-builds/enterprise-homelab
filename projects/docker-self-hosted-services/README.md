@@ -1,6 +1,6 @@
 # 🐳 Docker & Self-Hosted Services
 
-**Status:  In Progress**
+**Status: 🔨 In Progress**
 
 Containerized self-hosted applications running on a dedicated Debian Docker host. Services are deployed using Docker Compose and managed through infrastructure-as-code principles.
 
