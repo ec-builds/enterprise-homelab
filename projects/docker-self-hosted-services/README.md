@@ -20,40 +20,19 @@ The environment serves as a platform for learning modern container operations, s
 - Document deployment, maintenance, and recovery procedures
 - Prepare foundational knowledge for future Kubernetes workloads
 
+
 ## Technologies
 
-### Container Platform
 
-- Docker Engine
-- Docker Compose
-- containerd
-- Docker Buildx
+| Category | Technologies |
+|-----------|-----------|
+| Container Platform | Docker Engine, Docker Compose, containerd, Docker Buildx |
+| Monitoring & Observability | Uptime Kuma, Prometheus, Grafana, Loki |
+| Service Management | Homepage, Dockge (planned), Portainer (evaluation) |
+| Networking & Security | Custom Docker Networks, Reverse Proxy, TLS Certificates, Environment Variables (`.env`) |
+| Backup & Recovery | Docker Volumes, Volume Backup Procedures, Disaster Recovery Documentation |
 
-### Monitoring & Observability
 
-- Uptime Kuma
-- Prometheus
-- Grafana
-- Loki
-
-### Service Management
-
-- Homepage
-- Dockge (planned)
-- Portainer (evaluation)
-
-### Networking & Security
-
-- Custom Docker Networks
-- Reverse Proxy (TBD)
-- TLS Certificates
-- Environment Variables (`.env`)
-
-### Backup & Recovery
-
-- Docker Volumes
-- Volume Backup Procedures
-- Disaster Recovery Documentation
 
 ---
 
