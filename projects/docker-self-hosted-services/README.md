@@ -127,7 +127,6 @@ Each deployed service should include:
 
 ## Related Projects
 
-- [monitoring-observability](../monitoring-observability/) — metrics, logging, dashboards, and alerting
 - [kubernetes-lab](../kubernetes-lab/) — future orchestration platform
 - [backup-disaster-recovery](../backup-disaster-recovery/) — volume backup and restore procedures
 - [network-infrastructure](../network-infrastructure/) — networking and service exposure
