@@ -32,7 +32,7 @@ The current environment is built around an ASUS RT-AX5400 router with DHCP reser
 - DHCP Reservations
 - Guest Network Isolation
 - Synology NAS
-- Ethernet-connected Media Server
+- Ethernet-connected Media Server (2014 Mac mini)
 
 ### Planned
 
