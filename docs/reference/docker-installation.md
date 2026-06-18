@@ -77,8 +77,8 @@ sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podm
 Install required packages:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl
+sudo apt update
+sudo apt install -y ca-certificates curl
 ```
 
 Create the Docker keyring directory:
@@ -86,6 +86,11 @@ Create the Docker keyring directory:
 ```bash
 sudo install -m 0755 -d /etc/apt/keyrings
 ```
+
+> [!NOTE]
+> The `/etc/apt/keyrings` directory may already exist if other third-party repositories have previously been configured on the system (for example, Jellyfin, Microsoft, Docker, or other vendor repositories).
+>
+> The `install -d` command is idempotent and can be safely run even if the directory already exists. Existing contents will not be modified.
 
 Download the Docker GPG key:
 
@@ -124,6 +129,19 @@ Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 ```
 
+### Example File Contents
+
+```text
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: trixie
+Components: stable
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/docker.asc
+```
+
+---
+
 Update package information:
 
 ```bash
@@ -137,7 +155,7 @@ sudo apt update
 Install Docker Engine and related components:
 
 ```bash
-sudo apt-get install -y \
+sudo apt install \
   docker-ce \
   docker-ce-cli \
   containerd.io \
@@ -339,7 +357,7 @@ ls -l /etc/apt/keyrings/docker.asc
 Update repositories:
 
 ```bash
-sudo apt-get update
+sudo apt update
 ```
 
 ---
