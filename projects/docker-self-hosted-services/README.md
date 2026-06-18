@@ -125,6 +125,28 @@ Each deployed service should include:
 
 ---
 
+## Reference Documentation
+
+To avoid duplication and documentation drift, foundational Docker documentation is maintained centrally under:
+
+```text
+docs/reference/
+```
+
+The following documents serve as the authoritative references for this project:
+
+| Document | Purpose |
+|----------|----------|
+| [docker-installation.md](../../docs/reference/docker-installation.md) | Docker Engine and Docker Compose installation procedures |
+| [docker-container-deployment.md](../../docs/reference/docker-container-deployment.md) | Standard process for deploying Docker Compose applications |
+| [docker-concepts.md](../../docs/reference/docker-concepts.md) | Core Docker concepts and architecture |
+| [docker-command-reference.md](../../docs/reference/docker-command-reference.md) | Common Docker administration and troubleshooting commands |
+
+> [!NOTE]
+> These documents are intentionally maintained outside of this project directory so they can be reused across multiple projects. Project-specific documentation should reference these guides rather than duplicate their contents. This helps ensure procedures remain consistent and reduces maintenance overhead when documentation is updated.
+
+---
+
 ## Related Projects
 
 - [kubernetes-lab](../kubernetes-lab/) — future orchestration platform
