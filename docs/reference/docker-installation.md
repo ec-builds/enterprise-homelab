@@ -68,8 +68,6 @@ sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podm
 > [!NOTE]
 > It is normal if some packages are not installed.
 
-![Remove Old Docker Packages](../../screenshots/docker-installation/remove-old-docker-pkg.png)
-
 ---
 
 ## Install Prerequisite Packages
@@ -148,6 +146,7 @@ Update package information:
 sudo apt update
 ```
 
+![Apt-update example](../../screenshots/docker-installation/docker-apt-update-example.png)
 
 *Example output after successfully adding the Docker APT repository and updating package information. The output confirms that the Docker repository is reachable and that package metadata was downloaded successfully.*
 
