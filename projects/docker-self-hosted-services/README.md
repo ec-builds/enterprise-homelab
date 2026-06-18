@@ -10,19 +10,24 @@ This project focuses on deploying, managing, and documenting self-hosted service
 
 The environment serves as a platform for learning modern container operations, service management, monitoring, networking, backup strategies, and infrastructure documentation.
 
+The long-term objective is to build a documented and repeatable self-hosted services platform while developing foundational skills applicable to enterprise infrastructure and future Kubernetes deployments.
+
+---
+
 ## Objectives
 
 - Deploy and maintain self-hosted applications using Docker Compose
-- Manage container configurations through version-controlled compose files
+- Manage container configurations through version-controlled Compose files
 - Implement container networking and service isolation
 - Configure persistent storage and backup procedures
 - Monitor service availability and container health
 - Document deployment, maintenance, and recovery procedures
+- Establish operational standards and reusable documentation
 - Prepare foundational knowledge for future Kubernetes workloads
 
+---
 
 ## Technologies
-
 
 | Category | Technologies |
 |-----------|-----------|
@@ -32,15 +37,13 @@ The environment serves as a platform for learning modern container operations, s
 | Networking & Security | Custom Docker Networks, Reverse Proxy, TLS Certificates, Environment Variables (`.env`) |
 | Backup & Recovery | Docker Volumes, Volume Backup Procedures, Disaster Recovery Documentation |
 
-
-
 ---
 
 ## Planned Services
 
 | Category | Service | Status |
 |----------|----------|----------|
-| Monitoring | Uptime Kuma | 📋 Planned |
+| Monitoring | Uptime Kuma | ✅ Deployed |
 | Monitoring | Prometheus | 📋 Planned |
 | Monitoring | Grafana | 📋 Planned |
 | Logging | Loki | 📋 Planned |
@@ -60,10 +63,13 @@ The environment serves as a platform for learning modern container operations, s
 Internet
     │
     ▼
-Docker Host (Debian)
+ASUS RT-AX5400
     │
-    ├── Homepage
+    ▼
+Docker Host (infra01)
+    │
     ├── Uptime Kuma
+    ├── Homepage
     ├── Prometheus
     ├── Grafana
     ├── Loki
@@ -82,12 +88,14 @@ All services are deployed as independent containers and managed through Docker C
 - [x] Install Docker Compose Plugin
 - [x] Configure Docker Repository and GPG Key
 - [x] Configure Non-Root Docker Access
-- [ ] Create Docker project directory structure
+- [x] Create Docker project directory structure (`/opt/docker`)
+- [x] Establish Docker deployment standards
+- [x] Create Docker reference documentation
 
 ### Monitoring Stack
 
-- [ ] Deploy Uptime Kuma
-- [ ] Configure uptime monitoring
+- [x] Deploy Uptime Kuma
+- [x] Configure basic uptime monitoring
 - [ ] Deploy Prometheus
 - [ ] Deploy Grafana
 - [ ] Deploy Loki
@@ -102,7 +110,7 @@ All services are deployed as independent containers and managed through Docker C
 
 ### Operations
 
-- [ ] Standardize compose file structure
+- [ ] Standardize Compose file templates
 - [ ] Implement `.env` templates
 - [ ] Configure backups for Docker volumes
 - [ ] Document upgrade procedures
@@ -110,7 +118,7 @@ All services are deployed as independent containers and managed through Docker C
 
 ---
 
-## Documentation
+## Documentation Standards
 
 Each deployed service should include:
 
@@ -123,17 +131,19 @@ Each deployed service should include:
 - Update procedures
 - Lessons learned
 
+Documentation should be updated whenever deployment procedures, architecture, or operational processes change.
+
 ---
 
 ## Reference Documentation
 
-To avoid duplication and documentation drift, foundational Docker documentation is maintained centrally under:
+Foundational Docker documentation is maintained centrally under:
 
 ```text
 docs/reference/
 ```
 
-The following documents serve as the authoritative references for this project:
+The following documents serve as authoritative references for this project:
 
 | Document | Purpose |
 |----------|----------|
@@ -143,15 +153,16 @@ The following documents serve as the authoritative references for this project:
 | [docker-command-reference.md](../../docs/reference/docker-command-reference.md) | Common Docker administration and troubleshooting commands |
 
 > [!NOTE]
-> These documents are intentionally maintained outside of this project directory so they can be reused across multiple projects. Project-specific documentation should reference these guides rather than duplicate their contents. This helps ensure procedures remain consistent and reduces maintenance overhead when documentation is updated.
+> Reference documentation is intentionally maintained outside of this project directory to avoid duplication and documentation drift. Project-specific documentation should reference these guides rather than duplicate their contents.
 
 ---
 
 ## Related Projects
 
-- [kubernetes-lab](../kubernetes-lab/) — future orchestration platform
-- [backup-disaster-recovery](../backup-disaster-recovery/) — volume backup and restore procedures
-- [network-infrastructure](../network-infrastructure/) — networking and service exposure
+- [kubernetes-lab](../kubernetes-lab/) — Future orchestration platform
+- [backup-disaster-recovery](../backup-disaster-recovery/) — Volume backup and restore procedures
+- [network-infrastructure](../network-infrastructure/) — Networking and service exposure
+- [monitoring-observability](../monitoring-observability/) — Monitoring stack architecture and dashboards
 
 ---
 
@@ -159,21 +170,62 @@ The following documents serve as the authoritative references for this project:
 
 ```text
 docker-self-hosted-services/
-├── compose/            # Docker Compose files
-├── services/           # Individual service documentation
-├── runbooks/           # Installation and maintenance procedures
-├── diagrams/           # Architecture diagrams
-├── scripts/            # Administrative scripts
-└── screenshots/        # Visual documentation
+├── README.md
+├── lessons-learned.md
+├── services/
+│   ├── uptime-kuma/
+│   ├── prometheus/
+│   ├── grafana/
+│   └── loki/
+├── diagrams/
+├── scripts/
+└── screenshots/
 ```
+
+> [!NOTE]
+> Reusable technical references are maintained under `docs/reference/` rather than within this project directory.
 
 ---
 
-## ⚠️ Security Notes
+## Security Notes
 
 - Secrets are never committed to source control.
 - `.env` files are excluded through `.gitignore`.
 - Example configuration files are provided as templates.
 - Services are deployed with least-privilege principles whenever possible.
 - Administrative access is restricted to authorized users.
+- Persistent application data is stored in Docker volumes whenever possible.
+- Containers are considered disposable and should be able to be recreated without data loss.
 
+---
+
+## Current Progress Summary
+
+Completed:
+
+- Docker Engine installation
+- Docker Compose installation
+- Docker repository configuration
+- Non-root Docker administration
+- Docker deployment standards
+- Docker concepts documentation
+- Docker command reference
+- Docker installation guide
+- Docker deployment guide
+- Uptime Kuma deployment
+- Initial monitoring configuration
+- Docker volume and container lifecycle validation
+
+Next Priorities:
+
+1. Expand Uptime Kuma monitoring coverage
+2. Deploy Prometheus
+3. Deploy Grafana
+4. Implement backup procedures
+5. Establish Docker networking standards
+6. Evaluate reverse proxy solutions
+7. Prepare monitoring and observability architecture
+```
+:::
+
+This version better reflects the project's current reality: you've moved beyond "learning Docker" and are now building a documented platform with standards, references, deployment procedures, and operational practices.
