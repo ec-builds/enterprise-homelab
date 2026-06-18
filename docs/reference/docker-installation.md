@@ -68,7 +68,7 @@ sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podm
 > [!NOTE]
 > It is normal if some packages are not installed.
 
-![Remove Old Docker Packages](../../screenshots/debian-installation/remove-old-docker-pkg.png)
+![Remove Old Docker Packages](../../screenshots/docker-installation/remove-old-docker-pkg.png)
 
 ---
 
