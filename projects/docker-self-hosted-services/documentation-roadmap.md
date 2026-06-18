@@ -14,6 +14,7 @@ This document tracks planned documentation for the Docker & Self-Hosted Services
 | `update-procedures.md` | 📋 Pending | Application and image update procedures | Standardizes service maintenance and update workflows. |
 | `inventory.md` | 📋 Pending | Service inventory and status tracking | Provides a centralized list of deployed services, ports, and purposes. |
 | `glossary.md` | 📋 Pending | Definitions of Docker and containerization concepts | Serves as a quick reference for terminology encountered during the project. |
+| `docker-networking.md` | 📋 Pending | Docker networking concepts and architecture | Networking was largely abstracted during the initial Uptime Kuma deployment. This document will be created after additional services are deployed and container-to-container communication becomes relevant. |
 
 ---
 
