@@ -8,7 +8,7 @@ Recommended settings for most homelab services:
 
 | Setting | Recommended Value |
 |----------|----------|
-| Monitor Type | HTTP(s) |
+| Monitor Type | Depends on Service Type |
 | Heartbeat Interval | 60 seconds |
 | Retries | 2 |
 | Request Timeout | 10 seconds |
@@ -17,7 +17,31 @@ Recommended settings for most homelab services:
 | Max Redirects | 10 |
 | IP Family | Auto Select |
 
+### Uptime Kuma Monitor Selection Guide
+
+| Service Type | Recommended Monitor | Example |
+|----------|----------|----------|
+| Web Application | HTTP(s) | Grafana, Uptime Kuma, Homepage |
+| Device with Web Management Interface | HTTP(s) | ASUS Router, Synology DSM, iDRAC, iLO |
+| Server Without Web Interface | Ping | Linux Server, Hypervisor Host |
+| Specific Service Port | TCP Port | SSH (22), RDP (3389), SMB (445), Database Ports |
+| DNS Server | DNS | Internal DNS, Public DNS Servers |
+| Network Device | Ping | Switches, Access Points, Firewalls |
+| Internet Connectivity | Ping | 1.1.1.1, 8.8.8.8 |
+| API Endpoint | HTTP(s) | REST APIs, Webhooks |
+| Database Service | TCP Port | SQL Server, MySQL, PostgreSQL |
+
 ---
+
+> [!TIP]
+> For critical systems, monitor both the host and the application. This helps distinguish between a device outage and an application outage.
+>
+> Example:
+>
+> - `Debian VM (Ping)` → Confirms the server is reachable.
+> - `Uptime Kuma (HTTP)` → Confirms the application is functioning.
+>
+> If Ping is UP but HTTP is DOWN, the server is healthy but the application likely has an issue.
 
 ## Monitor Types
 
