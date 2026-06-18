@@ -31,7 +31,7 @@ Recommended settings for most homelab services:
 | API Endpoint | HTTP(s) | REST APIs, Webhooks |
 | Database Service | TCP Port | SQL Server, MySQL, PostgreSQL |
 
----
+
 
 > [!TIP]
 > For critical systems, monitor both the host and the application. This helps distinguish between a device outage and an application outage.
@@ -42,6 +42,10 @@ Recommended settings for most homelab services:
 > - `Uptime Kuma (HTTP)` → Confirms the application is functioning.
 >
 > If Ping is UP but HTTP is DOWN, the server is healthy but the application likely has an issue.
+
+
+---
+
 
 ## Monitor Types
 
