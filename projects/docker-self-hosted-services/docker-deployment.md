@@ -88,7 +88,7 @@ cd /opt/docker/uptime-kuma
 Create the Compose file:
 
 ```bash
-nano docker-compose.yml
+vi docker-compose.yml
 ```
 
 Example template:
