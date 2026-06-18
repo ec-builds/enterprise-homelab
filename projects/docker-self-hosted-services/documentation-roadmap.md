@@ -18,6 +18,17 @@ This document tracks planned documentation for the Docker & Self-Hosted Services
 
 ---
 
+## Future Documentation
+
+docker-networking.md
+docker-volumes-vs-bind-mounts.md
+docker-port-mapping.md
+docker-update-procedures.md
+docker-backup-and-recovery.md
+docker-reverse-proxy-concepts.md
+docker-environment-variables.md
+
+
 ## Existing Documentation
 
 | Document | Status | Purpose |
