@@ -72,7 +72,7 @@ Advanced operational concepts:
 
 ## Related Documentation
 
-See [Docs / References](docs/reference)
+See [Docs / References](../../docs/reference)
 
 ---
 
