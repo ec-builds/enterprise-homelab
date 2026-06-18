@@ -73,14 +73,12 @@ services:
     container_name: uptime-kuma
     restart: unless-stopped
 
-    ports:
-      - "3001:3001"
-
     volumes:
-      - uptime-kuma:/app/data
+      - ./data:/app/data
 
-volumes:
-  uptime-kuma:
+    ports:
+      # <Host Port>:<Container Port>
+      - "3001:3001"
 ```
 
 The official project recommends the `:2` image tag for Uptime Kuma v2 deployments. ([Docker Hub](https://hub.docker.com/r/louislam/uptime-kuma?utm_source=chatgpt.com))
