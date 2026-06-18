@@ -155,18 +155,3 @@ docker-self-hosted-services/
 - Services are deployed with least-privilege principles whenever possible.
 - Administrative access is restricted to authorized users.
 
----
-
-## Current Status
-
-### Completed
-
-- Docker Engine installation
-- Docker Compose plugin installation
-- Docker Hub connectivity validation
-- Container execution testing (`hello-world`, `ubuntu`)
-- Non-root Docker access configuration
-
-### Next Milestone
-
-Deploy Uptime Kuma as the first production service and establish baseline monitoring for the homelab environment.
