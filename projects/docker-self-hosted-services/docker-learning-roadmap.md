@@ -72,14 +72,7 @@ Advanced operational concepts:
 
 ## Related Documentation
 
-| Document | Purpose |
-|----------|----------|
-| `docker-concepts.md` | Core Docker concepts and terminology |
-| `docker-commands.md` | Frequently used Docker commands |
-| `lessons-learned.md` | Project decisions and lessons learned |
-| `deployment-guide.md` | Deployment and configuration procedures |
-| `docker-networking.md` | Planned networking reference |
-| `docker-backup-and-recovery.md` | Planned backup and recovery reference |
+See [Docs / References](docs/reference/)
 
 ---
 
