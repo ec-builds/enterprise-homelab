@@ -8,6 +8,42 @@ The goal is to create a hands-on learning environment that mirrors technologies 
 
 ---
 
+
+## Navigation
+
+
+### README Sections
+
+- [Roadmap](#roadmap)
+- [Equipment](#equipment)
+- [Current Environment](#current-environment)
+- [Architecture Overview](#architecture-overview)
+- [Areas of Focus](#areas-of-focus)
+- [Project Portfolio](#project-portfolio)
+- [Documentation Scope](#documentation-scope)
+- [Learning Philosophy](#learning-philosophy)
+- [Core Documents](#core-documents)
+
+
+---
+
+## Roadmap
+
+![Homelab Roadmap](assets/roadmap.png)
+
+See [Roadmap](roadmap.md)
+
+
+---
+
+## Equipment
+
+The homelab is built using a combination of repurposed hardware, networking equipment, and storage systems that support ongoing infrastructure, networking, virtualization, and automation projects.
+
+See [Equipment Inventory](equipment/README.md)
+
+---
+
 ## Current Environment
 
 ### Current
@@ -40,38 +76,6 @@ Each project is documented independently while contributing to the overall enter
 
 ---
 
-## Navigation
-
-
-### README Sections
-
-- [Roadmap](#roadmap)
-- [Equipment](#equipment)
-- [Areas of Focus](#areas-of-focus)
-- [Project Portfolio](#project-portfolio)
-- [Documentation Scope](#documentation-scope)
-- [Learning Philosophy](#learning-philosophy)
-- [Core Documents](#core-documents)
-
-
----
-
-## Roadmap
-
-![Homelab Roadmap](assets/roadmap.png)
-
-See [Roadmap](roadmap.md)
-
-
----
-
-## Equipment
-
-The homelab is built using a combination of repurposed hardware, networking equipment, and storage systems that support ongoing infrastructure, networking, virtualization, and automation projects.
-
-See [Equipment Inventory](equipment/README.md)
-
----
 
 ## Areas of Focus
 
