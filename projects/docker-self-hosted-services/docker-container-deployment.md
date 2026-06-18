@@ -1,4 +1,4 @@
-# Docker Deployment Guide
+# Docker Container Deployment Guide
 
 Step-by-step guide for deploying Docker Compose applications in the homelab environment.
 
