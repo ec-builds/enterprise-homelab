@@ -148,6 +148,9 @@ Update package information:
 sudo apt update
 ```
 
+
+*Example output after successfully adding the Docker APT repository and updating package information. The output confirms that the Docker repository is reachable and that package metadata was downloaded successfully.*
+
 ---
 
 ## Install Docker Engine
