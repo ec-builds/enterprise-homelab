@@ -63,9 +63,9 @@ Target address monitored by Uptime Kuma.
 Examples:
 
 ```text
-https://10.10.10.1
-https://10.10.10.10:5001
-http://10.10.10.70:3001
+https://<router-ip>
+https://<nas-ip>:5001
+http://<server-ip>:3001
 ```
 
 ---
