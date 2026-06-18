@@ -62,9 +62,7 @@ sudo apt update
 Remove any older Docker packages if present:
 
 ```bash
-for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
-    sudo apt-get remove -y $pkg
-done
+sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
 ```
 
 > [!NOTE]
