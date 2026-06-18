@@ -9,6 +9,25 @@ Reference guide for installing Docker Engine and Docker Compose on Debian using 
 >
 > The Docker documentation is the authoritative source and should be consulted for the latest installation procedures, package requirements, and platform-specific updates. This guide documents the installation method used and validated within this homelab environment.
 
+---
+
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Prerequisites](#prerequisites)
+- [Remove Old Docker Packages](#remove-old-docker-packages)
+- [Install Prerequisite Packages](#install-prerequisite-packages)
+- [Add Docker Repository](#add-docker-repository)
+- [Install Docker Engine](#install-docker-engine)
+- [Verify Installation](#verify-installation)
+- [Test Docker Installation](#test-docker-installation)
+- [Configure Non-Root Docker Access](#configure-non-root-docker-access)
+- [Post-Installation Validation](#post-installation-validation)
+- [Common Troubleshooting](#common-troubleshooting)
+- [Installation Checklist](#installation-checklist)
+- [Related Documentation](#related-documentation)
+
+---
 
 ## Purpose
 
