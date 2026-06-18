@@ -1,0 +1,343 @@
+# Docker Installation Guide
+
+Reference guide for installing Docker Engine and Docker Compose on Debian using the official Docker APT repository.
+
+> [!NOTE]
+> This guide was created by following and validating the procedures documented in the official Docker installation documentation for Debian:
+>
+> [Docker Engine Installation on Debian](https://docs.docker.com/engine/install/debian/)
+>
+> The Docker documentation is the authoritative source and should be consulted for the latest installation procedures, package requirements, and platform-specific updates. This guide documents the installation method used and validated within this homelab environment.
+
+
+## Purpose
+
+This document provides a repeatable procedure for installing Docker Engine on Debian systems using the official Docker repository.
+
+This installation method was used in the homelab environment and follows Docker's recommended approach.
+
+## Prerequisites
+
+Verify the operating system:
+
+```bash
+cat /etc/os-release
+```
+
+Verify network connectivity:
+
+```bash
+ping google.com
+```
+
+Update package information:
+
+```bash
+sudo apt update
+```
+
+---
+
+## Remove Old Docker Packages
+
+Remove any older Docker packages if present:
+
+```bash
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
+    sudo apt-get remove -y $pkg
+done
+```
+
+> [!NOTE]
+> It is normal if some packages are not installed.
+
+---
+
+## Install Prerequisite Packages
+
+Install required packages:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+```
+
+Create the Docker keyring directory:
+
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+```
+
+Download the Docker GPG key:
+
+```bash
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg \
+  -o /etc/apt/keyrings/docker.asc
+```
+
+Set appropriate permissions:
+
+```bash
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+```
+
+---
+
+## Add Docker Repository
+
+Add the official Docker repository:
+
+```bash
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+  https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
+Update package information:
+
+```bash
+sudo apt-get update
+```
+
+---
+
+## Install Docker Engine
+
+Install Docker Engine and related components:
+
+```bash
+sudo apt-get install -y \
+  docker-ce \
+  docker-ce-cli \
+  containerd.io \
+  docker-buildx-plugin \
+  docker-compose-plugin
+```
+
+Installed components:
+
+| Component | Purpose |
+|----------|----------|
+| Docker Engine | Container runtime |
+| Docker CLI | Docker command-line interface |
+| containerd | Container runtime dependency |
+| Docker Buildx | Extended image build functionality |
+| Docker Compose Plugin | Compose-based deployments |
+
+---
+
+## Verify Installation
+
+Verify Docker Engine:
+
+```bash
+docker --version
+```
+
+Verify Docker Compose:
+
+```bash
+docker compose version
+```
+
+Verify Docker service status:
+
+```bash
+systemctl status docker
+```
+
+Expected result:
+
+```text
+active (running)
+```
+
+---
+
+## Test Docker Installation
+
+Run the Docker Hello World container:
+
+```bash
+sudo docker run hello-world
+```
+
+Expected result:
+
+```text
+Hello from Docker!
+```
+
+This confirms:
+
+- Docker Engine is installed
+- Images can be downloaded
+- Containers can be created and executed
+
+---
+
+## Configure Non-Root Docker Access
+
+Add the current user to the Docker group:
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+Apply group membership:
+
+```bash
+newgrp docker
+```
+
+Alternatively, log out and log back in.
+
+Verify Docker access:
+
+```bash
+docker ps
+```
+
+The command should execute without requiring `sudo`.
+
+---
+
+## Verify Installed Components
+
+Verify Docker:
+
+```bash
+docker --version
+```
+
+Verify Compose:
+
+```bash
+docker compose version
+```
+
+Verify Buildx:
+
+```bash
+docker buildx version
+```
+
+Verify containerd:
+
+```bash
+containerd --version
+```
+
+---
+
+## Post-Installation Validation
+
+Recommended validation commands:
+
+```bash
+docker ps
+docker images
+docker network ls
+docker volume ls
+```
+
+Expected output:
+
+- No errors
+- Default Docker networks present
+- Docker daemon accessible by the current user
+
+---
+
+## Common Troubleshooting
+
+### Permission Denied
+
+Error:
+
+```text
+permission denied while trying to connect to the Docker daemon socket
+```
+
+Resolution:
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+Log out and log back in.
+
+---
+
+### Docker Service Not Running
+
+Check service status:
+
+```bash
+systemctl status docker
+```
+
+Start the service:
+
+```bash
+sudo systemctl start docker
+```
+
+Enable automatic startup:
+
+```bash
+sudo systemctl enable docker
+```
+
+---
+
+### Repository Update Fails
+
+Verify repository configuration:
+
+```bash
+cat /etc/apt/sources.list.d/docker.list
+```
+
+Verify GPG key:
+
+```bash
+ls -l /etc/apt/keyrings/docker.asc
+```
+
+Update repositories:
+
+```bash
+sudo apt-get update
+```
+
+---
+
+## Installation Checklist
+
+| Task | Status |
+|----------|----------|
+| Debian verified | ☐ |
+| Internet connectivity verified | ☐ |
+| Old Docker packages removed | ☐ |
+| Docker repository added | ☐ |
+| Docker Engine installed | ☐ |
+| Docker Compose installed | ☐ |
+| Docker service verified | ☐ |
+| Hello World container executed | ☐ |
+| User added to Docker group | ☐ |
+| Non-root access verified | ☐ |
+
+---
+
+## Related Documentation
+
+| Document | Purpose |
+|----------|----------|
+| `docker-concepts.md` | Docker concepts and terminology |
+| `docker-commands.md` | Docker command reference |
+| `docker-compose-deployment.md` | Deploy applications using Docker Compose |
+| `docker-networking.md` | Docker networking concepts |
+| `docker-storage.md` | Volumes, bind mounts, and persistent data |
