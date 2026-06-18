@@ -5,7 +5,7 @@ Reference guide for installing Docker Engine and Docker Compose on Debian using 
 > [!NOTE]
 > This guide was created by following and validating the procedures documented in the official Docker installation documentation for Debian:
 >
-> [Docker Engine Installation on Debian](https://docs.docker.com/engine/install/debian/)
+> https://docs.docker.com/engine/install/debian/
 >
 > The Docker documentation is the authoritative source and should be consulted for the latest installation procedures, package requirements, and platform-specific updates. This guide documents the installation method used and validated within this homelab environment.
 
