@@ -94,6 +94,14 @@ sudo curl -fsSL https://download.docker.com/linux/debian/gpg \
   -o /etc/apt/keyrings/docker.asc
 ```
 
+> [!NOTE]
+> Repository signing keys may be stored in either `.asc` or `.gpg` format.
+>
+> - `.asc` = ASCII-armored public key (human-readable text format)
+> - `.gpg` = Binary public key or keyring format
+>
+> Both formats are commonly used by APT repositories to verify package authenticity and integrity. The file extension itself does not determine whether a repository is trusted. APT uses the key file specified by the repository's `signed-by` parameter when validating package signatures.
+
 Set appropriate permissions:
 
 ```bash
