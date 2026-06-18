@@ -1,0 +1,132 @@
+# 📚 Docker Lab Lessons Learned
+
+A running log of lessons, decisions, and best practices discovered while building and operating the Docker & Self-Hosted Services project.
+
+---
+
+## Lesson 001 - Choosing a Docker Project Directory
+
+### Question
+
+Where should Docker Compose projects be stored on a Linux server?
+
+### Findings
+
+Docker Compose projects can technically be stored anywhere on the filesystem. Common locations include:
+
+```text
+/home/<user>/docker
+/opt/docker
+/srv/docker
+```
+
+> [!NOTE]
+> Initial Docker and Uptime Kuma testing was performed from `/home/[username]` during the learning and validation phase for simplicity. After successful testing, the project standard was updated to use `/opt/docker` as the dedicated location for Docker Compose deployments.
+Each location has a slightly different purpose:
+
+| Directory | Purpose |
+|------------|------------|
+| `/home` | User-owned files and personal projects |
+| `/opt` | Optional and third-party applications |
+| `/srv` | Data and services provided by the server |
+
+### Decision
+
+Use:
+
+```text
+/opt/docker
+```
+
+as the standard location for Docker Compose projects.
+
+Example:
+
+```text
+/opt/docker
+├── uptime-kuma
+├── prometheus
+├── grafana
+├── loki
+└── homepage
+```
+
+### Rationale
+
+- Keeps self-hosted services separated from personal user files.
+- Common convention used throughout homelab and self-hosting communities.
+- Easy to document and reproduce across servers.
+- Provides a consistent location for Docker Compose stacks.
+- Aligns with the Linux convention of storing optional or third-party software in `/opt`.
+
+### Notes
+
+- Docker itself stores container data under `/var/lib/docker`.
+- The location of the Compose project directory does not affect container functionality.
+- Consistency is more important than the specific directory chosen.
+- Avoid mixing multiple project locations without a documented reason.
+
+---
+
+## Lesson 002 - TBD
+
+### Question
+
+TBD
+
+### Findings
+
+TBD
+
+### Decision
+
+TBD
+
+### Rationale
+
+TBD
+
+### Notes
+
+TBD
+
+---
+
+## Lesson 003 - TBD
+
+### Question
+
+TBD
+
+### Findings
+
+TBD
+
+### Decision
+
+TBD
+
+### Rationale
+
+TBD
+
+### Notes
+
+TBD
+
+---
+
+## Future Lessons
+
+Examples of future entries:
+
+- Docker volumes vs bind mounts
+- Container naming conventions
+- Docker networks
+- Port mapping strategy
+- Reverse proxy architecture
+- Backup and restore procedures
+- Image update process
+- Logging and monitoring
+- Security hardening
+- Resource limits and health checks
