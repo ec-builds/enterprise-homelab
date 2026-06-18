@@ -90,8 +90,7 @@ sudo install -m 0755 -d /etc/apt/keyrings
 Download the Docker GPG key:
 
 ```bash
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg \
-  -o /etc/apt/keyrings/docker.asc
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 ```
 
 > [!NOTE]
