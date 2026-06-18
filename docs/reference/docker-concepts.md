@@ -2,6 +2,20 @@
 
 Reference guide for fundamental Docker concepts used throughout the homelab.
 
+---
+
+## Table of Contents
+
+1. [Core Components](#core-components)
+2. [Image](#image)
+3. [Container](#container)
+4. [Volume](#volume)
+5. [How They Work Together](#how-they-work-together)
+6. [Container Recreation Example](#container-recreation-example)
+7. [Network](#network)
+8. [Common Misconceptions](#common-misconceptions)
+9. [Quick Reference](#quick-reference)
+
 ## Core Components
 
 Docker applications are built from several related components:
@@ -163,6 +177,21 @@ The persistent data is stored in the volume rather than inside the container.
 
 > [!NOTE]
 > During the initial Uptime Kuma deployment, the container naming convention was changed from the Docker Compose generated name (`uptime-kuma-uptime-kuma-1`) to a custom name (`uptime-kuma`) using the `container_name` directive. During this process, existing containers were removed and recreated. Despite the container recreation, all Uptime Kuma configuration and monitoring data remained intact. This demonstrated that application data was stored in a persistent Docker volume rather than inside the container itself. When Docker Compose recreated the container, the existing volume was automatically reattached, allowing the application to resume operation without requiring reconfiguration.
+
+---
+
+
+## Network
+
+A Docker network allows containers to communicate with each other.
+
+Example:
+
+```bash
+docker network ls
+docker network inspect <network>
+```
+
 
 ---
 
