@@ -101,27 +101,41 @@ Embedded MariaDB provides a production-grade database solution while maintaining
 
 ---
 
-## Lesson 003 - TBD
+## Lesson 003 - Container Naming
 
 ### Question
 
-TBD
+Should Docker Compose containers use automatically generated names or explicit container names?
 
 ### Findings
 
-TBD
+By default, Docker Compose generates container names using the format:
+
+`<project>-<service>-<instance>`
+
+Example:
+
+`uptime-kuma-uptime-kuma-1`
+
+While functional, generated names can become lengthy and less convenient when viewing logs, restarting containers, or troubleshooting.
 
 ### Decision
 
-TBD
+Use the `container_name` directive to assign a concise and descriptive container name.
+
+Example:
+
+`uptime-kuma`
 
 ### Rationale
 
-TBD
+Explicit container names improve readability and simplify administration by reducing command length and making container identification easier.
 
 ### Notes
 
-TBD
+- Container names must be unique on the Docker host.
+- Existing containers with the same name must be removed before a new container can be created.
+- This approach is suitable for small homelab environments where naming conflicts are unlikely.
 
 ---
 
