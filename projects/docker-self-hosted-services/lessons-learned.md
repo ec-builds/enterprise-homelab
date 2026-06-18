@@ -68,27 +68,36 @@ Example:
 
 ---
 
-## Lesson 002 - TBD
+## Lesson 002 - Database Selection
 
 ### Question
 
-TBD
+Which database option should be selected during the initial Uptime Kuma deployment?
 
 ### Findings
 
-TBD
+Uptime Kuma offers multiple database options:
+
+- Embedded MariaDB
+- External MariaDB/MySQL
+- SQLite
+
+Embedded MariaDB provides a managed database experience without requiring a separate database server or container. SQLite offers the simplest deployment but is generally better suited for smaller installations. An external MariaDB/MySQL database provides maximum flexibility but introduces additional administrative overhead.
 
 ### Decision
 
-TBD
+Use **Embedded MariaDB** for the initial Uptime Kuma deployment.
 
 ### Rationale
 
-TBD
+Embedded MariaDB provides a production-grade database solution while maintaining deployment simplicity. It eliminates the need to manage a separate database service and offers greater scalability than SQLite, making it a suitable choice for a homelab monitoring environment.
 
 ### Notes
 
-TBD
+- No additional database container is required.
+- Database management is handled by Uptime Kuma.
+- Appropriate for small to medium homelab deployments.
+- Reevaluate database architecture if monitoring requirements significantly increase in the future.
 
 ---
 
