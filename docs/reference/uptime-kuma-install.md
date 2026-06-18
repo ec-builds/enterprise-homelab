@@ -85,6 +85,17 @@ volumes:
 
 The official project recommends the `:2` image tag for Uptime Kuma v2 deployments. ([Docker Hub](https://hub.docker.com/r/louislam/uptime-kuma?utm_source=chatgpt.com))
 
+
+> [!NOTE]
+> The official Uptime Kuma project provides a sample Docker Compose file that can be downloaded directly:
+>
+> ```bash
+> curl -o compose.yaml https://raw.githubusercontent.com/louislam/uptime-kuma/master/compose.yaml
+> ```
+>
+> In this homelab environment, a custom Compose file was created instead. This approach provides consistency across deployments and helps reinforce Docker Compose concepts.
+
+
 ---
 
 ## Validate Configuration
