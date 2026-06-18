@@ -29,14 +29,6 @@ This document tracks planned documentation for the Docker & Self-Hosted Services
 - docker-environment-variables.md
 
 
-## Existing Documentation
-
-| Document | Status | Purpose |
-|----------|----------|----------|
-| `README.md` | ✅ Active | Project overview, objectives, and technologies |
-| `reference.md` | ✅ Active | Frequently used Docker and Docker Compose commands |
-| `lessons-learned.md` | ✅ Active | Decisions, observations, and lessons discovered during implementation |
-
 ---
 
 ## Documentation Prioritization
