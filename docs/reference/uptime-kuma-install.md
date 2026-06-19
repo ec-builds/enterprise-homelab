@@ -177,7 +177,8 @@ Example:
 http://10.10.10.70:3001
 ```
 
-Uptime Kuma should display the first-time setup wizard. ([GitHub](https://github.com/louislam/uptime-kuma?utm_source=chatgpt.com))
+Uptime Kuma should display the first-time setup wizard. 
+
 
 ---
 
@@ -198,6 +199,11 @@ Recommended first monitors:
 | Synology DSM | HTTP(s) |
 | Debian Host | Ping |
 | Uptime Kuma | HTTP(s) |
+
+
+![Example status page Uptime-Kuma](../../screenshots/uptime-kuma/uptime-kuma-status-page-example.png)
+
+*Example Status Page*
 
 ---
 
