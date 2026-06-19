@@ -106,9 +106,7 @@ docker compose config
 
 Expected result:
 
-```text
-Configuration validated successfully
-```
+![Docker compose config example](../../screenshots/uptime-kuma/uptime-kuma-compose-config.png)
 
 ---
 
