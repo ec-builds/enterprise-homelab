@@ -106,7 +106,7 @@ docker compose config
 
 Expected result:
 
-![Docker compose config example](../../screenshots/uptime-kuma/uptime-kuma-compose-config.png)
+![Docker compose config example](../../screenshots/uptime-kuma/uptime-kuma-compose-config-example.png)
 
 ---
 
