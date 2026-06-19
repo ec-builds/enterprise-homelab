@@ -4,6 +4,14 @@
 
 Self-hosted media platform built on Debian, focused on Linux administration fundamentals: OS installation, storage integration, service deployment, permissions, and documentation.
 
+> [!NOTE]
+> This project documents the original Media Services Platform implementation, which deployed Jellyfin as a native systemd service on Debian. At the time of development, containerization was not part of the project's scope.
+>
+> Since completing this project, the homelab has adopted a standardized Docker Compose deployment model for new services. Future iterations of the Media Services Platform may evaluate migrating Jellyfin to a containerized deployment, but the documentation in this project reflects the original implementation and learning objectives.
+
+
+---
+
 <p align="left">
   <img src="./diagrams/architecture.png" alt="Architecture Diagram" width="700">
   <br>
@@ -40,9 +48,10 @@ For more information about this diagram, see [architecture.md](./architecture.md
 ## Future Enhancements
 
 - [ ] Migrate to a VM on the Proxmox host ([virtualization-lab](../virtualization-lab/))
+- [ ] Migrate to a Docker container ([docker-self-hosted-services](../docker-self-hosted-services/))
 - [ ] Add hardware transcoding (GPU/QuickSync)
 - [ ] Include config in backup jobs ([backup-disaster-recovery](../backup-disaster-recovery/))
-- [ ] Add uptime/resource monitoring ([infrastructure-monitoring](../infrastructure-monitoring/))
+- [x] Add uptime/resource monitoring ([infrastructure-monitoring](../infrastructure-monitoring/))
 
 ## 📁 Folder Structure
 
