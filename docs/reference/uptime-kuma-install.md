@@ -106,7 +106,7 @@ docker compose config
 
 Expected result:
 
-![Docker compose config example](../../screenshots/uptime-kuma-compose-config-example.png)
+![Docker compose config example](../../screenshots/uptime-kuma/uptime-kuma-compose-config-example.png)
 
 ---
 
@@ -117,6 +117,8 @@ Start the container:
 ```bash
 docker compose up -d
 ```
+
+![uptime kuma compose example](../../screenshots/uptime-kuma/uptime-kuma-compose-example.png)
 
 Docker Compose will:
 
