@@ -201,6 +201,8 @@ Recommended first monitors:
 | Uptime Kuma | HTTP(s) |
 
 
+---
+
 ![Example status page Uptime-Kuma](../../screenshots/uptime-kuma/uptime-kuma-status-page-example.png)
 
 *Example Status Page*
