@@ -6,7 +6,7 @@ This document tracks planned documentation for the Docker & Self-Hosted Services
 
 | Document | Status | Purpose | Reason for Addition |
 |----------|----------|----------|----------|
-| [Docker Install](../../docs/reference/docker-installation.md) | 📋 Pending | Step-by-step deployment procedures | Provides a repeatable installation and configuration process for rebuilding the environment. |
+| [Docker Installation Guide](../../docs/reference/docker-installation.md) | ✅ Complete | Step-by-step deployment procedures | Provides a repeatable installation and configuration process for rebuilding the environment. |
 | `architecture.md` | 📋 Pending | Service architecture and component relationships | Documents how services interact and provides a visual reference for the environment. |
 | `troubleshooting.md` | 📋 Pending | Common issues and resolutions | Captures operational knowledge and reduces future troubleshooting time. |
 | `backup-and-recovery.md` | 📋 Pending | Backup and restoration procedures | Ensures services and data can be recovered following failure or data loss. |
