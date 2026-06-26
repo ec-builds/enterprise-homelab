@@ -1,10 +1,39 @@
 # Create Synology Active Backup Recovery Media on macOS
 
-**ISO:** `Synology-Recovery-Media-4503(5053).iso`
+**File:** `create-synology-recovery-media-macos.md`
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Install Dependencies](#install-dependencies)
+- [Verify the Recovery ISO](#verify-the-recovery-iso)
+- [Identify the USB Drive](#identify-the-usb-drive)
+- [Unmount the USB Drive](#unmount-the-usb-drive)
+- [Write the Recovery Media](#write-the-recovery-media)
+- [Flush and Eject the USB](#flush-and-eject-the-usb)
+- [Test the Recovery Media](#test-the-recovery-media)
+- [Complete Workflow](#complete-workflow)
+- [Troubleshooting](#troubleshooting)
+- [Notes](#notes)
+- [References](#references)
+
+---
 
 ## Overview
 
 This guide creates a bootable Synology Active Backup Recovery USB on macOS using `dd` with `pv` for progress monitoring.
+
+This method was validated using:
+
+- macOS
+- `Synology-Recovery-Media-4503(5053).iso`
+- USB flash drive
+- Terminal
+
+Although Synology documents several supported methods, this guide focuses on the direct imaging approach.
 
 ---
 
@@ -14,9 +43,13 @@ This guide creates a bootable Synology Active Backup Recovery USB on macOS using
 - Synology Recovery ISO
 - USB flash drive (8 GB or larger)
 - Homebrew
-- `pv` installed
+- `pv`
 
-Install `pv` if necessary:
+---
+
+## Install Dependencies
+
+Install Pipe Viewer if it is not already installed.
 
 ```bash
 brew install pv
@@ -24,9 +57,25 @@ brew install pv
 
 ---
 
-## 1. Identify the USB Drive
+## Verify the Recovery ISO
 
-List all disks:
+Confirm that the ISO is recognized as bootable.
+
+```bash
+file ~/Downloads/Synology-Recovery-Media-4503\(5053\).iso
+```
+
+Expected output:
+
+```text
+ISO 9660 CD-ROM filesystem data 'slax' (bootable)
+```
+
+---
+
+## Identify the USB Drive
+
+List all storage devices.
 
 ```bash
 diskutil list
@@ -40,56 +89,55 @@ Example:
 /dev/disk4 (external, physical)
 ```
 
-> **Warning:** Double-check the disk number before continuing. Writing to the wrong disk will permanently erase it.
+> **Warning**
+>
+> Verify the disk identifier before continuing. Writing to the wrong device will permanently erase its contents.
 
 ---
 
-## 2. Unmount the USB
+## Unmount the USB Drive
 
-Unmount the disk without ejecting it:
+Unmount the USB without ejecting it.
 
 ```bash
 diskutil unmountDisk /dev/disk4
 ```
 
-Replace `disk4` with your USB's disk identifier.
-
 ---
 
-## 3. Write the ISO
+## Write the Recovery Media
 
-Use the raw disk device (`rdisk`) for significantly faster write speeds.
+Use the raw disk device (`rdisk`) for improved write performance.
 
 ```bash
 pv ~/Downloads/Synology-Recovery-Media-4503\(5053\).iso \
 | sudo dd of=/dev/rdisk4 bs=4m conv=sync,status=progress
 ```
 
-Notes:
-
-- `pv` displays progress and throughput.
-- `rdisk4` provides raw device access for improved performance.
-- Parentheses in the filename are escaped using `\(` and `\)`.
-
 ---
 
-## 4. Flush Pending Writes
+## Flush and Eject the USB
 
-Ensure all buffered data is written to the USB.
+Flush pending writes.
 
 ```bash
 sync
 ```
-
----
-
-## 5. Eject the USB
 
 Safely eject the drive.
 
 ```bash
 diskutil eject /dev/disk4
 ```
+
+---
+
+## Test the Recovery Media
+
+1. Insert the USB into the target computer.
+2. Open the system boot menu.
+3. Select the USB device.
+4. Verify that the Synology Active Backup Recovery environment loads successfully.
 
 ---
 
@@ -110,48 +158,104 @@ diskutil eject /dev/disk4
 
 ---
 
-## Verify Boot Media
-
-1. Insert the USB into the target computer.
-2. Enter the system boot menu (typically **F12**, **Esc**, or **F11**, depending on the manufacturer).
-3. Select the USB device.
-4. Confirm that the Synology Active Backup Recovery environment loads successfully.
-
----
-
 ## Troubleshooting
 
-### Device is Busy
-
-If `dd` reports that the device is busy:
+### USB is Busy
 
 ```bash
 diskutil unmountDisk /dev/disk4
 ```
 
-Try the command again.
-
 ---
 
 ### Permission Denied
 
-Ensure `sudo` is used with `dd`.
+Run the command using `sudo`.
 
 ---
 
-### Wrong Disk Selected
+### Incorrect Disk Selected
 
-Cancel immediately using:
+Immediately stop the operation.
 
 ```text
 Ctrl + C
 ```
 
-Then verify the correct disk with:
+Run:
 
 ```bash
 diskutil list
 ```
 
+Verify the correct device before retrying.
+
 ---
 
+### Recovery Media Does Not Boot
+
+If the USB fails to boot on a UEFI-only system:
+
+- Verify Secure Boot settings.
+- Test the USB on another computer.
+- Recreate the media using Synology's documented UEFI procedure.
+
+---
+
+## Notes
+
+### Why use `rdisk`?
+
+macOS exposes two device nodes.
+
+- `/dev/diskX` — Buffered device access
+- `/dev/rdiskX` — Raw device access
+
+Using the raw device significantly improves write performance.
+
+---
+
+### Why use `pv`?
+
+`pv` provides:
+
+- Progress indicator
+- Throughput
+- Elapsed time
+- Estimated time remaining
+
+This makes long-running `dd` operations easier to monitor.
+
+---
+
+### Why use `dd`?
+
+The downloaded recovery image is recognized as a bootable ISO:
+
+```text
+ISO 9660 CD-ROM filesystem data 'slax' (bootable)
+```
+
+Writing the ISO directly with `dd` creates bootable recovery media in the same manner as many ISO imaging applications.
+
+---
+
+### Validation
+
+This procedure has been validated on macOS using:
+
+- `Synology-Recovery-Media-4503(5053).iso`
+
+Boot testing on the target hardware is recommended after writing the image.
+
+---
+
+## References
+
+Synology documents three supported approaches for creating recovery media:
+
+1. ISO burning software (recommended for general use)
+2. Legacy BIOS (`dd`)
+3. Manual UEFI media creation
+
+This guide documents the direct imaging workflow using `dd`, which is suitable for bootable ISO images and provides a fast, scriptable method for macOS.
