@@ -19,7 +19,7 @@ The purpose of this inventory is to document system specifications, intended use
 | [OptiPlex 3070](./optiplex-3070.md) | Server / Workstation | Pending | Pending | 2× NVMe Drives | Future Infrastructure Projects | Available |
 | [OptiPlex 7040-01](./optiplex-7040-01.md) | Server / Workstation | Pending | Pending | 2× NVMe Drives | Future Infrastructure Projects | Available |
 | [OptiPlex 7040-02](./optiplex-7040-02.md) | Server / Workstation | Pending | Pending | 2× NVMe Drives | Future Infrastructure Projects | Available |
-| [Synology DS718+](./synology-ds718.md) | Storage | Intel Celeron J3455 | 2 GB | 2x (8TB) HDD | Network Attached Storage (NAS) | Active |
+| [Synology DS718+](./synology-ds718-plus.md) | Storage | Intel Celeron J3455 | 2 GB | 2x (8TB) HDD | Network Attached Storage (NAS) | Active |
 
 ---
 
