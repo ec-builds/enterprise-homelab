@@ -13,7 +13,6 @@ and reflect the standards and procedures used throughout the environment.
 | Folder | Purpose |
 |---|---|
 | [standards/](./standards/) | Baseline configurations and build standards for systems and services |
-| [runbooks/](./runbooks/) | Step-by-step operational procedures for common tasks and scenarios |
 | [reference/](./reference/) | Quick-reference materials, commands, scripts, and cheat sheets |
 
 ---
