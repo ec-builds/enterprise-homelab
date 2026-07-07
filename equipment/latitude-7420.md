@@ -51,16 +51,5 @@
 - Optional: fingerprint reader in power button, smart card reader, IR camera (Windows Hello)
 - HD 720p webcam with privacy shutter, backlit keyboard, wedge lock slot
 
-## Deployment (fill in)
-
-| Item | Value |
-|---|---|
-| Service tag | |
-| Assigned to | |
-| OS / build | |
-| BIOS version | |
-| Warranty expires | |
-| Notes | |
-
 ---
 Sources: [Dell Latitude 7420 Setup and Specifications](https://www.dell.com/support/manuals/en-us/latitude-14-7420-2-in-1-laptop/latitude_7420_specs/processor?guid=guid-8f9ccf13-6058-450a-ab47-ab607f32696b&lang=en-us), [ProductInDetail — Latitude 7420](https://www.productindetail.com/pn/dell-latitude-7420)
