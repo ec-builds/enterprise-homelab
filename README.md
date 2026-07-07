@@ -2,9 +2,7 @@
 
 Welcome to my Enterprise Homelab.
 
-This repository documents the design, implementation, and ongoing development of a home lab environment focused on building practical skills in systems administration, infrastructure engineering, identity and access management, networking, automation, virtualization, and cybersecurity.
-
-The goal is to create a hands-on learning environment that mirrors technologies and processes commonly found in enterprise IT environments while documenting lessons learned along the way.
+This repository documents an enterprise-focused homelab built to develop practical systems administration, Microsoft infrastructure, networking, Linux, automation, and cloud engineering skills. Every project emphasizes documentation, operational procedures, and production-inspired design rather than simply deploying software.
 
 ---
 
