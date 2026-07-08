@@ -1,7 +1,7 @@
 # Documentation Hub
 
 This folder contains cross-project documentation standards, operational
-runbooks, and quick-reference materials for the EC-Builds enterprise homelab.
+instructions, and quick-reference materials for the EC-Builds enterprise homelab.
 
 These documents are designed to be reusable across all projects in the lab
 and reflect the standards and procedures used throughout the environment.
