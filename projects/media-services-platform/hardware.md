@@ -23,7 +23,7 @@ The platform is currently deployed on a repurposed **Late 2014 Mac Mini**, demon
 | Platform | Apple Mac Mini (Late 2014) |
 | Model Identifier | Macmini7,1 |
 | CPU | Intel Core i5-4260U @ 1.40 GHz |
-| Memory | 4 GB DDR3 1600 MHz (2 × 2 GB) |
+| Memory | 4 GB DDR3 1600 MHz |
 | Storage | 256 GB SSD |
 | Network | Gigabit Ethernet |
 | Operating System | Debian GNU/Linux 13 (Trixie) |
