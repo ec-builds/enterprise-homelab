@@ -150,7 +150,6 @@ One of the primary goals of this lab is to demonstrate that practical IT skills 
 | Document | Description |
 |---|---|
 | `docs/homelab-decisions.md` | Architecture decisions and reasoning |
-| `docs/runbooks/` | Step-by-step operational procedures |
 | `docs/reference/` | Quick reference guides and cheat sheets |
 | `docs/standards/` | Baseline configs, naming conventions, documentation standards |
 
