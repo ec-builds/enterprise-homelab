@@ -78,13 +78,12 @@ Example usage:
 | Document Type | Tense | Reason |
 |---|---|---|
 | Standards | Present / Instructional | Reusable templates — written to be followed |
-| Runbooks | Present / Instructional | Step-by-step procedures — written to be executed |
 | Project documentation | Past | Records of what was built and decided |
 | Reference | Present | Factual quick-reference material |
 
 ### Examples
 
-**Standards and runbooks** — instructional present:
+**Standards** — instructional present:
 ```
 Update the operating system before making any additional changes.
 ```
@@ -213,7 +212,7 @@ linking to relevant files in the repository. Use relative links.
 Project documents should end with a one-paragraph Outcome section 
 summarizing what was accomplished. Keep it factual and concise.
 
-Standards and runbooks do not require an Outcome section.
+Standards do not require an Outcome section.
 
 ---
 
