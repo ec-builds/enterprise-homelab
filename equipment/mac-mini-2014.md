@@ -14,7 +14,7 @@ The Late 2014 Mac Mini serves as the primary host for the Media Services Platfor
 ---
 
 <p align="left">
-  <img src="../diagrams/mac-mini-2014.jpeg" alt="Late 2014 Mac Mini" width="300">
+  <img src="./images/mac-mini-2014.jpeg" alt="Late 2014 Mac Mini" width="300">
   <br>
   <em>Late 2014 Mac Mini (Macmini7,1)</em>
 </p>
