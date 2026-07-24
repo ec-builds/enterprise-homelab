@@ -28,7 +28,7 @@ This document provides a high-level overview of the homelab network. The current
 
 ## Network Topology
 
-![Network Topology](../diagrams/network-topology.png)
+![Network Topology](./diagrams/network-topology.png)
 
 ## Logical Design
 
