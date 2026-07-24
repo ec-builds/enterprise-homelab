@@ -9,7 +9,7 @@ The ASUS RT-AX5400 currently serves as the perimeter firewall for the homelab. I
 ## Architecture
 
 <p align="left">
-  <img src="./diagrams/firewall-architecture.png" alt="Firewall Architecture" width="600">
+  <img src="./diagrams/firewall-architecture.png" alt="Firewall Architecture" width="500">
 </p>
 
 ## Security Features
