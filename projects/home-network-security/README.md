@@ -24,7 +24,7 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 
 ## Key Tasks
 
-- [ ] Implement the VLAN design from [network-infrastructure](../network-infrastructure/)
+- [ ] Implement and document VLAN design
 - [ ] Configure firewall rules with least-privilege inter-VLAN access
 - [ ] Isolate IoT devices from trusted networks
 - [ ] Deploy DNS filtering for all VLANs
