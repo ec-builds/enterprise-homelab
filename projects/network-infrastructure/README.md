@@ -19,22 +19,7 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 
 ## Logical Network Topology 
 
-```mermaid
-flowchart TB
-    Internet((Internet))
-
-    Internet --> Router["ASUS RT-AX5400"]
-
-    Router --> Switch["LAN Switch"]
-
-    Switch --> Servers["Proxmox / Servers"]
-    Switch --> NAS["Synology NAS"]
-    Switch --> Workstations["Workstations"]
-    Switch --> Printer["Printer"]
-    Switch --> AP["Wireless Access Point"]
-
-    AP --> WiFi["Wireless Clients"]
-```
+![network topology](./diagrams/current-network-topology.png)
 
 ## Current Environment
 
