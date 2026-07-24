@@ -2,48 +2,42 @@
 
 **Status: 📋 Planned**
 
-The *prevention* side of security: hardening the home network with enterprise-grade defensive design — segmentation, filtering, and secure remote access.
+The *prevention* side of security: hardening the home network with enterprise-grade design through segmentation, filtering, and secure remote access.
 
-**Scope note:** Detection and response live in [security-operations-lab](../security-operations-lab/). This project builds the defenses; that one watches them.
+**Scope note:** Detection and response live in [security-operations-lab](../security-operations-lab/). This project focuses on building the defenses.
 
 ## Objectives
 
 - Segment the network with VLANs (trusted, IoT, guest, lab, management)
-- Deploy a stateful firewall with explicit inter-VLAN rules (default deny)
+- Deploy a stateful firewall with least-privilege inter-VLAN rules
 - Implement network-wide DNS filtering
 - Enable intrusion detection/prevention (IDS/IPS)
-- Provide secure remote access via VPN instead of port forwarding
+- Provide secure remote access through WireGuard
 
----
-
-## Current Stack
+## Current Environment
 
 - ASUS RT-AX5400
 - WireGuard VPN
 - WPA3/WPA2 mixed mode
 
-## Planned Stack
+## Target Environment
 
 - OPNsense or pfSense
-- Cisco Managed Switch
-- Windows Server DNS, DHCP / Technitium DNS
+- Cisco managed switch
+- Windows Server DNS/DHCP or Technitium DNS
 - Suricata IDS/IPS
-- VLAN-capable APs
-
-
----
-
+- VLAN-capable wireless access points
 
 ## Current Status
 
 ### Completed
 
-- ✅ WireGuard VPN deployed on ASUS RT-AX5400
+- ✅ WireGuard VPN deployed
 - ✅ Router firmware updated
-- ✅ Remote administration available without exposing internal services
+- ✅ Remote administration enabled
 - ✅ UPnP disabled
 
-### Planned
+### Next Steps
 
 - VLAN segmentation
 - Dedicated firewall
@@ -51,19 +45,15 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 - IDS/IPS
 - Centralized logging
 
-
----
-
-
 ## Folder Structure
 
-```
+```text
 home-network-security/
 ├── docs/            # Security policy, rule documentation, lessons learned
-├── configs/         # Sanitized firewall/IDS configs
+├── configs/         # Sanitized firewall/IDS configurations
 └── screenshots/     # Visual documentation
 ```
 
-## ⚠️ Security Note
+## Security Note
 
-Configs are sanitized before commit — no public IPs, PSKs, certificates, or VPN keys.
+Configurations are sanitized before commit. No public IP addresses, VPN keys, certificates, passwords, or other sensitive information are stored in the repository.
