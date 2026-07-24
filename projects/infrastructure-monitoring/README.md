@@ -1,55 +1,64 @@
 # 📊 Infrastructure Monitoring
 
-**Status: 🟢 Operational**
+**Status:** 🟢 Operational
 
-Metrics, logging, alerting, and dashboards across the entire lab — know about problems before they become outages.
+Availability monitoring today, evolving toward full infrastructure observability through metrics, logging, alerting, and dashboards.
 
 ## Objectives
 
-- Collect metrics from the Proxmox host, VMs, containers, and network devices
-- Build dashboards that answer "is everything healthy?" at a glance
-- Alert on actionable conditions while avoiding alert fatigue
-- Progress from simple uptime checks to full observability (metrics → logs → alerts)
-- Extend into Azure Monitor for cloud resources
+- Monitor the health and availability of infrastructure and services
+- Collect metrics from hosts, containers, and network devices
+- Build dashboards for infrastructure visibility
+- Alert on actionable events while avoiding alert fatigue
+- Extend monitoring to Azure resources
 
 ## Technologies
 
+| Layer | Technology | Status | Primary Purpose |
+|---------|------------|:------:|-----------------|
+| Uptime Monitoring | Uptime Kuma | 🟢 | Availability and uptime monitoring |
+| Metrics Collection | Prometheus | ⚪ | Central metrics collection, storage, and querying |
+| Host Monitoring | node_exporter | ⚪ | CPU, memory, disk, filesystem, and network metrics |
+| Container Monitoring | cAdvisor | ⚪ | Container performance, resource usage, and health |
+| Network Monitoring | SNMP Exporter | ⚪ | Network device metrics via SNMP |
+| Visualization | Grafana | ⚪ | Dashboards and observability visualization |
+| Log Collection | Promtail | ⚪ | Collects and forwards logs to Loki |
+| Log Aggregation | Loki | ⚪ | Centralized log storage and querying |
+| Alerting | Alertmanager | ⚪ | Alert routing, grouping, and notification management |
+| Notifications | ntfy / Webhooks | ⚪ | Push notifications and third-party integrations |
+| Cloud Monitoring | Azure Monitor | ⚪ | Native Azure metrics, logs, alerts, and insights |
 
+## Current Capabilities
 
-| Layer | Technology | What It Monitors | Primary Purpose |
-|---------|------------|------------------|-----------------|
-| Metrics Collection | Prometheus | Infrastructure, services, applications | Central metrics collection, storage, and querying |
-| Host Monitoring | node_exporter | Linux servers and VMs | CPU, memory, disk, filesystem, and network metrics |
-| Container Monitoring | cAdvisor | Docker containers | Container performance, resource usage, and health |
-| Network Monitoring | SNMP Exporter | Routers, switches, printers, UPS devices | Network device metrics via SNMP |
-| Visualization | Grafana | Metrics and logs | Dashboards, charts, and observability visualization |
-| Uptime Monitoring | Uptime Kuma | Websites, services, APIs, endpoints | Availability and uptime monitoring |
-| Log Collection | Promtail | Servers and applications | Collects and forwards logs to Loki |
-| Log Aggregation | Loki | Infrastructure and application logs | Centralized log storage and querying |
-| Alerting | Alertmanager | Prometheus alerts | Alert routing, grouping, and notification management |
-| Notifications | ntfy / Webhooks | Alertmanager and Uptime Kuma events | Push notifications and third-party integrations |
-| Cloud Monitoring | Azure Monitor | Azure resources and services | Native Azure metrics, logs, alerts, and insights |
-
-
+- 🟢 Uptime Kuma
+- ⚪ Prometheus
+- ⚪ Grafana
+- ⚪ Loki
+- ⚪ Alertmanager
+- ⚪ Azure Monitor
 
 ## Key Tasks
 
-- [ ] Deploy the monitoring stack (containerized on the Docker host)
+- [x] Deploy Uptime Kuma
+- [ ] Deploy the remaining monitoring stack
 - [ ] Install exporters on all hosts and VMs
-- [ ] Monitor the Proxmox host itself (CPU, memory, storage, VM status)
-- [ ] Build dashboards: host health, containers, network throughput, storage capacity
-- [ ] Centralize logs with Loki; create useful saved queries
-- [ ] Define alert rules with sensible thresholds and routing
+- [ ] Monitor the Proxmox host (CPU, memory, storage, VM status)
+- [ ] Build dashboards for host health, containers, network throughput, and storage
+- [ ] Centralize logs with Loki
+- [ ] Configure alert rules and notification routing
 - [ ] Monitor TLS certificate and domain expiration
-- [ ] Test alerting end-to-end by simulating a failure
-- [ ] Configure Azure Monitor + alerts in the [Azure lab](../azure-administration-lab/)
+- [ ] Test alerting by simulating failures
+- [ ] Integrate Azure Monitor for cloud resources
 
 ## Folder Structure
 
-```
+```text
 infrastructure-monitoring/
-├── dashboards/      # Grafana dashboard JSON exports
-├── configs/         # Prometheus/Alertmanager configs (sanitized)
-├── docs/            # Build notes, alert tuning decisions, lessons learned
-└── screenshots/     # Visual documentation
+├── configs/          # Prometheus and Alertmanager configurations
+├── dashboards/       # Grafana dashboard exports
+├── docs/             # Build notes and lessons learned
+├── screenshots/      # Visual documentation
+├── uptime-kuma.md
+└── README.md
 ```
+
