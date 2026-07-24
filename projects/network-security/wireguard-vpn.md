@@ -15,7 +15,7 @@ Provide secure remote access to the home network without exposing internal servi
 ## Architecture
 
 <p align="left">
-  <img src="./diagrams/wireguard-vpn.png" alt="VPN Architecture" width="600">
+  <img src="./diagrams/wireguard-vpn-architecture.png" alt="VPN Architecture" width="600">
 </p>
 
 ## Why WireGuard
