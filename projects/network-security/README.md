@@ -23,13 +23,15 @@ This project focuses on the *prevention* side of security by hardening the home 
 - Minimize exposed services
 - Document infrastructure as code and documentation
 
+## Current Network Topology
+
+![Current Network Topology](./diagrams/firewall-topology.png)
+
 ## Current Environment
 
 - ASUS RT-AX5400
 - WireGuard VPN
 - WPA3/WPA2 mixed mode
-
-![Current Network Topology](./diagrams/firewall-toplogy.png)
 
 ## Target Environment
 
@@ -41,14 +43,14 @@ This project focuses on the *prevention* side of security by hardening the home 
 
 ## Current Status
 
-### Completed
+#### Completed
 
 - ✅ Deploy WireGuard VPN
 - ✅ Update router firmware
 - ✅ Enable secure remote administration
 - ✅ Disable UPnP
 
-### Next Steps
+#### Next Steps
 
 - [ ] Implement VLAN segmentation
 - [ ] Deploy a dedicated firewall
