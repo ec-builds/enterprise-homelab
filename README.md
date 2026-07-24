@@ -2,8 +2,9 @@
 
 Welcome to my Enterprise Homelab.
 
-This repository documents an enterprise-focused homelab built to develop practical systems administration, Microsoft infrastructure, networking, Linux, automation, and cloud engineering skills. Every project emphasizes documentation, operational procedures, and production-inspired design rather than simply deploying software.
+This repository documents my enterprise-focused homelab, where I build and document projects in systems administration, networking, Microsoft infrastructure, Linux, automation, virtualization, and cloud technologies.
 
+The goal is to learn enterprise concepts through hands-on projects while emphasizing documentation, operational procedures, and production-inspired design.
 ---
 
 
