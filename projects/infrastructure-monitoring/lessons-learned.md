@@ -1,7 +1,16 @@
-## Lessons Learned
+## 2026-07-24 — Simple Monitoring Is Better Than No Monitoring
 
-- Uptime Kuma is quick to deploy and easy to configure, making it an excellent starting point for infrastructure monitoring.
-- The web interface is clean and intuitive, allowing new monitors to be added with minimal effort.
-- The platform focuses on availability monitoring rather than full observability, so additional tools are needed for metrics, logging, and advanced alerting.
-- Without configuring external notification services, outages must be identified by manually checking the dashboard.
-- Because Uptime Kuma runs on a single server, the monitoring platform becomes unavailable if that host goes offline. A secondary monitoring instance or external uptime service would improve resilience.
+**Context**
+
+Uptime Kuma was deployed as the first monitoring solution for the homelab to establish basic infrastructure visibility.
+
+**Lesson**
+
+Start with simple availability monitoring before implementing a full observability platform.
+
+**Result**
+
+- Quickly deployed infrastructure monitoring with minimal configuration.
+- Identified the need for metrics, logging, and alerting beyond basic uptime checks.
+- Recognized that monitoring should eventually be independent of the infrastructure it monitors.
+- Established a foundation for future integration with Prometheus, Grafana, Loki, and Alertmanager.
