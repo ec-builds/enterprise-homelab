@@ -61,6 +61,7 @@ Availability monitoring today, evolving toward full infrastructure observability
 
 ## Folder Structure
 
+```text
 infrastructure-monitoring/
 ├── diagrams/
 ├── README.md
@@ -69,3 +70,4 @@ infrastructure-monitoring/
 ├── monitoring-strategy.md
 ├── retention-policy.md
 └── uptime-kuma.md
+```
