@@ -1,10 +1,11 @@
 # 🌐 Network Infrastructure
 
-**Status: 🟢 Operational (Phase 1)**
+**Status:** 🟢 Operational (Phase 1)
 
-The physical and logical foundation of the homelab — routing, switching, wireless, IP design, and core network services.
+The physical and logical foundation of the homelab—routing, switching, wireless, IP design, and core network services.
 
-The current environment is built around an ASUS RT-AX5400 router with DHCP reservations for infrastructure devices and guest network isolation for IoT devices. Future phases will introduce managed switching, VLAN segmentation, and a dedicated firewall platform.
+> [!NOTE]
+> The current environment is built around an ASUS RT-AX5400 router that consolidates routing, firewall, DHCP, VPN, and wireless services. This intentionally simplifies the initial homelab while providing a stable foundation for learning and future expansion.
 
 ## Objectives
 
