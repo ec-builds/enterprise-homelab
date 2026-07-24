@@ -108,7 +108,7 @@ Each project is documented independently while contributing to the overall enter
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 📋 Planned |
 | [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | 📋 Planned |
 | [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 🔨 In Progress |
-| [Home Network Security](projects/home-network-security/) | Firewalls, segmentation, hardening, VPN | 📋 Planned |
+| [Home Network Security](projects/home-network-security/) | Firewalls, segmentation, hardening, VPN | 🔨 In Progress |
 | [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🔨 In Progress |
 | [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
