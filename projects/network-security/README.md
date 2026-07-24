@@ -14,6 +14,9 @@ This project focuses on the *prevention* side of security by hardening the netwo
 - Enable intrusion detection and prevention (IDS/IPS)
 - Secure remote administration with WireGuard
 
+## Architecture
+
+![Network Security Architecture](./diagrams/network-security-architecture.png)
 
 ## Current Environment
 
