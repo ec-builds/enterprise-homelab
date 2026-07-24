@@ -73,5 +73,4 @@ Planned enhancements include:
 - ip-addressing-plan.md
 - wireless-design.md
 - port-map.md
-- dhcp-reservations.md
 - lessons-learned.md
