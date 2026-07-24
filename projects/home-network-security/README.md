@@ -14,13 +14,25 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 - Enable intrusion detection/prevention (IDS/IPS)
 - Provide secure remote access via VPN instead of port forwarding
 
-## Technologies
+---
 
-- Firewall platform (pfSense, OPNsense, or UniFi)
-- VLAN-capable switches and access points
-- DNS filtering (Pi-hole or AdGuard Home)
-- IDS/IPS (Suricata)
-- VPN (WireGuard or Tailscale)
+## Current Stack
+
+- ASUS RT-AX5400
+- WireGuard VPN
+- WPA3/WPA2 mixed mode
+
+## Planned Stack
+
+- OPNsense or pfSense
+- Cisco Managed Switch
+- Technitium DNS
+- Suricata IDS/IPS
+- VLAN-capable APs
+
+
+---
+
 
 ## Current Status
 
@@ -38,6 +50,10 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 - DNS filtering
 - IDS/IPS
 - Centralized logging
+
+
+---
+
 
 ## Folder Structure
 
