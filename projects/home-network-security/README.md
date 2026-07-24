@@ -1,4 +1,4 @@
-# 🔒 Home Network Security
+# 🔒 Network Security
 
 **Status: 🚧 In Progress**
 
