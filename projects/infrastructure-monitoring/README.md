@@ -1,6 +1,6 @@
 # 📊 Infrastructure Monitoring
 
-**Status: 🔨 In Progress**
+**Status: 🟢 Operational**
 
 Metrics, logging, alerting, and dashboards across the entire lab — know about problems before they become outages.
 
