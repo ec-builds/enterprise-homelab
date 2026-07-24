@@ -14,15 +14,6 @@ This project focuses on the *prevention* side of security by hardening the netwo
 - Enable intrusion detection and prevention (IDS/IPS)
 - Secure remote administration with WireGuard
 
-## Design Principles
-
-- Default deny between VLANs
-- Least privilege
-- Defense in depth
-- Secure by default
-- Minimize exposed services
-- Document infrastructure as code and documentation
-
 ## Current Network Topology
 
 ![Current Network Topology](./diagrams/firewall-toplogy.png)
@@ -32,6 +23,17 @@ This project focuses on the *prevention* side of security by hardening the netwo
 - ASUS RT-AX5400
 - WireGuard VPN
 - WPA3/WPA2 mixed mode
+
+
+## Design Principles
+
+- Default deny between VLANs
+- Least privilege
+- Defense in depth
+- Secure by default
+- Minimize exposed services
+- Document infrastructure as code and documentation
+
 
 ## Target Environment
 
