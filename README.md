@@ -6,7 +6,7 @@ This repository documents my enterprise-focused homelab, where I build and docum
 
 The goal is to learn enterprise concepts through hands-on projects while emphasizing documentation, operational procedures, and production-inspired design.
 
----
+
 
 
 ## Navigation
@@ -25,7 +25,7 @@ The goal is to learn enterprise concepts through hands-on projects while emphasi
 - [Core Documents](#core-documents)
 
 
----
+
 
 ## Roadmap
 
@@ -34,7 +34,7 @@ The goal is to learn enterprise concepts through hands-on projects while emphasi
 See [Roadmap](roadmap.md)
 
 
----
+
 
 ## Equipment
 
@@ -42,7 +42,8 @@ The homelab is built using a combination of repurposed hardware, networking equi
 
 See [Equipment Inventory](equipment/README.md)
 
----
+
+
 
 ## Current Environment
 
@@ -55,7 +56,8 @@ See [Equipment Inventory](equipment/README.md)
 | Networking | DHCP Reservations, Guest Wi-Fi, WireGuard | VLANs, Internal DNS |
 | Documentation | GitHub + Markdown | Continue expanding documentation |
 
----
+
+
 
 ## Architecture Overview
 
@@ -71,7 +73,7 @@ The homelab is organized into several infrastructure domains.
 
 Each domain is documented as an independent project while contributing to the overall enterprise environment.
 
----
+
 
 
 ## Areas of Focus
@@ -103,7 +105,7 @@ Each domain is documented as an independent project while contributing to the ov
 - Security Operations
 - Documentation
 
----
+
 
 ## Project Portfolio
 
@@ -133,7 +135,8 @@ The homelab is organized into independent project areas. Each project contains i
 
 ➡️ **[Browse All Projects](./projects/README.md)**
 
----
+
+
 
 ## Documentation Scope
 
@@ -147,7 +150,8 @@ This repository is used to document:
 - Troubleshooting Procedures
 - Future Enhancements
 
----
+
+
 
 ## Learning Philosophy
 
@@ -155,7 +159,7 @@ The primary goal of this homelab is to demonstrate that enterprise IT skills can
 
 Rather than focusing solely on deploying software, this repository emphasizes understanding how systems are planned, implemented, documented, and maintained.
 
----
+
 
 ## Core Documents
 
@@ -165,7 +169,7 @@ Rather than focusing solely on deploying software, this repository emphasizes un
 | `docs/reference/` | Quick reference guides and cheat sheets |
 | `docs/standards/` | Baseline configs, naming conventions, documentation standards |
 
----
+
 
 ## EC-Builds
 
