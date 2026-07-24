@@ -115,20 +115,20 @@ Each domain is documented as an independent project while contributing to the ov
 
 | Project | Focus Area | Status |
 |----------|----------|----------|
-| [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 📋 Planned |
-| [Azure Administration Lab](projects/azure-administration-lab/) | Azure infrastructure, RBAC, governance | 📋 Planned |
-| [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 📋 Planned |
-| [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | 📋 Planned |
-| [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 🔨 In Progress |
-| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
-| [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🔨 In Progress |
-| [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
+| [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | ⚪ Planned |
+| [Azure Administration Lab](projects/azure-administration-lab/) | Azure infrastructure, RBAC, governance | ⚪ Planned |
+| [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
+| [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
+| [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 🟡 In Progress |
+| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | ⚪ Planned |
+| [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟡 In Progress |
+| [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
-| [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | 📋 Planned |
+| [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | ⚪ Planned |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
-| [Network Security](projects/network-security/) | Firewalls, segmentation, hardening, VPN | 🔨 In Progress |
-| [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | 📋 Planned |
-| [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🔨 In Progress |
+| [Network Security](projects/network-security/) | Firewalls, segmentation, hardening, VPN | 🟡 In Progress |
+| [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | ⚪ Planned |
+| [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
 
 
 The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
@@ -136,6 +136,13 @@ The homelab is organized into independent project areas. Each project contains i
 ➡️ **[Browse All Projects](./projects/README.md)**
 
 
+## Project Status Legend
+
+| Status | Meaning |
+|---|---|
+| 🟢 **Operational** | Deployed, documented, and working as intended |
+| 🟡 **In Progress** | Currently being built, configured, or tested |
+| ⚪ **Planned** | Defined and included in the project roadmap |
 
 
 ## Documentation Scope
