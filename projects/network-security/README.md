@@ -61,10 +61,14 @@ This project focuses on the *prevention* side of security by hardening the home 
 ## Folder Structure
 
 ```text
-home-network-security/
-├── docs/            # Security policies, rule documentation, lessons learned
-├── configs/         # Sanitized firewall and IDS configurations
-└── screenshots/     # Visual documentation
+
+network-security/
+
+├── diagrams/        # Network topology diagrams
+├── README.md
+├── firewall.md
+└── wireguard-vpn.md
+
 ```
 
 ## Security Note
