@@ -44,17 +44,14 @@ See [Equipment Inventory](equipment/README.md)
 
 ## Current Environment
 
-### Current
-
-- ASUS RT-AX5400
-- Synology DS718+
-- Debian Media Server
-- GitHub Documentation Platform
-
-### Planned
-
-- Cisco Managed Switch
-- Proxmox Virtualization Platform
+| Category | Current | Planned |
+|----------|----------|----------|
+| Router | ASUS RT-AX5400 | OPNsense Firewall |
+| Storage | Synology DS718+ | — |
+| Servers | Debian Media Server | Proxmox Cluster |
+| Switching | ASUS LAN Ports | Cisco Managed Switch |
+| Networking | DHCP Reservations, Guest Wi-Fi, WireGuard | VLANs, Internal DNS |
+| Documentation | GitHub + Markdown | Continue expanding documentation |
 
 ---
 
