@@ -4,7 +4,7 @@ This document captures key lessons, observations, and takeaways from building an
 
 The goal of this project was not only to deploy a functional media server, but also to gain hands-on experience with Linux administration, storage integration, service management, documentation, and troubleshooting.
 
----
+
 
 ## Linux Administration Is Learned Through Repetition
 
@@ -20,7 +20,7 @@ Examples include:
 
 The most valuable learning occurred while performing actual tasks rather than reading documentation alone.
 
----
+
 
 ## Documentation Is Part of the Project
 
@@ -37,7 +37,7 @@ Benefits included:
 
 Maintaining documentation throughout the project was significantly easier than attempting to recreate steps later.
 
----
+
 
 ## Service Accounts Improve Security
 
@@ -54,7 +54,7 @@ Benefits included:
 
 This reinforced the principle of least privilege.
 
----
+
 
 ## Storage and Applications Should Be Separated
 
@@ -71,7 +71,7 @@ Benefits included:
 
 The read-only mount configuration further strengthened this separation.
 
----
+
 
 ## Container Formats and Codecs Are Different
 
@@ -90,7 +90,7 @@ Using VLC to inspect media properties and compare playback behavior helped ident
 
 Re-encoding affected files to H.264 with compatible audio formats improved playback quality and reduced transcoding requirements.
 
----
+
 
 ## Validation Is Just As Important As Deployment
 
@@ -106,7 +106,7 @@ Additional testing was required to verify:
 
 Validation testing provided confidence that the platform would function reliably during normal use.
 
----
+
 
 ## Existing Hardware Is Often Good Enough
 
@@ -122,7 +122,7 @@ Despite the system's age, it successfully supported Debian, Jellyfin, SMB storag
 
 This reinforced the idea that learning infrastructure concepts does not require enterprise-grade hardware.
 
----
+
 
 ## Understanding the Commands Matters
 
@@ -138,7 +138,7 @@ The Jellyfin repository configuration process introduced concepts such as:
 
 While not every command was fully understood immediately, researching and experimenting with them improved overall confidence in Linux administration.
 
----
+
 
 ## Small Projects Build Foundational Skills
 
@@ -154,7 +154,7 @@ Although the Media Services Platform is a relatively simple deployment, it expos
 
 The project provided a foundation for future work involving virtualization, monitoring, automation, backup systems, and cloud technologies.
 
----
+
 
 ## Future Improvements
 
@@ -170,7 +170,7 @@ Areas identified for future exploration include:
 
 These topics build naturally upon the foundation established during this project.
 
----
+
 
 ## Final Reflection
 
