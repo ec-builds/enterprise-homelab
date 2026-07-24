@@ -12,19 +12,19 @@ The firewall follows a **default deny** approach for unsolicited inbound traffic
 
 ## Current Configuration
 
-### WAN Security
+#### WAN Security
 
 - No inbound connections are permitted from the Internet.
 - All unnecessary inbound ports are closed.
 - Remote administration from the WAN is disabled.
 - UPnP is disabled.
 
-### Remote Access
+#### Remote Access
 
 - WireGuard VPN provides secure remote access to the home network.
 - Administrative access is available only after connecting through the VPN.
 
-### LAN Management
+#### LAN Management
 
 - SSH management is permitted only from the local network (LAN).
 - Administrative interfaces are not exposed to the Internet.
