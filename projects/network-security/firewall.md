@@ -6,32 +6,9 @@ This document describes the current firewall architecture protecting the homelab
 
 The ASUS RT-AX5400 currently serves as the perimeter firewall for the homelab. It protects internal network resources using a stateful firewall, Network Address Translation (NAT), and secure remote access through WireGuard VPN.
 
-## Logical Architecture
+## Diagram
 
-```mermaid
-flowchart TB
-    Internet((Internet))
-
-    Internet --> WAN["WAN Interface"]
-
-    WAN --> FW["ASUS RT-AX5400<br/>Stateful Firewall"]
-
-    FW --> LAN["Trusted LAN"]
-
-    LAN --> Switch["Integrated LAN Switch"]
-
-    Switch --> Servers["Servers"]
-    Switch --> NAS["Synology NAS"]
-    Switch --> Workstations["Workstations"]
-    Switch --> Printer["Printer"]
-    Switch --> AP["Wireless Access Point"]
-
-    AP --> WiFi["Wireless Clients"]
-
-    FW --> Guest["Guest Network"]
-    FW --> IoT["IoT Network"]
-    FW --> VPN["WireGuard VPN"]
-```
+![firewall](./diagrams/firewall-topology.png)
 
 ## Security Features
 
