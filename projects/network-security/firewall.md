@@ -1,52 +1,52 @@
 # 🔥 Firewall
 
-**Status: ✅ Current Configuration**
+This document describes the current firewall architecture protecting the homelab perimeter.
 
-This document describes the current firewall configuration used to secure the home network.
+## Purpose
 
-## Overview
+The ASUS RT-AX5400 currently serves as the perimeter firewall for the homelab. It protects internal network resources using a stateful firewall, Network Address Translation (NAT), and secure remote access through WireGuard VPN.
 
-The ASUS RT-AX5400 currently serves as the network firewall and perimeter security device.
+## Logical Architecture
 
-The firewall follows a **default deny** approach for unsolicited inbound traffic while allowing outbound connections initiated from the LAN.
+```mermaid
+flowchart TB
+    Internet((Internet))
 
-![Current Network Topology](./diagrams/firewall-toplogy.png)
+    Internet --> WAN["WAN Interface"]
 
-## Current Configuration
+    WAN --> FW["ASUS RT-AX5400<br/>Stateful Firewall"]
 
-#### WAN Security
+    FW --> LAN["Trusted LAN"]
 
-- No inbound connections are permitted from the Internet.
-- All unnecessary inbound ports are closed.
-- Remote administration from the WAN is disabled.
-- UPnP is disabled.
+    LAN --> Switch["Integrated LAN Switch"]
 
-#### Remote Access
+    Switch --> Servers["Servers"]
+    Switch --> NAS["Synology NAS"]
+    Switch --> Workstations["Workstations"]
+    Switch --> Printer["Printer"]
+    Switch --> AP["Wireless Access Point"]
 
-- WireGuard VPN provides secure remote access to the home network.
-- Administrative access is available only after connecting through the VPN.
+    AP --> WiFi["Wireless Clients"]
 
-#### LAN Management
+    FW --> Guest["Guest Network"]
+    FW --> IoT["IoT Network"]
+    FW --> VPN["WireGuard VPN"]
+```
 
-- SSH management is permitted only from the local network (LAN).
-- Administrative interfaces are not exposed to the Internet.
+## Security Features
 
-## Security Principles
+- Stateful Packet Inspection (SPI) firewall
+- Network Address Translation (NAT)
+- Blocks unsolicited inbound connections
+- WAN administration disabled
+- Universal Plug and Play (UPnP) disabled
+- Secure remote access through WireGuard VPN
+- Administrative access limited to the LAN or WireGuard VPN
 
-- Default deny for unsolicited inbound traffic
-- Least privilege administrative access
-- Minimize exposed services
-- Secure remote administration through VPN
+## Roadmap
 
-## Planned Improvements
-
-- Replace the ASUS router with OPNsense or pfSense
+- Replace the ASUS RT-AX5400 with OPNsense or pfSense
 - Implement VLAN segmentation
-- Configure inter-VLAN firewall rules
-- Enable Suricata IDS/IPS
-- Centralize firewall and IDS logs
-- Implement egress filtering where appropriate
-
-## Security Note
-
-All firewall configurations committed to this repository are sanitized. Public IP addresses, VPN keys, certificates, passwords, and other sensitive information are never included.
+- Configure inter-VLAN firewall policies
+- Deploy Suricata IDS/IPS
+- Centralize firewall and security logging
