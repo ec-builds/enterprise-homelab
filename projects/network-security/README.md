@@ -14,9 +14,6 @@ This project focuses on the *prevention* side of security by hardening the netwo
 - Enable intrusion detection and prevention (IDS/IPS)
 - Secure remote administration with WireGuard
 
-## Current Network Topology
-
-![Current Network Topology](./diagrams/firewall-toplogy.png)
 
 ## Current Environment
 
