@@ -4,8 +4,6 @@
 
 Uptime Kuma provides availability monitoring for the Enterprise Homelab by monitoring the health of infrastructure and services.
 
----
-
 ![uptime-kuma](./diagrams/uptime-kuma.png)
 
 *Uptime Kuma dashboard monitoring the availability and health of infrastructure and services across the Enterprise Homelab.*
