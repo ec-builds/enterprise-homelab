@@ -10,6 +10,8 @@ The ASUS RT-AX5400 currently serves as the network firewall and perimeter securi
 
 The firewall follows a **default deny** approach for unsolicited inbound traffic while allowing outbound connections initiated from the LAN.
 
+![Current Network Topology](./diagrams/firewall-toplogy.png)
+
 ## Current Configuration
 
 #### WAN Security
