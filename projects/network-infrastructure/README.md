@@ -15,6 +15,27 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 - Segment trusted, guest, and lab traffic
 - Maintain documentation sufficient to rebuild the network from scratch
 
+
+
+## Logical Network Topology 
+
+```mermaid
+flowchart TB
+    Internet((Internet))
+
+    Internet --> Router["ASUS RT-AX5400"]
+
+    Router --> Switch["LAN Switch"]
+
+    Switch --> Servers["Proxmox / Servers"]
+    Switch --> NAS["Synology NAS"]
+    Switch --> Workstations["Workstations"]
+    Switch --> Printer["Printer"]
+    Switch --> AP["Wireless Access Point"]
+
+    AP --> WiFi["Wireless Clients"]
+```
+
 ## Current Environment
 
 - ASUS RT-AX5400 Router
