@@ -70,23 +70,25 @@ The current environment is built around an ASUS RT-AX5400 router with DHCP reser
 
 ## Current Network Design
 
+> **Note:** IP addresses shown below have been sanitized for public documentation. The production network uses a different private IP addressing scheme, but the allocation strategy remains the same.
+
 ### LAN
 
 | Setting | Value |
-|----------|----------|
-| Network | 10.10.10.0/24 |
-| Gateway | 10.10.10.1 |
-| DHCP Pool | 10.10.10.150 - 10.10.10.249 |
+|----------|-------|
+| Network | 10.0.0.0/24 |
+| Gateway | 10.0.0.1 |
+| DHCP Pool | 10.0.0.150 - 10.0.0.249 |
 
 ### Address Allocation
 
 | Range | Purpose |
 |---------|---------|
-| 10.10.10.2 - 10.10.10.49 | Infrastructure |
-| 10.10.10.50 - 10.10.10.99 | Future Infrastructure |
-| 10.10.10.100 - 10.10.10.149 | Servers and Lab Systems |
-| 10.10.10.150 - 10.10.10.249 | DHCP Clients |
-| 10.10.10.250 - 10.10.10.254 | Reserved |
+| 10.0.0.2 - 10.0.0.49 | Infrastructure |
+| 10.0.0.50 - 10.0.0.99 | Future Infrastructure |
+| 10.0.0.100 - 10.0.0.149 | Servers and Lab Systems |
+| 10.0.0.150 - 10.0.0.249 | DHCP Clients |
+| 10.0.0.250 - 10.0.0.254 | Reserved |
 
 See [`ip-addressing-plan.md`](./ip-addressing-plan.md) for detailed assignments.
 
