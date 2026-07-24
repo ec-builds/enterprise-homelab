@@ -11,7 +11,7 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [Backup & Disaster Recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 📋 Planned |
 | [CI/CD Pipelines](./ci-cd-pipelines/) | GitHub Actions, automated build & deploy | 📋 Planned |
 | [Docker & Self-Hosted Services](./docker-self-hosted-services/) | Containerized self-hosted applications | 🔨 In Progress |
-| [Home Network Security](./home-network-security/) | Firewalls, segmentation, hardening, VPN | 📋 Planned |
+| [Home Network Security](./home-network-security/) | Firewalls, segmentation, hardening, VPN | 🔨 In Progress |
 | [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | 📋 Planned |
 | [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🔨 In Progress |
 | [Kubernetes Lab](./kubernetes-lab/) | k3s, container orchestration, AKS | 📋 Planned |
