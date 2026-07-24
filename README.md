@@ -121,7 +121,7 @@ Each domain is documented as an independent project while contributing to the ov
 | [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
 | [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 🟡 In Progress |
 | [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | ⚪ Planned |
-| [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟡 In Progress |
+| [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | ⚪ Planned |
