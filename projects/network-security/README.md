@@ -25,7 +25,7 @@ This project focuses on the *prevention* side of security by hardening the home 
 
 ## Current Network Topology
 
-![Current Network Topology](./diagrams/firewall-topology.png)
+![Current Network Topology](./diagrams/firewall-toplogy.png)
 
 ## Current Environment
 
