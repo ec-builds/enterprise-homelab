@@ -24,6 +24,9 @@ This project focuses on the *prevention* side of security by hardening the netwo
 - WireGuard VPN
 - WPA3/WPA2 mixed mode
 
+> [!NOTE]
+> The ASUS router currently consolidates edge networking functions (routing, firewall, DHCP, VPN, and wireless) to minimize hardware and operational complexity during the initial homelab phase. As the lab matures, these services will be migrated to dedicated infrastructure where appropriate (e.g., OPNsense/pfSense, Windows Server, Linux VMs, or other dedicated appliances) to better reflect enterprise architectures.
+
 
 ## Design Principles
 
