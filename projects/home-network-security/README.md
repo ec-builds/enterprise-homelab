@@ -1,18 +1,27 @@
 # 🔒 Home Network Security
 
-**Status: 📋 Planned**
+**Status: 🚧 In Progress**
 
-The *prevention* side of security: hardening the home network with enterprise-grade design through segmentation, filtering, and secure remote access.
+This project focuses on the *prevention* side of security by hardening the home network through segmentation, filtering, and secure remote access.
 
-**Scope note:** Detection and response live in [security-operations-lab](../security-operations-lab/). This project focuses on building the defenses.
+**Scope:** Detection and response live in [security-operations-lab](../security-operations-lab/). This project builds the defenses.
 
 ## Objectives
 
-- Segment the network with VLANs (trusted, IoT, guest, lab, management)
+- Segment the network into trusted, IoT, guest, lab, and management VLANs
 - Deploy a stateful firewall with least-privilege inter-VLAN rules
-- Implement network-wide DNS filtering
-- Enable intrusion detection/prevention (IDS/IPS)
-- Provide secure remote access through WireGuard
+- Filter DNS requests across the network
+- Enable intrusion detection and prevention (IDS/IPS)
+- Secure remote administration with WireGuard
+
+## Design Principles
+
+- Default deny between VLANs
+- Least privilege
+- Defense in depth
+- Secure by default
+- Minimize exposed services
+- Document infrastructure as code and documentation
 
 ## Current Environment
 
@@ -24,7 +33,7 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 
 - OPNsense or pfSense
 - Cisco managed switch
-- Windows Server DNS/DHCP or Technitium DNS
+- Windows Server (DNS/DHCP) or Technitium DNS
 - Suricata IDS/IPS
 - VLAN-capable wireless access points
 
@@ -32,28 +41,28 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 
 ### Completed
 
-- ✅ WireGuard VPN deployed
-- ✅ Router firmware updated
-- ✅ Remote administration enabled
-- ✅ UPnP disabled
+- ✅ Deploy WireGuard VPN
+- ✅ Update router firmware
+- ✅ Enable secure remote administration
+- ✅ Disable UPnP
 
 ### Next Steps
 
-- VLAN segmentation
-- Dedicated firewall
-- DNS filtering
-- IDS/IPS
-- Centralized logging
+- [ ] Implement VLAN segmentation
+- [ ] Deploy a dedicated firewall
+- [ ] Configure network-wide DNS filtering
+- [ ] Enable IDS/IPS
+- [ ] Centralize firewall and IDS logs
 
 ## Folder Structure
 
 ```text
 home-network-security/
-├── docs/            # Security policy, rule documentation, lessons learned
-├── configs/         # Sanitized firewall/IDS configurations
+├── docs/            # Security policies, rule documentation, lessons learned
+├── configs/         # Sanitized firewall and IDS configurations
 └── screenshots/     # Visual documentation
 ```
 
 ## Security Note
 
-Configurations are sanitized before commit. No public IP addresses, VPN keys, certificates, passwords, or other sensitive information are stored in the repository.
+Sanitize all configurations before committing them to the repository. Never include public IP addresses, VPN keys, certificates, passwords, or other sensitive information.
