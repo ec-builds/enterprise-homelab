@@ -19,7 +19,7 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 
 ## Logical Network Topology 
 
-![network topology](./diagrams/current-network-topology.png)
+![network topology](./diagrams/current-logical-network-architecture.png)
 
 ## Current Environment
 
