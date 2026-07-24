@@ -52,13 +52,11 @@ Availability monitoring today, evolving toward full infrastructure observability
 
 ## Folder Structure
 
-```text
 infrastructure-monitoring/
-├── configs/          # Prometheus and Alertmanager configurations
-├── dashboards/       # Grafana dashboard exports
-├── docs/             # Build notes and lessons learned
-├── screenshots/      # Visual documentation
-├── uptime-kuma.md
-└── README.md
-```
-
+├── diagrams/
+├── README.md
+├── implementation-roadmap.md
+├── lessons-learned.md
+├── monitoring-strategy.md
+├── retention-policy.md
+└── uptime-kuma.md
