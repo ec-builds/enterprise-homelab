@@ -29,6 +29,8 @@ This project focuses on the *prevention* side of security by hardening the home 
 - WireGuard VPN
 - WPA3/WPA2 mixed mode
 
+![Current Network Topology](./diagrams/firewall-toplogy.png)
+
 ## Target Environment
 
 - OPNsense or pfSense
