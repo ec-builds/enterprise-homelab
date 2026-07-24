@@ -1,10 +1,10 @@
 # Monitoring Roadmap
 
-| Phase | Focus | Technologies |
-|-------|-------|--------------|
-| **Phase 1** | Availability Monitoring | Uptime Kuma |
-| **Phase 2** | Metrics Collection | Prometheus, Node Exporter, cAdvisor, SNMP Exporter |
-| **Phase 3** | Dashboards & Visualization | Grafana |
-| **Phase 4** | Centralized Logging | Loki, Promtail |
-| **Phase 5** | Alerting & Notifications | Alertmanager, ntfy, Webhooks |
-| **Phase 6** | Cloud Monitoring | Azure Monitor |
+| Status | Phase | Goal |
+|:------:|-------|------|
+| 🟢 | **Phase 1** | Deploy Uptime Kuma for availability monitoring |
+| ⚪ | **Phase 2** | Collect infrastructure metrics with Prometheus and exporters |
+| ⚪ | **Phase 3** | Build Grafana dashboards for infrastructure visibility |
+| ⚪ | **Phase 4** | Centralize logs with Loki and Promtail |
+| ⚪ | **Phase 5** | Configure Alertmanager and notification routing |
+| ⚪ | **Phase 6** | Integrate Azure Monitor for cloud resources |
