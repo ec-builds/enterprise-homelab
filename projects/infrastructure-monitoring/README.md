@@ -4,6 +4,12 @@
 
 Availability monitoring today, evolving toward full infrastructure observability through metrics, logging, alerting, and dashboards.
 
+## Monitoring Architecture
+
+![Infrastructure Monitoring Architecture](./diagrams/monitoring-architecture.png)
+
+*Figure 1. High-level architecture of the Enterprise Homelab monitoring platform, illustrating the flow of availability checks, metrics, logs, visualization, alerting, and notifications.*
+
 ## Objectives
 
 - Monitor the health and availability of infrastructure and services
