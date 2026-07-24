@@ -26,7 +26,7 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 
 - OPNsense or pfSense
 - Cisco Managed Switch
-- Technitium DNS
+- Windows Server DNS, DHCP / Technitium DNS
 - Suricata IDS/IPS
 - VLAN-capable APs
 
