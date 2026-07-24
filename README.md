@@ -59,7 +59,7 @@ See [Equipment Inventory](equipment/README.md)
 
 ## Architecture Overview
 
-The homelab is organized into several interconnected domains:
+The homelab is organized into several infrastructure domains. 
 
 - Network Infrastructure
 - Virtualization
@@ -69,28 +69,39 @@ The homelab is organized into several interconnected domains:
 - Media Services
 - Automation & DevOps
 
-Each project is documented independently while contributing to the overall enterprise-homelab environment.
+Each domain is documented as an independent project while contributing to the overall enterprise environment.
 
 ---
 
 
 ## Areas of Focus
 
+### Infrastructure
+
 - Systems Administration
-- Identity & Access Management
+- Linux Administration
 - Microsoft 365 & Entra ID
 - Azure Administration
-- Linux Administration
-- Networking & Network Security
+
+### Networking
+
+- Enterprise Networking
+- Network Security
 - Virtualization
 - Containerization & Kubernetes
-- Automation & Infrastructure as Code
-- CI/CD & DevOps
-- Infrastructure Monitoring & Observability
+
+### Automation
+
+- Infrastructure as Code
+- CI/CD
+- Automation
+
+### Operations
+
+- Infrastructure Monitoring
 - Backup & Disaster Recovery
-- Cybersecurity & Security Operations
-- Infrastructure Documentation
-- Self-Hosted Services
+- Security Operations
+- Documentation
 
 ---
 
@@ -140,7 +151,9 @@ This repository is used to document:
 
 ## Learning Philosophy
 
-One of the primary goals of this lab is to demonstrate that practical IT skills can be developed using affordable and repurposed hardware. Many enterprise concepts can be learned through hands-on experimentation, documentation, and continuous improvement without requiring expensive equipment.
+The primary goal of this homelab is to demonstrate that enterprise IT skills can be developed using affordable hardware, thoughtful design, and consistent documentation.
+
+Rather than focusing solely on deploying software, this repository emphasizes understanding how systems are planned, implemented, documented, and maintained.
 
 ---
 
