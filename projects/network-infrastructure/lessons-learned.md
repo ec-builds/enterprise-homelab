@@ -4,6 +4,27 @@ Document notable decisions, discoveries, challenges, and improvements encountere
 
 ---
 
+## 2026-07-23 — Validate Vendor Defaults Before Customizing
+
+### Context
+
+While configuring WireGuard on the ASUS router, I modified the client configuration before first verifying the default router-generated settings. This introduced connectivity issues and made troubleshooting more difficult.
+
+### Lesson Learned
+
+When deploying new infrastructure, first validate that the vendor's default configuration functions correctly before introducing customizations.
+
+### Outcome
+
+- Restored the default WireGuard configuration.
+- Verified VPN connectivity over a cellular hotspot.
+- Confirmed all traffic routed through the home network using whatismyip.com.
+- After successful validation, customized the VPN subnet to align with the overall network addressing strategy.
+
+Future deployments will always establish a known-good baseline before making configuration changes.
+
+---
+
 ## 2026-06-13 — GitHub as the Documentation Source of Truth
 
 ### Context
