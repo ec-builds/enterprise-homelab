@@ -2,7 +2,7 @@
 
 **Status: 🚧 In Progress**
 
-This project focuses on the *prevention* side of security by hardening the home network through segmentation, filtering, and secure remote access.
+This project focuses on the *prevention* side of security by hardening the network infrastructure through segmentation, filtering, and secure remote access.
 
 **Scope:** Detection and response live in [security-operations-lab](../security-operations-lab/). This project builds the defenses.
 
