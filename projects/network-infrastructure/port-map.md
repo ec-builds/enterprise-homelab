@@ -67,4 +67,3 @@ Cisco Managed Switch
 - network-design.md
 - ip-addressing-plan.md
 - wireless-design.md
-- future-roadmap.md
