@@ -22,17 +22,22 @@ The *prevention* side of security: hardening the home network with enterprise-gr
 - IDS/IPS (Suricata)
 - VPN (WireGuard or Tailscale)
 
-## Key Tasks
+## Current Status
 
-- [ ] Implement and document VLAN design
-- [ ] Configure firewall rules with least-privilege inter-VLAN access
-- [ ] Isolate IoT devices from trusted networks
-- [ ] Deploy DNS filtering for all VLANs
-- [ ] Enable and tune Suricata rulesets
-- [ ] Stand up WireGuard VPN for remote administration
-- [ ] Disable WPS/UPnP; enforce WPA3 where possible
-- [ ] Document the rule base; schedule periodic reviews
-- [ ] Feed firewall/IDS logs to the [SIEM](../security-operations-lab/)
+### Completed
+
+- ✅ WireGuard VPN deployed on ASUS RT-AX5400
+- ✅ Router firmware updated
+- ✅ Remote administration available without exposing internal services
+- ✅ UPnP disabled
+
+### Planned
+
+- VLAN segmentation
+- Dedicated firewall
+- DNS filtering
+- IDS/IPS
+- Centralized logging
 
 ## Folder Structure
 
