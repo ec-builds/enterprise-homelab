@@ -4,6 +4,20 @@
 
 Provide secure remote access to the home network without exposing internal services to the Internet.
 
+## Configuration
+
+- Platform: ASUS RT-AX5400
+- VPN: WireGuard
+- VPN subnet: *Sanitized*
+- Peers: Personal devices only
+
+
+## Architecture
+
+<p align="left">
+  <img src="./diagrams/wireguard-vpn.png" alt="VPN Architecture" width="600">
+</p>
+
 ## Why WireGuard
 
 - Built into the ASUS RT-AX5400
@@ -12,12 +26,6 @@ Provide secure remote access to the home network without exposing internal servi
 - No additional hardware required
 - Can migrate to OPNsense in the future if needed
 
-## Configuration
-
-- Platform: ASUS RT-AX5400
-- VPN: WireGuard
-- VPN subnet: *Sanitized*
-- Peers: Personal devices only
 
 ## Validation
 
