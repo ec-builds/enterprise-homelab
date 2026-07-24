@@ -36,12 +36,15 @@ Availability monitoring today, evolving toward full infrastructure observability
 
 ## Current Capabilities
 
-- 🟢 Uptime Kuma
-- ⚪ Prometheus
-- ⚪ Grafana
-- ⚪ Loki
-- ⚪ Alertmanager
-- ⚪ Azure Monitor
+| Capability | Status | Description |
+|------------|:------:|-------------|
+| Uptime Monitoring | 🟢 | Monitor the availability of infrastructure and services using Uptime Kuma. |
+| Metrics Collection | ⚪ | Collect infrastructure metrics with Prometheus and exporters. |
+| Dashboards | ⚪ | Visualize infrastructure health with Grafana dashboards. |
+| Centralized Logging | ⚪ | Aggregate and query logs using Loki and Promtail. |
+| Alerting | ⚪ | Route and manage alerts with Alertmanager. |
+| Notifications | ⚪ | Send notifications through ntfy and webhooks. |
+| Cloud Monitoring | ⚪ | Monitor Azure resources with Azure Monitor. |
 
 ## Key Tasks
 
