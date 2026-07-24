@@ -1,159 +1,127 @@
 # Lessons Learned
 
-Document notable decisions, discoveries, challenges, and improvements encountered while designing, implementing, and maintaining the network infrastructure.
+Key decisions and implementation lessons from building and maintaining the Enterprise Homelab.
 
----
+## 2026-07-23 — Validate Vendor Defaults First
 
-## 2026-07-23 — Validate Vendor Defaults Before Customizing
+**Context**
 
-### Context
+Modified the WireGuard configuration before verifying the default deployment.
 
-While configuring WireGuard on the ASUS router, I modified the client configuration before first verifying the default router-generated settings. This introduced connectivity issues and made troubleshooting more difficult.
+**Lesson**
 
-### Lesson Learned
+Always establish a known-good baseline before making customizations.
 
-When deploying new infrastructure, first validate that the vendor's default configuration functions correctly before introducing customizations.
+**Result**
 
-### Outcome
+- Verified the default configuration.
+- Confirmed VPN connectivity.
+- Customized the VPN only after validation.
 
-- Restored the default WireGuard configuration.
-- Verified VPN connectivity over a cellular hotspot.
-- Confirmed all traffic routed through the home network using whatismyip.com.
-- After successful validation, customized the VPN subnet to align with the overall network addressing strategy.
+## 2026-07-24 — Document While Building
 
-Future deployments will always establish a known-good baseline before making configuration changes.
+**Context**
 
----
+Writing documentation after deployments made details easier to forget.
 
-## 2026-06-13 — GitHub as the Documentation Source of Truth
+**Lesson**
 
-### Context
+Document infrastructure during implementation, not afterward.
 
-Network documentation was originally maintained in Obsidian. As the homelab matured and project documentation expanded, maintaining information across multiple platforms introduced duplication and increased the risk of documentation drift.
+**Result**
 
-### Lesson Learned
+- Documentation stays accurate.
+- Decisions are recorded while fresh.
+- Less rework and fewer omissions.
 
-Infrastructure documentation is most effective when maintained alongside the projects it describes.
+## 2026-06-13 — GitHub as the Source of Truth
 
-### Outcome
+**Context**
 
-- GitHub became the authoritative source of homelab documentation.
-- Project documentation is maintained within each project directory.
-- Shared standards, runbooks, and decisions are maintained under the repository's `docs/` directory.
-- Bitwarden remains the source of truth for passwords, secrets, and sensitive information.
+Documentation was split across multiple platforms.
 
----
+**Lesson**
 
-## 2026-06-13 — Document the Current State Before Designing the Future State
+Maintain documentation alongside the infrastructure it describes.
 
-### Context
+**Result**
 
-Initial planning focused heavily on future technologies such as VLANs, Proxmox, managed switching, and dedicated firewall appliances.
+- GitHub stores all project documentation.
+- Bitwarden stores passwords and secrets.
 
-### Lesson Learned
+## 2026-06-13 — Document the Current Environment First
 
-Documenting the existing environment first provides a stronger foundation for future planning and avoids documenting infrastructure that does not yet exist.
+**Context**
 
-### Outcome
+Planning focused on future infrastructure before documenting what already existed.
 
-The Network Infrastructure project now reflects the current environment:
+**Lesson**
 
-- ASUS RT-AX5400 router
-- Synology DS718+
-- Debian media server
-- Guest Wi-Fi isolation for IoT devices
-- DHCP reservations for infrastructure devices
+Document the current environment before designing future improvements.
 
-Future enhancements remain documented separately as planned work.
+**Result**
 
----
+- Current infrastructure is fully documented.
+- Future work remains separate from production documentation.
 
-## 2026-06-13 — Separate Topology Documentation from IP Address Documentation
+## 2026-06-13 — Separate Topology from IP Documentation
 
-### Context
+**Context**
 
-Early topology diagrams attempted to include both connectivity and IP addressing information.
+Topology diagrams became cluttered with IP addressing details.
 
-### Lesson Learned
+**Lesson**
 
-Network topology diagrams should focus on device relationships and connectivity. IP addressing information should be maintained separately.
+Each document should have a single purpose.
 
-### Outcome
+**Result**
 
-- Topology diagrams document how devices connect.
-- IP assignments are maintained within `ip-addressing-plan.md`.
-- Documentation remains easier to maintain as devices change.
+- Topology diagrams show connectivity.
+- IP addresses are documented separately.
 
----
+## 2026-06-13 — Use DHCP Reservations
 
-## 2026-06-13 — Use DHCP Reservations Instead of Static IP Configuration
+**Context**
 
-### Context
+Infrastructure devices required consistent IP addresses.
 
-Infrastructure devices required predictable addressing while maintaining centralized management.
+**Lesson**
 
-### Lesson Learned
+Prefer DHCP reservations over static endpoint configuration.
 
-DHCP reservations provide the benefits of static addressing while simplifying device management and reducing configuration drift.
+**Result**
 
-### Outcome
+- Centralized IP management.
+- Easier maintenance.
+- Reduced configuration drift.
 
-Infrastructure devices receive reserved addresses through the router while continuing to use DHCP on the endpoint.
+## 2026-06-13 — Design for Growth
 
-Examples include:
+**Context**
 
-- Synology NAS
-- Media Server
-- Future network infrastructure devices
+The homelab is expected to expand significantly.
 
----
+**Lesson**
 
-## 2026-06-13 — Design an Addressing Scheme Before It Is Needed
+Define standards before they become necessary.
 
-### Context
+**Result**
 
-The current environment contains relatively few devices but is expected to grow with virtualization, monitoring, automation, and security projects.
-
-### Lesson Learned
-
-Establishing an addressing standard early prevents future rework and improves consistency across projects.
-
-### Outcome
-
-The network uses a structured allocation model:
-
-- Core Infrastructure
-- Service Infrastructure
-- Static Endpoints
-- Homelab Infrastructure
-- DHCP Clients
-
-This approach provides room for future expansion without requiring renumbering.
-
----
+- Structured IP allocation.
+- Consistent device organization.
+- Room for future expansion.
 
 ## 2026-06-13 — Keep Public Documentation Sanitized
 
-### Context
+**Context**
 
-The repository is intended to serve as both documentation and a public portfolio.
+The repository is publicly accessible.
 
-### Lesson Learned
+**Lesson**
 
-Public documentation should describe systems and architectures without exposing sensitive operational information.
+Share architecture, not sensitive information.
 
-### Outcome
+**Result**
 
-The repository excludes:
-
-- Passwords
-- API keys
-- Recovery codes
-- Public IP addresses
-- Dynamic DNS hostnames
-- VPN endpoints
-- Personally identifying infrastructure details
-
-Sensitive information is maintained separately within Bitwarden.
-
-
+- Credentials remain in Bitwarden.
+- Public documentation excludes sensitive data.
