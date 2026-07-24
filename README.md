@@ -12,7 +12,7 @@ The goal is to learn enterprise concepts through hands-on projects while emphasi
 ## Navigation
 
 
-### README Sections
+#### README Sections
 
 - [Roadmap](#roadmap)
 - [Equipment](#equipment)
@@ -78,27 +78,27 @@ Each domain is documented as an independent project while contributing to the ov
 
 ## Areas of Focus
 
-### Infrastructure
+#### Infrastructure
 
 - Systems Administration
 - Linux Administration
 - Microsoft 365 & Entra ID
 - Azure Administration
 
-### Networking
+#### Networking
 
 - Enterprise Networking
 - Network Security
 - Virtualization
 - Containerization & Kubernetes
 
-### Automation
+#### Automation
 
 - Infrastructure as Code
 - CI/CD
 - Automation
 
-### Operations
+#### Operations
 
 - Infrastructure Monitoring
 - Backup & Disaster Recovery
