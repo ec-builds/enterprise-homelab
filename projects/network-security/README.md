@@ -16,7 +16,9 @@ This project focuses on the *prevention* side of security by hardening the netwo
 
 ## Architecture
 
-![Network Security Architecture](./diagrams/network-security-architecture.png)
+<p align="left">
+  <img src="./diagrams/network-security-architecture.png" alt="Network Security Architecture" width="800">
+</p>
 
 ## Current Environment
 
