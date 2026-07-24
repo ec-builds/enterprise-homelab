@@ -46,7 +46,7 @@ Availability monitoring today, evolving toward full infrastructure observability
 | Notifications | ⚪ | Send notifications through ntfy and webhooks. |
 | Cloud Monitoring | ⚪ | Monitor Azure resources with Azure Monitor. |
 
-## Key Tasks
+## Implementation Roadmap
 
 - [x] Deploy Uptime Kuma
 - [ ] Deploy the remaining monitoring stack
