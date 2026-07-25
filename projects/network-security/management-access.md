@@ -6,12 +6,12 @@ This document describes how the homelab infrastructure is securely managed from 
 
 Administrative access is restricted to secure management protocols. No management interfaces are exposed directly to the Internet.
 
-## Diagram
+## Management Access Architecture
 
-<p align="center">
+<p align="left">
   <img src="./diagrams/management-access-architecture.png"
        alt="Management Access Architecture"
-       width="450">
+       width="750">
 </p>
 
 ## Current Management Services
