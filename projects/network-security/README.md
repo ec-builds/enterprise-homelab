@@ -79,6 +79,16 @@ network-security/
 
 ```
 
+| Document | Primary Question |
+|----------|------------------|
+| `firewall.md` | How is the network perimeter protected? |
+| `wireguard-vpn.md` | How is secure remote access provided? |
+| `wireless-security.md` | How is Wi-Fi secured? |
+| `network-segmentation.md` | How is the network divided into trust zones? |
+| `dns-filtering.md` | How is DNS secured? |
+| `ids-ips.md` | How are threats detected and prevented? |
+| `security-policies.md` | What security principles guide the environment? |
+
 ## Security Note
 
 Sanitize all configurations before committing them to the repository. Never include public IP addresses, VPN keys, certificates, passwords, or other sensitive information.
