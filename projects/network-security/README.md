@@ -17,7 +17,7 @@ This project focuses on the *prevention* side of security by hardening the netwo
 ## Architecture
 
 <p align="left">
-  <img src="./diagrams/network-security-architecture.png" alt="Network Security Architecture" width="800">
+  <img src="./diagrams/network-security-architecture.png" alt="Network Security Architecture" width="750">
 </p>
 
 ## Current Environment
@@ -70,7 +70,6 @@ network-security/
 ├── diagrams/
 ├── README.md
 ├── firewall.md
-├── management-access.md
 ├── wireguard-vpn.md
 ├── wireguard-security.md
 ├── network-segmentation.md (Planned)
