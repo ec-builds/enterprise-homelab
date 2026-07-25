@@ -70,6 +70,7 @@ network-security/
 ├── README.md
 ├── firewall.md
 ├── wireguard-vpn.md
+├── wireguard-security.md
 ├── network-segmentation.md (Planned)
 ├── dns-filtering.md (Planned)
 ├── ids-ips.md (Planned)
