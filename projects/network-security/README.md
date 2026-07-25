@@ -66,11 +66,16 @@ This project focuses on the *prevention* side of security by hardening the netwo
 ```text
 
 network-security/
-
-├── diagrams/        # Network topology diagrams
+│
 ├── README.md
 ├── firewall.md
-└── wireguard-vpn.md
+├── wireguard-vpn.md
+├── network-segmentation.md (Planned)
+├── dns-filtering.md (Planned)
+├── ids-ips.md (Planned)
+├── remote-administration.md (Planned)
+├── security-policies.md (Planned)
+└── diagrams/
 
 ```
 
