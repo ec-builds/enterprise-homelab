@@ -11,7 +11,7 @@ Administrative access is restricted to secure management protocols. No managemen
 <p align="left">
   <img src="./diagrams/management-access-architecture.png"
        alt="Management Access Architecture"
-       width="750">
+       width="1000">
 </p>
 
 ## Current Management Services
