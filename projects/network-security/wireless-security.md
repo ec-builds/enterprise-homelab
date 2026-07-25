@@ -29,6 +29,7 @@ The ASUS RT-AX5400 provides integrated wireless networking for the homelab. The 
 - Strong WPA passphrases
 - SSID broadcasting enabled
 - Built-in ASUS wireless access point
+- WPS disabled
 
 ### Router Administration
 
