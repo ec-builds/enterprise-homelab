@@ -67,16 +67,16 @@ This project focuses on the *prevention* side of security by hardening the netwo
 
 network-security/
 │
+├── diagrams/
 ├── README.md
 ├── firewall.md
+├── management-access.md
 ├── wireguard-vpn.md
 ├── wireguard-security.md
 ├── network-segmentation.md (Planned)
 ├── dns-filtering.md (Planned)
 ├── ids-ips.md (Planned)
-├── remote-administration.md (Planned)
-├── security-policies.md (Planned)
-└── diagrams/
+└── security-policies.md (Planned)
 
 ```
 
