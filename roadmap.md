@@ -1,6 +1,6 @@
 ## Roadmap
 
-![Homelab Roadmap](assets/roadmap.png)
+![Homelab Roadmap](./diagrams/roadmap.png)
 
 ---
 
