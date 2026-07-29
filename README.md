@@ -43,8 +43,6 @@ The homelab is built using a combination of repurposed hardware, networking equi
 See [Equipment Inventory](equipment/README.md)
 
 
-
-
 ## Current Environment
 
 | Category | Current | Planned |
