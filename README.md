@@ -29,7 +29,7 @@ The goal is to learn enterprise concepts through hands-on projects while emphasi
 
 ## Roadmap
 
-![Homelab Roadmap](assets/roadmap.png)
+![Homelab Roadmap](./diagrams/roadmap.png)
 
 ➡️ [Roadmap](roadmap.md)
 
