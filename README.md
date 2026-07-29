@@ -31,7 +31,7 @@ The goal is to learn enterprise concepts through hands-on projects while emphasi
 
 ![Homelab Roadmap](assets/roadmap.png)
 
-See [Roadmap](roadmap.md)
+➡️ [Roadmap](roadmap.md)
 
 
 
@@ -40,7 +40,7 @@ See [Roadmap](roadmap.md)
 
 The homelab is built using a combination of repurposed hardware, networking equipment, and storage systems that support ongoing infrastructure, networking, virtualization, and automation projects.
 
-See [Equipment Inventory](equipment/README.md)
+➡️ [Equipment Inventory](equipment/README.md)
 
 
 ## Current Environment
