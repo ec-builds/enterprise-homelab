@@ -143,7 +143,7 @@ Rather than focusing solely on deploying software, this repository emphasizes un
 
 ## Technology Stack
 
-The technologies used throughout the homelab are documented in the Tool Catalog, organized by infrastructure layer. It serves as a quick reference for the platforms, operating systems, networking technologies, monitoring solutions, backup systems, and self-hosted services used across the environment.
+The technologies used throughout the homelab are documented in the Tool Catalog, organized by infrastructure layer. It serves as a quick reference for the technologies used throughout the environment.
 
 ➡️ **[Tool Catalog](docs/tool-catalog.md)**
 
