@@ -4,10 +4,11 @@ A quick reference of the technologies used throughout the homelab, organized by 
 
 ## Navigation
 
-- [Virtualization](#virtualization)
+- [Operating Systems](#operating-systems)
 - [Docker Ecosystem](#docker-ecosystem)
 - [Monitoring & Observability](#monitoring--observability)
 - [Windows Infrastructure](#windows-infrastructure)
+- [Windows Administration & Automation](#windows-administration--automation)
 - [Linux Administration & Automation](#linux-administration--automation)
 - [Networking & Security](#networking--security)
 - [Documentation & Asset Management](#documentation--asset-management)
@@ -16,13 +17,15 @@ A quick reference of the technologies used throughout the homelab, organized by 
 
 ---
 
-### Virtualization
+### Operating Systems
 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
-| **Proxmox VE** | Hypervisor | Enterprise virtualization platform. | Hosts and manages virtual machines and Linux containers. |
-| **Debian** | Operating System | Stable Linux server distribution. | Base OS for Docker and infrastructure services. |
-| **Windows Server** | Server OS | Microsoft enterprise server platform. | Hosts Active Directory, DNS, Group Policy, and other Windows services. |
+| **Proxmox VE** | Hypervisor OS | Debian-based virtualization platform. | Hosts and manages virtual machines and Linux containers. |
+| **Debian** | Linux Server OS | Stable Linux server distribution. | Hosts Docker and Linux-based infrastructure services. |
+| **Windows Server** | Server OS | Microsoft enterprise server operating system. | Hosts Active Directory, DNS, Group Policy, and other Windows services. |
+| **Windows 11 Pro** | Client OS | Microsoft desktop operating system. | Primary administrative workstation for managing the homelab and testing enterprise tools. |
+| **Windows 10 Pro** | Client OS | Microsoft desktop operating system. | Secondary workstation for compatibility testing and legacy client scenarios. |
 
 ---
 
@@ -55,10 +58,24 @@ A quick reference of the technologies used throughout the homelab, organized by 
 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
-| **Active Directory (AD DS)** | Identity | Windows directory service. | Centralized authentication and computer management. |
-| **Microsoft Entra ID** | Cloud Identity | Microsoft's cloud identity platform. | Cloud authentication, SSO, and identity management. |
-| **PowerShell** | Automation | Microsoft scripting language. | Automates Windows administration tasks. |
+| **Active Directory Domain Services (AD DS)** | Identity | Windows directory service for centralized identity management. | Authenticates users, computers, and manages domain resources. |
+| **DNS Server** | Name Resolution | Windows DNS service integrated with Active Directory. | Resolves hostnames and supports Active Directory functionality. |
+| **DHCP Server** | IP Address Management | Dynamic Host Configuration Protocol server. | Automatically assigns IP addresses and network configuration to clients. |
+| **Group Policy (GPO)** | Configuration Management | Centralized policy management for Windows devices and users. | Enforces security settings, software deployment, and system configuration. |
+| **Microsoft Entra ID** | Cloud Identity | Microsoft's cloud identity and access management platform. | Provides cloud authentication, SSO, and hybrid identity integration. |
+| **Active Directory Certificate Services (AD CS)** *(Planned)* | Public Key Infrastructure | Microsoft's enterprise certificate authority. | Issues certificates for users, computers, VPNs, and internal services. |
+| **Windows Server Update Services (WSUS)** *(Planned)* | Patch Management | Centralized Windows Update management platform. | Approves and deploys Microsoft updates to Windows systems. |
 
+---
+
+### Windows Administration & Automation
+
+| Tool | Category | Short Definition | Primary Use |
+|------|----------|------------------|-------------|
+| **PowerShell** | Automation | Microsoft's scripting and automation language. | Automates Windows administration, configuration, and management tasks. |
+| **Windows Admin Center** *(Planned)* | Server Management | Browser-based Windows Server management console. | Centrally manages Windows Servers without Remote Desktop. |
+| **Remote Desktop Connection Manager (RDCMan)** | Remote Administration | Microsoft tool for organizing multiple Remote Desktop connections. | Provides centralized management of Windows servers and administrative sessions. |
+| **Remote Server Administration Tools (RSAT)** | Administration | Windows feature providing management consoles and PowerShell modules. | Administers Active Directory, DNS, DHCP, Group Policy, and other Windows Server roles remotely. |
 ---
 
 ### Linux Administration & Automation
