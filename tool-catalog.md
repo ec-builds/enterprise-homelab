@@ -137,8 +137,10 @@ A quick reference of the technologies used throughout the homelab, organized by 
 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
-| **Synology DSM** | NAS Platform | Network-attached storage operating system. | Provides centralized storage, file sharing, and backups. |
-| **Active Backup for Business** | Backup | Synology backup platform. | Protects PCs, servers, and virtual machines. |
+| **Synology DSM** | NAS Platform | Network-attached storage operating system. | Provides centralized storage, file sharing, and backup services. |
+| **Active Backup for Business** | Endpoint & Server Backup | Synology backup platform. | Protects Windows PCs, physical servers, and virtual machines. |
+| **Hyper Backup** | NAS Backup | Synology backup and disaster recovery solution. | Backs up NAS data, applications, and system configuration to local, remote, or cloud destinations. |
+| **Time Machine** | macOS Backup | Apple's built-in backup solution for macOS. | Automatically backs up Mac computers to the Synology NAS over the network. |
 | **Proxmox Backup Server** | VM Backup | Enterprise backup platform for Proxmox VE. | Performs deduplicated backups of virtual machines and containers. |
 
 ---
