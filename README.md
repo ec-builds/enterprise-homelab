@@ -143,7 +143,8 @@ This repository is used to document:
 
 The primary goal of this homelab is to demonstrate that enterprise IT skills can be developed using affordable hardware, thoughtful design, and consistent documentation.
 
-Rather than focusing solely on deploying software, this repository emphasizes understanding how systems are planned, implemented, documented, and maintained.
+Rather than focusing solely on deploying software, this repository emphasizes understanding how systems are planned, implemented, documented, and maintained. I use AI as part of my workflow to draft and review documentation, accelerate research, and pressure-test architectural decisions.
+
 
 ## Technology Stack
 
