@@ -12,7 +12,7 @@ The goal is to learn enterprise concepts through hands-on projects while emphasi
 
 - [Roadmap](#roadmap)
 - [Equipment](#equipment)
-- [Current Environment](#current-environment)
+- [Current Infrastructure](#current-infrastructure)
 - [Architecture Overview](#architecture-overview)
 - [Areas of Focus](#areas-of-focus)
 - [Project Portfolio](#project-portfolio)
@@ -35,7 +35,7 @@ The homelab is built using a combination of repurposed hardware, networking equi
 
 ➡️ **[Equipment Inventory](equipment/README.md)**
 
-## Current Environment
+## Current Infrastructure
 
 | Category | Current | Planned |
 |----------|----------|----------|
