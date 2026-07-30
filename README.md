@@ -58,6 +58,8 @@ The homelab is organized into several infrastructure domains.
 - Media Services
 - Automation & DevOps
 
+![Homelab Architecture](.diagrams/homelab-logical-architecture.svg)
+
 Each domain is documented as an independent project while contributing to the overall enterprise environment.
 
 ## Areas of Focus
