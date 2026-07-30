@@ -48,19 +48,21 @@ The homelab is built on repurposed enterprise hardware, networking equipment, an
 
 ## Architecture Overview
 
-![Homelab Architecture](.diagrams/homelab-logical-architecture.svg)
+![Homelab Architecture](diagrams/homelab-logical-architecture.svg)
 
-The homelab is organized into several infrastructure domains.
+The diagram above shows the logical topology — traffic flows from the edge router through the firewall and managed switch to the virtualization host, storage, and clients.
 
-- Network Infrastructure
-- Virtualization
-- Identity & Access Management
-- Security Operations
-- Infrastructure Monitoring
-- Media Services
-- Automation & DevOps
+Functionally, the environment is organized into several infrastructure domains, each documented as an independent project in the [Project Portfolio](#project-portfolio):
 
-Each domain is documented as an independent project while contributing to the overall enterprise environment.
+| Domain | Scope |
+|--------|-------|
+| Network Infrastructure | Routing, switching, VLANs, DNS/DHCP |
+| Virtualization | Proxmox host, VM and container lifecycle |
+| Identity & Access Management | Active Directory, Entra ID, RBAC |
+| Security Operations | Firewall, segmentation, IDS/IPS |
+| Infrastructure Monitoring | Metrics, logging, alerting |
+| Media Services | Linux administration, storage, streaming |
+| Automation & DevOps | Infrastructure as code, CI/CD |
 
 ## Areas of Focus
 
