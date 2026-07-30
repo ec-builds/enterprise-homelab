@@ -13,7 +13,7 @@ A quick reference of the technologies used throughout the homelab, organized by 
 - [Networking & Security](#networking--security)
 - [Documentation & Asset Management](#documentation--asset-management)
 - [Storage & Backup](#storage--backup)
-- [Applications](#applications)
+- [Self-Hosted Applications](#self-hosted-applications)
 
 ---
 
@@ -63,8 +63,8 @@ A quick reference of the technologies used throughout the homelab, organized by 
 | **DHCP Server** | IP Address Management | Dynamic Host Configuration Protocol server. | Automatically assigns IP addresses and network configuration to clients. |
 | **Group Policy (GPO)** | Configuration Management | Centralized policy management for Windows devices and users. | Enforces security settings, software deployment, and system configuration. |
 | **Microsoft Entra ID** | Cloud Identity | Microsoft's cloud identity and access management platform. | Provides cloud authentication, SSO, and hybrid identity integration. |
-| **Active Directory Certificate Services (AD CS)** *(Planned)* | Public Key Infrastructure | Microsoft's enterprise certificate authority. | Issues certificates for users, computers, VPNs, and internal services. |
-| **Windows Server Update Services (WSUS)** *(Planned)* | Patch Management | Centralized Windows Update management platform. | Approves and deploys Microsoft updates to Windows systems. |
+| **Active Directory Certificate Services (AD CS)** | Public Key Infrastructure | Microsoft's enterprise certificate authority. | Issues certificates for users, computers, VPNs, and internal services. |
+| **Windows Server Update Services (WSUS)** | Patch Management | Centralized Windows Update management platform. | Approves and deploys Microsoft updates to Windows systems. |
 
 ---
 
@@ -73,9 +73,10 @@ A quick reference of the technologies used throughout the homelab, organized by 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
 | **PowerShell** | Automation | Microsoft's scripting and automation language. | Automates Windows administration, configuration, and management tasks. |
-| **Windows Admin Center** *(Planned)* | Server Management | Browser-based Windows Server management console. | Centrally manages Windows Servers without Remote Desktop. |
+| **Windows Admin Center** | Server Management | Browser-based Windows Server management console. | Centrally manages Windows Servers without Remote Desktop. |
 | **Remote Desktop Connection Manager (RDCMan)** | Remote Administration | Microsoft tool for organizing multiple Remote Desktop connections. | Provides centralized management of Windows servers and administrative sessions. |
 | **Remote Server Administration Tools (RSAT)** | Administration | Windows feature providing management consoles and PowerShell modules. | Administers Active Directory, DNS, DHCP, Group Policy, and other Windows Server roles remotely. |
+
 ---
 
 ### Linux Administration & Automation
@@ -120,9 +121,9 @@ A quick reference of the technologies used throughout the homelab, organized by 
 
 ---
 
-### Applications
+### Self-Hosted Applications
 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
-| **Homepage** | Dashboard | Self-hosted service dashboard. | Central landing page for homelab services. |
+| **Homepage** | Dashboard | Self-hosted service dashboard. | Provides a central landing page for homelab services. |
 | **Jellyfin** | Media Server | Open-source media streaming platform. | Streams and manages personal media libraries. |
