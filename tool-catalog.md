@@ -24,7 +24,7 @@ A quick reference of the technologies used throughout the homelab, organized by 
 |------|----------|------------------|-------------|
 | **Dell OptiPlex Micro** | Compute Host | Enterprise desktop platform used as virtualization hosts. | Hosts virtual machines and infrastructure services. |
 | **ASUS RT-AX5400** | Router | Wireless router and edge gateway. | Provides Internet connectivity and edge networking. |
-| **Cisco Catalyst Switch** | Managed Switch | Enterprise Layer 2 managed switch. | Provides network switching and VLAN connectivity. |
+| **Cisco Catalyst** | Managed Layer 3 Switch | Enterprise multilayer switch with advanced switching and routing capabilities. | Provides switching, VLANs, inter-VLAN routing, and network segmentation. |
 | **CyberPower UPS** | Power Protection | Uninterruptible power supply. | Protects infrastructure from power outages. |
 
 ---
