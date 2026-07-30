@@ -6,11 +6,7 @@ This repository documents my enterprise-focused homelab, where I build and docum
 
 The goal is to learn enterprise concepts through hands-on projects while emphasizing documentation, operational procedures, and production-inspired design.
 
-
-
-
 ## Navigation
-
 
 #### README Sections
 
@@ -22,26 +18,22 @@ The goal is to learn enterprise concepts through hands-on projects while emphasi
 - [Project Portfolio](#project-portfolio)
 - [Documentation Scope](#documentation-scope)
 - [Learning Philosophy](#learning-philosophy)
+- [Technology Stack](#technology-stack)
 - [Core Documents](#core-documents)
-
-
-
 
 ## Roadmap
 
+The roadmap outlines the planned evolution of the homelab, highlighting current priorities and future infrastructure projects.
+
 ![Homelab Roadmap](./diagrams/roadmap.png)
 
-➡️ [Roadmap](docs/roadmap.md)
-
-
-
+➡️ **[Roadmap](docs/roadmap.md)**
 
 ## Equipment
 
 The homelab is built using a combination of repurposed hardware, networking equipment, and storage systems that support ongoing infrastructure, networking, virtualization, and automation projects.
 
-➡️ [Equipment Inventory](equipment/README.md)
-
+➡️ **[Equipment Inventory](equipment/README.md)**
 
 ## Current Environment
 
@@ -50,16 +42,13 @@ The homelab is built using a combination of repurposed hardware, networking equi
 | Router | ASUS RT-AX5400 | OPNsense Firewall |
 | Storage | Synology DS718+ | — |
 | Servers | Debian Media Server | Proxmox Cluster |
-| Switching | ASUS LAN Ports | Cisco Managed Switch |
-| Networking | DHCP Reservations, Guest Wi-Fi, WireGuard | VLANs, Internal DNS |
+| Switching | Cisco Catalyst 3560CG | — |
+| Networking | DHCP Reservations, WireGuard | VLANs, Internal DNS |
 | Documentation | GitHub + Markdown | Continue expanding documentation |
-
-
-
 
 ## Architecture Overview
 
-The homelab is organized into several infrastructure domains. 
+The homelab is organized into several infrastructure domains.
 
 - Network Infrastructure
 - Virtualization
@@ -70,9 +59,6 @@ The homelab is organized into several infrastructure domains.
 - Automation & DevOps
 
 Each domain is documented as an independent project while contributing to the overall enterprise environment.
-
-
-
 
 ## Areas of Focus
 
@@ -103,16 +89,13 @@ Each domain is documented as an independent project while contributing to the ov
 - Security Operations
 - Documentation
 
-
-
 ## Project Portfolio
 
->[!NOTE]
->Projects are documented independently and may progress at different rates depending on current learning objectives and infrastructure priorities.
-
+> [!NOTE]
+> Projects are documented independently and may progress at different rates depending on current learning objectives and infrastructure priorities.
 
 | Project | Focus Area | Status |
-|----------|----------|----------|
+|----------|------------|--------|
 | [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | ⚪ Planned |
 | [Azure Administration Lab](projects/azure-administration-lab/) | Azure infrastructure, RBAC, governance | ⚪ Planned |
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
@@ -122,26 +105,23 @@ Each domain is documented as an independent project while contributing to the ov
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
-| [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | ⚪ Planned |
+| [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | ⚪ Planned |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
 | [Network Security](projects/network-security/) | Firewalls, segmentation, hardening, VPN | 🟡 In Progress |
 | [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | ⚪ Planned |
 | [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
 
-
 The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
 
 ➡️ **[Browse All Projects](./projects/README.md)**
 
-
 ## Project Status Legend
 
 | Status | Meaning |
-|---|---|
+|--------|---------|
 | 🟢 **Operational** | Deployed, documented, and working as intended |
 | 🟡 **In Progress** | Currently being built, configured, or tested |
 | ⚪ **Planned** | Defined and included in the project roadmap |
-
 
 ## Documentation Scope
 
@@ -155,29 +135,29 @@ This repository is used to document:
 - Troubleshooting Procedures
 - Future Enhancements
 
-
-
-
 ## Learning Philosophy
 
 The primary goal of this homelab is to demonstrate that enterprise IT skills can be developed using affordable hardware, thoughtful design, and consistent documentation.
 
 Rather than focusing solely on deploying software, this repository emphasizes understanding how systems are planned, implemented, documented, and maintained.
 
+## Technology Stack
 
+The technologies used throughout the homelab are documented in the Tool Catalog, organized by infrastructure layer. It serves as a quick reference for the platforms, operating systems, networking technologies, monitoring solutions, backup systems, and self-hosted services used across the environment.
+
+➡️ **[Tool Catalog](docs/tool-catalog.md)**
 
 ## Core Documents
 
 | Document | Description |
-|---|---|
+|----------|-------------|
+| `docs/tool-catalog.md` | Quick reference of technologies used throughout the homelab |
 | `docs/homelab-decisions.md` | Architecture decisions and reasoning |
 | `docs/reference/` | Quick reference guides and cheat sheets |
-| `docs/standards/` | Baseline configs, naming conventions, documentation standards |
-
-
+| `docs/standards/` | Baseline configurations, naming conventions, and documentation standards |
 
 ## EC-Builds
 
-This repository is part of the EC-Builds project, where I document technical projects, infrastructure builds, and lessons learned while continuing to develop skills in enterprise IT and systems administration.
+This repository is part of the **EC-Builds** project, where I document technical projects, infrastructure builds, and lessons learned while continuing to develop skills in enterprise IT and systems administration.
 
 Follow along as the lab continues to grow.
