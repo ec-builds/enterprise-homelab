@@ -1,19 +1,45 @@
 # Homelab Tool Catalog
 
-A quick reference of the technologies used throughout the homelab, organized by ecosystem.
+A quick reference of the technologies used throughout the homelab, organized by infrastructure layer.
 
 ## Navigation
 
+- [Physical Infrastructure](#physical-infrastructure)
+- [Networking & Security](#networking--security)
 - [Operating Systems](#operating-systems)
-- [Docker Ecosystem](#docker-ecosystem)
-- [Monitoring & Observability](#monitoring--observability)
+- [Container Platform](#container-platform)
 - [Windows Infrastructure](#windows-infrastructure)
 - [Windows Administration & Automation](#windows-administration--automation)
 - [Linux Administration & Automation](#linux-administration--automation)
-- [Networking & Security](#networking--security)
+- [Monitoring & Observability](#monitoring--observability)
 - [Documentation & Asset Management](#documentation--asset-management)
 - [Storage & Backup](#storage--backup)
 - [Self-Hosted Applications](#self-hosted-applications)
+
+---
+
+### Physical Infrastructure
+
+| Tool | Category | Short Definition | Primary Use |
+|------|----------|------------------|-------------|
+| **Dell OptiPlex Micro** | Compute Host | Enterprise desktop platform used as virtualization hosts. | Runs Proxmox virtual machines and containers. |
+| **ASUS RT-AX5400** | Router | Wireless router and edge gateway. | Provides routing, firewall, VPN, and Internet connectivity. |
+| **Cisco Catalyst Switch** | Managed Switch | Enterprise Layer 2 managed switch. | Provides switching, VLANs, and network segmentation. |
+| **CyberPower UPS** | Power Protection | Uninterruptible power supply. | Protects infrastructure from power loss and enables graceful shutdowns. |
+
+---
+
+### Networking & Security
+
+| Tool | Category | Short Definition | Primary Use |
+|------|----------|------------------|-------------|
+| **OPNsense** | Firewall | Open-source firewall and router platform. | Provides routing, firewalling, VPN, and network security. |
+| **WireGuard** | VPN | Modern VPN protocol. | Provides secure remote access to the homelab. |
+| **Technitium DNS** | DNS Server | Recursive and authoritative DNS server. | Provides internal DNS resolution and DNS filtering. |
+| **VLAN (802.1Q)** | Network Segmentation | IEEE standard for virtual LANs. | Segments network traffic into logical security zones. |
+| **SNMP** | Monitoring Protocol | Standard protocol for network device monitoring. | Collects health and performance metrics from infrastructure devices. |
+| **NTP** | Time Synchronization | Network Time Protocol service. | Synchronizes system clocks across servers and network devices. |
+| **Suricata** | IDS/IPS | Intrusion detection and prevention engine. | Detects and blocks malicious network traffic. |
 
 ---
 
@@ -29,28 +55,16 @@ A quick reference of the technologies used throughout the homelab, organized by 
 
 ---
 
-### Docker Ecosystem
+### Container Platform
 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
-| **Docker** | Container Platform | Runs applications in isolated containers. | Hosts lightweight services without dedicated VMs. |
-| **Docker Compose** | Container Orchestration | Defines and deploys multi-container applications. | Deploys and manages multi-container applications. |
-| **Portainer** | Docker Management | Web interface for Docker administration. | Manages containers, images, volumes, networks, and Compose stacks. |
-
----
-
-### Monitoring & Observability
-
-| Tool | Category | Short Definition | Primary Use |
-|------|----------|------------------|-------------|
-| **Grafana** | Dashboard | Visualization and dashboard platform. | Displays infrastructure metrics and dashboards. |
-| **Prometheus** | Metrics | Time-series metrics database. | Collects and stores infrastructure metrics. |
-| **Node Exporter** | Metrics Exporter | Linux system metrics exporter. | Reports CPU, memory, disk, and system statistics. |
-| **cAdvisor** | Container Monitoring | Docker metrics exporter. | Monitors container resource utilization. |
-| **Loki** | Logging | Log aggregation platform. | Stores centralized logs from servers and containers. |
-| **Promtail** | Log Collection | Log shipping agent for Loki. | Collects and forwards logs to Loki. |
-| **Alertmanager** | Alerting | Prometheus notification service. | Routes and delivers monitoring alerts. |
-| **Uptime Kuma** | Availability Monitoring | Uptime monitoring application. | Monitors service availability and sends alerts. |
+| **Docker** | Container Platform | Runs applications in isolated containers. | Hosts lightweight infrastructure services. |
+| **Docker Compose** | Container Orchestration | Defines and deploys multi-container applications. | Deploys and manages container stacks. |
+| **Portainer** | Container Management | Web interface for Docker administration. | Manages containers, images, volumes, networks, and Compose stacks. |
+| **Nginx Proxy Manager** | Reverse Proxy | Web-based reverse proxy and SSL management platform. | Publishes internal web services securely and manages TLS certificates. |
+| **Let's Encrypt** | Certificate Authority | Free automated TLS certificate provider. | Issues and renews trusted HTTPS certificates. |
+| **Vaultwarden** | Secrets Management | Self-hosted Bitwarden-compatible password manager. | Securely stores passwords, API keys, and infrastructure secrets. |
 
 ---
 
@@ -84,19 +98,26 @@ A quick reference of the technologies used throughout the homelab, organized by 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
 | **SSH** | Remote Access | Secure remote administration protocol. | Secure command-line access to Linux servers. |
-| **Ansible** | Automation | Agentless configuration management platform. | Automates server configuration and deployments. |
-| **Python** | Programming | General-purpose programming language. | Automation, scripting, and API integration. |
+| **Ansible** | Configuration Management | Agentless automation platform. | Automates Linux and Windows server configuration. |
+| **Python** | Programming | General-purpose programming language. | Develops automation scripts and API integrations. |
 | **VS Code Remote SSH** | Remote Development | VS Code extension for remote editing. | Develops and administers Linux systems over SSH. |
 
 ---
 
-### Networking & Security
+### Monitoring & Observability
 
 | Tool | Category | Short Definition | Primary Use |
 |------|----------|------------------|-------------|
-| **OPNsense** | Firewall | Open-source firewall and router. | Provides routing, firewalling, VPN, and network security. |
-| **Technitium DNS** | DNS Server | Recursive and authoritative DNS server. | Provides internal DNS resolution and DNS filtering. |
-| **WireGuard** | VPN | Modern VPN protocol. | Provides secure remote access to the homelab. |
+| **Grafana** | Dashboard | Visualization and dashboard platform. | Displays infrastructure metrics and dashboards. |
+| **Prometheus** | Metrics | Time-series metrics database. | Collects and stores infrastructure metrics. |
+| **Node Exporter** | Metrics Exporter | Linux metrics exporter for Prometheus. | Reports Linux system metrics. |
+| **Windows Exporter** | Metrics Exporter | Windows metrics exporter for Prometheus. | Reports Windows Server metrics. |
+| **SNMP Exporter** | Metrics Exporter | Prometheus SNMP collector. | Collects metrics from switches, routers, UPSes, and other network devices. |
+| **cAdvisor** | Container Monitoring | Docker metrics exporter. | Monitors container resource utilization. |
+| **Loki** | Logging | Centralized log aggregation platform. | Stores infrastructure and application logs. |
+| **Promtail** | Log Collection | Log shipping agent for Loki. | Collects and forwards logs to Loki. |
+| **Alertmanager** | Alerting | Prometheus alert routing service. | Sends notifications when monitoring alerts are triggered. |
+| **Uptime Kuma** | Availability Monitoring | Uptime monitoring application. | Monitors service availability and endpoint health. |
 
 ---
 
@@ -107,8 +128,8 @@ A quick reference of the technologies used throughout the homelab, organized by 
 | **Obsidian** | Documentation | Markdown knowledge base. | Stores notes, runbooks, architecture, and learning documentation. |
 | **NetBox** | Infrastructure Documentation | Source of truth and IPAM/DCIM platform. | Documents devices, IPs, VLANs, racks, cables, and virtual infrastructure. |
 | **Snipe-IT** | Asset Management | IT asset inventory platform. | Tracks hardware, software licenses, warranties, and asset assignments. |
-| **Gitea** | Git Server | Self-hosted Git repository platform. | Stores documentation, code, and infrastructure repositories. |
 | **Git** | Version Control | Distributed version control system. | Tracks changes to code and documentation. |
+| **Gitea** | Git Server | Self-hosted Git repository platform. | Hosts infrastructure code and documentation repositories. |
 
 ---
 
@@ -118,6 +139,7 @@ A quick reference of the technologies used throughout the homelab, organized by 
 |------|----------|------------------|-------------|
 | **Synology DSM** | NAS Platform | Network-attached storage operating system. | Provides centralized storage, file sharing, and backups. |
 | **Active Backup for Business** | Backup | Synology backup platform. | Protects PCs, servers, and virtual machines. |
+| **Proxmox Backup Server** | VM Backup | Enterprise backup platform for Proxmox VE. | Performs deduplicated backups of virtual machines and containers. |
 
 ---
 
