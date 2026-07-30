@@ -50,7 +50,7 @@ The homelab is built on repurposed enterprise hardware, networking equipment, an
 
 ![Homelab Architecture](diagrams/homelab-logical-architecture.svg)
 
-The diagram above shows the logical topology — traffic flows from the edge router through the firewall and managed switch to the virtualization host, storage, and clients.
+The diagram above shows the target logical topology — traffic flows from the edge router through the firewall and managed switch to the virtualization host, storage, and clients.
 
 Functionally, the environment is organized into several infrastructure domains, each documented as an independent project in the [Project Portfolio](#project-portfolio):
 
