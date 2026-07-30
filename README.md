@@ -48,6 +48,8 @@ The homelab is built on repurposed enterprise hardware, networking equipment, an
 
 ## Architecture Overview
 
+![Homelab Architecture](.diagrams/homelab-logical-architecture.svg)
+
 The homelab is organized into several infrastructure domains.
 
 - Network Infrastructure
@@ -57,8 +59,6 @@ The homelab is organized into several infrastructure domains.
 - Infrastructure Monitoring
 - Media Services
 - Automation & DevOps
-
-![Homelab Architecture](.diagrams/homelab-logical-architecture.svg)
 
 Each domain is documented as an independent project while contributing to the overall enterprise environment.
 
