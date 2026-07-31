@@ -162,6 +162,7 @@ The technologies used throughout the homelab are documented in the Tool Catalog,
 | [`docs/homelab-direction.md`](docs/homelab-direction.md) | Strategic direction, goals, and phase sequencing |
 | [`docs/reference/`](docs/reference/) | Quick reference guides and cheat sheets |
 | [`docs/standards/`](docs/standards/) | Baseline configurations, naming conventions, and documentation standards |
+| [`docs/tool-catalog.md`](docs/tool-catalog.md) | Quick reference of technologies used throughout the homelab |
 
 ## EC-Builds
 
