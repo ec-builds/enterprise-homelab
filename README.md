@@ -64,6 +64,8 @@ Functionally, the environment is organized into several infrastructure domains:
 | Media Services | Linux administration, storage, streaming |
 | Automation & DevOps | Infrastructure as code, CI/CD |
 
+➡️ **[View the Project Portfolio](#project-portfolio)**
+
 ## Areas of Focus
 
 #### Infrastructure
