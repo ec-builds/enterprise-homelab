@@ -1,47 +1,31 @@
 # Homelab Decision Template
 
+Most decisions live as a single row in the Decision Log table in `homelab-decisions.md` — one line, with the reasoning in the **Why** column. That table is the default and the place to start.
+
+Use this fuller template **only** when a decision is significant enough to warrant its own file (complex trade-offs, long rationale, or something you'll revisit in depth). A graduated decision lives in `docs/decisions/` and is linked from the main log's table.
+
 ## YYYY-MM-DD — Decision Title
 
 ### Status
-
-Proposed | Active | Deprecated | Replaced
+Active | Proposed | Superseded
 
 ### Context
-
 What problem, requirement, or opportunity led to this decision?
 
 ### Decision
-
 What was decided?
 
-### Alternatives Considered
-
-- Option A
-- Option B
-- Option C
-
 ### Rationale
+Why this approach — including the main alternative(s) considered and why they were rejected.
 
-Why was this approach selected?
-
-### Consequences
-
-#### Positive
-
-- Item
-
-#### Negative
-
-- Item
+### Trade-offs
+What this costs or gives up (the honest downsides), alongside what it gains.
 
 ### Implementation
-
-How is the decision applied in practice?
+How the decision is applied in practice.
 
 ### Related Projects
-
 - project-name
 
 ### Review Date (Optional)
-
 YYYY-MM-DD
