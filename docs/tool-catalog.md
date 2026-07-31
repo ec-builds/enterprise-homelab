@@ -52,6 +52,7 @@ A quick reference of the technologies used throughout the homelab, organized by 
 | **Windows Server** | Server OS | Microsoft enterprise server operating system. | Hosts Windows infrastructure services. |
 | **Windows 11 Pro** | Client OS | Microsoft desktop operating system. | Primary administration workstation. |
 | **Windows 10 Pro** | Client OS | Microsoft desktop operating system. | Compatibility and legacy client testing. |
+| **macOS** | Client OS | Apple operating system (MacBook Pro). | Administration and remote management from macOS. |
 
 ---
 
