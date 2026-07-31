@@ -27,13 +27,13 @@ The roadmap outlines the planned evolution of the homelab, highlighting current 
 
 ![Homelab Roadmap](./diagrams/roadmap.png)
 
-➡️ **[Roadmap](docs/roadmap.md)**
+➡️ **[See Roadmap Doc](docs/roadmap.md)**
 
 ## Equipment
 
 The homelab is built on repurposed enterprise hardware, networking equipment, and storage platforms that support infrastructure, virtualization, networking, and automation projects.
 
-➡️ **[Equipment Inventory](equipment/README.md)**
+➡️ **[See Equipment Inventory](equipment/README.md)**
 
 ## Current Infrastructure
 
@@ -64,7 +64,7 @@ Functionally, the environment is organized into several infrastructure domains:
 | Media Services | Linux administration, storage, streaming |
 | Automation & DevOps | Infrastructure as code, CI/CD |
 
-➡️ **[View the Project Portfolio](#project-portfolio)**
+➡️ **[See Project Portfolio](#project-portfolio)**
 
 ## Areas of Focus
 
@@ -152,7 +152,7 @@ Rather than focusing solely on deploying software, this repository emphasizes un
 
 The technologies used throughout the homelab are documented in the Tool Catalog, organized by infrastructure layer. It serves as a quick reference for the technologies used throughout the environment.
 
-➡️ **[Tool Catalog](docs/tool-catalog.md)**
+➡️ **[See Tool Catalog](docs/tool-catalog.md)**
 
 ## Core Documents
 
