@@ -1,6 +1,6 @@
 # 🖥️ Virtualization Lab (Proxmox)
 
-**Status: 🔨 In Progress** — current project and the foundation of the entire lab.
+**Status: 🟡 In Progress** — current project and the foundation of the entire lab.
 
 Bare-metal hypervisor deployment using Proxmox VE. Every subsequent project (Active Directory, Docker, Kubernetes, monitoring) runs on this platform.
 
