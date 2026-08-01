@@ -83,12 +83,6 @@ Foundational Docker documentation is maintained centrally under `docs/reference/
 > [!NOTE]
 > Reference documentation is maintained outside this project directory to avoid duplication and drift. Project docs reference these guides rather than duplicate them.
 
-## Related Projects
-
-- [kubernetes-lab](../kubernetes-lab/) — Future orchestration platform
-- [backup-disaster-recovery](../backup-disaster-recovery/) — Volume backup and restore
-- [network-infrastructure](../network-infrastructure/) — Networking and service exposure
-- [infrastructure-monitoring](../infrastructure-monitoring/) — Monitoring stack and dashboards
 
 
 ## Security Notes
