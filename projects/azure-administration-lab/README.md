@@ -1,6 +1,6 @@
 # ☁️ Azure Administration Lab
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 Microsoft Azure infrastructure administration — deploying, securing, and governing cloud resources, with hybrid connectivity back to the homelab.
 
