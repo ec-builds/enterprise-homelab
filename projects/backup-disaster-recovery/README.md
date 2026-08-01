@@ -1,6 +1,6 @@
 # 💾 Backup & Disaster Recovery
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 Designing, implementing, and **testing** data protection for the entire lab — *a backup that hasn't been restored is not a backup*.
 
