@@ -19,6 +19,10 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 
 ![network topology](./diagrams/current-logical-network-architecture.png)
 
+> [!NOTE]
+> The Cisco managed switch shown above is planned for Phase 2 and is not yet deployed. In the current environment, devices connect directly to the ASUS RT-AX5400.
+
+
 ## Current Environment
 
 - ASUS RT-AX5400 Router
