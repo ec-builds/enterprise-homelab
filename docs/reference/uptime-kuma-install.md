@@ -174,7 +174,7 @@ http://<server-ip>:3001
 Example:
 
 ```text
-http://10.10.10.70:3001
+http://10.0.0.70:3001
 ```
 
 Uptime Kuma should display the first-time setup wizard. 
