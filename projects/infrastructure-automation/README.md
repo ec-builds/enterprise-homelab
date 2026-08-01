@@ -1,6 +1,6 @@
 # ⚙️ Infrastructure Automation (IaC)
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 Infrastructure as Code for the entire lab — the goal is a single sentence: **"I can rebuild my entire lab from this git repo."**
 
