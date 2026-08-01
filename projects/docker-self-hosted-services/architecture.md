@@ -24,14 +24,14 @@ Managed Switch
     │  (switching / VLAN segmentation)
     ├──────────────┬──────────────────────┐
     ▼              ▼                       ▼
-proxmox-host    nas01                media-host
+proxmox-lab     nas-lab              media-server-lab
 (virtualization)(storage)            (media only)
     │                │                     │
     │                ▼                     ▼
     │           Media Storage          Jellyfin
     │
     ▼
-docker-host (Debian VM)
+docker-lab (Debian VM)
     │  (infrastructure containers)
     ├── Uptime Kuma
     ├── Portainer
@@ -52,10 +52,10 @@ docker-host (Debian VM)
 | Firewall | Routing, firewall, IDS/IPS, DNS (planned) |
 | Managed Switch | Switching and VLAN segmentation |
 | VPN | Secure remote access |
-| `proxmox-host` | Virtualization host for VMs and containers |
-| `docker-host` | Debian VM hosting all infrastructure containers |
-| `media-host` | Dedicated media host — runs Jellyfin only |
-| `nas01` | Shared storage and media repository |
+| `proxmox-lab` | Virtualization host for VMs and containers |
+| `docker-lab` | Debian VM hosting all infrastructure containers |
+| `media-server-lab` | Dedicated media host — runs Jellyfin only |
+| `nas-lab` | Shared storage and media repository |
 | Portainer | Container management UI |
 | Uptime Kuma | Service availability monitoring |
 | Jellyfin | Media streaming platform |
@@ -69,7 +69,7 @@ docker-host (Debian VM)
 ### Docker Hosts
 
 ```text
-docker-host (Debian VM)               media-host
+docker-lab (Debian VM)                media-server-lab
     │  infrastructure containers          │  media only
     ├── Uptime Kuma                       └── Jellyfin
     ├── Portainer
@@ -82,31 +82,31 @@ docker-host (Debian VM)               media-host
 Uptime Kuma
     │
     ├── Edge router / firewall
-    ├── proxmox-host
-    ├── docker-host
-    ├── media-host
+    ├── proxmox-lab
+    ├── docker-lab
+    ├── media-server-lab
     └── Jellyfin
 ```
 
 ### Media Services
 
 ```text
-nas01
+nas-lab
     │
     ▼
 Media Storage
     │
     ▼
-Jellyfin (media-host)
+Jellyfin (media-server-lab)
 ```
 
-Jellyfin runs on `media-host` and depends on media storage from the NAS.
+Jellyfin runs on `media-server-lab` and depends on media storage from the NAS.
 
 ## Deployment Model
 
 Containers are deployed using Docker Compose, with each service in its own directory on the relevant host.
 
-**`docker-host`** (infrastructure containers):
+**`docker-lab`** (infrastructure containers):
 ```text
 /opt/docker
 ├── uptime-kuma/
@@ -117,7 +117,7 @@ Containers are deployed using Docker Compose, with each service in its own direc
 └── homepage/     (planned)
 ```
 
-**`media-host`** (media only):
+**`media-server-lab`** (media only):
 ```text
 jellyfin/
 ```
