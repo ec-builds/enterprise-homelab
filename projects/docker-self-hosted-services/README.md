@@ -1,61 +1,27 @@
 # 🐳 Docker & Self-Hosted Services
 
-**Status: 🔨 In Progress**
+**Status: 🟡 In Progress**
 
-Containerized self-hosted applications running on a dedicated Debian Docker host. Services are deployed using Docker Compose and managed through infrastructure-as-code principles.
+Containerized self-hosted applications running on a dedicated Debian Docker host (`docker-host`). Services are deployed with Docker Compose and managed as version-controlled infrastructure-as-code.
 
 ## Overview
 
-This project focuses on deploying, managing, and documenting self-hosted services using Docker and Docker Compose.
+This project deploys, manages, and documents self-hosted services using Docker and Docker Compose. It serves as a platform for learning container operations, monitoring, networking, and backup strategies, with the long-term goal of a repeatable self-hosted platform and foundational skills for future Kubernetes work.
 
-The environment serves as a platform for learning modern container operations, service management, monitoring, networking, backup strategies, and infrastructure documentation.
-
-The long-term objective is to build a documented and repeatable self-hosted services platform while developing foundational skills applicable to enterprise infrastructure and future Kubernetes deployments.
-
----
-
-## Objectives
-
-- Deploy and maintain self-hosted applications using Docker Compose
-- Manage container configurations through version-controlled Compose files
-- Implement container networking and service isolation
-- Configure persistent storage and backup procedures
-- Monitor service availability and container health
-- Document deployment, maintenance, and recovery procedures
-- Establish operational standards and reusable documentation
-- Prepare foundational knowledge for future Kubernetes workloads
-
----
-
-## Technologies
-
-| Category | Technologies |
-|-----------|-----------|
-| Container Platform | Docker Engine, Docker Compose, containerd, Docker Buildx |
-| Monitoring & Observability | Uptime Kuma, Prometheus, Grafana, Loki |
-| Service Management | Homepage, Dockge (planned), Portainer (evaluation) |
-| Networking & Security | Custom Docker Networks, Reverse Proxy, TLS Certificates, Environment Variables (`.env`) |
-| Backup & Recovery | Docker Volumes, Volume Backup Procedures, Disaster Recovery Documentation |
-
----
-
-## Planned Services
+## Services
 
 | Category | Service | Status |
-|----------|----------|----------|
-| Monitoring | Uptime Kuma | ✅ Deployed |
-| Monitoring | Prometheus | 📋 Planned |
-| Monitoring | Grafana | 📋 Planned |
-| Logging | Loki | 📋 Planned |
-| Dashboard | Homepage | 📋 Planned |
-| Management | Dockge | 📋 Planned |
-| Management | Portainer | Research |
-| Network | AdGuard Home | Research |
-| Productivity | Vaultwarden | Future |
-| Automation | n8n | Future |
-| Utilities | Stirling-PDF | Future |
+|----------|---------|--------|
+| Monitoring | Uptime Kuma | 🟢 Deployed |
+| Management | Portainer | 🟡 In Progress |
+| Monitoring | Prometheus | ⚪ Planned |
+| Monitoring | Grafana | ⚪ Planned |
+| Logging | Loki | ⚪ Planned |
+| Dashboard | Homepage | ⚪ Planned |
+| Productivity | Vaultwarden | ⚪ Planned |
 
----
+> [!NOTE]
+> Media services (Jellyfin) run on a separate dedicated media host (`media-host`), not on this Docker host. See [architecture.md](architecture.md) for the full topology.
 
 ## Architecture
 
@@ -63,137 +29,71 @@ The long-term objective is to build a documented and repeatable self-hosted serv
 Internet
     │
     ▼
-ASUS RT-AX5400
+Edge Router ──── VPN (remote access)
     │
     ▼
-Docker Host (infra01)
+Firewall
     │
+    ▼
+Managed Switch
+    │
+    ▼
+docker-host (Debian VM)
+    │  (infrastructure containers)
     ├── Uptime Kuma
-    ├── Homepage
-    ├── Prometheus
-    ├── Grafana
-    ├── Loki
-    └── Additional Services
+    ├── Portainer
+    ├── Homepage    (planned)
+    ├── Prometheus  (planned)
+    ├── Grafana     (planned)
+    └── Loki        (planned)
 ```
 
-All services are deployed as independent containers and managed through Docker Compose.
+Compose files are version-controlled in this repository under `services/` and deployed to `/opt/docker` on the host. See [architecture.md](architecture.md) for the complete environment topology.
 
----
-
-## Key Tasks
-
-### Platform Setup
-
-- [x] Install Docker Engine
-- [x] Install Docker Compose Plugin
-- [x] Configure Docker Repository and GPG Key
-- [x] Configure Non-Root Docker Access
-- [x] Create Docker project directory structure (`/opt/docker`)
-- [x] Establish Docker deployment standards
-- [x] Create Docker reference documentation
+## What's Next
 
 ### Monitoring Stack
-
-- [x] Deploy Uptime Kuma
-- [x] Configure basic uptime monitoring
-- [ ] Deploy Prometheus
-- [ ] Deploy Grafana
-- [ ] Deploy Loki
+- [ ] Deploy Prometheus, Grafana, and Loki
 - [ ] Create baseline dashboards
 
-### Networking
+### Management
+- [ ] Deploy Portainer
 
+### Networking
 - [ ] Create custom Docker networks
-- [ ] Evaluate reverse proxy solutions
-- [ ] Implement TLS certificates
+- [ ] Evaluate reverse proxy and TLS options
 - [ ] Document service exposure strategy
 
 ### Operations
-
-- [ ] Standardize Compose file templates
-- [ ] Implement `.env` templates
-- [ ] Configure backups for Docker volumes
-- [ ] Document upgrade procedures
-- [ ] Document disaster recovery procedures
-
----
-
-## Documentation Standards
-
-Each deployed service should include:
-
-- Purpose
-- Architecture diagram
-- Docker Compose configuration
-- Port assignments
-- Storage locations
-- Backup requirements
-- Update procedures
-- Lessons learned
-
-Documentation should be updated whenever deployment procedures, architecture, or operational processes change.
-
----
+- [ ] Standardize Compose and `.env` templates
+- [ ] Configure Docker volume backups
+- [ ] Document upgrade and disaster recovery procedures
 
 ## Reference Documentation
 
-Foundational Docker documentation is maintained centrally under:
-
-```text
-docs/reference/
-```
-
-The following documents serve as authoritative references for this project:
+Foundational Docker documentation is maintained centrally under `docs/reference/`:
 
 | Document | Purpose |
-|----------|----------|
-| [docker-installation.md](../../docs/reference/docker-installation.md) | Docker Engine and Docker Compose installation procedures |
-| [docker-container-deployment.md](../../docs/reference/docker-container-deployment.md) | Standard process for deploying Docker Compose applications |
+|----------|---------|
+| [docker-installation.md](../../docs/reference/docker-installation.md) | Docker Engine and Compose installation |
+| [docker-container-deployment.md](../../docs/reference/docker-container-deployment.md) | Standard container deployment process |
 | [docker-concepts.md](../../docs/reference/docker-concepts.md) | Core Docker concepts and architecture |
-| [docker-command-reference.md](../../docs/reference/docker-command-reference.md) | Common Docker administration and troubleshooting commands |
+| [docker-command-reference.md](../../docs/reference/docker-command-reference.md) | Common administration and troubleshooting commands |
 
 > [!NOTE]
-> Reference documentation is intentionally maintained outside of this project directory to avoid duplication and documentation drift. Project-specific documentation should reference these guides rather than duplicate their contents.
-
----
+> Reference documentation is maintained outside this project directory to avoid duplication and drift. Project docs reference these guides rather than duplicate them.
 
 ## Related Projects
 
 - [kubernetes-lab](../kubernetes-lab/) — Future orchestration platform
-- [backup-disaster-recovery](../backup-disaster-recovery/) — Volume backup and restore procedures
+- [backup-disaster-recovery](../backup-disaster-recovery/) — Volume backup and restore
 - [network-infrastructure](../network-infrastructure/) — Networking and service exposure
-- [monitoring-observability](../monitoring-observability/) — Monitoring stack architecture and dashboards
+- [infrastructure-monitoring](../infrastructure-monitoring/) — Monitoring stack and dashboards
 
----
-
-## Folder Structure
-
-```text
-docker-self-hosted-services/
-├── README.md
-├── lessons-learned.md
-├── services/
-│   ├── uptime-kuma/
-│   ├── prometheus/
-│   ├── grafana/
-│   └── loki/
-├── diagrams/
-├── scripts/
-└── screenshots/
-```
-
-> [!NOTE]
-> Reusable technical references are maintained under `docs/reference/` rather than within this project directory.
-
----
 
 ## Security Notes
 
-- Secrets are never committed to source control.
-- `.env` files are excluded through `.gitignore`.
+- Secrets are never committed to source control; `.env` files are excluded via `.gitignore`.
 - Example configuration files are provided as templates.
-- Services are deployed with least-privilege principles whenever possible.
-- Administrative access is restricted to authorized users.
-- Persistent application data is stored in Docker volumes whenever possible.
-- Containers are considered disposable and should be able to be recreated without data loss.
-
+- Services follow least-privilege principles, with administrative access restricted to authorized users.
+- Persistent data is stored in Docker volumes; containers are treated as disposable and recreatable without data loss.
