@@ -22,7 +22,7 @@ Recommended settings for most homelab services:
 | Service Type | Recommended Monitor | Example |
 |----------|----------|----------|
 | Web Application | HTTP(s) | Grafana, Uptime Kuma, Homepage |
-| Device with Web Management Interface | HTTP(s) | ASUS Router, Synology DSM, iDRAC, iLO |
+| Device with Web Management Interface | HTTP(s) | Router, NAS DSM, iDRAC, iLO |
 | Server Without Web Interface | Ping | Linux Server, Hypervisor Host |
 | Specific Service Port | TCP Port | SSH (22), RDP (3389), SMB (445), Database Ports |
 | DNS Server | DNS | Internal DNS, Public DNS Servers |
@@ -30,8 +30,6 @@ Recommended settings for most homelab services:
 | Internet Connectivity | Ping | 1.1.1.1, 8.8.8.8 |
 | API Endpoint | HTTP(s) | REST APIs, Webhooks |
 | Database Service | TCP Port | SQL Server, MySQL, PostgreSQL |
-
-
 
 > [!TIP]
 > For critical systems, monitor both the host and the application. This helps distinguish between a device outage and an application outage.
@@ -43,15 +41,13 @@ Recommended settings for most homelab services:
 >
 > If Ping is UP but HTTP is DOWN, the server is healthy but the application likely has an issue.
 
-
 ---
-
 
 ## Monitor Types
 
 | Type | Purpose | Example |
 |----------|----------|----------|
-| HTTP(s) | Monitor web applications and management interfaces | Router, Synology, Grafana |
+| HTTP(s) | Monitor web applications and management interfaces | Router, NAS, Grafana |
 | Ping | Monitor host availability | Servers, routers, switches |
 | TCP Port | Verify a service is listening on a port | SSH, RDP, databases |
 | DNS | Monitor DNS functionality | Public or internal DNS servers |
@@ -75,8 +71,8 @@ Display name shown in the dashboard.
 Examples:
 
 ```text
-ASUS Router
-Synology NAS
+Router
+NAS
 Debian VM
 Grafana
 Prometheus
@@ -281,9 +277,9 @@ Alerts when a domain approaches expiration.
 Examples:
 
 ```text
-emmanuelcasillas.com
-xeregen.com
-nuvelink.com
+example.com
+example.net
+example.org
 ```
 
 ### Recommendation
@@ -424,24 +420,26 @@ Auto Select
 
 ## Recommended Starter Monitors
 
-### ASUS Router
+> **Note:** IP addresses below are sanitized examples using the documentation addressing scheme. Substitute your own network's values.
+
+### Router
 
 | Setting | Value |
 |----------|----------|
 | Type | HTTP(s) |
-| URL | https://10.10.10.1 |
+| URL | https://10.0.0.1 |
 | Interval | 60 seconds |
 | Retries | 2 |
 | Timeout | 10 seconds |
 
 ---
 
-### ASUS Router (Availability)
+### Router (Availability)
 
 | Setting | Value |
 |----------|----------|
 | Type | Ping |
-| Target | 10.10.10.1 |
+| Target | 10.0.0.1 |
 
 ---
 
@@ -450,16 +448,16 @@ Auto Select
 | Setting | Value |
 |----------|----------|
 | Type | Ping |
-| Target | 10.10.10.70 |
+| Target | 10.0.0.70 |
 
 ---
 
-### Synology NAS
+### NAS
 
 | Setting | Value |
 |----------|----------|
 | Type | HTTP(s) |
-| URL | https://10.10.10.10:5001 |
+| URL | https://10.0.0.10:5001 |
 
 ---
 
@@ -468,7 +466,7 @@ Auto Select
 | Setting | Value |
 |----------|----------|
 | Type | HTTP(s) |
-| URL | http://10.10.10.70:3001 |
+| URL | http://10.0.0.70:3001 |
 
 ---
 
@@ -501,7 +499,7 @@ Is the application working?
 Examples:
 
 - Router management page
-- Synology DSM
+- NAS DSM
 - Grafana
 - Uptime Kuma
 
