@@ -1,6 +1,6 @@
 # Media Services Platform (Debian & Jellyfin)
 
-**Status: ✅ Complete** — first completed project in the lab.
+**Status: 🟢 Operational** — first completed project in the lab.
 
 Self-hosted media platform built on Debian, focused on Linux administration fundamentals: OS installation, storage integration, service deployment, permissions, and documentation.
 
