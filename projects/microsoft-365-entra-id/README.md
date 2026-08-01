@@ -1,6 +1,6 @@
 # 🪪 Microsoft 365 & Entra ID Lab
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 Cloud identity and tenant administration with Microsoft 365 and Microsoft Entra ID, including hybrid identity with the on-prem Active Directory lab.
 
