@@ -1,6 +1,6 @@
 # ☸️ Kubernetes Lab
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 Container orchestration from homelab to cloud: a k3s cluster on Proxmox VMs, then Azure Kubernetes Service (AKS) — a core differentiator for cloud engineering roles.
 
