@@ -1,6 +1,6 @@
 # 🔁 CI/CD Pipelines
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 Automated build, validation, and deployment workflows with GitHub Actions — the connective tissue of modern cloud engineering teams.
 
