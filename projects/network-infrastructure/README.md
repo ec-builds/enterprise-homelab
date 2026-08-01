@@ -15,16 +15,14 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 - Segment trusted, guest, and lab traffic
 - Maintain documentation sufficient to rebuild the network from scratch
 
-
-
-## Logical Network Topology 
+## Logical Network Topology
 
 ![network topology](./diagrams/current-logical-network-architecture.png)
 
 ## Current Environment
 
 - ASUS RT-AX5400 Router
-- 10.10.10.0/24 Network
+- 10.0.0.0/24 Network
 - DHCP Reservations for infrastructure devices
 - Synology NAS connected via Ethernet
 - Media Server connected via Ethernet
@@ -34,7 +32,6 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 ## Technologies
 
 ### Current
-
 - ASUS RT-AX5400
 - DHCP Reservations
 - Guest Network Isolation
@@ -42,32 +39,28 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 - Ethernet-connected Media Server (2014 Mac mini)
 
 ### Planned
-
 - Cisco Managed Switch
 - VLAN Segmentation
 - Internal DNS Services
 - Configuration Backups
 - NetBox IPAM
-- pfSense or OPNsense Firewall
+- OPNsense Firewall
 
 ## Key Tasks
 
 ### Completed
-
 - [x] Define IP addressing plan
 - [x] Configure DHCP reservations
 - [x] Implement guest network isolation
 - [x] Document current network architecture
 
 ### In Progress
-
 - [ ] Deploy Cisco managed switch
 - [ ] Create physical port maps
 - [ ] Build device inventory
 - [ ] Document cabling layout
 
 ### Planned
-
 - [ ] Implement VLAN segmentation
 - [ ] Configure VLAN trunks
 - [ ] Map SSIDs to VLANs
@@ -102,7 +95,7 @@ See [`ip-addressing-plan.md`](./ip-addressing-plan.md) for detailed assignments.
 ## Related Projects
 
 - [virtualization-lab](../virtualization-lab/) — Hypervisors, VMs, and lab workloads connected to this network
-- [home-network-security](../home-network-security/) — Firewall policies and segmentation strategy
+- [network-security](../network-security/) — Firewall policies and segmentation strategy
 - [media-services-platform](../media-services-platform/) — Media services hosted on network infrastructure
 - [infrastructure-monitoring](../infrastructure-monitoring/) — Monitoring and observability stack
 
