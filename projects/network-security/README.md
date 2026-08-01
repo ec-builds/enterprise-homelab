@@ -1,6 +1,6 @@
 # 🔒 Network Security
 
-**Status: 🚧 In Progress**
+**Status: 🟡 In Progress**
 
 This project focuses on the *prevention* side of security by hardening the network infrastructure through segmentation, filtering, and secure remote access.
 
