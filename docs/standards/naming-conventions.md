@@ -30,6 +30,7 @@ Documentation uses generic hostnames that represent system roles rather than act
 | media-server-lab | Media Services Platform host |
 | nas-lab | Network Attached Storage (NAS) platform |
 | proxmox-lab | Future virtualization host |
+| docker-lab | Docker host vm |
 | ad-lab | Active Directory lab environment |
 | m365-lab | Microsoft 365 & Entra ID lab environment |
 | monitoring-lab | Monitoring and observability platform |
