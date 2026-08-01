@@ -1,6 +1,6 @@
 # 🏢 Active Directory Lab
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 Enterprise identity and access management built on Windows Server and Active Directory Domain Services, running on the Proxmox lab.
 
