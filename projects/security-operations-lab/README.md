@@ -1,6 +1,6 @@
 # 🛡️ Security Operations Lab
 
-**Status: 📋 Planned**
+**Status: ⚪ Planned**
 
 The *detect and respond* side of security: SIEM deployment, log collection, detection engineering, and documented incident triage.
 
