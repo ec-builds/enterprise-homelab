@@ -2,7 +2,7 @@
 
 **Status: 🟡 In Progress**
 
-Containerized self-hosted applications running on a dedicated Debian Docker host (`docker-host`). Services are deployed with Docker Compose and managed as version-controlled infrastructure-as-code.
+Containerized self-hosted applications running on a dedicated Debian Docker host (`docker-lab`). Services are deployed with Docker Compose and managed as version-controlled infrastructure-as-code.
 
 ## Overview
 
@@ -21,7 +21,7 @@ This project deploys, manages, and documents self-hosted services using Docker a
 | Productivity | Vaultwarden | ⚪ Planned |
 
 > [!NOTE]
-> Media services (Jellyfin) run on a separate dedicated media host (`media-host`), not on this Docker host. See [architecture.md](architecture.md) for the full topology.
+> Media services (Jellyfin) run on a separate dedicated media host (`media-server-lab`), not on this Docker host. See [architecture.md](architecture.md) for the full topology.
 
 ## Architecture
 
@@ -38,7 +38,7 @@ Firewall
 Managed Switch
     │
     ▼
-docker-host (Debian VM)
+docker-lab (Debian VM)
     │  (infrastructure containers)
     ├── Uptime Kuma
     ├── Portainer
@@ -82,8 +82,6 @@ Foundational Docker documentation is maintained centrally under `docs/reference/
 
 > [!NOTE]
 > Reference documentation is maintained outside this project directory to avoid duplication and drift. Project docs reference these guides rather than duplicate them.
-
-
 
 ## Security Notes
 
