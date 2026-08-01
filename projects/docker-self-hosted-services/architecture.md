@@ -8,38 +8,55 @@ This document describes the major components, dependencies, and relationships wi
 
 Operational procedures, installation guides, deployment procedures, and troubleshooting documentation are maintained separately to avoid duplication.
 
----
-
-## Current Architecture
+## Target Architecture
 
 ```text
 Internet
     │
     ▼
-ASUS RT-AX5400
+Edge Router ──── VPN (remote access)
+    │  (gateway)
+    ▼
+Firewall
+    │  (routing, IDS/IPS, DNS)
+    ▼
+Managed Switch
+    │  (switching / VLAN segmentation)
+    ├──────────────┬──────────────────────┐
+    ▼              ▼                       ▼
+proxmox-host    nas01                media-host
+(virtualization)(storage)            (media only)
+    │                │                     │
+    │                ▼                     ▼
+    │           Media Storage          Jellyfin
     │
     ▼
-Home Network
-    │
-    ├── Synology NAS
-    │     └── Media Storage
-    │
-    └── Docker Host (homesrv01)
-          │
-          ├── Uptime Kuma
-          ├── Jellyfin
-          └── Future Services
+docker-host (Debian VM)
+    │  (infrastructure containers)
+    ├── Uptime Kuma
+    ├── Portainer
+    ├── Prometheus   (planned)
+    ├── Grafana      (planned)
+    ├── Loki         (planned)
+    └── Homepage     (planned)
 ```
 
----
+> [!NOTE]
+> This reflects the **target** architecture. The network path (firewall, managed switch, VLANs) is in progress; see the repository roadmap for current build status.
 
 ## Core Components
 
 | Component | Role |
-|----------|----------|
-| ASUS RT-AX5400 | Primary network gateway |
-| Synology NAS | Shared storage and media repository |
-| Docker Host | Runs containerized applications |
+|-----------|------|
+| Edge Router | Gateway and internet connectivity |
+| Firewall | Routing, firewall, IDS/IPS, DNS (planned) |
+| Managed Switch | Switching and VLAN segmentation |
+| VPN | Secure remote access |
+| `proxmox-host` | Virtualization host for VMs and containers |
+| `docker-host` | Debian VM hosting all infrastructure containers |
+| `media-host` | Dedicated media host — runs Jellyfin only |
+| `nas01` | Shared storage and media repository |
+| Portainer | Container management UI |
 | Uptime Kuma | Service availability monitoring |
 | Jellyfin | Media streaming platform |
 | Prometheus | Metrics collection (planned) |
@@ -47,53 +64,65 @@ Home Network
 | Loki | Log aggregation (planned) |
 | Homepage | Service dashboard (planned) |
 
----
-
 ## Service Relationships
+
+### Docker Hosts
+
+```text
+docker-host (Debian VM)               media-host
+    │  infrastructure containers          │  media only
+    ├── Uptime Kuma                       └── Jellyfin
+    ├── Portainer
+    └── Monitoring stack (planned)
+```
 
 ### Monitoring
 
 ```text
 Uptime Kuma
     │
-    ├── Router
-    ├── Docker Host
-    ├── Jellyfin
-    └── Future Services
+    ├── Edge router / firewall
+    ├── proxmox-host
+    ├── docker-host
+    ├── media-host
+    └── Jellyfin
 ```
 
 ### Media Services
 
 ```text
-Synology NAS
+nas01
     │
     ▼
 Media Storage
     │
     ▼
-Jellyfin
+Jellyfin (media-host)
 ```
 
-Jellyfin depends on media storage being available from the Synology NAS.
-
----
+Jellyfin runs on `media-host` and depends on media storage from the NAS.
 
 ## Deployment Model
 
-Applications are deployed using Docker Compose.
+Containers are deployed using Docker Compose, with each service in its own directory on the relevant host.
 
+**`docker-host`** (infrastructure containers):
 ```text
 /opt/docker
 ├── uptime-kuma/
-├── grafana/
-├── prometheus/
-├── loki/
-└── homepage/
+├── portainer/
+├── prometheus/   (planned)
+├── grafana/      (planned)
+├── loki/         (planned)
+└── homepage/     (planned)
 ```
 
-Each service is deployed independently and maintains its own configuration and persistent data.
+**`media-host`** (media only):
+```text
+jellyfin/
+```
 
----
+Each service is deployed independently with its own configuration and persistent data. Portainer provides a management UI across the Docker environment.
 
 ## Planned Observability Stack
 
@@ -113,14 +142,11 @@ Loki
 Log Aggregation
 ```
 
-Purpose:
-
-- Uptime Kuma → Availability Monitoring
-- Prometheus → Metrics Collection
+Roles:
+- Uptime Kuma → Availability monitoring
+- Prometheus → Metrics collection
 - Grafana → Visualization
-- Loki → Log Aggregation
-
----
+- Loki → Log aggregation
 
 ## Future Enhancements
 
@@ -131,12 +157,10 @@ Purpose:
 - UPS-backed graceful shutdown
 - Additional self-hosted services
 
----
-
 ## Related Documentation
 
 | Document | Purpose |
-|----------|----------|
+|----------|---------|
 | [README.md](README.md) | Project overview and objectives |
 | [docker-installation.md](../../docs/reference/docker-installation.md) | Docker installation procedure |
 | [docker-container-deployment.md](../../docs/reference/docker-container-deployment.md) | Container deployment standard |
