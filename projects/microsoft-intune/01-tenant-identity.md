@@ -23,24 +23,36 @@ The account used to create the subscription was automatically assigned the **Mic
 
 ## Administrative Access
 
-The lab uses **role-based access control (RBAC)** to separate tenant-level administration from Intune administration and follow the principle of least privilege.
+The original **Global Administrator** account is reserved for tenant-level tasks that require elevated permissions.
 
-The original Global Administrator identity was configured as a dedicated privileged administrative account and is reserved for tenant-level tasks requiring elevated permissions.
+For routine lab administration, I use a dedicated account with the Microsoft Entra **Intune Administrator** role. This provides the access required to configure and validate the full endpoint management lifecycle while keeping the time-limited lab focused on hands-on Intune administration.
 
-Routine Intune administration is performed using accounts assigned only the permissions required for their responsibilities.
+In a production environment, Microsoft recommends applying **least privilege** by delegating routine responsibilities through narrower Microsoft Entra and Intune RBAC roles rather than relying on highly privileged administrative accounts.
 
 ### Entra RBAC vs. Intune RBAC
 
-During setup, I identified an important distinction between the two administrative permission systems used in the environment:
+During setup, I identified an important distinction between the two administrative permission systems:
 
 | RBAC System | Scope | Examples |
 |---|---|---|
 | **Microsoft Entra RBAC** | Directory and tenant-level administration | Global Administrator, Intune Administrator, User Administrator |
 | **Microsoft Intune RBAC** | Granular Intune administration | Application Manager, Intune Role Administrator, Policy and Profile Manager |
 
-Although both systems control administrative access, Intune-specific roles such as **Application Manager** are assigned within Intune rather than Microsoft Entra ID.
+Microsoft Entra roles provide broader directory or service-level administrative privileges, while Intune RBAC can delegate specific endpoint-management responsibilities and limit where those permissions apply.
 
-This distinction allows administrative responsibilities to be delegated without granting broader tenant permissions than necessary.
+To validate this model, I configured a scoped **Application Manager** role assignment using:
+
+- **Admin Group:** `Intune-App-Admins`
+- **Scope Groups:** `Intune-Lab-Users`, `Intune-Lab-Devices`
+- **Scope Tags:** Default
+
+![Intune Application Manager RBAC Assignment](./diagrams/intune-rbac-application-manager.png)
+
+This demonstrated how Intune can delegate a specific administrative function without granting full Intune administrative access. For the remainder of the initial lab, I use the broader Intune Administrator role rather than creating separate administrative identities for every Intune function.
+
+Additional delegated roles, scopes, and administrative separation can be implemented later as an expansion of the IAM/RBAC portion of the lab.
+
+> For a deeper breakdown of Intune role assignments, Admin Groups, Scope Groups, Scope Tags, and delegated administration, see [Intune RBAC Role Assignments](./docs/intune-rbac-role-assignments.md).
 
 ## Multifactor Authentication
 
@@ -68,24 +80,19 @@ Tenant administration
 
 The trial configured Microsoft Intune as the MDM authority automatically, so no additional configuration was required.
 
-
-## Intune RBAC
-
-Intune-specific administrative permissions were delegated using security groups and scoped role assignments. The Application Manager role was assigned to the `Intune-App-Admins` administrative group, with management limited to the lab user and device groups.
-
-![Intune Application Manager RBAC Assignment](./diagrams/intune-rbac-application-manager.png)
-
-
 ## Results
 
 At the end of the tenant and identity setup:
 
 - Microsoft Entra tenant created and Intune Plan 1 trial activated.
-- Privileged tenant administration separated from day-to-day Intune administration across Entra and Intune RBAC.
-- MFA enforced for all administrative sign-in.
+- Privileged Global Administrator access separated from routine Intune administration.
+- Dedicated Intune Administrator account established for the initial lab.
+- Entra and Intune RBAC models explored, including a scoped Application Manager assignment.
+- MFA configured for administrative access.
 - MDM authority confirmed as Microsoft Intune.
 - Tenant prepared for users, groups, licensing, and endpoint enrollment.
 
-## Reference
+## References
 
-Microsoft Learn — [Step 1: Sign up for a free trial and configure a Microsoft Intune tenant](https://learn.microsoft.com/en-us/intune/fundamentals/free-trial-sign-up)
+- [Microsoft Learn — Sign up for a free trial and configure a Microsoft Intune tenant](https://learn.microsoft.com/en-us/intune/fundamentals/free-trial-sign-up)
+- [Microsoft Learn — Assign Microsoft Intune roles for role-based access control](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/role-based-access-control/assign-role)
