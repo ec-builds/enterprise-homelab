@@ -78,6 +78,7 @@ A quick reference of the technologies used throughout the homelab, organized by 
 | **DHCP Server** | IP Address Management | Dynamic Host Configuration Protocol server. | Automatic IP address assignment. |
 | **Group Policy (GPO)** | Configuration Management | Centralized policy management for Windows devices and users. | Centralized Windows configuration management. |
 | **Microsoft Entra ID** | Cloud Identity | Microsoft's cloud identity and access management platform. | Cloud identity and single sign-on. |
+| **Microsoft Intune** | Endpoint Management | Cloud-based endpoint management platform for devices, applications, and security policies. | Centralized device management and endpoint security. |
 | **Active Directory Certificate Services (AD CS)** | Public Key Infrastructure | Microsoft's enterprise certificate authority. | Issues certificates for internal services. |
 | **Windows Server Update Services (WSUS)** | Patch Management | Centralized Windows Update management platform. | Centralized Windows patch management. |
 
