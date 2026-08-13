@@ -132,6 +132,7 @@ Use PowerShell to automate endpoint configuration and administration through Int
 intune-lab/
 │
 ├── README.md
+├── 00-tenant-identity.md
 ├── 01-enrollment.md
 ├── 02-configuration.md
 ├── 03-compliance.md
