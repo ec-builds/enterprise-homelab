@@ -146,6 +146,7 @@ intune-lab/
 ├── 06-update-management.md
 ├── 07-endpoint-security.md
 ├── 08-automation.md
+├── 09-lessons-learned.md
 │
 ├── scripts/
 │   ├── inventory.ps1
