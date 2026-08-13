@@ -64,21 +64,19 @@ Tenant administration
     └── MDM authority: Microsoft Intune
 ```
 
+![Intune Dashboard](./diagrams/intune-dashboard.png)
+
 The trial configured Microsoft Intune as the MDM authority automatically, so no additional configuration was required.
 
-## Result
+## Results
 
 At the end of the tenant and identity setup:
 
-- Microsoft Entra tenant created.
-- Microsoft Intune trial activated.
-- Intune admin center access verified.
-- Dedicated privileged administrative access established.
-- Entra and Intune RBAC models identified and separated.
-- Least-privilege administration incorporated into the lab design.
-- MFA configured for administrative access.
+- Microsoft Entra tenant created and Intune Plan 1 trial activated.
+- Privileged tenant administration separated from day-to-day Intune administration across Entra and Intune RBAC.
+- MFA enforced for all administrative sign-in.
 - MDM authority confirmed as Microsoft Intune.
-- Tenant prepared for users, groups, licensing, and subsequent endpoint management.
+- Tenant prepared for users, groups, licensing, and endpoint enrollment.
 
 ## Reference
 
