@@ -4,7 +4,7 @@
 
 I used Microsoft's **30-day Microsoft Intune Plan 1 trial** to create a dedicated tenant for the lab. For the most part, I followed Microsoft's documented **Sign up for a free trial** process, and the initial tenant setup was straightforward.
 
-![Intune Sign Up](./diagrams/trial-sign-up.png)
+![Intune Sign Up](./diagrams/trial-sign-up-01.png)
 
 ### Setup Process
 
@@ -16,6 +16,8 @@ The trial signup created the Microsoft Entra tenant and Intune subscription used
 4. Selecting the initial `.onmicrosoft.com` tenant domain and administrator username.
 5. Completing account verification and trial activation.
 6. Signing in to the Microsoft Intune admin center with the newly created tenant account.
+
+![Intune Sign Up](./diagrams/trial-sign-up-02.png)
 
 The subscription-creation account was initially assigned the **Microsoft Entra Global Administrator** role. Rather than using this highly privileged account for routine Intune administration, I separated administrative access and used more appropriate roles for day-to-day lab tasks.
 
