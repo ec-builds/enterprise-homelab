@@ -120,14 +120,6 @@ Use PowerShell to automate endpoint configuration and administration through Int
 
 
 
-## Key Learnings
-
-> Running notes as I go — mistakes, surprises, things that didn't work the first time, and differences between virtual and physical Windows endpoints.
-
-- **[Date] –**
-- **[Date] –**
-- **[Date] –**
-
 ## Directory Structure
 
 ```text
