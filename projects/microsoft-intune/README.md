@@ -6,9 +6,9 @@ A hands-on Intune lab — part of my transition from traditional systems adminis
 
 ## Overview
 
-My systems administration background is primarily in hybrid Microsoft environments, managing on-premises Active Directory synchronized with Microsoft Entra ID alongside Group Policy and Windows endpoint administration. This lab extends that experience into cloud-native endpoint management with Microsoft Intune, with a focus on the MDM, security, automation, and identity integrations relevant to modern Systems Administrator and IAM roles.
+With my background primarily in hybrid Microsoft environments, managing on-premises Active Directory synchronized with Microsoft Entra ID alongside Group Policy and Windows endpoint administration, I’m using this lab to extend that experience into cloud-native endpoint management with Microsoft Intune. The focus is on MDM, security, automation, and identity integration relevant to modern Systems Administrator and IAM roles.
 
-I’m using the **30-day Microsoft Intune Plan 1 trial** to build and validate the endpoint lifecycle hands-on rather than only studying the platform conceptually. The goal is to understand not just how Intune is configured, but how policies reach endpoints, how they are validated, where deployments fail, and how those failures are troubleshot.
+Using the **30-day Microsoft Intune Plan 1 trial**, I’m building and validating the endpoint management lifecycle hands-on rather than only studying the platform conceptually. The goal is to understand not just how Intune is configured, but how endpoints are enrolled and managed, how policies and applications reach devices, how deployments are validated, and where failures occur and how they are troubleshot.
 
 The lab follows the core endpoint management lifecycle:
 
