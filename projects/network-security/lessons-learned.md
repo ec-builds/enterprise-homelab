@@ -1,4 +1,4 @@
-## 2026- — Validate Generated VPN Configurations Before Customizing Them
+## 2026-07-24 — Validate Generated VPN Configurations Before Customizing Them
 
 **Context**
 
