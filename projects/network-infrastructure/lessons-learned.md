@@ -1,4 +1,4 @@
-## 2026- — Plan IP Addressing for Growth and Documentation
+## 2026-07-24 — Plan IP Addressing for Growth and Documentation
 
 **Context**
 
@@ -15,7 +15,7 @@ An IP addressing plan should account for future growth before devices and servic
 - Reduced the likelihood of address conflicts and future renumbering.
 - Established sanitized addressing examples for public-facing documentation.
 
-## 2026- — Reserve DHCP Capacity for Static Infrastructure
+## 2026-07-24 — Reserve DHCP Capacity for Static Infrastructure
 
 **Context**
 
@@ -32,7 +32,7 @@ Define DHCP scopes with intentional space outside the dynamic pool so infrastruc
 - Reduced the risk of conflicts between dynamic and manually assigned addresses.
 - Created room for future network growth without changing the DHCP scope.
 
-## 2026- — Verify Guest and IoT Network Isolation
+## 2026-06-13 — Verify Guest and IoT Network Isolation
 
 **Context**
 
