@@ -4,6 +4,8 @@
 
 I used Microsoft's **30-day Microsoft Intune Plan 1 trial** to create a dedicated tenant for the lab. For the most part, I followed Microsoft's documented **Sign up for a free trial** process, and the initial tenant setup was straightforward.
 
+![Intune Sign Up](./diagrams/trial-sign-up.png)
+
 ### Setup Process
 
 The trial signup created the Microsoft Entra tenant and Intune subscription used throughout the lab. The initial process consisted of:
