@@ -68,6 +68,14 @@ Tenant administration
 
 The trial configured Microsoft Intune as the MDM authority automatically, so no additional configuration was required.
 
+
+## Intune RBAC
+
+Intune-specific administrative permissions were delegated using security groups and scoped role assignments. The Application Manager role was assigned to the `Intune-App-Admins` administrative group, with management limited to the lab user and device groups.
+
+![Intune Application Manager RBAC Assignment](./diagrams/intune-rbac-application-manager.png)
+
+
 ## Results
 
 At the end of the tenant and identity setup:
