@@ -60,7 +60,7 @@ This demonstrated how Intune can delegate a specific administrative function wit
 
 Additional delegated roles, scopes, and administrative separation can be implemented later as an expansion of the IAM/RBAC portion of the lab.
 
-> For a deeper breakdown of Intune role assignments, Admin Groups, Scope Groups, Scope Tags, and delegated administration, see [Intune RBAC Role Assignments](./docs/reference/intune/intune-rbac-role-assignments.md)
+> For a deeper breakdown of Intune role assignments, Admin Groups, Scope Groups, Scope Tags, and delegated administration, see [Intune RBAC Role Assignments](../docs/reference/intune/intune-rbac-role-assignments.md)
 
 ## Multifactor Authentication
 
