@@ -118,11 +118,7 @@ Use PowerShell to automate endpoint configuration and administration through Int
 - Logging and exit codes
 - Script deployment monitoring
 
-## Troubleshooting
 
-| Issue | Root Cause | Resolution |
-|---|---|---|
-| | | |
 
 ## Key Learnings
 
