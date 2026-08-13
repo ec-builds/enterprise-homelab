@@ -153,16 +153,6 @@ intune-lab/
 │
 ├── diagrams/
 │   └── ...
-│
-└── screenshots/
-    ├── tenant-identity/
-    ├── enrollment/
-    ├── configuration/
-    ├── compliance/
-    ├── apps/
-    ├── updates/
-    ├── security/
-    └── automation/
 ```
 
 ## Future Expansion
