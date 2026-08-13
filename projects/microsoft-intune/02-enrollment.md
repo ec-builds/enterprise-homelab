@@ -13,11 +13,13 @@ Microsoft Entra User
         ↓
 Intune License
         ↓
-Automatic MDM Enrollment
+Eligible for MDM Enrollment
         ↓
-Windows 11 Endpoint
+Windows 11 Entra Join
         ↓
-Microsoft Intune
+Automatic Intune Enrollment
+        ↓
+Managed Endpoint
 ```
 
 ### Test User
@@ -39,7 +41,10 @@ Microsoft Intune
 
 <!-- Verify the device, primary user, ownership, compliance state, and management status here. -->
 
-
 ## Results
 
 <!-- Summarize the completed enrollment workflow here. -->
+
+## References
+
+<!-- Add Microsoft Learn references used during enrollment here. -->
