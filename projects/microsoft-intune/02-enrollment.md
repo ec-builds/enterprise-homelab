@@ -38,6 +38,8 @@ Intune-Lab-Users
         Target Intune Policies
 ```
 
+![Intune Lab Users Group](./diagrams/intune-lab-users.png)
+
 This group-based approach allows Intune configurations to be assigned to a managed population rather than individual users and provides a structure that can scale as additional test users and devices are added.
 
 ## Automatic Enrollment
