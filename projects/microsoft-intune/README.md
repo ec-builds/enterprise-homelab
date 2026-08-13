@@ -2,7 +2,7 @@
 
 **Status: 🟡 In Progress**
 
-A hands-on Intune lab — part of my transition from traditional systems administration into Identity and Access Management.
+A hands-on Microsoft Intune lab extending my systems administration experience into cloud-native endpoint management and Identity and Access Management.
 
 ## Overview
 
