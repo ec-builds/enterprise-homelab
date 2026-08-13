@@ -44,7 +44,7 @@ To validate this model, I configured a scoped **Application Manager** role assig
 
 - **Admin Group:** `Intune-App-Admins`
 - **Scope Groups:** `Intune-Lab-Users`, `Intune-Lab-Devices`
-- **Scope Tags:** None
+- **Scope Tags:** `None`
 
 ![Intune Application Manager RBAC Assignment](./diagrams/intune-rbac-application-manager.png)
 
