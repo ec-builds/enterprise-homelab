@@ -112,6 +112,7 @@ Functionally, the environment is organized into several infrastructure domains:
 | [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | ⚪ Planned |
+| [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, application deployment | 🟡 In Progress
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
 | [Network Security](projects/network-security/) | Firewalls, segmentation, hardening, VPN | 🟡 In Progress |
 | [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | ⚪ Planned |
