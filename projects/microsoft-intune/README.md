@@ -1,6 +1,6 @@
 # 💻 Microsoft Intune Lab
 
-Status: 🟡 In Progress
+**Status: 🟡 In Progress**
 
 A hands-on Intune lab — part of my transition from traditional systems administration into Identity and Access Management.
 
