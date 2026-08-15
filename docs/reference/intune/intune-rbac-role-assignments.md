@@ -351,7 +351,6 @@ This additional complexity allows Intune administration to scale across teams, l
 
 ## References
 
-- [Assign Microsoft Intune roles for role-based access control](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/role-based-access-control/assign-role)
 - [Role-based access control with Microsoft Intune](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/role-based-access-control/)
 - [Use RBAC and scope tags for distributed IT](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/scope-tags)
 - [Microsoft Intune licensing](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/licenses)
