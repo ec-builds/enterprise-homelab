@@ -2,53 +2,39 @@
 
 **Context**
 
-After successfully installing Proxmox VE inside VMware Workstation, I enabled VMware's **Virtualize Intel VT-x/EPT or AMD-V/RVI** option so Proxmox could use KVM hardware acceleration and run nested virtual machines.
-
-With nested virtualization enabled, Proxmox began reporting repeated watchdog errors:
+While testing Proxmox VE inside VMware Workstation, I enabled nested VT-x/EPT so Proxmox could run KVM virtual machines. This caused repeated CPU soft lockups and eventually made the Proxmox VM unstable.
 
 ```text
 watchdog: BUG: soft lockup - CPU#2 stuck for 22s! [CPU 0/KVM]
 ```
 
-The lockups occurred even during normal host activity such as running `apt update` and eventually caused the Proxmox VM to become unstable and reboot.
-
 **Lesson**
 
-Nested virtualization introduces an additional virtualization layer that can create compatibility or CPU scheduling issues that do not exist in a bare-metal Proxmox deployment. Successfully exposing VT-x/AMD-V to a nested hypervisor does not necessarily mean the resulting KVM environment will be stable.
-
-Disabling VMware's nested virtualization option immediately stabilized the Proxmox VM, isolating the issue to the **VMware → Proxmox → KVM** virtualization path rather than the Proxmox installation itself.
+Nested virtualization adds another hypervisor layer and can introduce stability issues not present with bare-metal virtualization. Disabling nested VT-x/EPT immediately stabilized Proxmox, isolating the issue to the **VMware → Proxmox → KVM** path rather than Proxmox itself.
 
 **Result**
 
-- Confirmed Proxmox VE itself was stable when VMware nested virtualization was disabled.
-- Isolated repeated `watchdog: BUG: soft lockup` errors to VMware's nested VT-x/AMD-V exposure.
-- Verified stability by disabling **Virtualize Intel VT-x/EPT or AMD-V/RVI** and repeating normal Proxmox operations.
-- Avoided unnecessary Proxmox reinstallation after identifying the virtualization layer as the source of instability.
-- Continued using the nested Proxmox instance for management, networking, storage, and interface familiarization without nested KVM acceleration.
-- Reinforced the value of changing one infrastructure variable at a time to isolate faults.
-- Recognized that this limitation applies to the temporary VMware test environment and will not represent the final bare-metal Proxmox architecture.
+- Isolated the soft lockups to VMware nested virtualization.
+- Confirmed Proxmox remained stable with nested VT-x/EPT disabled.
+- Continued using the VM to test Proxmox management, networking, and storage.
+- Confirmed the issue is specific to the temporary nested environment, not the planned bare-metal architecture.
 
 
-## 2026-08-15 — Windows Hyper-V and VBS Can Prevent Nested Virtualization
+## 2026-08-15 — Hyper-V and VBS Can Prevent VMware Nested Virtualization
 
 **Context**
 
-Before deploying Proxmox VE to dedicated bare-metal hardware, I wanted to test Proxmox inside VMware Workstation on Windows. VMware reported that Hyper-V or Device/Credential Guard was active and that it would use the Windows Hypervisor Platform, which prevented nested virtualization from being available.
-
-Disabling the Hyper-V Windows Feature and setting `hypervisorlaunchtype` to `off` did not initially resolve the issue. Checking `msinfo32` showed that Virtualization-Based Security (VBS) was still running and that Windows continued to detect an active hypervisor.
+VMware initially reported that Hyper-V or Device/Credential Guard was active and that nested virtualization was unavailable. Disabling Hyper-V alone did not resolve the issue because Windows VBS remained active.
 
 **Lesson**
 
-Disabling the Hyper-V Windows Feature does not necessarily stop the underlying Microsoft hypervisor. Windows security technologies such as VBS and Memory Integrity/HVCI can continue using the virtualization stack even when Hyper-V itself is disabled.
-
-Nested virtualization requires VMware to expose the host's Intel VT-x/AMD-V virtualization extensions to the Proxmox guest. On this system, VBS had to be disabled through the Device Guard Group Policy before VMware could provide nested virtualization to Proxmox.
+Disabling the Hyper-V Windows Feature does not necessarily stop the Microsoft hypervisor. VBS and Memory Integrity/HVCI can continue using it. `msinfo32` confirmed VBS was still running, and disabling VBS through Device Guard Group Policy resolved the conflict.
 
 **Result**
 
-- Disabled Hyper-V and other unnecessary Windows virtualization components for the VMware test environment.
-- Disabled Memory Integrity and configured `hypervisorlaunchtype` as `off`.
-- Used `msinfo32` to identify that VBS and the Microsoft hypervisor were still active after the initial changes.
-- Disabled **Turn On Virtualization Based Security** under the Device Guard Group Policy and confirmed the hypervisor was no longer active after reboot.
-- Enabled VMware's **Virtualize Intel VT-x/EPT or AMD-V/RVI** option for the Proxmox VM.
-- Learned that hardware virtualization should remain enabled in BIOS/UEFI even when the Windows hypervisor must be disabled.
-- Established a temporary VMware → Proxmox nested environment for testing before the final bare-metal Proxmox deployment.
+- Disabled Hyper-V, Memory Integrity, and unnecessary Windows virtualization components.
+- Set `hypervisorlaunchtype` to `off`.
+- Used `msinfo32` to confirm VBS was still keeping the Microsoft hypervisor active.
+- Disabled **Turn On Virtualization Based Security** through Group Policy.
+- Restored VMware's ability to expose nested VT-x/EPT to the Proxmox VM.
+- Learned to distinguish **hardware virtualization (VT-x/EPT)** from the **Windows hypervisor/VBS layer**.
