@@ -38,8 +38,6 @@ This lab provides the platform for: [active-directory-lab](../active-directory-l
 
 ```
 virtualization-lab/
-├── docs/            # build-notes.md, troubleshooting.md, lessons-learned.md
-├── configs/         # Sanitized host/network configs
 ├── scripts/         # Template build and maintenance scripts
-└── screenshots/     # Visual documentation
+└── diagrams/     # Visual documentation
 ```
