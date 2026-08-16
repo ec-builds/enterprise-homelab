@@ -1,3 +1,34 @@
+## 2026-08-15 — Nested KVM Caused CPU Soft Lockups in VMware
+
+**Context**
+
+After successfully installing Proxmox VE inside VMware Workstation, I enabled VMware's **Virtualize Intel VT-x/EPT or AMD-V/RVI** option so Proxmox could use KVM hardware acceleration and run nested virtual machines.
+
+With nested virtualization enabled, Proxmox began reporting repeated watchdog errors:
+
+```text
+watchdog: BUG: soft lockup - CPU#2 stuck for 22s! [CPU 0/KVM]
+```
+
+The lockups occurred even during normal host activity such as running `apt update` and eventually caused the Proxmox VM to become unstable and reboot.
+
+**Lesson**
+
+Nested virtualization introduces an additional virtualization layer that can create compatibility or CPU scheduling issues that do not exist in a bare-metal Proxmox deployment. Successfully exposing VT-x/AMD-V to a nested hypervisor does not necessarily mean the resulting KVM environment will be stable.
+
+Disabling VMware's nested virtualization option immediately stabilized the Proxmox VM, isolating the issue to the **VMware → Proxmox → KVM** virtualization path rather than the Proxmox installation itself.
+
+**Result**
+
+- Confirmed Proxmox VE itself was stable when VMware nested virtualization was disabled.
+- Isolated repeated `watchdog: BUG: soft lockup` errors to VMware's nested VT-x/AMD-V exposure.
+- Verified stability by disabling **Virtualize Intel VT-x/EPT or AMD-V/RVI** and repeating normal Proxmox operations.
+- Avoided unnecessary Proxmox reinstallation after identifying the virtualization layer as the source of instability.
+- Continued using the nested Proxmox instance for management, networking, storage, and interface familiarization without nested KVM acceleration.
+- Reinforced the value of changing one infrastructure variable at a time to isolate faults.
+- Recognized that this limitation applies to the temporary VMware test environment and will not represent the final bare-metal Proxmox architecture.
+
+
 ## 2026-08-15 — Windows Hyper-V and VBS Can Prevent Nested Virtualization
 
 **Context**
