@@ -2,7 +2,7 @@
 
 This document records issues encountered during the deployment and operation of the Media Services Platform, along with the troubleshooting process and final resolution.
 
----
+
 
 ## Media Quality Degradation During Playback
 
