@@ -18,7 +18,7 @@ The phases build on one another but are not strictly linear — documentation, s
 
 This roadmap describes how the homelab is built in stages — from the underlying platform up through enterprise operations, security, and cloud. The phases build on one another but are not strictly linear: documentation, security, and automation are ongoing threads that mature alongside the infrastructure rather than waiting for a single phase.
 
-The lab is currently in **Phase 1 (Foundation)** — standing up the hypervisor, hosts, and base networking that everything else depends on.
+The lab is transitioning from **Phase 1 (Foundation)** into **Phase 2 (Build & Explore)**. Core infrastructure is operational, while virtualization and additional infrastructure services are actively being expanded.
 
 ### Status Legend
 
@@ -29,13 +29,13 @@ The lab is currently in **Phase 1 (Foundation)** — standing up the hypervisor,
 | ⚪ Upcoming | Planned, not yet started |
 | 📍 You Are Here | Current focus of active work |
 
-### 1. Foundation 🟡 📍 You Are Here
+### 1. Foundation 🟢 Complete
 - Hardware Evaluation
 - Operating Systems
 - Networking Fundamentals
 - Documentation Standards
 
-### 2. Build & Explore ⚪ Upcoming
+### 2. Build & Explore 🟡 📍 You Are Here
 - Linux Services
 - Identity Management
 - Storage Integration
