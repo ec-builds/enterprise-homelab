@@ -8,7 +8,7 @@ Debian 13 was selected as the operating system for this project due to its stabi
 
 The installation media was created on macOS and deployed to a dedicated host system **(2014 Mac Mini)**.
 
----
+
 
 ## Implementation Summary
 
@@ -21,7 +21,7 @@ The installation media was created on macOS and deployed to a dedicated host sys
 | Post-Installation Tasks | Verified successful boot, tested automatic startup after power loss, confirmed Ethernet connectivity, and documented system information |
 | Validation & Handoff | Confirmed the operating system was stable and ready for additional configuration and service deployment |
 
----
+
 
 ## Installation Media Preparation
 
@@ -66,7 +66,7 @@ Debian provides multiple installation images. The two most common options are th
 
 Either approach is valid. For this project, the DVD ISO was selected to provide a self-contained installation experience while learning the Debian deployment process.
 
----
+
 
 ### Identify the USB Device
 
@@ -79,7 +79,7 @@ diskutil list
 > [!NOTE]
 > Verify the correct disk identifier before proceeding. Selecting the wrong device may result in data loss.
 
----
+
 
 ### Unmount the USB Device
 
@@ -91,7 +91,7 @@ diskutil unmountDisk /dev/diskX
 
 Replace `diskX` with the appropriate disk identifier.
 
----
+
 
 ### Verify ISO Integrity
 
@@ -107,7 +107,7 @@ Compare the resulting hash with the checksum published by the Debian project.
 https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/
 ```
 
----
+
 
 ### Write the ISO to the USB Device
 
@@ -132,7 +132,7 @@ This command writes the Debian installation image directly to the USB device, cr
 >
 > Validation should be performed by booting the target system and verifying that the USB device appears as an **EFI Boot** option during startup.
 
----
+
 
 ### Eject the USB Device
 
@@ -142,7 +142,7 @@ After the write process completes, safely eject the installation media.
 diskutil eject /dev/diskX
 ```
 
----
+
 
 ## Booting the Installation Media
 
@@ -169,7 +169,7 @@ After the installer loaded, the standard Debian 13 installer menu was displayed.
 *Figure 2. Debian 13 installer menu displayed after selecting EFI Boot from the Apple startup manager.*
 
 
----
+
 
 ## Debian Installation
 
@@ -198,7 +198,7 @@ No desktop environment was installed.
 
 The server was deployed as a headless Linux system managed primarily through SSH.
 
----
+
 
 ## Post-Installation Tasks
 
@@ -219,7 +219,7 @@ Subsequent configuration steps are documented in:
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 - [SMB Storage](./smb-storage.md)
 
----
+
 
 ## Outcome
 
