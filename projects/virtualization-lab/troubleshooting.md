@@ -1,5 +1,18 @@
 # Troubleshooting
 
+
+## Windows Boot Manager Prevented Proxmox Boot
+
+**Symptom:** After the bare-metal Proxmox installation, the system did not automatically boot into Proxmox.
+
+**Cause:** The Dell UEFI firmware retained an active Windows Boot Manager entry from the system's previous Windows installation and prioritized it during startup.
+
+**Resolution:** Disabled Windows Boot Manager in the Dell BIOS/UEFI boot configuration while keeping UEFI boot mode enabled.
+
+**Impact:** Proxmox booted normally without installation media attached. Confirmed the issue was caused by the firmware boot configuration rather than the Proxmox installation.
+
+---
+
 ## VMware Nested Virtualization Unavailable
 
 **Symptom:** VMware reported that nested virtualization was unavailable because Hyper-V or Device/Credential Guard was active.
