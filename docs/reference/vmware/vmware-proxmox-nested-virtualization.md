@@ -39,7 +39,7 @@ For a VMware → Proxmox → KVM lab, the important part is:
 
 > **Nested virtualization will not be available.**
 
----
+
 
 # Quick Configuration Table
 
@@ -58,7 +58,7 @@ For a VMware → Proxmox → KVM lab, the important part is:
 | 11 | Verify Microsoft hypervisor | `msinfo32` | Hypervisor message absent | Confirm Windows hypervisor is inactive |
 | 12 | Enable VMware nested virtualization | VMware VM Settings → Processors | Enabled | Pass VT-x/AMD-V through to Proxmox |
 
----
+
 
 # Detailed Procedure
 
@@ -122,7 +122,7 @@ KVM
 
 Therefore, VMware needs access to the hardware virtualization capabilities that it can expose to Proxmox.
 
----
+
 
 ## Step 2 — Disable Windows Hypervisor Platform
 
@@ -165,7 +165,7 @@ VT-x / AMD-V
 
 This compatibility mode is useful when Hyper-V/VBS must remain enabled, but it is not what we want for this nested Proxmox configuration.
 
----
+
 
 ## Step 3 — Disable Virtual Machine Platform
 
@@ -189,7 +189,7 @@ If this feature is required for something else on the computer, disabling it may
 
 For a system being configured primarily as a VMware nested-virtualization host, disabling it helps remove competing Microsoft virtualization components.
 
----
+
 
 ## Step 4 — Disable Windows Sandbox
 
@@ -207,7 +207,7 @@ It isn't necessarily the primary cause of VMware's warning, but disabling it eli
 
 If Sandbox isn't installed/enabled, nothing needs to be changed.
 
----
+
 
 ## Step 5 — Disable Memory Integrity
 
@@ -249,7 +249,7 @@ Microsoft hypervisor necessarily stopped
 
 Windows security features can use the same underlying virtualization technology even when you aren't running conventional Hyper-V virtual machines.
 
----
+
 
 ## Step 6 — Prevent the Microsoft Hypervisor from Launching
 
@@ -297,7 +297,7 @@ VBS/Security Configuration
 
 All three can affect whether Microsoft's hypervisor is actually running.
 
----
+
 
 ## Step 7 — Disable Virtualization-Based Security Through Group Policy
 
@@ -378,7 +378,7 @@ through Group Policy stopped VBS from continuing to activate the virtualization 
 
 This was the key final fix.
 
----
+
 
 ## Step 8 — Restart Windows
 
@@ -399,7 +399,7 @@ isn't sufficient.
 
 Windows needs to boot again with the new hypervisor/VBS configuration.
 
----
+
 
 # Verification
 
@@ -427,7 +427,7 @@ hypervisorlaunchtype    Off
 
 This confirms that the current Windows boot entry is configured **not to automatically launch Microsoft's hypervisor**.
 
----
+
 
 ## Step 10 — Verify VBS Status
 
@@ -456,7 +456,6 @@ This indicated that VBS was still active despite Hyper-V itself having been remo
 
 After the successful configuration, VBS should no longer report itself as running.
 
----
 
 ## Step 11 — Verify the Microsoft Hypervisor Is Gone
 
@@ -498,7 +497,7 @@ Microsoft hypervisor not running
 
 Those are two different things.
 
----
+
 
 # Step 12 — Enable Nested Virtualization in VMware
 
@@ -555,7 +554,7 @@ Nested VM
 
 Proxmox can now see virtualization capabilities inside its VMware VM and use KVM to run additional VMs.
 
----
+
 
 # BIOS / UEFI Configuration
 
@@ -583,7 +582,7 @@ DISABLE for this VMware nested lab
 
 If hardware virtualization itself is disabled in BIOS, VMware will lose the capabilities that we're trying to expose to Proxmox.
 
----
+
 
 # Troubleshooting Sequence Used
 
@@ -651,7 +650,7 @@ No longer active
 
 VMware could then use the system's virtualization extensions in the configuration required for nested Proxmox virtualization.
 
----
+
 
 # Final Configuration
 
@@ -671,7 +670,7 @@ The desired configuration for this lab is:
 | VMware nested virtualization | **ON** |
 | Proxmox KVM | **Available** |
 
----
+
 
 # Do These Settings Need to Be Reverted After Installing Proxmox?
 
@@ -695,7 +694,7 @@ Re-enabling VBS/Hyper-V may cause VMware to return to Windows Hypervisor Platfor
 
 Therefore, while this machine is being used as a VMware → Proxmox lab host, leave these settings configured as described above.
 
----
+
 
 # Security Consideration
 
@@ -733,7 +732,7 @@ For a machine dedicated primarily to virtualization/lab work, the latter configu
 
 If the computer stops being used for VMware nested virtualization, the Windows security features can be restored.
 
----
+
 
 # Quick Diagnostic Commands
 
@@ -773,7 +772,7 @@ optionalfeatures
 gpedit.msc
 ```
 
----
+
 
 # Key Lesson
 
