@@ -31,7 +31,7 @@ The roadmap outlines the planned evolution of the homelab, highlighting current 
 
 ## Equipment
 
-The homelab is built on repurposed enterprise hardware, networking equipment, and storage platforms that support infrastructure, virtualization, networking, and automation projects.
+The homelab is built on repurposed hardware, managed networking equipment, and dedicated storage platforms. Take a look at the equipment inventory below for more information. 
 
 ➡️ **[See Equipment Inventory](equipment/README.md)**
 
