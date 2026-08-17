@@ -16,7 +16,7 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [Kubernetes Lab](./kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](./media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](./microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | ⚪ Planned |
-| [Microsoft Intune Lab](./microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress
+| [Microsoft Intune Lab](./microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
 | [Network Infrastructure](./network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
 | [Network Security](./network-security/) | Firewalls, segmentation, hardening, VPN | 🟡 In Progress |
 | [Security Operations Lab](./security-operations-lab/) | SIEM, detection engineering, incident response | ⚪ Planned |
