@@ -4,7 +4,7 @@ This document outlines the media library structure used by the Media Services Pl
 
 The objective of the library design is to provide a simple, scalable, and organized structure that can be easily consumed by Jellyfin while remaining manageable on the NAS platform.
 
----
+
 
 ## Overview
 
@@ -22,7 +22,7 @@ Media Share
 Jellyfin Libraries
 ```
 
----
+
 
 ## Library Structure
 
@@ -35,7 +35,7 @@ The current deployment utilizes a dedicated Movies library.
 
 This structure provides a simple foundation for media organization while allowing future expansion as additional content types are added.
 
----
+
 
 ## Movies Library
 
@@ -63,7 +63,7 @@ Movies
 - Collection support
 - Improved browsing experience
 
----
+
 
 ## Read-Only Access Model
 
@@ -78,7 +78,7 @@ Benefits include:
 
 All media management activities are performed directly on the NAS rather than through the media server.
 
----
+
 
 ## Metadata Management
 
@@ -95,7 +95,7 @@ Examples include:
 
 This allows the media libraries to remain organized while minimizing manual administration.
 
----
+
 
 ## Future Expansion
 
@@ -114,7 +114,7 @@ Potential additions include:
 
 Future library additions can be integrated without modifying the underlying storage architecture.
 
----
+
 
 ## Related Documentation
 
@@ -123,7 +123,7 @@ Future library additions can be integrated without modifying the underlying stor
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 - [Client Testing](./client-testing.md)
 
----
+
 
 ## Outcome
 
