@@ -57,7 +57,7 @@ Functionally, the environment is organized into several infrastructure domains:
 | Domain | Scope |
 |--------|-------|
 | Network Infrastructure | Routing, switching, VLANs, DNS/DHCP |
-| Virtualization | Proxmox host, VM and container lifecycle |
+| Virtualization | Proxmox hosts, VM lifecycle, storage, and virtual networking |
 | Identity & Access Management | Active Directory, Entra ID, RBAC |
 | Security Operations | Firewall, segmentation, IDS/IPS |
 | Infrastructure Monitoring | Metrics, logging, alerting |
