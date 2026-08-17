@@ -115,7 +115,7 @@ Functionally, the environment is organized into several infrastructure domains:
 | [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
 | [Network Security](projects/network-security/) | Firewalls, segmentation, hardening, VPN | 🟡 In Progress |
-| [Security Operations Lab](projects/security-operations-lab/) | SIEM, detection engineering, incident response | ⚪ Planned |
+| [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 | [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
 
 The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
