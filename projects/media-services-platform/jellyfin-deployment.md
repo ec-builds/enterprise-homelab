@@ -8,7 +8,7 @@ Jellyfin was selected as the media server platform due to its open-source licens
 
 The deployment was performed on Debian 13 and configured to access media stored on a centralized NAS through a read-only SMB mount.
 
----
+
 
 ## Documentation Reference
 
@@ -23,7 +23,7 @@ https://jellyfin.org/docs/general/installation/advanced/manual
 
 The deployment documented here reflects the final configuration implemented within this environment.
 
----
+
 
 ## Architecture
 
@@ -39,7 +39,7 @@ Jellyfin
 nas-lab
 ```
 
----
+
 
 ## Install Jellyfin
 
@@ -116,7 +116,7 @@ sudo apt update
 sudo apt install jellyfin
 ```
 
----
+
 
 ## Verify Installation
 
@@ -145,7 +145,7 @@ Example:
 >
 
 
----
+
 
 ## Media Library Configuration
 
@@ -165,7 +165,7 @@ The following library paths were configured within Jellyfin.
 
 Additional libraries may be added in the future as requirements evolve.
 
----
+
 
 ## Initial Access
 
@@ -183,7 +183,7 @@ Initial setup includes:
 - Verifying media discovery
 - Testing playback functionality
 
----
+
 
 ## Service Management
 
@@ -211,7 +211,7 @@ Start the service:
 sudo systemctl start jellyfin
 ```
 
----
+
 
 ## Validation Testing
 
@@ -239,7 +239,7 @@ Expected results:
 - Media libraries available
 - Client devices able to connect
 
----
+
 
 ### Power Recovery Validation
 
@@ -263,7 +263,7 @@ Media Available
 
 The platform successfully recovered without manual intervention.
 
----
+
 
 ## Security Considerations
 
@@ -277,7 +277,7 @@ Several measures were implemented to improve operational security.
 
 These controls reduce the risk of accidental modification of source media content.
 
----
+
 
 ## Related Documentation
 
@@ -286,7 +286,7 @@ These controls reduce the risk of accidental modification of source media conten
 - [Client Testing](./client-testing.md)
 - [Troubleshooting](./troubleshooting.md)
 
----
+
 
 ## Outcome
 
