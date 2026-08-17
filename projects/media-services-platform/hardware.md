@@ -6,7 +6,7 @@ This document provides hardware specifications and platform information for the 
 
 The platform is currently deployed on a repurposed **Late 2014 Mac Mini**, demonstrating that enterprise concepts and self-hosted services can be implemented using affordable, second-hand hardware.
 
----
+
 
 <p align="left">
   <img src="../../equipment/images/mac-mini-2014.jpeg" alt="Late 2014 Mac Mini" width="300">
@@ -14,7 +14,7 @@ The platform is currently deployed on a repurposed **Late 2014 Mac Mini**, demon
   <em>Late 2014 Mac Mini (Macmini7,1)</em>
 </p>
 
----
+
 
 ## Hardware Specifications
 
@@ -30,7 +30,7 @@ The platform is currently deployed on a repurposed **Late 2014 Mac Mini**, demon
 | Hostname (Documentation) | media-server-lab |
 | Project Role | Media Services Platform |
 
----
+
 
 ## Storage Layout
 
@@ -40,7 +40,7 @@ The platform is currently deployed on a repurposed **Late 2014 Mac Mini**, demon
 | Root Filesystem | 251.3 GB | Debian operating system and application data |
 | Swap | 3.9 GB | Virtual memory |
 
----
+
 
 ## Platform Considerations
 
@@ -59,7 +59,7 @@ The platform is currently deployed on a repurposed **Late 2014 Mac Mini**, demon
 - Limited internal storage expansion
 - No dedicated hardware transcoding currently configured
 
----
+
 
 ## Future Plans
 
@@ -72,7 +72,7 @@ Potential future enhancements include:
 - Expanded monitoring and observability
 - Backup and disaster recovery integration
 
----
+
 
 ## Validation
 
@@ -85,7 +85,7 @@ free -h
 lsblk
 ```
 
----
+
 
 ## Outcome
 
