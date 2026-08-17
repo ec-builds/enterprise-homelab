@@ -4,7 +4,7 @@
 
 A hands-on Microsoft 365 and Microsoft Entra ID lab focused on cloud identity, access management, and tenant administration, including hybrid identity integration with the on-premises Active Directory lab.
 
-**Scope note:** This project covers the Microsoft 365 and identity control plane — users, groups, licensing, authentication, Conditional Access, and Microsoft 365 services. Endpoint management is covered in the dedicated [Microsoft Intune Lab](../intune-lab/), while Azure infrastructure such as subscriptions, VMs, and VNets is covered in [azure-administration-lab](../azure-administration-lab/).
+**Scope note:** This project covers the Microsoft 365 and identity control plane — users, groups, licensing, authentication, Conditional Access, and Microsoft 365 services. Endpoint management is covered in the dedicated [Microsoft Intune Lab](../microsoft-intune/), while Azure infrastructure such as subscriptions, VMs, and VNets is covered in [azure-administration-lab](../azure-administration-lab/).
 
 ## Objectives
 
