@@ -4,7 +4,7 @@
 
 The *detect and respond* side of security: SIEM deployment, log collection, detection engineering, and documented incident triage.
 
-**Scope note:** Prevention (firewalls, segmentation, hardening) lives in [home-network-security](../home-network-security/). This project is about visibility — catching and investigating activity.
+**Scope note:** Prevention (firewalls, segmentation, hardening) lives in [Network Security Lab](../network-security/). This project is about visibility — catching and investigating activity.
 
 ## Objectives
 
