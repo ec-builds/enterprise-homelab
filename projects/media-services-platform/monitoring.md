@@ -9,8 +9,9 @@ The goal is to provide quick visibility into whether the media server, Jellyfin 
 ## Current Monitoring
 
 
-
 ![uptime-kuma](../infrastructure-monitoring/diagrams/uptime-kuma.png)
+
+*Uptime Kuma dashboard monitoring the availability and health of infrastructure and services across the Enterprise Homelab.*
 
 
 
