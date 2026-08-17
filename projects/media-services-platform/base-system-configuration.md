@@ -6,7 +6,7 @@ This document outlines the initial configuration performed after the Debian 13 i
 
 Following the operating system installation and SSH configuration, the server was updated and configured with a standardized set of administration, networking, storage, and monitoring utilities. These tools provide the foundation for day-to-day Linux administration and support future project requirements within the homelab environment.
 
----
+
 
 ## System Updates
 
@@ -17,7 +17,7 @@ sudo apt update
 sudo apt upgrade -y
 ```
 
----
+
 
 ## Base Package Installation
 
@@ -41,7 +41,7 @@ ncdu \
 smartmontools
 ```
 
----
+
 
 ## Package Summary
 
@@ -62,7 +62,7 @@ smartmontools
 | ncdu | Disk usage analysis and storage management |
 | smartmontools | Disk health monitoring and SMART diagnostics |
 
----
+
 
 ## Configuration Goals
 
@@ -75,7 +75,7 @@ The base configuration was designed to provide:
 - Backup and synchronization support
 - Tools required for future project deployments
 
----
+
 
 ## Validation
 
@@ -99,7 +99,7 @@ smartctl --scan
 
 Successful execution confirmed that the system was prepared for additional configuration and service deployment.
 
----
+
 
 ## Related Documentation
 
@@ -108,7 +108,7 @@ Successful execution confirmed that the system was prepared for additional confi
 - [SMB Storage](./smb-storage.md)
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 
----
+
 
 ## Outcome
 
