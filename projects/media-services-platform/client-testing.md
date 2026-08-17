@@ -8,7 +8,7 @@ Client testing was conducted to verify accessibility, functionality, and usabili
 
 The objective was to confirm that media content could be reliably accessed from common client devices while maintaining a separation between administrative and standard user access.
 
----
+
 
 ## Testing Evidence
 
@@ -18,7 +18,7 @@ The following screenshot shows the Jellyfin media library after initial configur
 
 *Figure 1. Jellyfin media library successfully loaded during client validation testing.*
 
----
+
 
 ## Network Configuration
 
@@ -38,7 +38,7 @@ http://media-server-lab.local:8096
 
 This eliminates the need to remember or manually enter the server's IP address.
 
----
+
 
 ## Browser Testing
 
@@ -60,7 +60,7 @@ The platform was tested using multiple web browsers.
 
 No browser-specific issues were identified during testing.
 
----
+
 
 ## Roku Testing
 
@@ -76,7 +76,7 @@ The Jellyfin application was tested on the primary Roku television used for medi
 
 The Roku client is currently the primary method used to access the Media Services Platform.
 
----
+
 
 ## User Access Model
 
@@ -101,7 +101,7 @@ Used only for:
 
 This separation reduces the risk of accidental configuration changes while following the principle of least privilege.
 
----
+
 
 ## Outcome
 
