@@ -41,7 +41,7 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 |----------|----------|----------|
 | Router | ASUS RT-AX5400 | OPNsense Firewall |
 | Storage | Synology DS718+ | — |
-| Servers | Debian Media Server | Proxmox Cluster |
+| Servers | Debian Media Server, Proxmox VE Host | Multi-Node Proxmox Cluster |
 | Switching | Cisco Catalyst 3560CG | — |
 | Networking | DHCP Reservations, WireGuard | VLANs, Internal DNS |
 | Documentation | GitHub + Markdown | Continue expanding documentation |
