@@ -24,8 +24,8 @@ Dell OptiPlex 3070 repurposed as a dedicated Proxmox VE virtualization host for 
 
 | Storage | Purpose |
 |---|---|
-| **1 TB SATA SSD** | Proxmox VE operating system and local storage |
-| **1 TB NVMe SSD** | Virtual machine and container storage |
+| **1 TB SATA SSD** | Proxmox VE operating system & secondary virtual machine storage |
+| **1 TB NVMe SSD** | Primary virtual machine storage |
 
 ## Role
 
