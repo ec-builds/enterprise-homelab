@@ -8,7 +8,7 @@ The Media Services Platform is a self-hosted media server environment built on D
 
 This design separates application services from storage, allowing media to be managed independently while maintaining a simplified server configuration.
 
----
+
 
 ## Architecture Diagram
 
@@ -16,7 +16,7 @@ This design separates application services from storage, allowing media to be ma
 
 The following diagram illustrates the relationship between the host system, operating system, media services, and centralized storage.
 
----
+
 
 ## Components
 
@@ -31,7 +31,7 @@ The host system for the Media Services Platform.
 - Provides media streaming functionality
 - Maintains SMB connectivity to storage
 
----
+
 
 ### Debian 13
 
@@ -45,7 +45,7 @@ The operating system platform for the project.
 - Network connectivity
 - Storage integration
 
----
+
 
 ### Jellyfin
 
@@ -59,7 +59,7 @@ Open-source media server application.
 - Content streaming
 - Client device compatibility
 
----
+
 
 ### Read-Only SMB Mount
 
@@ -71,7 +71,7 @@ Network file share mounted from the NAS platform.
 - Prevents accidental modification or deletion of source files
 - Centralizes media storage outside the application host
 
----
+
 
 ### nas-lab
 
@@ -84,7 +84,7 @@ Network-attached storage platform.
 - Long-term data retention
 - Storage expansion and backup integration
 
----
+
 
 ## Design Considerations
 
@@ -99,7 +99,7 @@ Media storage is maintained independently from the application host.
 - Reduced storage requirements on the host
 - Centralized media management
 
----
+
 
 ### Read-Only Access
 
@@ -111,7 +111,7 @@ The SMB share is mounted with read-only permissions.
 - Protection against application misconfiguration
 - Improved integrity of stored media
 
----
+
 
 ### Future Virtualization
 
@@ -131,7 +131,7 @@ Read-Only SMB Mount
 nas-lab
 ```
 
----
+
 
 ## Related Documentation
 
