@@ -162,8 +162,8 @@ Roles:
 | Document | Purpose |
 |----------|---------|
 | [README.md](README.md) | Project overview and objectives |
-| [docker-installation.md](../../docs/reference/docker-installation.md) | Docker installation procedure |
-| [docker-container-deployment.md](../../docs/reference/docker-container-deployment.md) | Container deployment standard |
-| [docker-concepts.md](../../docs/reference/docker-concepts.md) | Docker concepts and terminology |
-| [uptime-kuma-reference.md](../../docs/reference/uptime-kuma-reference.md) | Uptime Kuma reference guide |
+| [docker-installation.md](../../docs/reference/docker/docker-installation.md) | Docker installation procedure |
+| [docker-container-deployment.md](../../docs/reference/docker/docker-container-deployment.md) | Container deployment standard |
+| [docker-concepts.md](../../docs/reference/docker/docker-concepts.md) | Docker concepts and terminology |
+| [uptime-kuma-reference.md](../../docs/reference/uptime-kuma/uptime-kuma-reference.md) | Uptime Kuma reference guide |
 | [lessons-learned.md](lessons-learned.md) | Operational findings and decisions |
