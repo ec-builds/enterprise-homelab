@@ -4,7 +4,7 @@ This document serves as the centralized inventory for hardware and infrastructur
 
 The purpose of this inventory is to document system specifications, intended use cases, lifecycle considerations, and infrastructure dependencies. As the homelab evolves, this document will be updated to reflect new equipment, replacements, upgrades, and decommissioned assets.
 
----
+
 
 ## Inventory Summary
 
@@ -21,7 +21,7 @@ The purpose of this inventory is to document system specifications, intended use
 | [OptiPlex 7040-02](./optiplex-7040-02.md) | Server / Workstation | Pending | Pending | 2× NVMe Drives | Future Infrastructure Projects | Available |
 | [Synology DS718+](./synology-ds718-plus.md) | Storage | Intel Celeron J3455 | 2 GB | 2x (8TB) HDD | Network Attached Storage (NAS) | Active |
 
----
+
 
 ## Asset Categories
 
@@ -41,7 +41,7 @@ Switches, routers, firewalls, and other network infrastructure devices used for 
 
 Workstations and laptops used for administration, testing, development, and day-to-day management.
 
----
+
 
 ## Lifecycle Management
 
@@ -55,7 +55,7 @@ Future updates to this inventory may include:
 - Decommissioning records
 - Asset replacement history
 
----
+
 
 ## Related Projects
 
