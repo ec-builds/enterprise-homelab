@@ -6,6 +6,9 @@ Bare-metal virtualization environment built with **Proxmox VE** and repurposed h
 
 This lab provides the virtualization foundation for the broader infrastructure homelab, supporting Windows and Linux workloads used throughout networking, identity, automation, monitoring, container, and security projects.
 
+![Proxmox Dashboard Test Environment](./diagrams/proxmox-dashboard-test.png)
+_Proxmox VE 9.2.2 running in the temporary VMware Workstation test environment._
+
 ## Objectives
 
 - Deploy and administer Proxmox VE on bare-metal hardware
