@@ -1,10 +1,10 @@
 # 🔒 System Hardening
 
----
+
 
 **Status: 🚧 Planned** — not yet implemented.
 
----
+
 
 
 This document outlines planned security improvements for the Media Services Platform.
@@ -13,7 +13,7 @@ The current deployment resides on a trusted home network and is not exposed dire
 
 This document serves as a roadmap for future security enhancements.
 
----
+
 
 ## Current Security Controls
 
@@ -25,7 +25,7 @@ The following measures have already been implemented:
 - Operating system updates applied during deployment
 - Local network administration via SSH
 
----
+
 
 ## Planned Improvements
 
@@ -39,7 +39,7 @@ Benefits include:
 - Reduced risk of password attacks
 - Improved administrative security
 
----
+
 
 ### Disable Password Authentication
 
@@ -50,7 +50,7 @@ Benefits include:
 - Reduced attack surface
 - Protection against password guessing attacks
 
----
+
 
 ### Disable Root SSH Login
 
@@ -61,7 +61,7 @@ Benefits include:
 - Improved accountability
 - Reduced exposure of privileged accounts
 
----
+
 
 ### Automated Security Updates
 
@@ -72,7 +72,7 @@ Benefits include:
 - Faster patch deployment
 - Reduced maintenance requirements
 
----
+
 
 ### Service and Port Review
 
@@ -84,7 +84,7 @@ Goals include:
 - Reducing attack surface
 - Maintaining minimal system exposure
 
----
+
 
 ## Future Considerations
 
@@ -98,7 +98,7 @@ Potential future enhancements include:
 
 These items will be evaluated as the homelab environment continues to grow.
 
----
+
 
 ## Related Documentation
 
@@ -106,7 +106,6 @@ These items will be evaluated as the homelab environment continues to grow.
 - [Base System Configuration](./base-system-configuration.md)
 - [Architecture](./architecture.md)
 
----
 
 ## Status
 
