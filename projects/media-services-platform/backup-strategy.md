@@ -8,7 +8,7 @@ The Media Services Platform stores application data locally while media content 
 
 Because media files remain on the NAS and are mounted as a read-only share, backup efforts are primarily focused on preserving system configuration and Jellyfin metadata.
 
----
+
 
 ## Backup Scope
 
@@ -27,7 +27,7 @@ Because media files remain on the NAS and are mounted as a read-only share, back
 
 Media files are stored and protected separately on the NAS platform.
 
----
+
 
 ## Backup Architecture
 
@@ -43,7 +43,7 @@ Backup Archive
 nas-lab
 ```
 
----
+
 
 ## Current Backup Method
 
@@ -67,7 +67,7 @@ sudo rsync -av \
 /backup-destination/
 ```
 
----
+
 
 ## Recovery Objectives
 
@@ -78,7 +78,7 @@ sudo rsync -av \
 | Media Recovery | Not required (stored on NAS) |
 | Documentation Recovery | Available in GitHub repository |
 
----
+
 
 ## Future Enhancements
 
@@ -90,7 +90,7 @@ Planned improvements include:
 - Migration to a virtualized environment
 - Disaster recovery testing
 
----
+
 
 ## Related Documentation
 
@@ -98,7 +98,6 @@ Planned improvements include:
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 - [SMB Storage Configuration](./smb-storage.md)
 
----
 
 ## Outcome
 
