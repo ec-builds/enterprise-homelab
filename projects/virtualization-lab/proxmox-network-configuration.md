@@ -16,8 +16,7 @@ Physical Network
      vmbr0
        │
        ├── Proxmox Management
-       ├── Virtual Machines
-       └── LXC Containers
+       └── Virtual Machines
 ```
 
 The physical NIC operates as a bridge port. The management IP is assigned to `vmbr0` rather than directly to `nic0`.
