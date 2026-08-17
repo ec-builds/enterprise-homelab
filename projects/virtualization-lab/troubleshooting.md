@@ -23,7 +23,7 @@
 
 **Impact:** Proxmox booted normally without installation media attached. Confirmed the issue was caused by the firmware boot configuration rather than the Proxmox installation.
 
----
+
 
 ## VMware Nested Virtualization Unavailable
 
@@ -35,7 +35,7 @@
 
 **Reference:** See the detailed Windows VMware/Proxmox nested virtualization guide.
 
----
+
 
 ## Proxmox CPU Soft Lockups Under Nested KVM
 
