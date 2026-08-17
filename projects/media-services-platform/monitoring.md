@@ -1,10 +1,10 @@
 # 📊 Monitoring
 
----
+
 
 **Status: 🚧 Planned** — not yet implemented.
 
----
+
 
 This document outlines planned monitoring capabilities for the Media Services Platform.
 
@@ -12,7 +12,7 @@ Monitoring has not yet been implemented as part of the initial deployment. The c
 
 This document serves as a planning reference for future monitoring and observability initiatives.
 
----
+
 
 ## Objectives
 
@@ -25,7 +25,7 @@ The primary goals of monitoring are:
 - Simplify troubleshooting
 - Provide historical performance data
 
----
+
 
 ## Current State
 
@@ -55,7 +55,7 @@ uptime
 
 While sufficient for a small deployment, manual monitoring does not provide centralized visibility or proactive alerting.
 
----
+
 
 ## Monitoring Targets
 
@@ -89,7 +89,7 @@ Future monitoring should include:
 - Network latency
 - Service accessibility
 
----
+
 
 ## Planned Solution
 
@@ -118,7 +118,7 @@ media-server-lab
 
 Additional monitoring solutions may be evaluated as the homelab environment expands.
 
----
+
 
 ## Alerting Considerations
 
@@ -135,7 +135,7 @@ Alert destinations may include:
 - Mobile notifications
 - Messaging platforms
 
----
+
 
 ## Future Enhancements
 
@@ -151,7 +151,7 @@ Potential future additions include:
 
 These enhancements will be evaluated as additional infrastructure services are deployed.
 
----
+
 
 ## 🔗 Related Documentation
 
@@ -160,7 +160,7 @@ These enhancements will be evaluated as additional infrastructure services are d
 - [Backup Strategy](./backup-strategy.md)
 - [Lessons Learned](./lessons-learned.md)
 
----
+
 
 ## ✅ Outcome
 
