@@ -1,157 +1,63 @@
 # 📊 Monitoring
 
+**Status: 🟢 Operational**
 
+The Media Services Platform uses **Uptime Kuma** for basic availability and service monitoring.
 
-**Status: 🚧 Planned** — not yet implemented.
+The goal is to provide quick visibility into whether the media server, Jellyfin service, storage infrastructure, and supporting network connectivity are available.
 
+## Current Monitoring
 
+| Target | Monitor | Purpose |
+|---|---|---|
+| Jellyfin | HTTP | Verify application availability |
+| Uptime Kuma | HTTP | Verify monitoring service availability |
+| Media Server | Ping | Verify host reachability |
+| Media Server | SSH | Verify remote administration availability |
+| NAS | Ping | Verify storage host reachability |
+| NAS | HTTPS | Verify NAS service availability |
+| Router | Ping / HTTPS | Verify local network infrastructure |
+| External DNS | Ping | Verify Internet connectivity |
 
-This document outlines planned monitoring capabilities for the Media Services Platform.
-
-Monitoring has not yet been implemented as part of the initial deployment. The current focus has been on establishing a stable platform, documenting the environment, and validating core functionality.
-
-This document serves as a planning reference for future monitoring and observability initiatives.
-
-
-
-## Objectives
-
-The primary goals of monitoring are:
-
-- Improve platform visibility
-- Detect service interruptions
-- Monitor resource utilization
-- Identify storage-related issues
-- Simplify troubleshooting
-- Provide historical performance data
-
-
-
-## Current State
-
-At present, monitoring is performed manually through standard Linux administration tools.
-
-Examples include:
-
-```bash
-systemctl status jellyfin
-```
-
-```bash
-htop
-```
-
-```bash
-df -h
-```
-
-```bash
-free -h
-```
-
-```bash
-uptime
-```
-
-While sufficient for a small deployment, manual monitoring does not provide centralized visibility or proactive alerting.
-
-
-
-## Monitoring Targets
-
-Future monitoring should include:
-
-### Host System
-
-- CPU utilization
-- Memory utilization
-- Disk usage
-- Disk health
-- System uptime
-- Load averages
-
-### Jellyfin
-
-- Service availability
-- Service uptime
-- Startup failures
-- Resource consumption
-
-### Storage
-
-- SMB mount availability
-- NAS connectivity
-- Available storage capacity
-
-### Network
-
-- Host reachability
-- Network latency
-- Service accessibility
-
-
-
-## Planned Solution
-
-The current leading candidate is Uptime Kuma.
-
-Potential capabilities include:
-
-- HTTP health checks
-- Service monitoring
-- Ping monitoring
-- Uptime tracking
-- Notification support
-- Status dashboards
-
-Example architecture:
+The monitoring path can be summarized as:
 
 ```text
-media-server-lab
-        ↓
-   Jellyfin
-        ↓
- Monitoring
-        ↓
- Uptime Kuma
+Uptime Kuma
+    │
+    ├── Jellyfin
+    ├── Media Server
+    ├── NAS
+    ├── Router
+    └── Internet
 ```
 
-Additional monitoring solutions may be evaluated as the homelab environment expands.
+Using both host and service checks helps distinguish between different failure conditions.
 
+For example:
 
+```text
+Ping succeeds + HTTP fails
+        ↓
+Host is reachable
+        ↓
+Application/service may be unavailable
+```
 
-## Alerting Considerations
+## Storage Monitoring
 
-Future monitoring may include:
+The NAS is monitored for network and service availability.
 
-- Service outage notifications
-- Storage capacity alerts
-- Host availability alerts
-- Failed service restart notifications
+This verifies that the storage system is reachable, but does not currently confirm that the SMB media share is mounted successfully on the media server.
 
-Alert destinations may include:
+The distinction became relevant during testing when the media server started before network storage was available following a power interruption.
 
-- Email
-- Mobile notifications
-- Messaging platforms
+## Scope
 
+Uptime Kuma currently provides **availability monitoring**, rather than detailed infrastructure telemetry.
 
+Metrics such as CPU utilization, memory usage, disk health, temperatures, historical performance data, and centralized logging are outside the scope of this project.
 
-## Future Enhancements
-
-Potential future additions include:
-
-- Uptime Kuma deployment
-- Grafana dashboards
-- Prometheus metrics collection
-- Resource utilization reporting
-- Historical performance tracking
-- Automated health checks
-- Centralized logging
-
-These enhancements will be evaluated as additional infrastructure services are deployed.
-
-
+Those capabilities will be implemented separately as part of the dedicated **Infrastructure Monitoring Lab**.
 
 ## 🔗 Related Documentation
 
@@ -160,10 +66,14 @@ These enhancements will be evaluated as additional infrastructure services are d
 - [Backup Strategy](./backup-strategy.md)
 - [Lessons Learned](./lessons-learned.md)
 
-
-
 ## ✅ Outcome
 
-Monitoring has been identified as a future enhancement for the Media Services Platform.
+The Media Services Platform now has centralized monitoring for its primary application and supporting infrastructure.
 
-The current deployment relies on manual validation and administration tools, while future iterations will focus on improving observability, alerting, and operational awareness.
+Uptime Kuma provides a simple health view across:
+
+```text
+Jellyfin → Media Server → Storage → Network → Internet
+```
+
+More advanced observability will be developed separately in the Monitoring Lab.
