@@ -8,12 +8,12 @@ Media content is stored centrally on a NAS platform and mounted to the Debian ho
 
 The mount is configured as read-only to protect source media files from accidental modification or deletion while still allowing Jellyfin to access the content.
 
----
+
 
 ## Storage Architecture
 
 <p>
-  <img src="./diagrams/smb-architecture.png" alt="SMB Storage Architecture" width="450">
+  <img src="./diagrams/smb-architecture.png" alt="SMB Storage Architecture" width="500">
   <br>
   <br>
   <em>Figure 1. Read-only SMB storage path from NAS storage to Jellyfin.</em>
@@ -25,7 +25,7 @@ The mount is configured as read-only to protect source media files from accident
 >
 > Credentials are stored in a protected file on the Debian host and are not embedded directly within the mount configuration.
 
----
+
 
 ## Create Mount Point
 
@@ -35,7 +35,7 @@ Create the local mount point that will be used to access the media share.
 sudo mkdir -p /mnt/media
 ```
 
----
+
 
 ## Create SMB Credentials File
 
@@ -54,7 +54,7 @@ username=service-account-jellyfin
 password=YOUR_PASSWORD
 ```
 
----
+
 
 ## Service Account Configuration
 
@@ -81,7 +81,7 @@ Using a dedicated service account provides several benefits:
 
 The credentials stored in the SMB credentials file belong to this dedicated service account rather than a personal or administrative NAS account.
 
----
+
 
 ## Secure Credentials
 
@@ -97,7 +97,7 @@ Verify permissions:
 ls -l /root/.smbcredentials-jellyfin
 ```
 
----
+
 
 ## Backup Existing fstab Configuration
 
@@ -107,7 +107,7 @@ Create a backup before modifying the filesystem mount configuration.
 sudo cp /etc/fstab /etc/fstab.bak
 ```
 
----
+
 
 ## Configure Persistent Mount
 
@@ -128,7 +128,7 @@ Add the following entry to `/etc/fstab`:
 | x-systemd.automount | Mounts the share on first access |
 | _netdev | Delays mount processing until networking is available |
 
----
+
 
 ## Reload System Configuration
 
@@ -138,7 +138,7 @@ Reload systemd configuration after updating fstab.
 sudo systemctl daemon-reload
 ```
 
----
+
 
 ## Test the Mount
 
@@ -154,7 +154,7 @@ Verify media content is accessible.
 ls /mnt/media
 ```
 
----
+
 
 ## Verify Mount Status
 
@@ -171,7 +171,7 @@ TARGET      SOURCE                 FSTYPE OPTIONS
 /mnt/media  //nas-lab.local/media  cifs   ro,...
 ```
 
----
+
 
 ## Security Considerations
 
@@ -188,7 +188,7 @@ Administrative changes to media content are performed directly on the NAS rather
 
 The use of a dedicated read-only service account further limits access and aligns with the principle of least privilege.
 
----
+
 
 ## Validation
 
@@ -200,7 +200,7 @@ The following checks were performed:
 - Jellyfin successfully detected media files
 - Read-only permissions functioning as expected
 
----
+
 
 ## Related Documentation
 
@@ -209,7 +209,7 @@ The following checks were performed:
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 - [Troubleshooting](./troubleshooting.md)
 
----
+
 
 ## Outcome
 
