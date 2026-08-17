@@ -8,6 +8,12 @@ The goal is to provide quick visibility into whether the media server, Jellyfin 
 
 ## Current Monitoring
 
+
+
+![uptime-kuma](../infrastructure-monitoring/diagrams/uptime-kuma.png)
+
+
+
 | Target | Monitor | Purpose |
 |---|---|---|
 | Jellyfin | HTTP | Verify application availability |
