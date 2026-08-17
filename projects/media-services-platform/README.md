@@ -10,7 +10,7 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 > Since completing this project, the homelab has adopted a standardized Docker Compose deployment model for new services. Future iterations of the Media Services Platform may evaluate migrating Jellyfin to a containerized deployment, but the documentation in this project reflects the original implementation and learning objectives.
 
 
----
+
 
 <p align="left">
   <img src="./diagrams/architecture.png" alt="Architecture Diagram" width="700">
@@ -20,7 +20,7 @@ Self-hosted media platform built on Debian, focused on Linux administration fund
 
 For more information about this diagram, see [architecture.md](./architecture.md)
 
----
+
 
 ## Objectives
 
