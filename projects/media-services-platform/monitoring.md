@@ -6,14 +6,12 @@ The Media Services Platform uses **Uptime Kuma** for basic availability and serv
 
 The goal is to provide quick visibility into whether the media server, Jellyfin service, storage infrastructure, and supporting network connectivity are available.
 
-## Current Monitoring
-
-
 ![uptime-kuma](../infrastructure-monitoring/diagrams/uptime-kuma.png)
 
 *Uptime Kuma dashboard monitoring the availability and health of infrastructure and services across the Enterprise Homelab.*
 
 
+## Current Monitoring
 
 | Target | Monitor | Purpose |
 |---|---|---|
