@@ -8,7 +8,7 @@ SSH (Secure Shell) provides secure remote access to the Debian host and serves a
 
 The initial deployment utilizes standard password-based SSH authentication. Future enhancements will include SSH key-based authentication and additional hardening measures.
 
----
+
 
 ## Purpose
 
@@ -23,7 +23,7 @@ SSH is used for:
 
 The platform is managed primarily through SSH rather than direct console access.
 
----
+
 
 ## Installation
 
@@ -47,7 +47,7 @@ Expected output:
 active (running)
 ```
 
----
+
 
 ## Service Management
 
@@ -75,7 +75,7 @@ Restart the service:
 sudo systemctl restart ssh
 ```
 
----
+
 
 ## Network Access
 
@@ -95,7 +95,7 @@ ssh username@SERVER_IP
 
 The Avahi daemon allows the host to be accessed using its local hostname without requiring manual DNS configuration.
 
----
+
 
 ## Validation
 
@@ -109,7 +109,7 @@ The following tests were performed:
 
 SSH access functioned reliably throughout deployment and configuration activities.
 
----
+
 
 ## Current Security Configuration
 
@@ -122,7 +122,7 @@ The current implementation uses:
 
 This configuration is sufficient for the initial deployment phase while additional hardening measures are planned.
 
----
+
 
 ## Planned Improvements
 
@@ -160,7 +160,7 @@ Potential future improvements:
 
 These changes will be evaluated as the platform evolves.
 
----
+
 
 ## Related Documentation
 
@@ -168,7 +168,7 @@ These changes will be evaluated as the platform evolves.
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 - [Architecture](./architecture.md)
 
----
+
 
 ## Outcome
 
