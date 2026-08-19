@@ -96,16 +96,16 @@ Physical NIC
 
 VLAN-aware networking will be introduced as network segmentation is implemented across the broader homelab.
 
+
 ## Documentation
 
-Supporting documentation covers:
+- [Proxmox Cluster](./proxmox-cluster.md)
+- [Proxmox Host Baseline Build](./proxmox-host-build.md)
+- [Proxmox VM Deployment Baseline](./proxmox-vm-deployment.md)
+- [Resource Allocation Strategy](./resource-allocation.md)
+- [Troubleshooting](./troubleshooting.md)
+- [Lessons Learned](./lessons-learned.md)
 
-- Proxmox host deployment
-- Storage configuration
-- Proxmox networking
-- VM templates
-- Backup and recovery
-- Troubleshooting and lessons learned
 
 ## Downstream Projects
 
