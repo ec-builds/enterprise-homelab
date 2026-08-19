@@ -10,7 +10,7 @@ Physical compute nodes deployed as part of the Proxmox VE virtualization environ
 | `prox-lab-02` | Dell OptiPlex 7040 | TBD | TBD | TBD | TBD | Planned |
 | `prox-lab-03` | Dell OptiPlex 7040 | TBD | TBD | TBD | TBD | Planned |
 
----
+
 
 ## `prox-lab-01`
 
@@ -19,7 +19,7 @@ Physical compute nodes deployed as part of the Proxmox VE virtualization environ
 
 Initial bare-metal node used to establish the Proxmox environment and validate VM, storage, networking, and management workflows.
 
----
+
 
 ## `prox-lab-02`
 
@@ -28,7 +28,7 @@ Initial bare-metal node used to establish the Proxmox environment and validate V
 
 Second compute node for multi-host virtualization, migration, and cluster testing.
 
----
+
 
 ## `prox-lab-03`
 
