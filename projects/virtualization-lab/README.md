@@ -123,8 +123,12 @@ This virtualization environment provides infrastructure for:
 ```text
 virtualization-lab/
 ├── README.md
-├── docs/
-├── scripts/
+├── proxmox-cluster.md
+├── proxmox-host-build.md
+├── proxmox-vm-deployment.md
+├── resource-allocation.md
+├── lessons-learned.md
+├── troubleshooting.md
 └── diagrams/
 ```
 
