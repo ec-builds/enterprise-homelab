@@ -1,17 +1,13 @@
-# 🖥️ Proxmox Host Build
+# 🖥️ Proxmox Baseline Build
 
-Bare-metal deployment of a **Proxmox VE** virtualization host for the infrastructure homelab.
+Baseline configuration for deploying a **Proxmox VE** virtualization host in the infrastructure homelab.
 
-## Overview
-
-This build establishes the first physical Proxmox host and provides the foundation for virtual machines, networking, storage, and future clustering.
-
-### Build Workflow
+## Build Workflow
 
 ```text
 Hardware Preparation
         ↓
-Firmware Update
+Firmware Configuration
         ↓
 Proxmox VE Installation
         ↓
@@ -28,19 +24,19 @@ Host Validation
 Ready for Workloads
 ```
 
-## Hardware
+## Hardware Baseline
 
 | Component | Configuration |
 |---|---|
-| Platform | Dell OptiPlex 3070 |
-| CPU | Intel Core i5-9500T, 6 cores / 6 threads |
-| Virtualization | Intel VT-x |
-| Memory | 32 GB DDR4 |
-| Host Storage | Samsung 870 EVO 1 TB SATA SSD |
-| VM Storage | Samsung 990 EVO Plus 1 TB NVMe SSD |
+| Platform | Business-class x86-64 system |
+| CPU | Hardware virtualization capable |
+| Memory | 32 GB |
+| Host Storage | SATA SSD |
+| VM Storage | NVMe SSD |
 | Network | Gigabit Ethernet |
+| Boot | UEFI |
 
-Unique hardware identifiers such as serial numbers, MAC addresses, UUIDs, and disk serial numbers are intentionally excluded.
+Unique identifiers such as serial numbers, MAC addresses, UUIDs, and disk serial numbers are intentionally excluded.
 
 ## Platform
 
@@ -49,18 +45,19 @@ Unique hardware identifiers such as serial numbers, MAC addresses, UUIDs, and di
 | Hypervisor | Proxmox VE 9 |
 | Base OS | Debian GNU/Linux 13 |
 | Architecture | x86-64 |
-| Boot | UEFI |
+| Repository | Proxmox no-subscription |
+| Boot Mode | UEFI |
 
-System firmware was updated before deployment, and Intel VT-x hardware virtualization was enabled and verified.
+System firmware should be updated and hardware virtualization enabled before deployment.
 
-## Proxmox Installation
+## Installation
 
-Proxmox VE was installed directly on the physical host using the SATA SSD as the system disk.
+Install Proxmox VE directly on the designated system SSD.
 
-The installer created the standard Proxmox LVM layout:
+Default storage layout:
 
 ```text
-Samsung 870 EVO 1 TB
+System SSD
 │
 ├── EFI
 └── Proxmox LVM
@@ -70,22 +67,14 @@ Samsung 870 EVO 1 TB
         └── local-lvm
 ```
 
-The SATA SSD provides the Proxmox system installation and retains `local-lvm` capacity for secondary VM storage.
-
-## Post-Installation Configuration
-
-The host was configured to use the **Proxmox no-subscription repository** for lab use.
-
-System packages were updated:
+After installation, configure the no-subscription repository and update the system:
 
 ```bash
 apt update
 apt full-upgrade
 ```
 
-During initial validation, several Proxmox packages reported incomplete installation states. Updating the system and rebooting resolved the package issues.
-
-The final package state was verified with:
+Verify the installed environment:
 
 ```bash
 pveversion -v
@@ -93,13 +82,13 @@ pveversion -v
 
 ## Networking
 
-The physical Ethernet interface is attached to the Proxmox Linux bridge `vmbr0`, which provides connectivity for host management and virtual machines.
+Attach the physical Ethernet interface to the Proxmox Linux bridge `vmbr0`.
 
 ```text
 Physical Network
        │
        ▼
-     nic0
+      NIC
        │
        ▼
      vmbr0
@@ -108,88 +97,67 @@ Physical Network
        └── Virtual Machines
 ```
 
-Management addressing was changed from the installation-time static configuration to DHCP with a reservation for predictable addressing.
+Baseline requirements:
 
-During configuration, the original static address remained active alongside the DHCP-assigned address. The persistent network configuration and hostname mapping were corrected to remove the old address.
+- `vmbr0` operational
+- Management connectivity established
+- Predictable management addressing
+- Default gateway reachable
+- DNS resolution functional
 
-See [`proxmox-network-configuration.md`](./proxmox-network-configuration.md) for networking implementation and troubleshooting details.
+See [`proxmox-network-configuration.md`](./proxmox-network-configuration.md) for detailed networking configuration and troubleshooting.
 
-## Storage Design
+## Storage
 
-The host contains two 1 TB SSDs with separate roles.
+Separate system and primary VM storage where available.
 
 ```text
 Proxmox Host
 │
-├── SATA SSD
+├── System SSD
 │   ├── Proxmox VE
 │   ├── ISOs / Templates
 │   └── Secondary VM Storage
 │
-└── NVMe SSD
+└── VM SSD
     └── Primary VM Storage
 ```
 
-### SATA SSD
-
-The SATA SSD serves as the Proxmox system disk while retaining `local-lvm` capacity for additional virtual machine storage.
-
-### NVMe SSD
-
-The NVMe SSD is designated as the primary storage location for virtual machine disks.
-
-This separates the host installation from primary guest workloads while retaining the usable capacity of both drives.
+The system SSD hosts Proxmox and supporting storage, while the faster VM SSD is used for primary guest workloads.
 
 ## Host Validation
 
-The host was validated before deploying workloads.
+Validate the host before deploying workloads.
 
-| Check | Result |
+| Check | Requirement |
 |---|---|
-| Proxmox VE installed | ✅ |
-| System packages updated | ✅ |
-| Package state healthy | ✅ |
-| Firmware updated | ✅ |
-| Intel VT-x detected | ✅ |
-| 32 GB RAM detected | ✅ |
-| SATA SSD SMART health | ✅ |
-| NVMe SSD SMART health | ✅ |
-| Proxmox storage active | ✅ |
-| Linux bridge operational | ✅ |
-| Default route present | ✅ |
+| Proxmox VE | Installed and operational |
+| System packages | Updated |
+| Package state | Healthy |
+| System firmware | Current |
+| Hardware virtualization | Enabled |
+| Installed memory | Detected correctly |
+| Storage health | Healthy |
+| Proxmox storage | Active |
+| Linux bridge | Operational |
+| Default route | Present |
+| DNS resolution | Functional |
 | Failed systemd services | None |
 
-SMART health checks were performed on both SSDs. Both drives passed with no reported media or data-integrity errors.
-
-General Linux system-information and validation commands are maintained separately in the Linux reference documentation.
-
-## Final State
+## Baseline Complete
 
 ```text
-Dell OptiPlex 3070
+Proxmox Host
+│
+├── Proxmox VE
+├── Management Network
+├── System Storage
+└── VM Storage
         │
         ▼
-   Proxmox VE 9
-        │
-        ├── vmbr0
-        │     └── Management / VM Networking
-        │
-        ├── SATA SSD
-        │     └── Host / Secondary VM Storage
-        │
-        └── NVMe SSD
-              └── Primary VM Storage
+Ready for Workloads
 ```
 
-The initial Proxmox host is operational, updated, and validated. Virtual machine deployment and additional virtualization capabilities will be implemented in subsequent stages of the lab.
+Once the host passes validation, workload deployment can begin.
 
-## Next Steps
-
-- Configure dedicated NVMe VM storage
-- Deploy initial virtual machines
-- Build reusable Linux and Windows VM templates
-- Implement cloud-init
-- Configure backup and recovery
-- Introduce VLAN-aware virtual networking
-- Add additional Proxmox hosts
-- Test migration and clustering
+> **Build → Update → Configure → Validate → Deploy**
