@@ -131,7 +131,24 @@ If all checks pass, the system is ready for further configuration and service de
 > are fully applied.
 
 
+## Virtual Machine Guest Integration
 
+When Debian is deployed as a virtual machine on Proxmox, ensure the QEMU Guest Agent is installed and running.
+
+The Debian installer may install `qemu-guest-agent` automatically when it detects a QEMU/KVM environment. Verify that it is present rather than assuming it was installed.
+
+```bash
+dpkg -l qemu-guest-agent
+systemctl status qemu-guest-agent
+```
+
+If required, install it with:
+
+```bash
+sudo apt install -y qemu-guest-agent
+```
+
+The Debian template readiness script in the Linux reference section can also be used to verify the guest agent and other baseline requirements before converting a VM into a template.
 
 ## Related Documentation
 
