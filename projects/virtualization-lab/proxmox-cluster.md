@@ -32,12 +32,12 @@ Detailed host capacity and workload allocation are documented in `resource-alloc
 
 ### `prox-lab-01`
 
-**Role:** Primary virtualization node  
+**Role:** Initial cluster node  
 **Status:** Active
 
 Initial bare-metal node used to establish the Proxmox environment and validate VM, storage, networking, and management workflows.
 
-The node was subsequently used to initialize the Proxmox cluster.
+The node was subsequently used to initialize the Proxmox cluster and currently hosts the majority of persistent lab workloads.
 
 ### `prox-lab-02`
 
@@ -79,13 +79,27 @@ The current two-node configuration provides multi-node management and migration 
 
 Cluster nodes use static management addressing to provide stable endpoints for Proxmox management and Corosync communication.
 
+Each host uses a Linux bridge for management and VM networking:
+
+```text
+Physical NIC
+     │
+     ▼
+   vmbr0
+     │
+     ├── Proxmox Management
+     └── VM Networking
+```
+
+Management addressing is assigned to the bridge rather than directly to the physical interface.
+
 Corosync currently uses the primary management network through **Link 0** for node-to-node cluster communication.
 
 A dedicated cluster network or additional Corosync link may be evaluated later for network segmentation and redundancy testing.
 
 ## Storage Model
 
-Each active node uses local storage for the Proxmox installation and VM workloads.
+Each active node uses separate local storage for the Proxmox installation and VM workloads.
 
 | Node | System Storage | VM Storage |
 |---|---|---|
@@ -93,19 +107,32 @@ Each active node uses local storage for the Proxmox installation and VM workload
 | `prox-lab-02` | SATA SSD | `nvme-02-lvm` |
 | `prox-lab-03` | Pending | `nvme-03-lvm` (planned) |
 
+The system SSD on each active node contains the Proxmox operating system and default local storage. Dedicated NVMe storage provides LVM-thin storage for VM and container disks.
+
 NVMe storage is node-local rather than shared between cluster members.
 
-Proxmox storage definitions are managed at the cluster level while the underlying LVM devices remain local to their respective nodes. Node-specific storage IDs are used to clearly identify the storage associated with each host.
+Proxmox storage definitions are managed at the cluster level while the underlying LVM devices remain local to their respective nodes. Node-specific storage IDs provide clear identification of storage associated with each host.
 
 Shared storage may be evaluated later as the cluster expands.
 
 ## Quorum
 
-The current two-node cluster is sufficient for multi-node management and migration testing but has quorum limitations if communication between the nodes is lost.
+The current two-node cluster supports multi-node management and migration testing but has quorum limitations if communication between the nodes is lost.
+
+```text
+Current
+
+prox-lab-01 ───── prox-lab-02
+     vote              vote
+
+       2 voting nodes
+```
 
 The planned third node creates an odd-numbered voting configuration:
 
 ```text
+Target
+
 prox-lab-01 ─┐
              │
 prox-lab-02 ─┼── 3 voting nodes
@@ -121,14 +148,15 @@ This provides a more appropriate environment for testing quorum behavior, node f
 
 The cluster provides the foundation for moving workloads between virtualization hosts.
 
-Because VM storage is currently node-local, migration may require transferring VM disk data between nodes in addition to the VM configuration.
+Because VM storage is currently node-local rather than shared, migration may require transferring VM disk data between nodes in addition to the VM configuration.
 
 Migration testing will validate:
 
 - VM movement between nodes
 - Node-local storage compatibility
-- Network consistency
+- Network consistency between hosts
 - Workload availability during migration
+- Recovery procedures following node maintenance or failure
 
 ## Implementation Stages
 
@@ -138,7 +166,7 @@ Migration testing will validate:
 - [x] Initialize Proxmox cluster
 - [x] Join second node to cluster
 - [x] Validate Corosync communication
-- [x] Configure node-local NVMe storage
+- [x] Configure node-local NVMe LVM-thin storage
 - [x] Standardize node-specific storage naming
 - [ ] Deploy third Proxmox host
 - [ ] Join third node to cluster
