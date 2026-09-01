@@ -1,331 +1,187 @@
 # Documentation Standards
 
-This document defines the documentation standards used across the 
-EC-Builds enterprise homelab portfolio. All project documentation 
-should follow these conventions to ensure consistency, professionalism, 
-and repeatability across the environment.
+**Status: ✅ Complete**
 
----
+This document defines the documentation standards used across the EC-Builds enterprise homelab portfolio.
 
-## Philosophy
-
-Documentation is part of the build process, not a separate task.
-
-Every project in this lab is documented as it is built — capturing 
-architecture decisions, configuration steps, lessons learned, and 
-operational procedures in real time rather than reconstructing them 
-after the fact.
-
-The goal is documentation that is:
-
-- **Accurate** — reflects the actual implementation, not the ideal
-- **Honest** — clearly indicates what is complete, in progress, or planned
-- **Reusable** — written so that any system can be rebuilt from the docs alone
-- **Sanitized** — free of operational details that could expose the live environment
-
----
+Documentation should be accurate, reusable, and sanitized. Document systems as they are built rather than reconstructing the process afterward.
 
 ## Repository Structure
 
-Repository content should be organized into the following major areas:
+Organize repository content into these primary areas:
 
-- docs/
-- projects/
-- diagrams/
-- assets/
-- equipment/
+```text
+docs/
+projects/
+diagrams/
+assets/
+equipment/
+```
 
-New top-level directories should only be added when a clear organizational need exists.
-
----
+Add new top-level directories only when necessary.
 
 ## Document Structure
 
-Every document should follow this general structure:
+Documents should generally include:
 
-1. **Title** — descriptive, matches the filename
-2. **Status badge** — reflects current state of the document
-3. **Overview** — brief explanation of what the document covers
-4. **Body sections** — organized with `##` headers
-5. **Related Documentation** — links to relevant files
-6. **Outcome** — one paragraph summarizing what was accomplished
+1. Title
+2. Status badge
+3. Overview
+4. Body sections
+5. Related Documentation
 
+Project documentation should also include an **Outcome** section summarizing what was accomplished.
 
----
+Use:
 
+- `#` for the document title
+- `##` for major sections
+- `###` for subsections
+- `####` sparingly
 
-## Status Badges
+## Status
 
-Every document should include a status badge near the top to clearly 
-communicate its current state.
+| Status | Badge |
+|---|---|
+| Complete | `✅ Complete` |
+| In Progress | `🔨 In Progress` |
+| Planned | `📋 Planned` |
 
-| Status | Badge | Meaning |
-|---|---|---|
-| Complete | `✅ Complete` | Fully implemented and documented |
-| In Progress | `🔨 In Progress` | Actively being built or documented |
-| Planned | `📋 Planned` | Not yet started |
-
-Example usage:
+Example:
 
 ```markdown
 **Status: ✅ Complete**
 ```
 
----
+## Writing Style
 
-## Tense Convention
+Use tense based on document type:
 
-| Document Type | Tense | Reason |
-|---|---|---|
-| Standards | Present / Instructional | Reusable templates — written to be followed |
-| Project documentation | Past | Records of what was built and decided |
-| Reference | Present | Factual quick-reference material |
+| Document Type | Tense |
+|---|---|
+| Standards | Present / instructional |
+| Project documentation | Past |
+| Reference | Present |
 
-### Examples
+Standards describe what to do:
 
-**Standards** — instructional present:
-```
-Update the operating system before making any additional changes.
-```
-
-**Project documentation** — past tense narrative:
-```
-The operating system was updated prior to additional configuration.
+```text
+Update the operating system before making additional changes.
 ```
 
----
+Project documentation records what was done:
 
-## Heading Conventions
+```text
+The operating system was updated before additional configuration.
+```
 
-- `#` — Document title only. One per document.
-- `##` — Major sections
-- `###` — Subsections within a major section
-- `####` — Use sparingly. If needed frequently, consider splitting the document.
+Keep documentation factual, concise, and focused on the actual implementation.
 
----
+## Formatting
 
-## Formatting Conventions
-
-### Code Blocks
-
-All commands, configuration snippets, file paths, and terminal output 
-must be wrapped in fenced code blocks with the appropriate language tag.
+Use fenced code blocks for commands, configuration, paths, and terminal output.
 
 ```bash
 sudo apt update
 sudo apt upgrade -y
 ```
 
-```text
-/etc/fstab
-```
+Use inline code for commands, packages, paths, and configuration values.
 
-### Inline Code
+Use tables when they make structured information easier to read.
 
-Use backticks for inline references to commands, package names, file 
-paths, and configuration values.
-
-Example: Install `cifs-utils` before configuring SMB mounts.
-
-### Tables
-
-Use tables for:
-- Package summaries
-- Configuration option explanations
-- Comparison of approaches
-- Hardware specifications
-- Status summaries
-
-### Callout Notes
-
-Use GitHub-flavored markdown callouts for important notices.
+Use GitHub callouts for important context:
 
 ```markdown
 > [!NOTE]
-> Use this for additional context or learning observations.
+> Additional context.
 
 > [!WARNING]
-> Use this for actions that could cause data loss or system instability.
+> Actions that could cause data loss or instability.
 ```
 
-### Emoji Usage
+Emoji should primarily be reserved for status indicators rather than decorative body text.
 
-Emoji are used selectively and consistently. They are not decorative — 
-each one carries a specific meaning.
+## Naming and Sanitization
 
-| Emoji | Meaning |
-|---|---|
-| ✅ | Complete |
-| 🔨 | In progress |
-| 📋 | Planned |
-| 🚧 | Work in progress |
-| 📁 | Folder or file reference |
-| 🔐 | Security-related content |
-| 📊 | Monitoring or metrics |
-| 🎬 | Media-related content |
-
-Avoid using emoji in body text or section headers. Reserve them for 
-status indicators and document titles where established above.
-
----
-
-## Naming Conventions
-
-All files and folders use lowercase kebab-case.
+Use lowercase kebab-case for files and folders:
 
 ```text
-debian-baseline.md        ✅
-Debian-Baseline.md        ❌
-debian_baseline.md        ❌
-debianBaseline.md         ❌
+debian-baseline.md
 ```
 
-For full naming and sanitization standards, see:
-- [Naming Conventions](./naming-conventions.md)
+Before publishing, remove or sanitize:
 
----
-
-## Section Conventions
-
-### Overview Section
-
-Every document should open with a brief overview that explains:
-- What the document covers
-- Why it exists
-- Who should use it
-
-### Related Documentation Section
-
-Every document should close with a Related Documentation section 
-linking to relevant files in the repository. Use relative links.
-
-```markdown
-## Related Documentation
-
-- [Naming Conventions](./naming-conventions.md)
-- [SSH Hardening](./ssh-hardening.md)
-- [Project README](../../projects/media-services-platform/README.md)
-```
-
-### Outcome Section
-
-Project documents should end with a one-paragraph Outcome section 
-summarizing what was accomplished. Keep it factual and concise.
-
-Standards do not require an Outcome section.
-
----
-
-## Sanitization Requirements
-
-All documentation must be reviewed for operational details before 
-publishing. Never include:
-
-- Real hostnames
-- Real usernames
-- IP addresses (use RFC 5737 ranges if needed)
+- Hostnames
+- Usernames
+- IP addresses
 - Domain names
-- API keys or tokens
-- Passwords or credentials
+- API keys and tokens
+- Passwords and credentials
 - VPN endpoints
+- Other environment-specific identifiers
 
-Use role-based sanitized names as defined in:
-- [Naming Conventions](./naming-conventions.md)
+Use role-based names and documentation-safe addressing where examples are required.
 
----
+See [Naming Conventions](./naming-conventions.md) for detailed naming and sanitization rules.
 
-## Project Documentation Structure
+## Project Documentation
 
-README.md serves as the project landing page and navigation hub.
-Detailed implementation information should be stored in dedicated documents rather than placing all content in the README.
+`README.md` serves as the project landing page. Keep detailed implementation information in dedicated documents.
 
-
-Every project folder should follow this structure:
+A typical project structure is:
 
 ```text
 projects/project-name/
-├── README.md              ← Project overview and navigation table
-├── architecture.md        ← System design and component relationships
-├── hardware.md            ← Hardware specifications (if applicable)
-├── diagrams/              ← Architecture diagrams and screenshots
-├── lessons-learned.md     ← Key takeaways and reflections
-└── [topic].md             ← Additional documentation as needed
+├── README.md
+├── architecture.md
+├── hardware.md
+├── diagrams/
+├── lessons-learned.md
+└── [topic].md
 ```
 
-The `README.md` must include:
-- Status badge
-- Project objectives
+Project READMEs should include:
+
+- Status
+- Objectives
 - Technologies used
-- Completed work checklist
+- Completed work
 - Future enhancements
-- Navigation table linking to all documents in the folder
+- Navigation to project documentation
 
----
+Only create documents that provide useful information for the project.
 
-## Commit Message Conventions
+## Commit Messages
 
-Commit messages should be clear, concise, and describe what changed 
-and why.
+Keep commit messages concise and descriptive.
 
-| Type | Format | Example |
-|---|---|---|
-| Create | `Create [filename]` | `Create debian-baseline.md` |
-| Update | `Update [filename]` | `Update README.md` |
-| Revise | `Revise [topic]` | `Revise Debian baseline configuration` |
-| Fix | `Fix [issue]` | `Fix broken lessons-learned link` |
-| Rename | `Rename [old] to [new]` | `Rename ssh-hardening-standard.md to ssh-hardening.md` |
-| Add | `Add [what]` | `Add architecture diagram` |
-
----
+| Type | Example |
+|---|---|
+| Create | `Create debian-baseline.md` |
+| Update | `Update README.md` |
+| Revise | `Revise Debian baseline configuration` |
+| Fix | `Fix broken documentation link` |
+| Rename | `Rename old-name.md to new-name.md` |
+| Add | `Add architecture diagram` |
 
 ## Review Checklist
 
-Before committing any documentation:
-
-- [ ] Status badge is present and accurate
-- [ ] Tense is correct for the document type
-- [ ] All commands are in fenced code blocks
-- [ ] No real hostnames, IPs, or credentials present
-- [ ] Related Documentation links are accurate and resolve correctly
-- [ ] Filename uses lowercase kebab-case
-- [ ] Tables are formatted correctly
-- [ ] Outcome section present (project docs only)
-
----
-
-## What's Required vs Recommended
-
-This is a one-person lab. These standards exist to maintain quality 
-and consistency — not to create overhead that slows down building.
-
-### Always Required
-
-These apply to every document, every time:
+Before publishing:
 
 - [ ] Filename uses lowercase kebab-case
-- [ ] Status badge is present and accurate
-- [ ] All commands are in fenced code blocks
-- [ ] No real hostnames, IPs, or credentials present
-- [ ] Related Documentation section with at least one link
+- [ ] Status is accurate
+- [ ] Commands and configuration use code blocks
+- [ ] Sensitive or environment-specific information is sanitized
+- [ ] Related Documentation links are included and accurate
 
-### Do When Possible
+When applicable:
 
-These improve quality but are not blockers for publishing:
+- [ ] Tense matches the document type
+- [ ] Project documents include an Outcome
+- [ ] Tables and callouts improve readability
 
-- [ ] Tense is correct for the document type
-- [ ] Outcome section present (project docs only)
-- [ ] Tables used where appropriate
-- [ ] Callout notes used for warnings and important context
-- [ ] Emoji consistent with the emoji table
-
-### Periodic Review
-
-Do these on a cadence, not per-commit:
-
-- [ ] Internal links resolve correctly
-- [ ] Status badges reflect current state
-- [ ] Sanitization check across recently published docs
-
+Periodically review repository links, status badges, and sanitization.
 
 ## Related Documentation
 
