@@ -52,7 +52,6 @@ htop \
 tree \
 dnsutils \
 bash-completion \
-avahi-daemon \
 cifs-utils \
 rsync \
 unzip \
@@ -75,7 +74,7 @@ ca-certificates
 | tree | Directory structure visualization |
 | dnsutils | DNS troubleshooting and name resolution tools |
 | bash-completion | Command-line auto-completion enhancements |
-| avahi-daemon | Local network service discovery |
+| avahi-daemon (optional-not included)| Local network service discovery |
 | cifs-utils | SMB/CIFS network share integration |
 | rsync | File synchronization and backup operations |
 | unzip | Archive extraction utility |
