@@ -12,7 +12,7 @@ project-specific configuration.
 > [Configure sudo Access](../reference/linux/linux-configure-sudo.md)
 > runbook before proceeding.
 
----
+
 
 ## Baseline Components
 
@@ -24,7 +24,7 @@ The Debian baseline consists of:
 - Monitoring and diagnostic tools
 - Network troubleshooting utilities
 
----
+
 
 ## Baseline Updates
 
@@ -36,7 +36,7 @@ sudo apt update
 sudo apt upgrade -y
 ```
 
----
+
 
 ## Base Package Installation
 
@@ -60,7 +60,7 @@ smartmontools \
 ca-certificates
 ```
 
----
+
 
 ## Package Summary
 
@@ -82,7 +82,7 @@ ca-certificates
 | smartmontools | Disk health monitoring and SMART diagnostics |
 | ca-certificates | Trusted Certificate Authority (CA) bundle required for HTTPS connections and SSL/TLS certificate validation |
 
----
+
 
 ## Configuration Goals
 
@@ -95,7 +95,7 @@ This baseline provides:
 - Backup and synchronization support
 - Foundation for future project-specific deployments
 
----
+
 
 ## Validation
 
@@ -130,7 +130,7 @@ If all checks pass, the system is ready for further configuration and service de
 > are fully applied.
 
 
----
+
 
 ## Related Documentation
 
