@@ -1,7 +1,5 @@
 | Standard | Status | Description |
 |---|---|---|
-| Debian Installation | ✅ Ready | Standard procedure for deploying Debian 13 on Intel-based systems |
-| Debian Baseline | ✅ Ready | Required baseline packages and initial system configuration |
 | Naming Conventions | ✅ Ready | Hostname, network, storage, and documentation naming standards |
 | Documentation Standards | ✅ Ready | Documentation structure, formatting, and repository standards |
 | SSH Hardening | 🔨 In Progress | Secure remote administration and SSH configuration requirements |
