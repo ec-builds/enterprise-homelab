@@ -3,8 +3,6 @@
 | Naming Conventions | ✅ Ready | Hostname, network, storage, and documentation naming standards |
 | Documentation Standards | ✅ Ready | Documentation structure, formatting, and repository standards |
 | SSH Hardening | 🔨 In Progress | Secure remote administration and SSH configuration requirements |
-| Proxmox Baseline | 📋 Planned | Proxmox VE installation, storage, networking, and host configuration |
-| Windows Server Baseline | 📋 Planned | Windows Server initial configuration, roles, and administration standards |
 | Network Standards | 📋 Planned | Network architecture, addressing, DNS, DHCP, and segmentation standards |
 | Backup Standards | 📋 Planned | Backup strategy, retention, restore testing, and disaster recovery standards |
 | Monitoring Standards | 📋 Planned | Monitoring, alerting, observability, and operational visibility standards |
