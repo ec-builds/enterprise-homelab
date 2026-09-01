@@ -33,6 +33,7 @@ Before generalizing the VM:
 - Verify the QEMU Guest Agent is installed and running.
 - Enable QEMU Guest Agent support in the Proxmox VM options.
 - Configure the network adapter for DHCP.
+- Verify BitLocker is disabled and the OS volume is fully decrypted.
 - Remove temporary files and client-specific configuration.
 - Remove saved credentials and signed-in accounts.
 - Do not domain join, Entra join, or Intune enroll the template.
@@ -50,7 +51,6 @@ Example baseline:
 - Web browser
 - PowerShell 7
 - VirtIO Guest Tools
-- QEMU Guest Agent
 
 Applications should be installed but left in a user-neutral state. Personal accounts, browser profiles, saved credentials, and application-specific user configuration should not be included in the template.
 
@@ -81,6 +81,44 @@ C:\Windows\System32\Sysprep\Sysprep.exe /generalize /oobe /shutdown
 The `/generalize` option removes machine-specific information from the Windows installation so the image can be reused for new systems.
 
 Once Sysprep shuts down the VM, the source VM should **not be booted again** before being converted into a template.
+
+### BitLocker and Sysprep
+
+Sysprep validation failed during the initial template build because the Windows OS volume was encrypted even though BitLocker showed **Waiting for activation** in Control Panel.
+
+The Sysprep log identified the issue:
+
+```text
+SYSPRP BitLocker-Sysprep: BitLocker is on for the OS volume.
+Turn BitLocker off to run Sysprep. (0x80310039)
+```
+
+BitLocker status was verified with:
+
+```powershell
+manage-bde -status C:
+```
+
+The OS volume was then decrypted before attempting Sysprep again:
+
+```powershell
+manage-bde -off C:
+```
+
+Decryption progress was checked with:
+
+```powershell
+manage-bde -status C:
+```
+
+Before running Sysprep again, the OS volume was verified as:
+
+```text
+Conversion Status:    Fully Decrypted
+Percentage Encrypted: 0.0%
+```
+
+BitLocker was intentionally left disabled in the generalized template. Encryption can be enabled after a new VM is deployed so each client establishes its own encryption and TPM state.
 
 ## Convert to Template
 
@@ -160,7 +198,7 @@ When significant changes are needed, a new version can be created from a clone:
 ```text
 win11-template-v1
         ↓
-   Temporary Clone
+Temporary Clone
         ↓
 Updates / Changes
         ↓
@@ -171,7 +209,7 @@ win11-template-v2
 
 Versioning the template provides a rollback point if an updated image introduces problems.
 
-For major Windows releases or after many rounds of image maintenance, rebuilding the template from a clean Windows installation may be preferable to repeatedly modifying and generalizing an older image.
+For major Windows releases or after multiple rounds of image maintenance, rebuilding the template from a clean Windows installation may be preferable to repeatedly modifying and generalizing an older image.
 
 ## Future Improvements
 
