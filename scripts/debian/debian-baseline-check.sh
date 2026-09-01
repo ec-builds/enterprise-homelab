@@ -538,11 +538,14 @@ elif (( WARN_COUNT > 0 )); then
         echo "  2. Clear the system machine ID:"
         echo "     sudo truncate -s 0 /etc/machine-id"
         echo
-        echo "  3. If /var/lib/dbus/machine-id is a regular file, remove it."
-        echo "     If it is a symlink to /etc/machine-id, leave the symlink intact."
-        echo "     if [[ ! -L /var/lib/dbus/machine-id ]]; then"
-        echo "         sudo rm -f /var/lib/dbus/machine-id"
-        echo "     fi"
+        echo "  3. Check the D-Bus machine ID:"
+        echo "     ls -l /var/lib/dbus/machine-id"
+        echo
+        echo "     If the output begins with \"-\" (regular file), remove it:"
+        echo "     sudo rm -f /var/lib/dbus/machine-id"
+        echo
+        echo "     If the output begins with \"l\" and points to /etc/machine-id"
+        echo "     (symlink), leave it unchanged."
         echo
         echo "  4. Remove existing SSH host keys:"
         echo "     sudo rm -f /etc/ssh/ssh_host_*"
