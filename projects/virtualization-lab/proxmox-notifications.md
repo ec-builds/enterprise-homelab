@@ -14,14 +14,11 @@ Administrator Email
 
 ## SMTP Target
 
-| Setting | Value |
-|---|---|
-| Endpoint | `GMAIL-SMTP` |
-| Server | `smtp.gmail.com` |
-| Encryption | `STARTTLS` |
-| Port | `587` |
-| Authentication | Enabled |
-| Recipient | `username@gmail.com` |
+The SMTP target was configured to use Gmail's SMTP service with authentication and encrypted transport over `STARTTLS` on port `587`.
+
+![SMTP notification target](./diagrams/proxmox-email-notifications-setup.png)
+
+*Gmail SMTP target configured in Proxmox.*
 
 ## Authentication
 
@@ -40,8 +37,21 @@ I kept the default Proxmox matcher and pointed it at the Gmail SMTP target.
 - Severity: `info`
 - Rule behavior: All rules match
 
+![Notification matcher](./diagrams/proxmox-notifications-01.png)
+
+*Default notification matcher with severity and target rules applied.*
+
 I started with `info` alerts deliberately to capture routine events for the first few weeks and establish a baseline for what normal looks like. The threshold can be raised once the normal notification volume is clear.
 
+![Notification severity](./diagrams/proxmox-notifications-02.png)
+
+*Matcher severity configured at `info` to include informational events and higher-severity notifications.*
+
+The matcher was then configured to send matching events to the `GMAIL-SMTP` notification target.
+
+![Notification target](./diagrams/proxmox-notifications-03.png)
+
+*Default matcher routing notifications to the Gmail SMTP target.*
 
 ## Validation
 
@@ -50,21 +60,6 @@ I started with `info` alerts deliberately to capture routine events for the firs
 - App Password authenticated successfully with 2FA active on the dedicated account.
 - `default-matcher` confirmed routing notifications to `GMAIL-SMTP`.
 - Credentials excluded from the repository; email addresses replaced with placeholders and sanitized from screenshots.
-
-
-## Screenshots
-
-### SMTP Target
-
-![SMTP notification target](./diagrams/proxmox-email-notifications-setup.png)
-
-### Notification Matcher
-
-![Notification matcher](./diagrams/proxmox-notifications-01.png)
-
-![Notification severity](./diagrams/proxmox-notifications-02.png)
-
-![Notification target](./diagrams/proxmox-notifications-03.png)
 
 ## Scaling Considerations
 
