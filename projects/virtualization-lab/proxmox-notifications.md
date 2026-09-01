@@ -56,15 +56,15 @@ I started with `info` alerts deliberately to capture routine events for the firs
 
 ### SMTP Target
 
-![SMTP notification target](./screenshots/proxmox-email-notifications-setup.png)
+![SMTP notification target](./diagrams/proxmox-email-notifications-setup.png)
 
 ### Notification Matcher
 
-![Notification matcher](./screenshots/proxmox-notifications-01.png)
+![Notification matcher](./diagrams/proxmox-notifications-01.png)
 
-![Notification severity](./screenshots/proxmox-notifications-02.png)
+![Notification severity](./diagrams/proxmox-notifications-02.png)
 
-![Notification target](./screenshots/proxmox-notifications-03.png)
+![Notification target](./diagrams/proxmox-notifications-03.png)
 
 ## Scaling Considerations
 
