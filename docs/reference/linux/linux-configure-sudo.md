@@ -6,7 +6,7 @@ This runbook outlines the process for installing `sudo`, granting administrative
 
 Use this procedure after a fresh Debian installation when administrative access must be delegated to a non-root user account.
 
----
+
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Use this procedure after a fresh Debian installation when administrative access 
 - Local console access or SSH access as root
 - Debian system with package repositories configured
 
----
+
 
 ## Verify Current User
 
@@ -36,7 +36,7 @@ or
 username
 ```
 
----
+
 
 ## Become Root
 
@@ -58,7 +58,7 @@ Expected output:
 root
 ```
 
----
+
 
 ## Install sudo
 
@@ -82,7 +82,7 @@ sudo -V
 
 Successful execution confirms that sudo is installed.
 
----
+
 
 ## Add User to the sudo Group
 
@@ -98,7 +98,7 @@ Example:
 usermod -aG sudo adminuser
 ```
 
----
+
 
 ## Verify Group Membership
 
@@ -126,7 +126,7 @@ Expected output includes:
 groups=...,27(sudo)
 ```
 
----
+
 
 ## Apply Group Membership Changes
 
@@ -150,7 +150,7 @@ Alternatively:
 su - <username>
 ```
 
----
+
 
 ## Verify sudo Access
 
@@ -168,7 +168,7 @@ root
 
 Successful execution confirms that the user has sudo privileges.
 
----
+
 
 ## Verify sudo Group Members
 
@@ -184,7 +184,7 @@ Example output:
 sudo:x:27:adminuser
 ```
 
----
+
 
 ## Troubleshooting
 
@@ -194,7 +194,7 @@ sudo:x:27:adminuser
 which sudo
 ```
 
----
+
 
 ### Verify Current Group Membership
 
@@ -202,7 +202,7 @@ which sudo
 groups
 ```
 
----
+
 
 ### Verify User Identity Information
 
@@ -210,7 +210,7 @@ groups
 id
 ```
 
----
+
 
 ### Group Membership Changes Not Applied
 
@@ -220,7 +220,7 @@ If sudo access is not available after adding the user to the sudo group:
 2. Log back in.
 3. Repeat the validation steps.
 
----
+
 
 ## Validation
 
@@ -242,7 +242,7 @@ root
 
 Successful validation confirms that delegated administrative access is configured correctly.
 
----
+
 
 ## Related Documentation
 
