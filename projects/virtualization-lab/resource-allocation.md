@@ -1,125 +1,157 @@
 # Proxmox Resource Allocation Strategy
 
-Simple, scalable guidelines for allocating compute resources across the homelab.
+Resource allocation and capacity planning for the Proxmox virtualization lab.
 
 ## Core Principles
 
 - Start small and scale based on actual utilization
-- Core infrastructure and security boundaries get dedicated VMs
-- Lightweight applications share container hosts
+- Maintain capacity for the hypervisor and temporary workloads
 - Avoid allocating resources "just in case"
-- Maintain spare capacity for testing and temporary workloads
-- Review utilization before increasing CPU or RAM
+- Moderate CPU overcommitment is acceptable for non-concurrent lab workloads
+- Distribute workloads across nodes when resource contention develops
 
-## Initial Allocation
+## Host Overview
 
-| VM | Role | vCPU | RAM |
+| Host | CPU | Cores / Threads | Memory | Primary VM Storage | Status |
+|---|---|---:|---:|---|---|
+| `prox-lab-01` | Intel Core i5-9500T | 6 / 6 | 32 GB | ~1 TB NVMe LVM-thin | Active |
+| `prox-lab-02` | Intel Core i7-6700T | 4 / 8 | 16 GB | ~1 TB NVMe LVM-thin | Active |
+| `prox-lab-03` | Pending | Pending | Pending | Pending | Planned |
+
+`prox-lab-03` is planned as a third virtualization node with hardware similar to `prox-lab-02`. Final specifications will be documented after deployment and validation.
+
+> **Note:** Firewall and routing services are hosted on dedicated hardware and are excluded from Proxmox resource calculations.
+
+## `prox-lab-01`
+
+Primary virtualization node for persistent infrastructure, applications, monitoring, and endpoint testing.
+
+### Capacity and Allocation
+
+| Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
+|---|---:|---:|---:|
+| CPU | 6 cores / 6 threads | 14 vCPU | ~2.3:1 vCPU-to-core |
+| Memory | 32 GB | 24 GB | ~8 GB unallocated |
+| NVMe Storage | ~1 TB | Workload dependent | Expand as required |
+
+### Planned VMs
+
+| VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
-| `opnsense-lab-vm` | Firewall / Routing / VPN | 2 | 3 GB |
-| `ad-dc-lab-vm` | AD DS / DNS | 2 | 4 GB |
-| `docker-lab-vm` | Debian / Docker Host | 2–4 | 6 GB |
-| `win11-lab-vm` | Domain / Endpoint Testing | 2–4 | 6 GB |
-| **Total** | | **8–12** | **19 GB** |
+| `win11-lab-vm01` | Domain / Endpoint Testing | 4 | 8 GB |
+| `win11-lab-vm02` | Additional Endpoint Testing | 4 | 8 GB |
+| `docker-lab-vm` | Debian / Docker Host | 2 | 4 GB |
+| `monitoring-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
+| `dc-lab-vm` | AD DS / DNS | 2 | 2 GB |
+| **Total** | | **14 vCPU** | **24 GB** |
 
-**Example host:** 6C/6T CPU · 32 GB RAM
+### Considerations
 
-Leave remaining capacity available for the hypervisor, filesystem caching, temporary workloads, and future growth.
+CPU is intentionally overcommitted at approximately **2.3:1**. Assigned vCPUs represent schedulable capacity rather than dedicated physical cores, making moderate overcommitment appropriate for lab workloads that are not expected to sustain maximum utilization simultaneously.
+
+Approximately **8 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
+
+## `prox-lab-02`
+
+Secondary virtualization node for infrastructure redundancy, security workloads, and additional lab capacity.
+
+### Capacity and Allocation
+
+| Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
+|---|---:|---:|---:|
+| CPU | 4 cores / 8 threads | 6 vCPU | 0.75:1 vCPU-to-thread |
+| Memory | 16 GB | 8 GB | ~8 GB unallocated |
+| NVMe Storage | ~1 TB | Workload dependent | Expand as required |
+
+### Planned VMs
+
+| VM / Workload | Role | vCPU | RAM |
+|---|---|---:|---:|
+| `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
+| `security-lab-vm` | Security / SIEM Testing | 2 | 4 GB |
+| `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
+| **Total** | | **6 vCPU** | **8 GB** |
+
+### Considerations
+
+The processor provides **4 physical cores and 8 hardware threads**. The planned 6 vCPU allocation leaves CPU capacity available for temporary workloads and future expansion.
+
+Approximately **8 GB of memory remains unallocated**. Memory is the primary capacity constraint on this node, so the additional headroom provides flexibility for temporary VMs and future infrastructure services.
+
+Resource-intensive workloads should preferentially run on `prox-lab-01` when practical.
+
+## `prox-lab-03`
+
+Planned third virtualization node for additional compute capacity and workload distribution.
+
+### Capacity and Allocation
+
+| Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
+|---|---:|---:|---:|
+| CPU | Pending | Pending | Pending |
+| Memory | Pending | Pending | Pending |
+| VM Storage | Pending | Pending | Pending |
+
+### Planned VMs
+
+| VM / Workload | Role | vCPU | RAM |
+|---|---|---:|---:|
+| Pending | Additional Lab Workloads | Pending | Pending |
+| Pending | Testing / Infrastructure | Pending | Pending |
+| **Total** | | **Pending** | **Pending** |
+
+### Considerations
+
+`prox-lab-03` is expected to provide capabilities similar to `prox-lab-02`, but resource planning will be based on validated hardware rather than assumed specifications.
+
+Final CPU, memory, storage, and VM allocations will be documented after the host is deployed and baseline resource utilization is established.
+
+## Cluster Capacity
+
+| Resource | `prox-lab-01` | `prox-lab-02` | `prox-lab-03` | Current Known Capacity |
+|---|---:|---:|---:|---:|
+| Physical Cores | 6 | 4 | Pending | 10 |
+| Hardware Threads | 6 | 8 | Pending | 14 |
+| Memory | 32 GB | 16 GB | Pending | 48 GB |
+| Planned vCPU | 14 | 6 | Pending | 20 |
+| Planned VM Memory | 24 GB | 8 GB | Pending | 32 GB |
+| Unallocated Memory | ~8 GB | ~8 GB | Pending | ~16 GB |
+| NVMe VM Storage | ~1 TB | ~1 TB | Pending | ~2 TB |
+
+> Combined capacity is useful for planning, but CPU and memory remain local to each virtualization node unless workloads are migrated between hosts.
 
 ## Scaling Strategy
 
-### RAM
-
-Increase RAM when workload utilization demonstrates a need.
-
-2 GB → 4 GB → 6 GB → 8 GB → ...
-
-Avoid allocating all physical RAM to VMs.
-
 ### CPU
 
-Start most infrastructure VMs with **2 vCPU**.
+Start most infrastructure workloads with **2 vCPU** and increase allocation when sustained utilization demonstrates a need.
 
-Increase allocation when sustained CPU utilization demonstrates a need.
+Moderate CPU overcommitment is acceptable because assigned vCPUs represent schedulable capacity rather than dedicated physical cores.
 
-Moderate CPU overcommitment is acceptable because VMs rarely require all assigned vCPUs simultaneously.
+If sustained contention develops, reduce unnecessary vCPU allocations or redistribute workloads across available nodes.
+
+### RAM
+
+Increase memory based on observed workload requirements while maintaining sufficient unallocated capacity for:
+
+- Hypervisor operation
+- Filesystem caching
+- Virtualization overhead
+- Temporary workloads
+
+Avoid allocating all available physical memory to VMs.
 
 ### Storage
 
-Keep VM disks appropriately sized and expand as required.
+Keep virtual disks appropriately sized and expand them as required.
 
-- **File Storage** — ISOs, templates, backups
+- **File Storage** — ISOs, templates, and backups
 - **VM Storage** — VM and container disks
 
-Avoid oversized virtual disks without a workload requirement.
-
-## Workload Isolation
-
-Create a dedicated VM when a workload represents:
-
-- Security boundary
-- Core infrastructure role
-- Different operating system
-- Independent failure domain
-- Dedicated testing environment
-
-Otherwise, consider containerization.
-
-```text
-Proxmox Host
-│
-├── opnsense-lab-vm
-│   └── Firewall / Routing / VPN
-│
-├── ad-dc-lab-vm
-│   └── AD DS / DNS
-│
-├── win11-lab-vm
-│   └── Endpoint Testing
-│
-└── docker-lab-vm
-    ├── Dashboard
-    ├── Monitoring
-    ├── Metrics
-    ├── Logging
-    └── Other Lightweight Services
-```
-
-## Future Growth
-
-| Future VM | Purpose |
-|---|---|
-| `ad-dc02-lab-vm` | AD DS / DNS redundancy |
-| `security-lab-vm` | Security / SIEM tooling |
-| `win11-02-lab-vm` | Additional endpoint testing |
-| `docker02-lab-vm` | Application isolation / additional capacity |
-| `opnsense-test-vm` | Firewall / network experimentation |
-
-When a host regularly approaches comfortable capacity, **scale out to another virtualization node rather than continually overloading the existing host**.
-
-## Naming Convention
-
-Use descriptive, generic hostnames that identify the workload and its purpose.
-
-Examples:
-
-- `opnsense-lab-vm`
-- `ad-dc-lab-vm`
-- `docker-lab-vm`
-- `win11-lab-vm`
-- `security-lab-vm`
-
-Avoid publishing:
-
-- Personal names
-- Physical locations
-- IP addresses
-- Account names
-- Organization-specific identifiers
+Use NVMe-backed storage for primary VM workloads where the additional performance is beneficial.
 
 ## Rule of Thumb
 
 > **Allocate for current requirements, monitor utilization, then scale.**
 
-**Infrastructure boundary → VM**  
-**Application/service → usually container**  
-**Unused capacity → keep available**
+**Allocate conservatively → Monitor utilization → Adjust resources → Distribute workloads when necessary**
