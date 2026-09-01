@@ -9,6 +9,7 @@ Resource allocation and capacity planning for the Proxmox virtualization lab.
 - Avoid allocating resources "just in case"
 - Moderate CPU overcommitment is acceptable for non-concurrent lab workloads
 - Distribute workloads across nodes when resource contention develops
+- Keep critical network infrastructure independent of the virtualization cluster where practical
 
 ## Host Overview
 
@@ -20,9 +21,11 @@ Resource allocation and capacity planning for the Proxmox virtualization lab.
 
 `prox-lab-03` is planned as a third virtualization node with hardware similar to `prox-lab-02`. Final specifications will be documented after deployment and validation.
 
+Network routing and firewall services are planned for a dedicated system outside the Proxmox cluster, allowing cluster hosts to be restarted or maintained without directly affecting network availability.
+
 ## `prox-lab-01`
 
-Primary virtualization node for persistent infrastructure and endpoint testing.
+Primary virtualization node for persistent infrastructure, applications, monitoring, and endpoint testing.
 
 ### Capacity and Allocation
 
@@ -49,33 +52,36 @@ CPU is intentionally overcommitted at approximately **2.3:1**. Assigned vCPUs re
 
 Approximately **8 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
 
+The Docker host provides a consolidation point for lightweight application services. Individual services can be separated into dedicated VMs later when security, resource, or availability requirements justify additional isolation.
+
 ## `prox-lab-02`
 
-Secondary virtualization node for network, security, infrastructure redundancy, and temporary lab workloads.
+Secondary virtualization node for infrastructure redundancy, security workloads, and additional lab capacity.
 
 ### Capacity and Allocation
 
 | Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 4 cores / 8 threads | 8 vCPU | 1:1 vCPU-to-thread |
-| Memory | 16 GB | 10 GB | ~6 GB unallocated |
+| CPU | 4 cores / 8 threads | 6 vCPU | 0.75:1 vCPU-to-thread |
+| Memory | 16 GB | 8 GB | ~8 GB unallocated |
 | NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
 ### Planned VMs
 
 | VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
-| `firewall-lab-vm` | Firewall / Routing / VPN | 2 | 2 GB |
 | `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
 | `security-lab-vm` | Security / SIEM Testing | 2 | 4 GB |
 | `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
-| **Total** | | **8 vCPU** | **10 GB** |
+| **Total** | | **6 vCPU** | **8 GB** |
 
 ### Considerations
 
-The processor provides **4 physical cores and 8 hardware threads**. The initial 8 vCPU allocation keeps virtual CPU allocation equal to the available hardware thread count while leaving room for future overcommitment if required.
+The processor provides **4 physical cores and 8 hardware threads**. The planned 6 vCPU allocation leaves substantial CPU capacity available for temporary workloads and future expansion.
 
-Approximately **6 GB of memory remains unallocated**. Memory is the primary capacity constraint on this node, so memory-intensive workloads should preferentially run on `prox-lab-01` when practical.
+Approximately **8 GB of memory remains unallocated**. Because memory is the primary capacity constraint on this node, the additional headroom provides flexibility for temporary VMs and future infrastructure services.
+
+Resource-intensive workloads should preferentially run on `prox-lab-01` when practical.
 
 ## `prox-lab-03`
 
@@ -103,6 +109,26 @@ Planned third virtualization node for additional compute capacity and workload d
 
 Final CPU, memory, storage, and VM allocations will be documented after the host is deployed and baseline resource utilization is established.
 
+## Dedicated Network Infrastructure
+
+Firewall and routing services are planned to operate independently of the Proxmox cluster.
+
+| System | Role | Platform | Status |
+|---|---|---|---|
+| `firewall-lab` | Firewall / Routing / VPN | OPNsense | Planned |
+
+Running the firewall on dedicated hardware separates network availability from virtualization host maintenance and experimentation.
+
+This allows the Proxmox nodes to be:
+
+- Restarted
+- Updated
+- Reconfigured
+- Shut down
+- Used for experimental workloads
+
+without intentionally coupling those operations to the availability of the network gateway.
+
 ## Cluster Capacity
 
 | Resource | `prox-lab-01` | `prox-lab-02` | `prox-lab-03` | Current Known Capacity |
@@ -110,12 +136,14 @@ Final CPU, memory, storage, and VM allocations will be documented after the host
 | Physical Cores | 6 | 4 | Pending | 10 |
 | Hardware Threads | 6 | 8 | Pending | 14 |
 | Memory | 32 GB | 16 GB | Pending | 48 GB |
-| Planned vCPU | 14 | 8 | Pending | 22 |
-| Planned VM Memory | 24 GB | 10 GB | Pending | 34 GB |
-| Unallocated Memory | ~8 GB | ~6 GB | Pending | ~14 GB |
+| Planned vCPU | 14 | 6 | Pending | 20 |
+| Planned VM Memory | 24 GB | 8 GB | Pending | 32 GB |
+| Unallocated Memory | ~8 GB | ~8 GB | Pending | ~16 GB |
 | NVMe VM Storage | ~1 TB | ~1 TB | Pending | ~2 TB |
 
 > Combined capacity is useful for planning, but CPU and memory remain local to each virtualization node unless workloads are migrated between hosts.
+
+The dedicated firewall is excluded from cluster capacity calculations because it operates independently of the Proxmox virtualization environment.
 
 ## Scaling Strategy
 
