@@ -9,7 +9,6 @@ Resource allocation and capacity planning for the Proxmox virtualization lab.
 - Avoid allocating resources "just in case"
 - Moderate CPU overcommitment is acceptable for non-concurrent lab workloads
 - Distribute workloads across nodes when resource contention develops
-- Keep critical network infrastructure independent of the virtualization cluster where practical
 
 ## Host Overview
 
@@ -21,7 +20,7 @@ Resource allocation and capacity planning for the Proxmox virtualization lab.
 
 `prox-lab-03` is planned as a third virtualization node with hardware similar to `prox-lab-02`. Final specifications will be documented after deployment and validation.
 
-Network routing and firewall services are planned for a dedicated system outside the Proxmox cluster, allowing cluster hosts to be restarted or maintained without directly affecting network availability.
+> **Note:** Firewall and routing services are hosted on dedicated hardware and are excluded from Proxmox resource calculations.
 
 ## `prox-lab-01`
 
@@ -52,8 +51,6 @@ CPU is intentionally overcommitted at approximately **2.3:1**. Assigned vCPUs re
 
 Approximately **8 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
 
-The Docker host provides a consolidation point for lightweight application services. Individual services can be separated into dedicated VMs later when security, resource, or availability requirements justify additional isolation.
-
 ## `prox-lab-02`
 
 Secondary virtualization node for infrastructure redundancy, security workloads, and additional lab capacity.
@@ -77,9 +74,9 @@ Secondary virtualization node for infrastructure redundancy, security workloads,
 
 ### Considerations
 
-The processor provides **4 physical cores and 8 hardware threads**. The planned 6 vCPU allocation leaves substantial CPU capacity available for temporary workloads and future expansion.
+The processor provides **4 physical cores and 8 hardware threads**. The planned 6 vCPU allocation leaves CPU capacity available for temporary workloads and future expansion.
 
-Approximately **8 GB of memory remains unallocated**. Because memory is the primary capacity constraint on this node, the additional headroom provides flexibility for temporary VMs and future infrastructure services.
+Approximately **8 GB of memory remains unallocated**. Memory is the primary capacity constraint on this node, so the additional headroom provides flexibility for temporary VMs and future infrastructure services.
 
 Resource-intensive workloads should preferentially run on `prox-lab-01` when practical.
 
@@ -109,26 +106,6 @@ Planned third virtualization node for additional compute capacity and workload d
 
 Final CPU, memory, storage, and VM allocations will be documented after the host is deployed and baseline resource utilization is established.
 
-## Dedicated Network Infrastructure
-
-Firewall and routing services are planned to operate independently of the Proxmox cluster.
-
-| System | Role | Platform | Status |
-|---|---|---|---|
-| `firewall-lab` | Firewall / Routing / VPN | OPNsense | Planned |
-
-Running the firewall on dedicated hardware separates network availability from virtualization host maintenance and experimentation.
-
-This allows the Proxmox nodes to be:
-
-- Restarted
-- Updated
-- Reconfigured
-- Shut down
-- Used for experimental workloads
-
-without intentionally coupling those operations to the availability of the network gateway.
-
 ## Cluster Capacity
 
 | Resource | `prox-lab-01` | `prox-lab-02` | `prox-lab-03` | Current Known Capacity |
@@ -142,8 +119,6 @@ without intentionally coupling those operations to the availability of the netwo
 | NVMe VM Storage | ~1 TB | ~1 TB | Pending | ~2 TB |
 
 > Combined capacity is useful for planning, but CPU and memory remain local to each virtualization node unless workloads are migrated between hosts.
-
-The dedicated firewall is excluded from cluster capacity calculations because it operates independently of the Proxmox virtualization environment.
 
 ## Scaling Strategy
 
