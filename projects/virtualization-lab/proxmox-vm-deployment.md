@@ -14,17 +14,12 @@ decisions, and validation performed.
 
 ## Navigation
 
-- [VM Deployment Baseline](#vm-deployment-baseline)
-- [Debian / Docker Implementation](#debian--docker-implementation)
-  - [Configuration](#configuration)
-  - [Post-Installation](#post-installation)
-  - [Validation](#validation)
-- [Windows 11 Guest Considerations](#windows-11-guest-considerations)
-  - [Windows 11 Configuration](#windows-11-configuration)
-  - [VirtIO Drivers](#virtio-drivers)
-  - [QEMU Guest Agent](#qemu-guest-agent)
-  - [Windows 11 Validation](#windows-11-validation)
-- [Baseline Strategy](#baseline-strategy)
+| Section | Focus |
+|---|---|
+| [VM Deployment Baseline](#vm-deployment-baseline) | Standard configuration |
+| [Debian / Docker Implementation](#debian--docker-implementation) | Linux implementation |
+| [Windows 11 Guest Considerations](#windows-11-guest-considerations) | Windows-specific requirements |
+| [Baseline Strategy](#baseline-strategy) | Deployment methodology |
 
 ## VM Deployment Baseline
 
