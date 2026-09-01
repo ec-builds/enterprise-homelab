@@ -1,78 +1,70 @@
 # Naming Conventions & Sanitization Guidelines
 
+**Status: 🟢 Operational**
+
 ## Purpose
 
-This repository is intended for public documentation and portfolio purposes. To protect the security and privacy of the homelab environment, certain infrastructure details are intentionally sanitized.
+This document defines naming and sanitization conventions for the public EC-Builds repository.
 
-Examples include:
+Documentation should accurately represent the environment without exposing operational details from the live homelab.
+
+## Sanitization Requirements
+
+Before publishing, remove or sanitize:
 
 - Hostnames
+- Usernames
 - IP addresses
 - Domain names
-- Usernames
 - Network share names
 - VPN endpoints
 - Internal DNS records
 - Storage paths
+- API keys and tokens
+- Passwords and credentials
+- Other environment-specific identifiers
 
-The goal is to accurately document architecture, processes, and technical concepts without exposing operational details from the live environment.
+When in doubt, replace operational information with a descriptive role-based name or documentation-safe example.
 
+## Documentation Naming
 
+Use generic names that describe system roles rather than actual hostnames or infrastructure identifiers.
 
-## Hostname Sanitization
-
-Documentation uses generic hostnames that represent system roles rather than actual production hostnames.
-
-### Current Naming Map
+### Hostname Map
 
 | Documentation Name | System Role |
-|----------|----------|
-| media-server-lab | Media Services Platform host |
-| nas-lab | Network Attached Storage (NAS) platform |
-| proxmox-lab | Future virtualization host |
-| docker-lab | Docker host vm |
-| ad-lab | Active Directory lab environment |
-| m365-lab | Microsoft 365 & Entra ID lab environment |
-| monitoring-lab | Monitoring and observability platform |
-| automation-lab | Automation and infrastructure tooling |
+|---|---|
+| `media-server-lab` | Media services host |
+| `nas-lab` | Network attached storage |
+| `proxmox-lab` | Proxmox virtualization host |
+| `docker-lab` | Docker host VM |
+| `ad-lab` | Active Directory lab |
+| `m365-lab` | Microsoft 365 and Entra ID lab |
+| `monitoring-lab` | Monitoring and observability platform |
+| `automation-lab` | Automation and infrastructure tooling |
 
-
-
-## Network Information
-
-Network information shown in documentation may be modified from the live environment.
-
-Examples include:
-
-- RFC 5737 documentation IP ranges
-- Simplified network diagrams
-- Generic VLAN identifiers
-- Example DNS records
-
-This ensures diagrams remain educational while protecting operational details.
-
-
-
-## Storage Naming
-
-Storage systems are documented using descriptive role-based names.
-
-### Current Naming Map
+### Storage Map
 
 | Documentation Name | Purpose |
-|----------|----------|
-| nas-lab | Primary NAS platform |
-| media-share | Media content storage |
-| backup-share | Backup storage location |
-| archive-share | Long-term archival storage |
+|---|---|
+| `nas-lab` | Primary NAS platform |
+| `media-share` | Media storage |
+| `backup-share` | Backup storage |
+| `archive-share` | Archival storage |
 
+## Network and Diagram Examples
 
+Network information and diagrams should use sanitized values while preserving the technical design.
 
-## Diagram Standards
+Use:
 
-Architecture diagrams should use sanitized names that describe system function rather than specific implementation details.
+- RFC 5737 documentation IP ranges
+- Generic VLAN identifiers
+- Example DNS records
+- Role-based hostnames
+- Simplified network diagrams where appropriate
 
-### Preferred
+Example:
 
 ```text
 proxmox-lab
@@ -81,7 +73,7 @@ nas-lab
 monitoring-lab
 ```
 
-### Avoid
+Avoid:
 
 ```text
 actual-hostname
@@ -89,43 +81,21 @@ actual-domain-name
 actual-ip-address
 ```
 
-
-
-## Documentation Philosophy
-
-This repository focuses on demonstrating:
-
-- Systems administration skills
-- Infrastructure design
-- Networking concepts
-- Automation workflows
-- Security practices
-- Technical documentation
-
-Specific operational details are intentionally abstracted where appropriate to maintain security while preserving technical accuracy.
-
-
-
 ## Review Checklist
 
-Before publishing documentation, verify that the following have been removed or sanitized:
+Before publishing:
 
-- Real hostnames
-- Real usernames
-- Public IP addresses
-- Internal IP addresses
-- Domain names
-- API keys
-- Access tokens
-- VPN endpoints
-- Authentication secrets
-
-When in doubt, replace environment-specific information with a descriptive role-based name.
-
-
+- [ ] Hostnames are sanitized
+- [ ] Usernames are sanitized
+- [ ] IP addresses and domains are sanitized
+- [ ] Network shares and storage paths are sanitized
+- [ ] VPN and DNS information is sanitized
+- [ ] Credentials, API keys, tokens, and secrets are removed
+- [ ] Diagrams and screenshots contain no operational identifiers
 
 ## Related Documentation
 
+- [Documentation Standards](./documentation-standards.md)
 - [Equipment Inventory](../../equipment/README.md)
 - [Network Infrastructure](../../projects/network-infrastructure/)
 - [Virtualization Lab](../../projects/virtualization-lab/)
