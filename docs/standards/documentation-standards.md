@@ -1,6 +1,6 @@
 # Documentation Standards
 
-**Status: ✅ Complete**
+**Status: 🟢 Operational**
 
 This document defines the documentation standards used across the EC-Builds enterprise homelab portfolio.
 
@@ -25,7 +25,7 @@ Add new top-level directories only when necessary.
 Documents should generally include:
 
 1. Title
-2. Status badge
+2. Status
 3. Overview
 4. Body sections
 5. Related Documentation
@@ -41,16 +41,18 @@ Use:
 
 ## Status
 
-| Status | Badge |
+Use the following status legend across documentation:
+
+| Status | Meaning |
 |---|---|
-| Complete | `✅ Complete` |
-| In Progress | `🔨 In Progress` |
-| Planned | `📋 Planned` |
+| 🟢 Operational | Deployed, documented, and working as intended |
+| 🟡 In Progress | Currently being built, configured, or tested |
+| ⚪ Planned | Defined and included in the project roadmap |
 
 Example:
 
 ```markdown
-**Status: ✅ Complete**
+**Status: 🟢 Operational**
 ```
 
 ## Writing Style
@@ -181,7 +183,7 @@ When applicable:
 - [ ] Project documents include an Outcome
 - [ ] Tables and callouts improve readability
 
-Periodically review repository links, status badges, and sanitization.
+Periodically review repository links, status, and sanitization.
 
 ## Related Documentation
 
