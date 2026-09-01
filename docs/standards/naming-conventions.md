@@ -17,7 +17,7 @@ Examples include:
 
 The goal is to accurately document architecture, processes, and technical concepts without exposing operational details from the live environment.
 
----
+
 
 ## Hostname Sanitization
 
@@ -36,7 +36,7 @@ Documentation uses generic hostnames that represent system roles rather than act
 | monitoring-lab | Monitoring and observability platform |
 | automation-lab | Automation and infrastructure tooling |
 
----
+
 
 ## Network Information
 
@@ -51,7 +51,7 @@ Examples include:
 
 This ensures diagrams remain educational while protecting operational details.
 
----
+
 
 ## Storage Naming
 
@@ -66,7 +66,7 @@ Storage systems are documented using descriptive role-based names.
 | backup-share | Backup storage location |
 | archive-share | Long-term archival storage |
 
----
+
 
 ## Diagram Standards
 
@@ -89,7 +89,7 @@ actual-domain-name
 actual-ip-address
 ```
 
----
+
 
 ## Documentation Philosophy
 
@@ -104,7 +104,7 @@ This repository focuses on demonstrating:
 
 Specific operational details are intentionally abstracted where appropriate to maintain security while preserving technical accuracy.
 
----
+
 
 ## Review Checklist
 
@@ -122,7 +122,7 @@ Before publishing documentation, verify that the following have been removed or 
 
 When in doubt, replace environment-specific information with a descriptive role-based name.
 
----
+
 
 ## Related Documentation
 
