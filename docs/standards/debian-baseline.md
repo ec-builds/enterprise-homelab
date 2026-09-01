@@ -1,7 +1,7 @@
 # Debian Base System Configuration
 
-This document outlines the standard baseline configuration applied to 
-Debian servers in the homelab environment following OS installation and 
+This document outlines the standard baseline configuration applied to
+Debian servers in the homelab environment following OS installation and
 initial SSH setup.
 
 Apply this standard to any new Debian server before beginning 
@@ -74,7 +74,6 @@ ca-certificates
 | tree | Directory structure visualization |
 | dnsutils | DNS troubleshooting and name resolution tools |
 | bash-completion | Command-line auto-completion enhancements |
-| avahi-daemon (optional-not included)| Local network service discovery |
 | cifs-utils | SMB/CIFS network share integration |
 | rsync | File synchronization and backup operations |
 | unzip | Archive extraction utility |
@@ -99,15 +98,17 @@ This baseline provides:
 
 ## Validation
 
-Run the following checks to verify package installation, system identity, storage visibility, network connectivity, and basic service health before proceeding with additional configuration.
+Run the following checks to verify package installation, system identity,
+storage visibility, and network connectivity before proceeding with
+additional configuration.
 
 ```bash
-apt list --installed | grep -E "curl|wget|git|vim|htop|tree"
-systemctl status avahi-daemon
+dpkg -l vim git curl wget htop tree dnsutils bash-completion cifs-utils rsync unzip ncdu smartmontools ca-certificates
 df -h
 smartctl --scan
 hostnamectl
 ip addr
+ip route
 ping -c 4 8.8.8.8
 ping -c 4 google.com
 ```
@@ -115,17 +116,17 @@ ping -c 4 google.com
 ### Expected Results
 
 - Required packages are installed.
-- Avahi is active and running.
 - Storage devices are detected and accessible.
 - Hostname is configured correctly.
 - Network interfaces have valid IP addresses.
+- A valid default route is configured.
 - Internet connectivity and DNS resolution are functional.
 
 If all checks pass, the system is ready for further configuration and service deployment.
 
 
->[!TIP]
->After applying operating system updates, consider rebooting the server
+> [!TIP]
+> After applying operating system updates, consider rebooting the server
 > before beginning project-specific configuration to ensure all updates
 > are fully applied.
 
