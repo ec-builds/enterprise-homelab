@@ -383,6 +383,24 @@ else
     fail "$FAILED_UNITS failed systemd unit(s) detected"
 fi
 
+
+# Template warnings indicate machine-specific identity that should be cleared
+# immediately before shutdown and conversion to a template. Clear /etc/machine-id
+# with `truncate -s 0`, remove the existing SSH host keys, and check
+# /var/lib/dbus/machine-id with `ls -l` before removing it. If the D-Bus
+# machine-id is a symlink to /etc/machine-id, leave the symlink intact; if it is
+# a regular file, remove it. This prevents cloned VMs from inheriting the same
+# machine identity or SSH host keys. Shut down immediately after cleanup and do
+# not boot the source VM again before converting it to a template.
+#
+# Commands:
+#   sudo truncate -s 0 /etc/machine-id
+#   ls -l /var/lib/dbus/machine-id
+#   sudo rm -f /var/lib/dbus/machine-id    # Only if it is a regular file
+#   sudo rm -f /etc/ssh/ssh_host_*
+#   sudo shutdown -h now
+
+
 # ------------------------------------------------------------
 # Template Readiness
 # ------------------------------------------------------------
@@ -499,6 +517,30 @@ elif (( WARN_COUNT > 0 )); then
 
     if [[ "$TEMPLATE_MODE" == true ]]; then
         echo "Review warnings before final template preparation."
+
+        echo
+        echo "Template Preparation:"
+        echo "  If the warnings are related to machine identity or SSH host keys:"
+        echo
+        echo "  1. Check whether the D-Bus machine ID is a symlink:"
+        echo "     ls -l /var/lib/dbus/machine-id"
+        echo
+        echo "  2. Clear the system machine ID:"
+        echo "     sudo truncate -s 0 /etc/machine-id"
+        echo
+        echo "  3. If /var/lib/dbus/machine-id is a regular file, remove it."
+        echo "     If it is a symlink to /etc/machine-id, leave the symlink intact."
+        echo "     sudo rm -f /var/lib/dbus/machine-id"
+        echo
+        echo "  4. Remove existing SSH host keys:"
+        echo "     sudo rm -f /etc/ssh/ssh_host_*"
+        echo
+        echo "  5. Shut down immediately:"
+        echo "     sudo shutdown -h now"
+        echo
+        echo "  These steps prevent cloned VMs from inheriting the same machine"
+        echo "  identity or SSH host keys. Do not boot the source VM again before"
+        echo "  converting it to a template."
     else
         echo "Review warnings before considering the Debian baseline complete."
     fi
