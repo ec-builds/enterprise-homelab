@@ -530,22 +530,19 @@ elif (( WARN_COUNT > 0 )); then
 
         echo
         echo "Template Preparation:"
-        echo "  If the warnings are related to machine identity or SSH host keys:"
+        echo "  For machine identity or SSH host key warnings:"
         echo
-        echo "  1. Check whether the D-Bus machine ID is a symlink:"
+        echo "  1. Check the D-Bus machine ID:"
         echo "     ls -l /var/lib/dbus/machine-id"
+        echo "     - Regular file (output begins with \"-\"): remove it in step 3."
+        echo "     - Symlink (output begins with \"l\"): leave it unchanged."
         echo
         echo "  2. Clear the system machine ID:"
         echo "     sudo truncate -s 0 /etc/machine-id"
         echo
-        echo "  3. Check the D-Bus machine ID:"
-        echo "     ls -l /var/lib/dbus/machine-id"
-        echo
-        echo "     If the output begins with \"-\" (regular file), remove it:"
+        echo "  3. If the D-Bus machine ID is a regular file, remove it:"
         echo "     sudo rm -f /var/lib/dbus/machine-id"
-        echo
-        echo "     If the output begins with \"l\" and points to /etc/machine-id"
-        echo "     (symlink), leave it unchanged."
+        echo "     Skip this step if it is a symlink."
         echo
         echo "  4. Remove existing SSH host keys:"
         echo "     sudo rm -f /etc/ssh/ssh_host_*"
@@ -553,9 +550,9 @@ elif (( WARN_COUNT > 0 )); then
         echo "  5. Shut down immediately:"
         echo "     sudo shutdown -h now"
         echo
-        echo "  These steps prevent cloned VMs from inheriting the same machine"
-        echo "  identity or SSH host keys. Do not boot the source VM again before"
-        echo "  converting it to a template."
+        echo "  This prevents cloned VMs from inheriting the same machine identity"
+        echo "  or SSH host keys. Do not boot the source VM again before converting"
+        echo "  it to a template."
     else
         echo "Review warnings before considering the Debian baseline complete."
     fi
