@@ -50,6 +50,16 @@ case "${1:-}" in
 esac
 
 # ------------------------------------------------------------
+# Privilege Check
+# ------------------------------------------------------------
+
+if [[ "$EUID" -ne 0 ]]; then
+    echo "This script must be run with sudo or as root."
+    echo "Usage: sudo bash $0 [--template]"
+    exit 2
+fi
+
+# ------------------------------------------------------------
 # Output Functions
 # ------------------------------------------------------------
 
@@ -383,7 +393,6 @@ else
     fail "$FAILED_UNITS failed systemd unit(s) detected"
 fi
 
-
 # Template warnings indicate machine-specific identity that should be cleared
 # immediately before shutdown and conversion to a template. Clear /etc/machine-id
 # with `truncate -s 0`, remove the existing SSH host keys, and check
@@ -396,10 +405,11 @@ fi
 # Commands:
 #   sudo truncate -s 0 /etc/machine-id
 #   ls -l /var/lib/dbus/machine-id
-#   sudo rm -f /var/lib/dbus/machine-id    # Only if it is a regular file
+#   if [[ ! -L /var/lib/dbus/machine-id ]]; then
+#       sudo rm -f /var/lib/dbus/machine-id
+#   fi
 #   sudo rm -f /etc/ssh/ssh_host_*
 #   sudo shutdown -h now
-
 
 # ------------------------------------------------------------
 # Template Readiness
@@ -416,7 +426,7 @@ if [[ "$TEMPLATE_MODE" == true ]]; then
     fi
 
     if compgen -G "/etc/ssh/ssh_host_*" >/dev/null; then
-        warn "SSH host keys exist — regenerate/clear during final template preparation"
+        warn "SSH host keys exist — remove during final template preparation"
     else
         pass "SSH host keys cleared"
     fi
@@ -530,7 +540,9 @@ elif (( WARN_COUNT > 0 )); then
         echo
         echo "  3. If /var/lib/dbus/machine-id is a regular file, remove it."
         echo "     If it is a symlink to /etc/machine-id, leave the symlink intact."
-        echo "     sudo rm -f /var/lib/dbus/machine-id"
+        echo "     if [[ ! -L /var/lib/dbus/machine-id ]]; then"
+        echo "         sudo rm -f /var/lib/dbus/machine-id"
+        echo "     fi"
         echo
         echo "  4. Remove existing SSH host keys:"
         echo "     sudo rm -f /etc/ssh/ssh_host_*"
