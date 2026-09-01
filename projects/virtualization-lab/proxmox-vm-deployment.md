@@ -158,7 +158,9 @@ hardware requirements.
 VirtIO devices are used for storage and networking instead of emulated legacy
 hardware to provide efficient paravirtualized I/O.
 
-> **Screenshot:** Completed Windows 11 VM hardware configuration
+![Windows 11 VM Config](./diagrams/win11-lab-vm-settings.png)
+
+_Completed Windows 11 VM hardware configuration_
 
 ### VirtIO Drivers
 
