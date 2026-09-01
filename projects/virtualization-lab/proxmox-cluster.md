@@ -1,220 +1,154 @@
-# 🖥️ Proxmox Cluster
+# Proxmox Resource Allocation Strategy
 
-Proxmox VE compute environment designed to scale from a single virtualization host into a three-node cluster.
+Resource allocation and capacity planning for the Proxmox virtualization lab.
 
-The environment provides hands-on experience with clustered virtualization, Linux networking, node-local storage, Corosync, quorum, migration, and failure testing.
+## Core Principles
 
-## Cluster Overview
+- Start small and scale based on actual utilization
+- Maintain capacity for the hypervisor and temporary workloads
+- Avoid allocating resources "just in case"
+- Moderate CPU overcommitment is acceptable for non-concurrent lab workloads
+- Distribute workloads across nodes when resource contention develops
 
-**Current State:** Two-node Proxmox VE cluster  
-**Target State:** Three-node Proxmox VE cluster
+## Host Overview
 
-```text
-Current Cluster
-├── prox-lab-01
-│   ├── System SSD
-│   └── NVMe VM Storage
-│
-└── prox-lab-02
-    ├── System SSD
-    └── NVMe VM Storage
+| Host | CPU | Cores / Threads | Memory | Primary VM Storage | Status |
+|---|---|---:|---:|---|---|
+| `prox-lab-01` | Intel Core i5-9500T | 6 / 6 | 32 GB | ~1 TB NVMe LVM-thin | Active |
+| `prox-lab-02` | Intel Core i7-6700T | 4 / 8 | 16 GB | ~1 TB NVMe LVM-thin | Active |
+| `prox-lab-03` | Pending | Pending | Pending | Pending | Planned |
 
-Planned
-└── prox-lab-03
-```
+`prox-lab-03` is planned as a third virtualization node with hardware similar to `prox-lab-02`. Final specifications will be documented after deployment and validation.
 
-## Node Summary
+## `prox-lab-01`
 
-| Node | Hardware | CPU | RAM | System Storage | VM Storage | Status |
-|---|---|---|---:|---|---|---|
-| `prox-lab-01` | Dell OptiPlex 3070 | Intel Core i5-9500T (6C/6T) | 32 GB | 1 TB SATA SSD | 1 TB NVMe SSD | Active |
-| `prox-lab-02` | Dell OptiPlex 7040 | TBD | TBD | System SSD | 1 TB NVMe SSD | Active |
-| `prox-lab-03` | Dell OptiPlex 7040 | TBD | TBD | TBD | TBD | Planned |
+Primary virtualization node for persistent infrastructure and endpoint testing.
 
-## Cluster Nodes
+### Capacity and Allocation
 
-### `prox-lab-01`
+| Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
+|---|---:|---:|---:|
+| CPU | 6 cores / 6 threads | 14 vCPU | ~2.3:1 vCPU-to-core |
+| Memory | 32 GB | 24 GB | ~8 GB unallocated |
+| NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
-**Role:** Primary virtualization node  
-**Status:** Active
+### Planned VMs
 
-Initial bare-metal node used to establish the Proxmox environment and validate VM, storage, networking, and management workflows.
+| VM / Workload | Role | vCPU | RAM |
+|---|---|---:|---:|
+| `win11-lab-vm01` | Domain / Endpoint Testing | 4 | 8 GB |
+| `win11-lab-vm02` | Additional Endpoint Testing | 4 | 8 GB |
+| `docker-lab-vm` | Debian / Docker Host | 2 | 4 GB |
+| `monitoring-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
+| `dc-lab-vm` | AD DS / DNS | 2 | 2 GB |
+| **Total** | | **14 vCPU** | **24 GB** |
 
-The node was subsequently used to initialize the Proxmox cluster.
+### Considerations
 
-### `prox-lab-02`
+CPU is intentionally overcommitted at approximately **2.3:1**. Assigned vCPUs represent schedulable capacity rather than dedicated physical cores, making moderate overcommitment appropriate for lab workloads that are not expected to sustain maximum utilization simultaneously.
 
-**Role:** Cluster compute node  
-**Status:** Active
+Approximately **8 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
 
-Second virtualization host joined to the cluster to introduce multi-node management, Corosync communication, node-local storage, and migration testing.
+## `prox-lab-02`
 
-### `prox-lab-03`
+Secondary virtualization node for network, security, infrastructure redundancy, and temporary lab workloads.
 
-**Role:** Cluster compute node  
-**Status:** Planned
+### Capacity and Allocation
 
-Third node intended to complete the three-node architecture and provide a more resilient quorum configuration for cluster and failure testing.
+| Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
+|---|---:|---:|---:|
+| CPU | 4 cores / 8 threads | 8 vCPU | 1:1 vCPU-to-thread |
+| Memory | 16 GB | 10 GB | ~6 GB unallocated |
+| NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
-## Target Architecture
+### Planned VMs
 
-```text
-                    Proxmox VE Cluster
-                           │
-          ┌────────────────┼────────────────┐
-          │                │                │
-   prox-lab-01       prox-lab-02       prox-lab-03
-          │                │                │
-          └────────────────┼────────────────┘
-                           │
-                  Cluster Services
-                           │
-              ┌────────────┼────────────┐
-              │            │            │
-           Corosync     Migration     Quorum
-```
+| VM / Workload | Role | vCPU | RAM |
+|---|---|---:|---:|
+| `firewall-lab-vm` | Firewall / Routing / VPN | 2 | 2 GB |
+| `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
+| `security-lab-vm` | Security / SIEM Testing | 2 | 4 GB |
+| `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
+| **Total** | | **8 vCPU** | **10 GB** |
 
-## Network & Cluster Configuration
+### Considerations
 
-Cluster nodes use static management addressing to provide stable endpoints for management and Corosync communication.
+The processor provides **4 physical cores and 8 hardware threads**. The initial 8 vCPU allocation keeps virtual CPU allocation equal to the available hardware thread count while leaving room for future overcommitment if required.
 
-Each host's physical Ethernet interface is attached to a Linux bridge:
+Approximately **6 GB of memory remains unallocated**. Memory is the primary capacity constraint on this node, so memory-intensive workloads should preferentially run on `prox-lab-01` when practical.
 
-```text
-Physical NIC
-     │
-     ▼
-   vmbr0
-     │
-     ├── Proxmox Management
-     └── VM Networking
-```
+## `prox-lab-03`
 
-Management addressing is configured on `vmbr0` rather than directly on the physical network interface.
+Planned third virtualization node for additional compute capacity and workload distribution.
 
-Corosync currently uses the primary management network through **Link 0** for node-to-node cluster communication.
+### Capacity and Allocation
 
-A dedicated cluster network or additional Corosync link may be introduced later for network segmentation and redundancy testing.
+| Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
+|---|---:|---:|---:|
+| CPU | Pending | Pending | Pending |
+| Memory | Pending | Pending | Pending |
+| VM Storage | Pending | Pending | Pending |
 
-Hostname resolution is validated before clustering to ensure each node resolves consistently to its static management address.
+### Planned VMs
 
-## Storage Architecture
+| VM / Workload | Role | vCPU | RAM |
+|---|---|---:|---:|
+| Pending | Additional Lab Workloads | Pending | Pending |
+| Pending | Testing / Infrastructure | Pending | Pending |
+| **Total** | | **Pending** | **Pending** |
 
-Each cluster node contains separate system and VM storage.
+### Considerations
 
-```text
-prox-lab-01
-├── System SSD
-│   └── pve
-│       ├── root
-│       ├── swap
-│       └── data
-│           └── local-lvm
-│
-└── NVMe SSD
-    └── nvme-01-lvm
+`prox-lab-03` is expected to provide capabilities similar to `prox-lab-02`, but resource planning will be based on validated hardware rather than assumed specifications.
 
+Final CPU, memory, storage, and VM allocations will be documented after the host is deployed and baseline resource utilization is established.
 
-prox-lab-02
-├── System SSD
-│   └── pve
-│       ├── root
-│       ├── swap
-│       └── data
-│           └── local-lvm
-│
-└── NVMe SSD
-    └── nvme-02-lvm
-```
+## Cluster Capacity
 
-The system SSD on each node contains the Proxmox operating system and default LVM-thin storage.
+| Resource | `prox-lab-01` | `prox-lab-02` | `prox-lab-03` | Current Known Capacity |
+|---|---:|---:|---:|---:|
+| Physical Cores | 6 | 4 | Pending | 10 |
+| Hardware Threads | 6 | 8 | Pending | 14 |
+| Memory | 32 GB | 16 GB | Pending | 48 GB |
+| Planned vCPU | 14 | 8 | Pending | 22 |
+| Planned VM Memory | 24 GB | 10 GB | Pending | 34 GB |
+| Unallocated Memory | ~8 GB | ~6 GB | Pending | ~14 GB |
+| NVMe VM Storage | ~1 TB | ~1 TB | Pending | ~2 TB |
 
-Additional NVMe devices provide dedicated LVM-thin storage for VM and container disks.
+> Combined capacity is useful for planning, but CPU and memory remain local to each virtualization node unless workloads are migrated between hosts.
 
-Storage IDs are node-specific because the underlying NVMe devices are local to each host rather than shared storage.
+## Scaling Strategy
 
-## Cluster Storage Model
+### CPU
 
-Proxmox storage configuration and the underlying Linux storage stack are separate layers.
+Start most infrastructure workloads with **2 vCPU** and increase allocation when sustained utilization demonstrates a need.
 
-```text
-Physical NVMe
-     │
-     ▼
-LVM Physical Volume
-     │
-     ▼
-Volume Group
-     │
-     ▼
-LVM Thin Pool
-     │
-     ▼
-Proxmox Storage Definition
-     │
-     ▼
-VM / Container Disks
-```
+Moderate CPU overcommitment is acceptable because assigned vCPUs represent schedulable capacity rather than dedicated physical cores.
 
-This distinction became important during cluster deployment because Proxmox storage definitions are managed at the cluster level while the underlying LVM devices remain local to their respective nodes.
+If sustained contention develops, reduce unnecessary vCPU allocations or redistribute workloads across available nodes.
 
-## Implementation Notes
+### RAM
 
-### Static Management Addressing
+Increase memory based on observed workload requirements while maintaining sufficient unallocated capacity for:
 
-The initial deployment used DHCP for the Proxmox management interface.
+- Hypervisor operation
+- Filesystem caching
+- Virtualization overhead
+- Temporary workloads
 
-Before clustering, the management bridges were migrated to static addressing to provide stable endpoints for cluster communication.
+Avoid allocating all available physical memory to VMs.
 
-Hostname resolution was also validated to ensure that each node resolved to its correct management address before initializing Corosync.
+### Storage
 
-Validation included:
+Keep virtual disks appropriately sized and expand them as required.
 
-```bash
-ip addr
-hostname -I
-getent hosts <node>
-```
+- **File Storage** — ISOs, templates, and backups
+- **VM Storage** — VM and container disks
 
-### Cluster Storage Configuration
+Use NVMe-backed storage for primary VM workloads where the additional performance is beneficial.
 
-After the second node joined the cluster, its secondary NVMe remained visible to Linux and LVM but did not initially appear as usable storage in the Proxmox resource tree.
+## Rule of Thumb
 
-Storage inspection included:
+> **Allocate for current requirements, monitor utilization, then scale.**
 
-```bash
-pvesm status
-pvs
-vgs
-lvs
-```
-
-The investigation confirmed that the physical disk, LVM physical volume, volume group, and thin pool remained intact.
-
-The issue highlighted the distinction between **node-local LVM configuration** and **cluster-wide Proxmox storage definitions**.
-
-NVMe storage naming was subsequently standardized using node-specific storage IDs:
-
-```text
-prox-lab-01 → nvme-01-lvm
-prox-lab-02 → nvme-02-lvm
-prox-lab-03 → nvme-03-lvm (planned)
-```
-
-This provides consistent storage identification as the cluster expands.
-
-## Implementation Stages
-
-- [x] Deploy initial Proxmox host
-- [x] Configure static management networking
-- [x] Deploy second Proxmox host
-- [x] Configure Corosync cluster
-- [x] Join second node to cluster
-- [x] Configure node-local NVMe LVM-thin storage
-- [x] Standardize cluster storage naming
-- [ ] Deploy third Proxmox host
-- [ ] Validate three-node quorum
-- [ ] Test VM migration
-- [ ] Test node failure and recovery
-- [ ] Evaluate dedicated cluster network
-- [ ] Evaluate shared storage
+**Allocate conservatively → Monitor utilization → Adjust resources → Distribute workloads when necessary**
