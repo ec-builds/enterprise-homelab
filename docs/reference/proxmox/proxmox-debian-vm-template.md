@@ -47,7 +47,7 @@ After the baseline has been configured and validated, prepare the system for use
 
 Follow:
 
-- [Debian Post-Clone Configuration](../debian/debian-post-clone-configuration.md)
+- [Debian Post-Clone Configuration](../debian/debian-post-clone-config.md)
 
 The template should remain general-purpose and should not contain workload-specific services or configuration.
 
