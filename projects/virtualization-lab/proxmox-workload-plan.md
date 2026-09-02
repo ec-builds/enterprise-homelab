@@ -1,4 +1,4 @@
-# Proxmox Capacity Plan
+# Proxmox Workload & Capacity Plan
 
 Current and planned workload placement and capacity across the Proxmox virtualization lab.
 
