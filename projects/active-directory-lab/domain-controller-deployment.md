@@ -36,18 +36,24 @@ Validate Networking
 Install AD DS + DNS
         │
         ▼
+Create AD Forest
+        │
+        ▼
 Promote to Domain Controller
+        │
+        ▼
+Validate AD + DNS
         │
         ▼
 Configure DHCP
         │
         ▼
-Validate Active Directory
+Final Validation
 ```
 
 > [!NOTE]
 > Hostnames, IP addresses, domain names, and other environment-specific
-> identifiers shown in this document are sanitized for public documentation.
+> identifiers shown in this document have been sanitized for public release.
 
 
 ## Server Configuration
@@ -64,7 +70,8 @@ The primary domain controller uses the following baseline configuration.
 | Memory | 2 GB |
 | Storage | 64 GB |
 | Network | Static IPv4 |
-| Planned Roles | AD DS, DNS, DHCP |
+| Roles | AD DS, DNS |
+| Planned Role | DHCP |
 
 
 ## Configure Hostname
@@ -138,7 +145,7 @@ After AD DS and DNS are configured, domain clients will use the domain
 controllers as their DNS servers.
 
 > [!IMPORTANT]
-> The static address assigned to the domain controller will also become the
+> The static address assigned to the domain controller also becomes the
 > address used to reach the DNS service hosted by that domain controller.
 
 Verify the configuration:
@@ -237,20 +244,16 @@ Successful completion of these tests establishes the following network path:
 Domain Controller
       │
       ├── Local TCP/IP          ✓
-      │
       ├── Local Gateway         ✓
-      │
       ├── IPv4 Routing          ✓
-      │
       ├── DNS Resolution        ✓
-      │
       └── HTTPS Connectivity    ✓
 ```
 
 
 ## Install Active Directory Domain Services
 
-Active Directory Domain Services and DNS are installed through Windows
+Active Directory Domain Services and DNS were installed through Windows
 Server Manager.
 
 Open:
@@ -298,7 +301,7 @@ Remote Server Administration Tools
     └── DNS Server Tools
 ```
 
-DHCP Server is intentionally not installed during this stage.
+DHCP Server was intentionally not installed during this stage.
 
 The initial deployment order is:
 
@@ -321,100 +324,280 @@ This allows Active Directory and DNS to be established and validated before
 introducing DHCP configuration.
 
 
-## Deployment Screenshots
-
-The following screenshots document the AD DS and DNS role installation.
-
-
-### Server Role Selection
-
-<!-- SCREENSHOT PLACEHOLDER: DC-add-roles-and-features.png -->
-
-<p align="left">
-  <img src="../diagrams/DC-add-roles-and-features.png" alt="Windows Server AD DS and DNS role selection" width="800">
-</p>
-
-*Active Directory Domain Services and DNS Server selected for installation.*
-
-
-### Feature Selection
-
-<!-- SCREENSHOT PLACEHOLDER: DC-features.png -->
-
-<p align="left">
-  <img src="../diagrams/DC-features.png" alt="Windows Server feature selection" width="800">
-</p>
-
-*Supporting Active Directory management features selected automatically.*
-
-
-### Installation Confirmation
-
-<!-- SCREENSHOT PLACEHOLDER: DC-confirm-settings.png -->
-
-<p align="left">
-  <img src="../diagrams/DC-confirm-settings.png" alt="AD DS and DNS installation confirmation" width="800">
-</p>
-
-*AD DS, DNS, Group Policy Management, and administration tools ready for installation.*
-
-
 ### Role Installation
 
-<!-- SCREENSHOT PLACEHOLDER: DC-installation.png -->
-
 <p align="left">
-  <img src="../diagrams/DC-installation.png" alt="AD DS and DNS role installation progress" width="800">
+  <img src="../diagrams/DC-installation.png" alt="AD DS and DNS role installation" width="800">
 </p>
 
-*Installation of Active Directory Domain Services, DNS, and supporting management tools.*
+*Active Directory Domain Services, DNS, and supporting management tools installed through Server Manager.*
+
+After installation completed, Server Manager reported that additional
+configuration was required before the server could function as a domain
+controller.
+
+<p align="left">
+  <img src="../diagrams/DC-install-fin-config-req.png" alt="AD DS installation completed with domain controller configuration required" width="800">
+</p>
+
+*AD DS and DNS installation completed successfully and Server Manager reported that domain controller promotion was required.*
 
 
 ## Promote Server to Domain Controller
 
-**Status: ⏳ Pending**
+After installing AD DS, Server Manager displayed a post-deployment
+configuration notification.
 
-After AD DS and DNS installation completes, Server Manager reports that
-additional configuration is required.
+<p align="left">
+  <img src="../diagrams/DC-promote.png" alt="Server Manager domain controller promotion notification" width="800">
+</p>
 
-The next deployment stage will be initiated through:
+*Server Manager post-deployment notification indicating that domain controller promotion is required.*
+
+The Active Directory Domain Services Configuration Wizard was launched
+through:
 
 **Server Manager → Notifications → Promote this server to a domain controller**
 
-Because this server will establish a new Active Directory environment, the
-deployment will use:
+
+### Create a New Forest
+
+Because this is the first domain controller in the environment, the deployment
+operation was configured as:
 
 ```text
 Add a new forest
 ```
 
-The following items will be documented during the promotion process:
+<p align="left">
+  <img src="../diagrams/DC-root-domain-name.png" alt="Active Directory new forest deployment configuration" width="800">
+</p>
 
-- Active Directory root domain name
-- Forest functional level
-- Domain functional level
-- DNS Server configuration
-- Global Catalog configuration
-- Directory Services Restore Mode (DSRM) password
-- DNS delegation
-- NetBIOS domain name
-- AD DS database paths
-- SYSVOL path
-- Prerequisite validation
-- Domain controller promotion
-- Post-promotion restart
+*Creation of a new Active Directory forest for the lab environment.*
+
+The sanitized Active Directory forest and root domain are represented as:
+
+```text
+lab.example.com
+```
+
+The resulting public documentation namespace is:
+
+```text
+lab.example.com
+        │
+        └── dc-lab-01.lab.example.com
+```
 
 > [!NOTE]
-> Domain promotion configuration will be added after the initial forest and
-> domain design is finalized.
+> The domain namespace shown in this document is a sanitized example and does
+> not represent the production or internal DNS namespace used by the lab.
+
+
+### Configure Domain Controller Options
+
+The forest and domain functional levels were configured for Windows Server
+2025.
+
+The primary domain controller was also configured as:
+
+```text
+DNS Server:       Enabled
+Global Catalog:   Enabled
+RODC:             Disabled
+```
+
+<p align="left">
+  <img src="../diagrams/DC-controller-options.png" alt="Windows Server 2025 domain controller options" width="800">
+</p>
+
+*Windows Server 2025 forest and domain functional levels with DNS and Global Catalog enabled.*
+
+A Directory Services Restore Mode (DSRM) password was also configured during
+this stage.
+
+> [!IMPORTANT]
+> The DSRM password is a recovery credential used for Active Directory
+> maintenance and recovery. It should be stored securely and must never be
+> included in repository documentation.
+
+
+### DNS Delegation
+
+The configuration wizard reported that a DNS delegation could not
+automatically be created because an authoritative parent Windows DNS zone
+could not be located.
+
+<p align="left">
+  <img src="../diagrams/DC-dns-delegation.png" alt="Active Directory DNS delegation configuration" width="800">
+</p>
+
+*DNS delegation was not created for the internal Active Directory namespace.*
+
+DNS delegation was left disabled.
+
+For this lab design, the Active Directory DNS namespace is managed internally
+by the domain controllers and does not require a parent DNS delegation.
+
+
+### Configure NetBIOS Domain Name
+
+The sanitized NetBIOS domain name is represented as:
+
+```text
+LAB
+```
+
+<p align="left">
+  <img src="../diagrams/DC-netbios.png" alt="Active Directory NetBIOS domain name configuration" width="800">
+</p>
+
+*NetBIOS domain name configured for the Active Directory lab.*
+
+This provides the legacy NetBIOS domain identifier:
+
+```text
+LAB
+```
+
+while the sanitized DNS domain is represented as:
+
+```text
+lab.example.com
+```
+
+Domain accounts can therefore use formats such as:
+
+```text
+LAB\username
+```
+
+or:
+
+```text
+username@lab.example.com
+```
+
+
+### Configure AD DS Paths
+
+The default Windows Server locations were retained for the Active Directory
+database, log files, and SYSVOL.
+
+```text
+Database:  C:\WINDOWS\NTDS
+Logs:      C:\WINDOWS\NTDS
+SYSVOL:    C:\WINDOWS\SYSVOL
+```
+
+<p align="left">
+  <img src="../diagrams/DC-paths.png" alt="Active Directory database log and SYSVOL paths" width="800">
+</p>
+
+*Default AD DS database, log, and SYSVOL locations.*
+
+Separate storage was not required for the initial homelab domain controller.
+
+
+### Review Domain Configuration
+
+Before promotion, the configuration was reviewed to confirm the intended
+forest and domain settings.
+
+<p align="left">
+  <img src="../diagrams/DC-review.png" alt="Active Directory domain controller promotion configuration review" width="800">
+</p>
+
+*Final configuration review before prerequisite validation and domain controller promotion.*
+
+The sanitized configuration is represented as:
+
+| Setting | Configuration |
+|---|---|
+| Forest | `lab.example.com` |
+| Root Domain | `lab.example.com` |
+| NetBIOS Domain | `LAB` |
+| Forest Functional Level | Windows Server 2025 |
+| Domain Functional Level | Windows Server 2025 |
+| DNS Server | Yes |
+| Global Catalog | Yes |
+| Read-Only Domain Controller | No |
+| DNS Delegation | No |
+
+
+### Validate Promotion Prerequisites
+
+The AD DS Configuration Wizard performed prerequisite validation before
+allowing the server to be promoted.
+
+<p align="left">
+  <img src="../diagrams/DC-prereq-check.png" alt="Active Directory domain controller prerequisite check" width="800">
+</p>
+
+*Active Directory prerequisite checks completed successfully before promotion.*
+
+All prerequisite checks passed successfully.
+
+Two warnings were reported:
+
+- IPv6 remained enabled without a manually configured static IPv6 address
+- DNS delegation could not be automatically created for the parent namespace
+
+The server already had a static IPv4 address configured. IPv6 was left
+enabled, and the DNS delegation warning was expected for the internal
+Active Directory DNS design.
+
+Neither warning prevented promotion.
+
+
+### Complete Domain Controller Promotion
+
+After prerequisite validation, the server was promoted as the first domain
+controller in the new forest.
+
+The sanitized deployment is represented as:
+
+```text
+Active Directory Forest
+└── lab.example.com
+    │
+    └── dc-lab-01
+        ├── Active Directory Domain Services
+        ├── DNS Server
+        ├── Global Catalog
+        └── Initial FSMO Roles
+```
+
+The server restarted as part of the promotion process.
+
+After promotion completed, the AD DS Configuration Wizard confirmed that
+the server was successfully configured as a domain controller.
+
+<p align="left">
+  <img src="../diagrams/DC-results.png" alt="Successful Active Directory domain controller promotion" width="800">
+</p>
+
+*Successful promotion of the primary server as the first domain controller in the new Active Directory forest.*
+
+At this stage, the sanitized representation of the Active Directory
+environment is:
+
+```text
+Forest:         lab.example.com
+Domain:         lab.example.com
+NetBIOS:        LAB
+Primary DC:     dc-lab-01
+DNS:            Installed
+Global Catalog: Enabled
+```
 
 
 ## Configure DHCP
 
 **Status: ⏳ Pending**
 
-DHCP will be installed after the domain controller has been successfully
-promoted and AD-integrated DNS has been validated.
+DHCP will be installed after the newly created Active Directory and
+AD-integrated DNS environment have been validated.
 
 Planned configuration includes:
 
@@ -430,34 +613,60 @@ Planned configuration includes:
 - DHCP validation
 
 
-## Post-Deployment Validation
+## Post-Promotion Validation
 
 **Status: ⏳ Pending**
 
-After domain promotion and DHCP configuration, validation will include:
+The next deployment stage will validate the newly promoted domain controller
+before DHCP is introduced.
+
+Validation will include:
 
 ```text
 AD DS
 ├── Domain available
 ├── Domain controller discoverable
 ├── SYSVOL available
-└── NETLOGON available
+├── NETLOGON available
+└── FSMO roles assigned
 
 DNS
-├── AD DNS zone created
+├── AD-integrated DNS zone created
 ├── Domain controller records registered
-├── Forward lookup working
+├── SRV records registered
+├── Internal domain resolution working
 └── External DNS forwarding working
+```
+
+After AD DS and DNS validation is complete, DHCP will be installed and
+configured.
+
+
+## Final Validation
+
+**Status: ⏳ Pending**
+
+After DHCP configuration, final validation will confirm:
+
+```text
+Active Directory
+├── Domain authentication working
+├── Domain controller discovery working
+└── Domain client can join lab.example.com
+
+DNS
+├── Client uses domain controller DNS
+├── Internal AD names resolve
+└── External names resolve
 
 DHCP
 ├── Server authorized
 ├── Scope active
 ├── Client receives address
 ├── Client receives AD DNS server
+├── Client receives DNS domain
 └── Client receives correct gateway
 ```
-
-Additional validation will be added as each deployment stage is completed.
 
 
 ## Deployment Status
@@ -468,9 +677,10 @@ Additional validation will be added as each deployment stage is completed.
 | Hostname Configuration | ✅ Complete |
 | Static IP Configuration | ✅ Complete |
 | Network Validation | ✅ Complete |
-| AD DS Installation | 🟡 In Progress |
-| DNS Server Installation | 🟡 In Progress |
-| Domain Promotion | ⚪ Pending |
+| AD DS Installation | ✅ Complete |
+| DNS Server Installation | ✅ Complete |
+| Active Directory Forest Creation | ✅ Complete |
+| Domain Promotion | ✅ Complete |
 | AD/DNS Validation | ⚪ Pending |
 | DHCP Installation | ⚪ Pending |
 | DHCP Configuration | ⚪ Pending |
