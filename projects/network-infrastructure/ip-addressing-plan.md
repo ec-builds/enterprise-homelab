@@ -75,7 +75,7 @@ Examples:
 
 ## DHCP Reservations
 
-Infrastructure devices should receive DHCP reservations rather than manually configured static IP addresses.
+Persistent services generally use DHCP reservations, while foundational infrastructure such as hypervisors, domain controllers, DNS, and DHCP servers use static addressing where DHCP independence is required.
 
 Benefits:
 
