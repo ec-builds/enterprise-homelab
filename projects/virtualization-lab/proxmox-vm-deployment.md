@@ -74,9 +74,9 @@ Resources were intentionally allocated conservatively to establish an efficient
 starting point while allowing additional CPU and memory to be assigned as
 workload requirements increase.
 
-![Debian VM Config](./diagrams/debian-lab-vm.png)
+![Docker VM Config](./diagrams/docker-lab-vm.png)
 
-_Completed Debian VM hardware configuration_
+_Completed Debian/Docker VM hardware configuration_
 
 VirtIO devices are used for storage and networking instead of emulated legacy
 hardware to provide efficient paravirtualized I/O.
