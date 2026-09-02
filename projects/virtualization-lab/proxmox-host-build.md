@@ -85,7 +85,7 @@ The physical network interface was attached to the default Linux bridge:
            ├── Proxmox Management
            └── Virtual Machines
 
-Baseline requirements:
+Baseline Configuration:
 
 - `vmbr0` operational
 - Static management IP configured
@@ -135,7 +135,7 @@ Where available, the Proxmox system installation was separated from primary VM s
     └── NVMe SSD
         └── Primary VM Storage
 
-The system SSD hosted Proxmox VE, ISO's and local supporting storage. The NVMe SSD provided primary storage for virtual machine workloads.
+The system SSD hosted Proxmox VE, ISOs and local supporting storage. The NVMe SSD provided primary storage for virtual machine workloads.
 
 ## Host Validation
 
