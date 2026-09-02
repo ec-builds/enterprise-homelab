@@ -1,5 +1,12 @@
 # 🖥️ Domain Controller Deployment
 
+<p align="left">
+  <img src="./diagrams/windows-server-install.png" alt="Windows Server 2025 installation edition selection" width="800">
+</p>
+
+*Windows Server 2025 Standard Evaluation (Desktop Experience)*
+
+
 ## Overview
 
 This document outlines the deployment process for the primary Windows Server
