@@ -1,163 +1,175 @@
-# 🖥️ Proxmox Baseline Build
+# Proxmox Baseline Build
 
-Baseline configuration for deploying a **Proxmox VE** virtualization host in the infrastructure homelab.
+Baseline configuration applied when deploying a **Proxmox VE** virtualization host in the infrastructure homelab.
 
 ## Build Workflow
 
-```text
-Hardware Preparation
-        ↓
-Firmware Configuration
-        ↓
-Proxmox VE Installation
-        ↓
-Repository Configuration
-        ↓
-System Updates
-        ↓
-Network Configuration
-        ↓
-Storage Configuration
-        ↓
-Host Validation
-        ↓
-Ready for Workloads
-```
+    Hardware Preparation
+            ↓
+    Firmware Configuration
+            ↓
+    Proxmox VE Installation
+            ↓
+    Network Configuration
+            ↓
+    System Updates
+            ↓
+    Administrative Access
+            ↓
+    Storage Configuration
+            ↓
+    Host Validation
+            ↓
+    Ready for Workloads
 
-## Hardware Baseline
+## Hardware Preparation
 
-| Component | Configuration |
+Before Proxmox VE was installed, the system was reset to a known hardware and firmware baseline.
+
+- Updated system firmware to the latest stable release
+- Loaded BIOS/UEFI defaults
+- Cleared the TPM when repurposing previously deployed hardware
+- Verified installed memory and storage were detected correctly
+
+Firmware updates were performed using the manufacturer-supported update method before the system was converted into a Proxmox host.
+
+## Firmware Configuration
+
+System firmware was configured for virtualization and unattended server operation.
+
+| Setting | Configuration |
 |---|---|
-| Platform | Business-class x86-64 system |
-| CPU | Hardware virtualization capable |
-| Memory | 32 GB |
-| Host Storage | SATA SSD |
-| VM Storage | NVMe SSD |
-| Network | Gigabit Ethernet |
-| Boot | UEFI |
+| Boot Mode | UEFI |
+| Hardware Virtualization | Enabled |
+| Restore After AC Power Loss | Power On |
+| Sleep / Hibernation | Disabled |
+| TPM | Cleared before deployment |
+| Storage Controller | AHCI where applicable |
+| Boot Priority | Proxmox system disk |
 
-Unique identifiers such as serial numbers, MAC addresses, UUIDs, and disk serial numbers are intentionally excluded.
+Additional platform-specific settings varied by host.
 
-## Platform
+After firmware configuration, the system was verified to detect the expected CPU, memory, storage, and network hardware before Proxmox VE was installed.
+
+## Installation
+
+Proxmox VE was installed using the graphical installer.
+
+Baseline configuration:
 
 | Component | Configuration |
 |---|---|
 | Hypervisor | Proxmox VE 9 |
-| Base OS | Debian GNU/Linux 13 |
-| Architecture | x86-64 |
-| Repository | Proxmox no-subscription |
 | Boot Mode | UEFI |
+| System Storage | SATA SSD |
+| VM Storage | NVMe SSD |
+| Memory | 32 GB (varied by host) |
+| Network | Gigabit Ethernet |
 
-System firmware should be updated and hardware virtualization enabled before deployment.
+Unique hardware identifiers such as serial numbers, MAC addresses, UUIDs, and disk serial numbers were excluded from public documentation.
 
-## Installation
+## Network Configuration
 
-Install Proxmox VE directly on the designated system SSD.
+The Proxmox management interface was configured with a **static IP address**.
 
-Default storage layout:
+The physical network interface was attached to the default Linux bridge:
 
-```text
-System SSD
-│
-├── EFI
-└── Proxmox LVM
-    ├── pve-root
-    ├── pve-swap
-    └── pve-data
-        └── local-lvm
-```
-
-After installation, configure the no-subscription repository and update the system:
-
-```bash
-apt update
-apt full-upgrade
-```
-
-Verify the installed environment:
-
-```bash
-pveversion -v
-```
-
-## Networking
-
-Attach the physical Ethernet interface to the Proxmox Linux bridge `vmbr0`.
-
-```text
-Physical Network
-       │
-       ▼
-      NIC
-       │
-       ▼
-     vmbr0
-       │
-       ├── Proxmox Management
-       └── Virtual Machines
-```
+    Physical Network
+           │
+           ▼
+          NIC
+           │
+           ▼
+         vmbr0
+           │
+           ├── Proxmox Management
+           └── Virtual Machines
 
 Baseline requirements:
 
 - `vmbr0` operational
-- Management connectivity established
-- Predictable management addressing
+- Static management IP configured
 - Default gateway reachable
 - DNS resolution functional
+- Hostname resolution configured as required for clustering
 
-See [`proxmox-network-configuration.md`](./proxmox-network-configuration.md) for detailed networking configuration and troubleshooting.
+Static management addressing was used to provide predictable host connectivity and support Proxmox cluster membership.
 
-## Storage
+See [`proxmox-network-configuration.md`](./proxmox-network-configuration.md) for detailed network configuration and troubleshooting.
 
-Separate system and primary VM storage where available.
+## System Updates
 
-```text
-Proxmox Host
-│
-├── System SSD
-│   ├── Proxmox VE
-│   ├── ISOs / Templates
-│   └── Secondary VM Storage
-│
-└── VM SSD
-    └── Primary VM Storage
-```
+After installation, the **Proxmox no-subscription repository** was configured and available system updates were applied through the Proxmox web interface.
 
-The system SSD hosts Proxmox and supporting storage, while the faster VM SSD is used for primary guest workloads.
+The host was verified to have no outstanding package or repository issues before continuing.
+
+## Administrative Access
+
+A standard administrative Linux account was created for SSH access:
+
+    useradd -m -s /bin/bash lab-admin
+    passwd lab-admin
+    usermod -aG sudo lab-admin
+
+Administrative access was verified:
+
+    su - lab-admin
+    sudo whoami
+
+Expected result:
+
+    root
+
+SSH access was performed using the administrative account rather than directly using `root`.
+
+## Storage Configuration
+
+Where available, the Proxmox system installation was separated from primary VM storage.
+
+    Proxmox Host
+    │
+    ├── System SSD
+    │   ├── Proxmox VE
+    │   └── Local Storage
+    │
+    └── NVMe SSD
+        └── Primary VM Storage
+
+The system SSD hosted Proxmox VE, ISO's and local supporting storage. The NVMe SSD provided primary storage for virtual machine workloads.
 
 ## Host Validation
 
-Validate the host before deploying workloads.
+The host was validated before workloads were deployed or the host was joined to a cluster.
 
 | Check | Requirement |
 |---|---|
-| Proxmox VE | Installed and operational |
-| System packages | Updated |
-| Package state | Healthy |
+| Proxmox VE | Operational |
+| System updates | Current |
+| Repository configuration | Healthy |
+| Static management IP | Configured |
+| Linux bridge | Operational |
+| Default gateway | Reachable |
+| DNS resolution | Functional |
+| Administrative SSH access | Verified |
+| `sudo` access | Verified |
 | System firmware | Current |
 | Hardware virtualization | Enabled |
 | Installed memory | Detected correctly |
-| Storage health | Healthy |
-| Proxmox storage | Active |
-| Linux bridge | Operational |
-| Default route | Present |
-| DNS resolution | Functional |
-| Failed systemd services | None |
+| Storage | Active and healthy |
+| Power recovery | Power On |
 
 ## Baseline Complete
 
-```text
-Proxmox Host
-│
-├── Proxmox VE
-├── Management Network
-├── System Storage
-└── VM Storage
-        │
-        ▼
-Ready for Workloads
-```
+    Proxmox Host
+    │
+    ├── Current Firmware
+    ├── Updated Proxmox VE
+    ├── Static Management Network
+    ├── Administrative SSH Access
+    ├── System Storage
+    └── VM Storage
+            │
+            ▼
+    Ready for Workloads / Cluster Membership
 
-Once the host passes validation, workload deployment can begin.
-
-> **Build → Update → Configure → Validate → Deploy**
+> **Prepare → Install → Network → Update → Admin Access → Storage → Validate**
