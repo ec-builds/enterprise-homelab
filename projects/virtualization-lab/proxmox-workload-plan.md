@@ -23,7 +23,7 @@ prox-lab-01
 ├── win11-lab-vm01
 ├── win11-lab-vm02
 ├── docker-lab-vm
-└── dc-lab-vm
+└── dc01-lab-vm
 
 prox-lab-02
 ├── monitor-lab-vm
@@ -57,7 +57,7 @@ Primary virtualization node for persistent infrastructure, general self-hosted a
 | `win11-lab-vm01` | Domain / Endpoint Testing | 4 | 8 GB |
 | `win11-lab-vm02` | Additional Endpoint Testing | 4 | 8 GB |
 | `docker-lab-vm` | Debian / Docker Host | 2 | 4 GB |
-| `dc-lab-vm` | AD DS / DNS | 2 | 2 GB |
+| `dc01-lab-vm` | AD DS / DNS | 2 | 2 GB |
 | **Total** | | **12 vCPU** | **22 GB** |
 
 ### Capacity Notes
