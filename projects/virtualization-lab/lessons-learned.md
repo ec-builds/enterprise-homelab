@@ -1,3 +1,42 @@
+## 2026-09-01 — Node-Local Storage Required CLI-Based VM Migration
+
+**Context**
+
+A virtual machine needed to be migrated between Proxmox cluster nodes that used separate node-local NVMe storage.
+
+The Proxmox GUI migration initially failed because the VM disks were stored on a local LVM-thin pool available only to the source node. The destination node used a different local storage pool, and the GUI did not provide a usable mapping between the source and destination storage.
+
+```text
+prox-lab-01                         prox-lab-02
+nvme-lab-01                        nvme-lab-02
+    │                                  ▲
+    └── VM ─────── migration ──────────┘
+```
+
+The VM was instead migrated through the Proxmox CLI with the destination storage explicitly specified.
+
+**Lesson**
+
+Proxmox clustering provides centralized management and migration capabilities, but node-local storage remains physically independent between hosts.
+
+When shared storage is not available, VM disk data must be transferred between the source and destination storage pools. The `qm migrate` command can explicitly specify the destination storage when the GUI cannot perform the required mapping.
+
+```bash
+qm migrate <VM_ID> <TARGET_NODE> --targetstorage <TARGET_STORAGE>
+```
+
+See the **Proxmox VM Migration via CLI** reference documentation for the migration procedure and validation steps.
+
+**Result**
+
+- Confirmed the VM disks were located on node-local storage.
+- Identified the different local storage pools as the cause of the GUI migration failure.
+- Migrated the VM through the CLI with explicit destination-storage mapping.
+- Verified the VM disks were transferred to the destination node's local storage.
+- Established a repeatable migration procedure for the current local-storage cluster architecture.
+
+
+
 ## 2026-08-31 — DHCP Addressing Prevented Proxmox Cluster Configuration
 
 **Context**
