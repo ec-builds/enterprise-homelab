@@ -48,6 +48,7 @@ proxmox-lab     nas-lab              Current Media Host
         └── Jellyfin      (planned migration)
 ```
 
+
 > [!NOTE]
 > This reflects the **target** Docker, monitoring, and media architecture while also showing the current media-service location. Jellyfin currently runs on a separate physical Debian-based media host. The target design migrates Jellyfin to a dedicated `media-lab` VM within the Proxmox environment so the media service remains operationally isolated from the general lab environment. The network path (firewall, managed switch, VLANs) is also in progress; see the repository roadmap for current build status.
 
