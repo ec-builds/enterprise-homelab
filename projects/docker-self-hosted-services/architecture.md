@@ -54,7 +54,7 @@ docker-lab (Debian VM)
 | VPN | Secure remote access |
 | `proxmox-lab` | Virtualization host for VMs and containers |
 | `docker-lab` | Debian VM hosting all infrastructure containers |
-| `media-server-lab` | Dedicated media host — runs Jellyfin only |
+| `media-lab` | Dedicated media host — runs Jellyfin only |
 | `nas-lab` | Shared storage and media repository |
 | Portainer | Container management UI |
 | Uptime Kuma | Service availability monitoring |
