@@ -31,6 +31,8 @@ Shared storage is planned for the environment. Once implemented, both Proxmox no
 
 With shared storage available to both nodes, VM disks no longer need to be copied between separate node-local storage pools during migration, simplifying migrations between cluster nodes.
 
+---
+
 ## Verify VM Configuration
 
 Review the VM configuration from the source node.
