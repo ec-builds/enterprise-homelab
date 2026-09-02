@@ -36,8 +36,8 @@ Install Debian and apply the standard system baseline.
 
 Follow:
 
-- [Debian Base System Configuration](../reference/debian/debian-baseline.md)
-- [Debian Readiness Check](../../scripts/debian/debian-baseline-check.sh)
+- [Debian Base System Configuration](../debian/debian-baseline.md)
+- [Debian Readiness Check](../scripts/debian/debian-baseline-check.sh)
 
 The readiness check should complete successfully before preparing the VM for templating.
 
@@ -47,7 +47,7 @@ After the baseline has been configured and validated, prepare the system for use
 
 Follow:
 
-- [Debian Post-Clone Configuration](../reference/debian/debian-post-clone-configuration.md)
+- [Debian Post-Clone Configuration](../debian/debian-post-clone-configuration.md)
 
 The template should remain general-purpose and should not contain workload-specific services or configuration.
 
