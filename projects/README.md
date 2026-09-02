@@ -6,7 +6,7 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 
 | Project | Focus Area | Status |
 |----------|----------|----------|
-| [Active Directory Lab](./active-directory-lab/) | Windows Server, AD DS, Group Policy | ⚪ Planned |
+| [Active Directory Lab](./active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟡 In Progress |
 | [Azure Administration Lab](./azure-administration-lab/) | Azure infrastructure, RBAC, governance | ⚪ Planned |
 | [Backup & Disaster Recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
 | [CI/CD Pipelines](./ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
