@@ -37,7 +37,7 @@ Install Debian and apply the standard system baseline.
 Follow:
 
 - [Debian Base System Configuration](../debian/debian-baseline.md)
-- [Debian Readiness Check](../scripts/debian/debian-baseline-check.sh)
+- [Debian Readiness Check](../../../scripts/debian/debian-baseline-check.sh)
 
 The readiness check should complete successfully before preparing the VM for templating.
 
