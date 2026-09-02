@@ -41,7 +41,7 @@ Primary virtualization node for persistent infrastructure, applications, monitor
 | `win11-lab-vm01` | Domain / Endpoint Testing | 4 | 8 GB |
 | `win11-lab-vm02` | Additional Endpoint Testing | 4 | 8 GB |
 | `docker-lab-vm` | Debian / Docker Host | 2 | 4 GB |
-| `monitoring-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
+| `monitor-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
 | `dc-lab-vm` | AD DS / DNS | 2 | 2 GB |
 | **Total** | | **14 vCPU** | **24 GB** |
 
@@ -53,14 +53,14 @@ Approximately **8 GB of memory remains unallocated** for the hypervisor, filesys
 
 ## `prox-lab-02`
 
-Secondary virtualization node for infrastructure redundancy, security workloads, and additional lab capacity.
+Secondary virtualization node for infrastructure redundancy, security workloads, media services, and additional lab capacity.
 
 ### Capacity and Allocation
 
 | Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 4 cores / 8 threads | 6 vCPU | 0.75:1 vCPU-to-thread |
-| Memory | 16 GB | 8 GB | ~8 GB unallocated |
+| CPU | 4 cores / 8 threads | 8 vCPU | 1:1 vCPU-to-thread |
+| Memory | 16 GB | 12 GB | ~4 GB unallocated |
 | NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
 ### Planned VMs
@@ -70,15 +70,18 @@ Secondary virtualization node for infrastructure redundancy, security workloads,
 | `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
 | `security-lab-vm` | Security / SIEM Testing | 2 | 4 GB |
 | `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
-| **Total** | | **6 vCPU** | **8 GB** |
+| `media-lab-vm` | Docker / Jellyfin Media Services | 2 | 4 GB |
+| **Total** | | **8 vCPU** | **12 GB** |
 
 ### Considerations
 
-The processor provides **4 physical cores and 8 hardware threads**. The planned 6 vCPU allocation leaves CPU capacity available for temporary workloads and future expansion.
+The processor provides **4 physical cores and 8 hardware threads**. The planned 8 vCPU allocation remains reasonable for workloads that are not expected to sustain maximum CPU utilization simultaneously.
 
-Approximately **8 GB of memory remains unallocated**. Memory is the primary capacity constraint on this node, so the additional headroom provides flexibility for temporary VMs and future infrastructure services.
+Approximately **4 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads. Memory remains the primary capacity constraint on this node and should be monitored as additional services are deployed.
 
-Resource-intensive workloads should preferentially run on `prox-lab-01` when practical.
+`media-lab-vm` is intentionally hosted on `prox-lab-02` to distribute persistent workloads across virtualization nodes rather than concentrating Docker, monitoring, and media services on `prox-lab-01`.
+
+Resource-intensive workloads should be distributed across available nodes based on observed utilization and workload requirements.
 
 ## `prox-lab-03`
 
@@ -113,9 +116,9 @@ Final CPU, memory, storage, and VM allocations will be documented after the host
 | Physical Cores | 6 | 4 | Pending | 10 |
 | Hardware Threads | 6 | 8 | Pending | 14 |
 | Memory | 32 GB | 16 GB | Pending | 48 GB |
-| Planned vCPU | 14 | 6 | Pending | 20 |
-| Planned VM Memory | 24 GB | 8 GB | Pending | 32 GB |
-| Unallocated Memory | ~8 GB | ~8 GB | Pending | ~16 GB |
+| Planned vCPU | 14 | 8 | Pending | 22 |
+| Planned VM Memory | 24 GB | 12 GB | Pending | 36 GB |
+| Unallocated Memory | ~8 GB | ~4 GB | Pending | ~12 GB |
 | NVMe VM Storage | ~1 TB | ~1 TB | Pending | ~2 TB |
 
 > Combined capacity is useful for planning, but CPU and memory remain local to each virtualization node unless workloads are migrated between hosts.
@@ -140,6 +143,8 @@ Increase memory based on observed workload requirements while maintaining suffic
 - Temporary workloads
 
 Avoid allocating all available physical memory to VMs.
+
+Memory utilization should be monitored particularly closely on `prox-lab-02`, where the planned media workload reduces available memory headroom.
 
 ### Storage
 
