@@ -107,14 +107,14 @@ Functionally, the environment is organized into several infrastructure domains:
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
 | [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
 | [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 🟡 In Progress |
-| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | ⚪ Planned |
+| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management  | ⚪ Planned |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | ⚪ Planned |
 | [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
-| [Network Security](projects/network-security/) | Firewalls, segmentation, hardening, VPN | 🟡 In Progress |
+| [Network Security](projects/network-security/) | Firewalls, segmentation, VPN, access security, system hardening | 🟡 In Progress |
 | [Proxmox Virtualization Lab](projects/proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
 | [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 
