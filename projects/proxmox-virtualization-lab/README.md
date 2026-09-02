@@ -1,4 +1,4 @@
-# 🖥️ Virtualization Lab (Proxmox)
+# 🖥️ Proxmox Virtualization Lab
 
 **Status: 🟡 In Progress**
 
