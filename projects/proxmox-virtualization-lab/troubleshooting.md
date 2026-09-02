@@ -1,4 +1,4 @@
-# Troubleshooting
+# 🔧 Troubleshooting
 
 
 ## Node-Local NVMe Storage Unavailable After Joining Proxmox Cluster
