@@ -56,3 +56,7 @@ The eventual Microsoft lab will combine traditional Active Directory infrastruct
 **Microsoft Azure** provides the cloud infrastructure layer, including compute, networking, storage, monitoring, and resource management.
 
 Together, these technologies form a hybrid Microsoft infrastructure spanning on-premises systems, identity, endpoints, productivity services, and cloud computing.
+
+
+> [!NOTE]
+> **Active Directory** provides traditional directory services → **Microsoft Entra ID** extends identity into the cloud → **Microsoft Intune** uses that identity for endpoint management → **Microsoft 365** uses it for productivity services → **Microsoft Azure** uses it to control access to cloud infrastructure.
