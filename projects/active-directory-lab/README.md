@@ -4,13 +4,6 @@
 
 Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the Proxmox virtualization lab.
 
-<p align="left">
-  <img src="./diagrams/windows-server-install.png" alt="Windows Server 2025 installation edition selection" width="800">
-</p>
-
-*Windows Server 2025 Standard Evaluation (Desktop Experience)*
-
-
 ## Architecture
 
 The Active Directory environment will use two domain controllers distributed across separate Proxmox hosts.
