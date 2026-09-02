@@ -150,8 +150,3 @@ sudo apt install -y qemu-guest-agent
 
 The Debian template readiness script in the Linux reference section can also be used to verify the guest agent and other baseline requirements before converting a VM into a template.
 
-## Related Documentation
-
-- [Naming Conventions](./naming-conventions.md)
-- [SSH Hardening Standard](./ssh-hardening.md)
-- [Media Services Platform](../../projects/media-services-platform/)
