@@ -23,10 +23,10 @@ prox-lab-01
 ├── win11-lab-vm01
 ├── win11-lab-vm02
 ├── docker-lab-vm
-├── monitoring-lab-vm
 └── dc-lab-vm
 
 prox-lab-02
+├── monitoring-lab-vm
 ├── dc02-lab-vm
 ├── security-lab-vm
 ├── utility-lab-vm
@@ -36,18 +36,18 @@ prox-lab-03
 └── Future workloads
 ```
 
-Persistent services are intentionally distributed across nodes where practical. In particular, media services are hosted on `prox-lab-02` rather than concentrating Docker, monitoring, and media workloads on `prox-lab-01`.
+Persistent services are intentionally distributed across nodes where practical. In particular, monitoring and media services are hosted on `prox-lab-02` rather than concentrating Docker, monitoring, and media workloads on `prox-lab-01`.
 
 ## `prox-lab-01`
 
-Primary virtualization node for persistent infrastructure, general self-hosted applications, monitoring, and endpoint testing.
+Primary virtualization node for persistent infrastructure, general self-hosted applications, and endpoint testing.
 
 ### Capacity
 
 | Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 6 cores / 6 threads | 14 vCPU | ~2.3:1 vCPU-to-core |
-| Memory | 32 GB | 24 GB | ~8 GB unallocated |
+| CPU | 6 cores / 6 threads | 12 vCPU | ~2:1 vCPU-to-core |
+| Memory | 32 GB | 22 GB | ~10 GB unallocated |
 | NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
 ### Planned VMs
@@ -57,47 +57,47 @@ Primary virtualization node for persistent infrastructure, general self-hosted a
 | `win11-lab-vm01` | Domain / Endpoint Testing | 4 | 8 GB |
 | `win11-lab-vm02` | Additional Endpoint Testing | 4 | 8 GB |
 | `docker-lab-vm` | Debian / Docker Host | 2 | 4 GB |
-| `monitoring-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
 | `dc-lab-vm` | AD DS / DNS | 2 | 2 GB |
-| **Total** | | **14 vCPU** | **24 GB** |
+| **Total** | | **12 vCPU** | **22 GB** |
 
 ### Capacity Notes
 
-CPU is intentionally overcommitted at approximately **2.3:1**. These workloads are not expected to sustain maximum CPU utilization simultaneously.
+CPU is intentionally overcommitted at approximately **2:1**. These workloads are not expected to sustain maximum CPU utilization simultaneously.
 
-Approximately **8 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
+Approximately **10 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
 
 ## `prox-lab-02`
 
-Secondary virtualization node for infrastructure redundancy, security workloads, media services, and additional lab capacity.
+Secondary virtualization node for infrastructure redundancy, monitoring, security workloads, media services, and additional lab capacity.
 
 ### Capacity
 
 | Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 4 cores / 8 threads | 8 vCPU | 1:1 vCPU-to-thread |
-| Memory | 16 GB | 12 GB | ~4 GB unallocated |
+| CPU | 4 cores / 8 threads | 10 vCPU | ~1.25:1 vCPU-to-thread |
+| Memory | 16 GB | 14 GB | ~2 GB unallocated |
 | NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
 ### Planned VMs
 
 | VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
+| `monitoring-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
 | `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
 | `security-lab-vm` | Security / SIEM Testing | 2 | 4 GB |
 | `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
 | `media-lab-vm` | Docker / Jellyfin Media Services | 2 | 4 GB |
-| **Total** | | **8 vCPU** | **12 GB** |
+| **Total** | | **10 vCPU** | **14 GB** |
 
 ### Capacity Notes
 
-The processor provides **4 physical cores and 8 hardware threads**. The planned 8 vCPU allocation leaves sufficient CPU capacity for workloads that are not expected to sustain maximum utilization simultaneously.
+The processor provides **4 physical cores and 8 hardware threads**. The planned 10 vCPU allocation represents approximately **1.25:1 vCPU-to-thread** overcommit for workloads that are not expected to sustain maximum utilization simultaneously.
 
-Approximately **4 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
+Approximately **2 GB of memory remains unallocated** for the hypervisor, filesystem caching, virtualization overhead, and temporary workloads.
 
 Memory is the primary capacity constraint on this node and should be monitored as additional services are deployed.
 
-`media-lab-vm` is intentionally hosted on `prox-lab-02` to distribute persistent services across virtualization nodes. This prevents general Docker, monitoring, and media services from depending on a single Proxmox host.
+`monitoring-lab-vm` and `media-lab-vm` are intentionally hosted on `prox-lab-02` to distribute persistent services across virtualization nodes. This prevents general Docker, monitoring, and media services from depending on a single Proxmox host.
 
 ## `prox-lab-03`
 
@@ -132,9 +132,9 @@ Final CPU, memory, storage, and VM allocations will be documented after the host
 | Physical Cores | 6 | 4 | Pending | 10 |
 | Hardware Threads | 6 | 8 | Pending | 14 |
 | Memory | 32 GB | 16 GB | Pending | 48 GB |
-| Planned vCPU | 14 | 8 | Pending | 22 |
-| Planned VM Memory | 24 GB | 12 GB | Pending | 36 GB |
-| Unallocated Memory | ~8 GB | ~4 GB | Pending | ~12 GB |
+| Planned vCPU | 12 | 10 | Pending | 22 |
+| Planned VM Memory | 22 GB | 14 GB | Pending | 36 GB |
+| Unallocated Memory | ~10 GB | ~2 GB | Pending | ~12 GB |
 | NVMe VM Storage | ~1 TB | ~1 TB | Pending | ~2 TB |
 
 > Combined capacity is useful for planning, but CPU and memory remain local to each virtualization node unless workloads are migrated between hosts.
