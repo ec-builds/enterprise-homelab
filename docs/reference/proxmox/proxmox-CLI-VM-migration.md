@@ -6,6 +6,31 @@ Migrate a virtual machine between Proxmox cluster nodes when the source and dest
 
 This is useful when the Proxmox GUI cannot automatically map local storage during migration.
 
+In the homelab environment, shared storage was not initially configured. Each Proxmox node used its own directly attached NVMe storage, requiring CLI-based migration when moving VMs between nodes.
+
+```text
+Proxmox Cluster
+├── prox-lab-01
+│   └── nvme-lab-01  ← local storage attached to prox-lab-01
+│
+└── prox-lab-02
+    └── nvme-lab-02  ← local storage attached to prox-lab-02
+```
+
+Because the storage pools are local to their respective nodes, the VM disks must be copied to the destination node's storage during migration.
+
+## Future Shared Storage
+
+Shared storage is planned for the environment. Once implemented, both Proxmox nodes will be able to access the same VM storage.
+
+```text
+              Shared Storage
+             /              \
+     prox-lab-01          prox-lab-02
+```
+
+With shared storage available to both nodes, VM disks no longer need to be copied between separate node-local storage pools during migration, simplifying migrations between cluster nodes.
+
 ## Verify VM Configuration
 
 Review the VM configuration from the source node.
