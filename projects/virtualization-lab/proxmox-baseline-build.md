@@ -1,4 +1,4 @@
-# Proxmox Baseline Build
+# 🏗️ Proxmox Baseline Build
 
 Baseline configuration applied when deploying a **Proxmox VE** virtualization host in the infrastructure homelab.
 
