@@ -6,13 +6,6 @@ This document defines the initial deployment architecture for the Active Directo
 > Hostnames and infrastructure identifiers shown in this document have been sanitized for public release.
 
 
-<p align="left">
-  <img src="./diagrams/windows-server-install.png" alt="Windows Server 2025 installation edition selection" width="800">
-</p>
-
-*Windows Server 2025 Standard Evaluation (Desktop Experience)*
-
-
 ## Platform
 
 The domain controllers are deployed as virtual machines on the existing **Proxmox VE cluster**.
