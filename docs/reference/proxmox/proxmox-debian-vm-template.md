@@ -36,18 +36,18 @@ Install Debian and apply the standard system baseline.
 
 Follow:
 
-- [Debian Base System Configuration](../../reference/debian/debian-base-system-configuration.md)
-- [Debian Readiness Check](../../reference/debian/debian-readiness-check.md)
+- [Debian Base System Configuration](../reference/debian/debian-baseline.md)
+- [Debian Readiness Check](../../scripts/debian/debian-baseline-check.sh)
 
 The readiness check should complete successfully before preparing the VM for templating.
 
 ## Prepare the Template
 
-After the baseline has been configured and validated, remove machine-specific state so that future clones can establish their own system identity.
+After the baseline has been configured and validated, prepare the system for use as a reusable Proxmox template.
 
 Follow:
 
-- [Debian Template Preparation](../../reference/debian/debian-template-preparation.md)
+- [Debian Post-Clone Configuration](../reference/debian/debian-post-clone-configuration.md)
 
 The template should remain general-purpose and should not contain workload-specific services or configuration.
 
