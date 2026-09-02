@@ -4,7 +4,7 @@ High-level architecture for the Docker & Self-Hosted Services project.
 
 ## Purpose
 
-This document describes the major components, dependencies, and relationships within the Docker environment.
+This document describes the major components, dependencies, and relationships within the self-hosted services environment.
 
 Operational procedures, installation guides, deployment procedures, and troubleshooting documentation are maintained separately to avoid duplication.
 
@@ -48,7 +48,6 @@ proxmox-lab     nas-lab              Current Media Host
         └── Jellyfin      (planned migration)
 ```
 
-
 > [!NOTE]
 > This reflects the **target** Docker, monitoring, and media architecture while also showing the current media-service location. Jellyfin currently runs on a separate physical Debian-based media host. The target design migrates Jellyfin to a dedicated `media-lab` VM within the Proxmox environment so the media service remains operationally isolated from the general lab environment. The network path (firewall, managed switch, VLANs) is also in progress; see the repository roadmap for current build status.
 
@@ -88,7 +87,7 @@ docker-lab (Debian VM)              monitor-lab (Debian VM)             media-la
                                         └── Loki (planned)
 ```
 
-General self-hosted applications and monitoring services are separated by operational role. This allows the monitoring stack to remain available if `docker-lab` becomes unavailable or undergoes maintenance.
+General self-hosted applications, monitoring services, and media services are separated by operational role. This provides fault isolation between experimental workloads, observability infrastructure, and persistent household services.
 
 ### Monitoring
 
@@ -117,16 +116,15 @@ monitor-lab
 Current deployment:
 
 ```text
-nas-lab
-    │
-    ▼
-Media Storage
-    │
-    ▼
-Jellyfin
-    │
-    ▼
 Current Physical Media Host
+    │
+    └── Jellyfin
+          │
+          ▼
+       nas-lab
+          │
+          ▼
+     Media Storage
 ```
 
 Jellyfin currently runs on a separate physical Debian-based media host and accesses media storage from the NAS.
