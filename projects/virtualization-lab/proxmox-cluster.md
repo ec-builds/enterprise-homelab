@@ -1,4 +1,4 @@
-# Proxmox Cluster
+# 🧩 Proxmox Cluster
 
 Proxmox VE compute environment designed to scale from a single virtualization host into a three-node cluster.
 
