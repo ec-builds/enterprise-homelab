@@ -11,14 +11,14 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [Backup & Disaster Recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
 | [CI/CD Pipelines](./ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
 | [Docker & Self-Hosted Services](./docker-self-hosted-services/) | Containerized self-hosted applications | 🟡 In Progress |
-| [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, Infrastructure as Code | ⚪ Planned |
+| [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, IaC, configuration management  | ⚪ Planned |
 | [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Kubernetes Lab](./kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](./media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](./microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | ⚪ Planned |
 | [Microsoft Intune Lab](./microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
 | [Network Infrastructure](./network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
-| [Network Security](./network-security/) | Firewalls, segmentation, hardening, VPN | 🟡 In Progress |
+| [Network Security](./network-security/) | Firewalls, segmentation, VPN, access security, system hardening | 🟡 In Progress |
 | [Proxmox Virtualization Lab](./proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
 | [Security Operations](./security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 
