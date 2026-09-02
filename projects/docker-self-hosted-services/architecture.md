@@ -36,16 +36,20 @@ proxmox-lab     nas-lab              Current Media Host
     │   ├── Homepage      (planned)
     │   └── Vaultwarden   (planned)
     │
-    └── monitor-lab (Debian VM)
-        │  (monitoring and observability)
-        ├── Uptime Kuma
-        ├── Prometheus    (planned)
-        ├── Grafana       (planned)
-        └── Loki          (planned)
+    ├── monitor-lab (Debian VM)
+    │   │  (monitoring and observability)
+    │   ├── Uptime Kuma
+    │   ├── Prometheus    (planned)
+    │   ├── Grafana       (planned)
+    │   └── Loki          (planned)
+    │
+    └── media-lab (Debian VM)
+        │  (dedicated media services)
+        └── Jellyfin      (planned migration)
 ```
 
 > [!NOTE]
-> This reflects the **target** Docker and monitoring architecture while also showing the current location of the media service. Jellyfin currently runs on a separate physical Debian-based media host. A future migration will move Jellyfin into the Proxmox environment, either as a container on `docker-lab` or on a dedicated media services VM. The network path (firewall, managed switch, VLANs) is also in progress; see the repository roadmap for current build status.
+> This reflects the **target** Docker, monitoring, and media architecture while also showing the current media-service location. Jellyfin currently runs on a separate physical Debian-based media host. The target design migrates Jellyfin to a dedicated `media-lab` VM within the Proxmox environment so the media service remains operationally isolated from the general lab environment. The network path (firewall, managed switch, VLANs) is also in progress; see the repository roadmap for current build status.
 
 ## Core Components
 
@@ -58,6 +62,7 @@ proxmox-lab     nas-lab              Current Media Host
 | `proxmox-lab` | Virtualization environment for VMs and containers |
 | `docker-lab` | Debian VM hosting general self-hosted applications |
 | `monitor-lab` | Debian VM hosting monitoring and observability services |
+| `media-lab` | Dedicated Debian VM hosting media services |
 | Current Media Host | Physical Debian-based host currently running Jellyfin |
 | `nas-lab` | Shared storage and media repository |
 | Portainer | Container management UI |
@@ -71,12 +76,12 @@ proxmox-lab     nas-lab              Current Media Host
 
 ## Service Relationships
 
-### Docker Hosts
+### Docker Service Hosts
 
 ```text
-docker-lab (Debian VM)              monitor-lab (Debian VM)
-    │  self-hosted applications         │  monitoring / observability
-    ├── Portainer                       ├── Uptime Kuma
+docker-lab (Debian VM)              monitor-lab (Debian VM)             media-lab (Debian VM)
+    │  self-hosted applications         │  monitoring / observability       │  media services
+    ├── Portainer                       ├── Uptime Kuma                      └── Jellyfin
     ├── Homepage (planned)              ├── Prometheus (planned)
     └── Vaultwarden (planned)           ├── Grafana (planned)
                                         └── Loki (planned)
@@ -100,8 +105,8 @@ monitor-lab
           ├── Edge router / firewall
           ├── Proxmox hosts
           ├── docker-lab
-          ├── NAS
-          └── Media services
+          ├── media-lab
+          └── NAS
 ```
 
 `monitor-lab` provides centralized monitoring and observability for the environment. Separating monitoring from `docker-lab` reduces dependency on the primary application host and provides better fault isolation.
@@ -125,33 +130,28 @@ Current Physical Media Host
 
 Jellyfin currently runs on a separate physical Debian-based media host and accesses media storage from the NAS.
 
-The media service is planned for migration into the Proxmox environment. The final deployment model has not yet been selected.
-
-Potential migration paths include:
+Target deployment:
 
 ```text
-Option A
-
 proxmox-lab
     │
     ▼
-docker-lab
+media-lab (Debian VM)
     │
     └── Jellyfin
+          │
+          ▼
+       nas-lab
+          │
+          ▼
+     Media Storage
 ```
 
-```text
-Option B
+The target architecture places Jellyfin on a dedicated `media-lab` VM rather than on `docker-lab`.
 
-proxmox-lab
-    │
-    ▼
-Dedicated Media VM
-    │
-    └── Jellyfin
-```
+This separation keeps the media service independent from the general lab environment. Changes, testing, container deployments, or outages affecting `docker-lab` do not directly affect Jellyfin.
 
-The final design will be selected based on resource requirements, hardware acceleration needs, operational isolation, and maintainability.
+Because the media service is used as a persistent household service, `media-lab` is treated as a stable service VM with its own lifecycle, resource allocation, backup strategy, and maintenance schedule.
 
 ## Deployment Model
 
@@ -174,6 +174,13 @@ Containers are deployed using Docker Compose, with each service in its own direc
 ├── prometheus/    (planned)
 ├── grafana/       (planned)
 └── loki/          (planned)
+```
+
+**`media-lab`** (media services):
+
+```text
+/opt/docker
+└── jellyfin/
 ```
 
 Each service is deployed independently with its own configuration and persistent data.
@@ -205,10 +212,41 @@ Roles:
 - Grafana → Visualization
 - Loki → Log aggregation
 
+## Media Migration Strategy
+
+The existing physical media host remains operational until `media-lab` is fully deployed and validated.
+
+The migration process will follow this general sequence:
+
+```text
+Current Physical Media Host
+    │
+    │  remains operational
+    ▼
+Deploy media-lab
+    │
+    ▼
+Configure Jellyfin
+    │
+    ▼
+Connect NAS media storage
+    │
+    ▼
+Validate playback and transcoding
+    │
+    ▼
+Cut over clients
+    │
+    ▼
+Retire current media host
+```
+
+This approach minimizes disruption to the existing media service while allowing the new VM to be built and tested independently.
+
 ## Future Enhancements
 
-- Complete migration of media services into the Proxmox environment
-- Determine final Jellyfin deployment model
+- Complete migration of Jellyfin to `media-lab`
+- Evaluate hardware acceleration for media transcoding
 - Reverse proxy implementation
 - TLS certificate management
 - Complete centralized observability stack
