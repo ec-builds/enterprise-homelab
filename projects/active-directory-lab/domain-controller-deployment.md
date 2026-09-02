@@ -49,7 +49,7 @@ The graphical installation provides access to tools such as:
 PowerShell will also be used for administration and automation.
 
 <p align="left">
-  <img src="./diagrams/windows-server-install.png" alt="Windows Server 2025 installation edition selection" width="600">
+  <img src="./diagrams/windows-server-install.png" alt="Windows Server 2025 installation edition selection" width="800">
 </p>
 
 *Windows Server 2025 Standard Evaluation (Desktop Experience)*
