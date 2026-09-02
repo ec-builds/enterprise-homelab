@@ -85,7 +85,7 @@ Assign the hostname intended for the new system before beginning workload-specif
 
 Follow:
 
-[Change Debian Hostname](./debian-hostname-change.md)
+[Debian Hostname Change](./debian-hostname-change.md)
 
 The hostname procedure includes:
 
