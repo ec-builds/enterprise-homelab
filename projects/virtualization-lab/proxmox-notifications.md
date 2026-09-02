@@ -1,4 +1,4 @@
-# 📧 Proxmox Notifications
+# 🔔 Proxmox Notifications
 
 This configuration provides Datacenter-level email notifications delivered through Gmail SMTP. I created a dedicated Google account for infrastructure notifications instead of using my personal account.
 
