@@ -26,7 +26,7 @@ prox-lab-01
 └── dc-lab-vm
 
 prox-lab-02
-├── monitoring-lab-vm
+├── monitor-lab-vm
 ├── dc02-lab-vm
 ├── security-lab-vm
 ├── utility-lab-vm
@@ -82,7 +82,7 @@ Secondary virtualization node for infrastructure redundancy, monitoring, securit
 
 | VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
-| `monitoring-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
+| `monitor-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
 | `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
 | `security-lab-vm` | Security / SIEM Testing | 2 | 4 GB |
 | `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
@@ -97,7 +97,7 @@ Approximately **2 GB of memory remains unallocated** for the hypervisor, filesys
 
 Memory is the primary capacity constraint on this node and should be monitored as additional services are deployed.
 
-`monitoring-lab-vm` and `media-lab-vm` are intentionally hosted on `prox-lab-02` to distribute persistent services across virtualization nodes. This prevents general Docker, monitoring, and media services from depending on a single Proxmox host.
+`monitor-lab-vm` and `media-lab-vm` are intentionally hosted on `prox-lab-02` to distribute persistent services across virtualization nodes. This prevents general Docker, monitoring, and media services from depending on a single Proxmox host.
 
 ## `prox-lab-03`
 
