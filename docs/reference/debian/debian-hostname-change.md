@@ -1,4 +1,4 @@
-# Change Debian Hostname
+# Debian Hostname Change Process
 
 ## Goal
 
