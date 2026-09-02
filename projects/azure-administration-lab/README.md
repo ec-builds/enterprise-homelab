@@ -2,51 +2,81 @@
 
 **Status: ⚪ Planned**
 
-Microsoft Azure infrastructure administration — deploying, securing, and governing cloud resources, with hybrid connectivity back to the homelab.
+Microsoft Azure infrastructure administration lab focused on core cloud infrastructure, security, governance, and hybrid connectivity with the Proxmox homelab.
 
-**Scope note:** This project covers Azure *infrastructure* — subscriptions, compute, networking, storage, RBAC, and governance. Tenant/identity administration lives in [microsoft-365-entra-id](../microsoft-365-entra-id/).
+**Scope note:** Microsoft Entra ID and Microsoft 365 administration are documented separately in [Microsoft 365 & Entra ID](../microsoft-365-entra-id/).
 
 ## Objectives
 
-- Manage subscriptions, resource groups, and tagging strategy
-- Deploy and harden Azure compute, networking, and storage
-- Implement RBAC with least-privilege custom roles
-- Apply governance: Azure Policy, budgets, and cost alerts
-- Establish hybrid connectivity between the homelab and Azure
-- Skills alignment: **AZ-104** certification objectives
+- Deploy and manage core Azure infrastructure
+- Configure Azure networking and secure resource access
+- Manage access using Azure RBAC and Microsoft Entra identities
+- Apply basic governance and cost controls
+- Monitor Azure resources
+- Establish hybrid connectivity with the homelab
+- Develop practical skills aligned with **AZ-104**
 
 ## Technologies
 
-- Azure portal, Azure CLI, Azure Cloud Shell
-- Virtual Networks, NSGs, Azure Bastion
-- Azure VMs, Storage Accounts, Entra ID RBAC
-- Azure Policy, Cost Management, Azure Monitor
-- VPN Gateway or WireGuard for hybrid connectivity
+- Azure Portal
+- Azure CLI / PowerShell
+- Resource Groups
+- Virtual Networks and NSGs
+- Azure Virtual Machines
+- Azure Storage
+- Azure RBAC
+- Azure Policy
+- Azure Monitor
+- Microsoft Entra ID
 
 ## Key Tasks
 
-- [ ] Establish subscription structure with budget alerts (avoid bill surprises)
-- [ ] Define naming convention and tagging standards
+- [ ] Configure resource groups, naming conventions, and tags
+- [ ] Configure budget and cost alerts
 - [ ] Deploy a VNet with segmented subnets and NSG rules
-- [ ] Deploy and harden a VM (no public RDP/SSH — use Bastion)
-- [ ] Configure storage with proper access controls and lifecycle rules
-- [ ] Create custom RBAC roles following least privilege
-- [ ] Apply Azure Policy (e.g., allowed regions, required tags)
-- [ ] Establish site-to-site connectivity to the homelab
-- [ ] Tear down unused resources; document cost findings
+- [ ] Deploy and securely administer an Azure VM
+- [ ] Configure an Azure Storage Account and access controls
+- [ ] Assign Azure RBAC roles using Entra users and groups
+- [ ] Apply basic Azure Policy governance
+- [ ] Configure Azure Monitor and review resource logs
+- [ ] Establish temporary hybrid connectivity with the Proxmox homelab
+- [ ] Document costs and remove unused resources
+
+## Lab Integration
+
+    Proxmox Homelab
+    │
+    ├── Active Directory
+    │
+    └── Lab Workloads
+            │
+            │ Hybrid Connectivity
+            ▼
+        Microsoft Azure
+            │
+            ├── Networking
+            ├── Compute
+            ├── Storage
+            └── Monitoring
+
+Microsoft Entra identities from the Microsoft 365 lab will be used for Azure authentication and RBAC.
+
+## Cost Strategy
+
+The lab will prioritize free and low-cost resources. Billable services will be deployed temporarily when required for testing and removed after validation.
 
 ## Related Projects
 
-- [infrastructure-automation](../infrastructure-automation/) — these resources get rebuilt with Terraform/Bicep
-- [kubernetes-lab](../kubernetes-lab/) — AKS deployment lands here once k3s fundamentals are done
-- [security-operations-lab](../security-operations-lab/) — Microsoft Sentinel integration
+- [Proxmox Virtualization Lab](../proxmox-virtualization-lab/) — hosts the on-premises lab infrastructure
+- [Active Directory Lab](../active-directory-lab/) — provides on-premises directory services
+- [Microsoft 365 & Entra ID](../microsoft-365-entra-id/) — provides cloud identity and Microsoft 365 administration
+- [Infrastructure Automation](../infrastructure-automation/) — future Terraform/Bicep automation
+- [Security Operations Lab](../security-operations-lab/) — future Microsoft Sentinel integration
 
 ## Folder Structure
 
-```
-azure-administration-lab/
-├── docs/            # Build notes, cost findings, lessons learned
-├── configs/         # Exported templates and policy definitions
-├── scripts/         # Azure CLI / PowerShell scripts
-└── screenshots/     # Visual documentation
-```
+    azure-administration-lab/
+    ├── docs/
+    ├── configs/
+    ├── scripts/
+    └── screenshots/
