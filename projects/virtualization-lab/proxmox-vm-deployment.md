@@ -74,10 +74,6 @@ Resources were intentionally allocated conservatively to establish an efficient
 starting point while allowing additional CPU and memory to be assigned as
 workload requirements increase.
 
-![Docker VM Config](./diagrams/docker-lab-vm.png)
-
-_Completed Debian/Docker VM hardware configuration_
-
 VirtIO devices are used for storage and networking instead of emulated legacy
 hardware to provide efficient paravirtualized I/O.
 
@@ -86,7 +82,9 @@ TPM was not enabled because it is not required for this Linux workload.
 VLAN assignment was not configured during the initial deployment. Network
 segmentation will be introduced as the lab networking architecture is expanded.
 
-> **Screenshot:** Completed Debian VM hardware configuration
+![Docker VM Config](./diagrams/docker-lab-vm.png)
+
+_Completed Debian/Docker VM hardware configuration_
 
 ### Post-Installation
 
