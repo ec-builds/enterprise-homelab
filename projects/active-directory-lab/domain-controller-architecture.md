@@ -1,4 +1,4 @@
-# 🖥️ Domain Controller Deployment
+# 🖥️ Domain Controller Architecture
 
 This document defines the initial deployment architecture for the Active Directory domain controllers used in the homelab.
 
