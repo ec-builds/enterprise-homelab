@@ -57,8 +57,8 @@ Admin Workstation
       ▼
     Ansible
       │
-      ├────────► prox01
-      ├────────► prox02
+      ├────────► prox-lab-01
+      ├────────► prox-lab-02
       ├────────► docker01
       └────────► monitor01
                    │
@@ -110,8 +110,8 @@ Example:
 
 ```ini
 [proxmox]
-prox01
-prox02
+prox-lab-01
+prox-lab-02
 
 [linux_servers]
 docker01
