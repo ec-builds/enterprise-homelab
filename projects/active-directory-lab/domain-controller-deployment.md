@@ -278,6 +278,11 @@ Active Directory Domain Services
 DNS Server
 ```
 
+<p align="left">
+  <img src="./diagrams/DC-add-roles-and-features.png" alt="Windows Server Add Roles and Features Wizard with Active Directory Domain Services and DNS Server selected" width="700">
+</p>
+
+
 When prompted, select:
 
 **Add Features**
@@ -327,7 +332,7 @@ introducing DHCP configuration.
 ### Role Installation
 
 <p align="left">
-  <img src="../diagrams/DC-installation.png" alt="AD DS and DNS role installation" width="800">
+  <img src="./diagrams/DC-installation.png" alt="AD DS and DNS role installation" width="700">
 </p>
 
 *Active Directory Domain Services, DNS, and supporting management tools installed through Server Manager.*
@@ -337,7 +342,7 @@ configuration was required before the server could function as a domain
 controller.
 
 <p align="left">
-  <img src="../diagrams/DC-install-fin-config-req.png" alt="AD DS installation completed with domain controller configuration required" width="800">
+  <img src="./diagrams/DC-install-fin-config-req.png" alt="AD DS installation completed with domain controller configuration required" width="700">
 </p>
 
 *AD DS and DNS installation completed successfully and Server Manager reported that domain controller promotion was required.*
@@ -349,7 +354,7 @@ After installing AD DS, Server Manager displayed a post-deployment
 configuration notification.
 
 <p align="left">
-  <img src="../diagrams/DC-promote.png" alt="Server Manager domain controller promotion notification" width="800">
+  <img src="./diagrams/DC-promote.png" alt="Server Manager domain controller promotion notification" width="700">
 </p>
 
 *Server Manager post-deployment notification indicating that domain controller promotion is required.*
@@ -370,7 +375,7 @@ Add a new forest
 ```
 
 <p align="left">
-  <img src="../diagrams/DC-root-domain-name.png" alt="Active Directory new forest deployment configuration" width="800">
+  <img src="./diagrams/DC-root-domain-name.png" alt="Active Directory new forest deployment configuration" width="700">
 </p>
 
 *Creation of a new Active Directory forest for the lab environment.*
@@ -408,7 +413,7 @@ RODC:             Disabled
 ```
 
 <p align="left">
-  <img src="../diagrams/DC-controller-options.png" alt="Windows Server 2025 domain controller options" width="800">
+  <img src="./diagrams/DC-controller-options.png" alt="Windows Server 2025 domain controller options" width="700">
 </p>
 
 *Windows Server 2025 forest and domain functional levels with DNS and Global Catalog enabled.*
@@ -429,7 +434,7 @@ automatically be created because an authoritative parent Windows DNS zone
 could not be located.
 
 <p align="left">
-  <img src="../diagrams/DC-dns-delegation.png" alt="Active Directory DNS delegation configuration" width="800">
+  <img src="./diagrams/DC-dns-delegation.png" alt="Active Directory DNS delegation configuration" width="700">
 </p>
 
 *DNS delegation was not created for the internal Active Directory namespace.*
@@ -449,7 +454,7 @@ LAB
 ```
 
 <p align="left">
-  <img src="../diagrams/DC-netbios.png" alt="Active Directory NetBIOS domain name configuration" width="800">
+  <img src="./diagrams/DC-netbios.png" alt="Active Directory NetBIOS domain name configuration" width="700">
 </p>
 
 *NetBIOS domain name configured for the Active Directory lab.*
@@ -491,7 +496,7 @@ SYSVOL:    C:\WINDOWS\SYSVOL
 ```
 
 <p align="left">
-  <img src="../diagrams/DC-paths.png" alt="Active Directory database log and SYSVOL paths" width="800">
+  <img src="./diagrams/DC-paths.png" alt="Active Directory database log and SYSVOL paths" width="700">
 </p>
 
 *Default AD DS database, log, and SYSVOL locations.*
@@ -505,7 +510,7 @@ Before promotion, the configuration was reviewed to confirm the intended
 forest and domain settings.
 
 <p align="left">
-  <img src="../diagrams/DC-review.png" alt="Active Directory domain controller promotion configuration review" width="800">
+  <img src="./diagrams/DC-review.png" alt="Active Directory domain controller promotion configuration review" width="700">
 </p>
 
 *Final configuration review before prerequisite validation and domain controller promotion.*
@@ -531,7 +536,7 @@ The AD DS Configuration Wizard performed prerequisite validation before
 allowing the server to be promoted.
 
 <p align="left">
-  <img src="../diagrams/DC-prereq-check.png" alt="Active Directory domain controller prerequisite check" width="800">
+  <img src="./diagrams/DC-prereq-check.png" alt="Active Directory domain controller prerequisite check" width="700">
 </p>
 
 *Active Directory prerequisite checks completed successfully before promotion.*
@@ -574,7 +579,7 @@ After promotion completed, the AD DS Configuration Wizard confirmed that
 the server was successfully configured as a domain controller.
 
 <p align="left">
-  <img src="../diagrams/DC-results.png" alt="Successful Active Directory domain controller promotion" width="800">
+  <img src="./diagrams/DC-results.png" alt="Successful Active Directory domain controller promotion" width="700">
 </p>
 
 *Successful promotion of the primary server as the first domain controller in the new Active Directory forest.*
