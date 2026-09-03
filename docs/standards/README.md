@@ -1,10 +1,8 @@
-| Standard | Status | Description |
-|---|---|---|
-| Naming Conventions | ✅ Ready | Hostname, network, storage, and documentation naming standards |
-| Documentation Standards | ✅ Ready | Documentation structure, formatting, and repository standards |
-| SSH Hardening | 🔨 In Progress | Secure remote administration and SSH configuration requirements |
-| Network Standards | 📋 Planned | Network architecture, addressing, DNS, DHCP, and segmentation standards |
-| Backup Standards | 📋 Planned | Backup strategy, retention, restore testing, and disaster recovery standards |
-| Monitoring Standards | 📋 Planned | Monitoring, alerting, observability, and operational visibility standards |
-| Security Baseline | 📋 Planned | System hardening, access control, and security configuration standards |
-| Logging Standards | 📋 Planned | Centralized logging, log retention, and SIEM integration standards |
+# Standards
+
+Standards used to maintain consistency across the enterprise homelab and its documentation.
+
+| Standard | Description |
+|---|---|
+| [Documentation Standards](./documentation-standards.md) | Documentation structure, formatting, status, and repository conventions |
+| [Naming Conventions & Sanitization](./naming-conventions.md) | Public naming and sanitization requirements |
