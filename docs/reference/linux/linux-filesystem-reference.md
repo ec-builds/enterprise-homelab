@@ -60,9 +60,9 @@ Contains user home directories.
 Examples:
 
 ```text
-/home/ecadmin
-/home/ecadmin/scripts
-/home/ecadmin/git
+/home/adminuser
+/home/adminuser/scripts
+/home/adminuser/git
 ```
 
 Recommended uses:
@@ -146,7 +146,7 @@ Common contents:
 /
 ├── etc/
 ├── home/
-│   └── ecadmin/
+│   └── adminuser/
 ├── opt/
 │   └── docker/
 │       ├── uptime-kuma/
