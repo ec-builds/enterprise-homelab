@@ -16,10 +16,10 @@ Proxmox was selected because it provides the virtualization foundation for the h
 Proxmox Cluster
       │
       ├── prox-lab-01
-      │     └── dc-lab-01-vm
+      │     └── dc-lab-01
       │
       └── prox-lab-02
-            └── dc-lab-02-vm
+            └── dc-lab-02
                 (Planned)
 ```
 
@@ -52,11 +52,11 @@ PowerShell will also be used for administration and automation.
 
 ## Primary Domain Controller
 
-The initial domain controller, `dc-lab-01`, is deployed as the `dc-lab-01-vm` virtual machine on `prox-lab-01`.
+The initial domain controller, `dc-lab-01`, is deployed as the `dc-lab-01` virtual machine on `prox-lab-01`.
 
 | Setting | Configuration |
 |---|---|
-| **VM** | `dc-lab-01-vm` |
+| **VM** | `dc-lab-01` |
 | **Server Hostname** | `dc-lab-01` |
 | **Proxmox Host** | `prox-lab-01` |
 | **Operating System** | Windows Server 2025 Standard Evaluation |
