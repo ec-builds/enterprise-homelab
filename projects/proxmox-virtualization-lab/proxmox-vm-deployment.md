@@ -43,6 +43,10 @@ application requirements justify a different configuration.
 The initial baseline was implemented using `docker-lab-vm`, a Debian 13 virtual
 machine serving as the primary Docker host.
 
+![Docker VM Config](./diagrams/docker-lab-vm.png)
+
+_Completed Debian/Docker VM hardware configuration_
+
 ### Configuration
 
 | Setting | Configuration |
@@ -82,9 +86,7 @@ TPM was not enabled because it is not required for this Linux workload.
 VLAN assignment was not configured during the initial deployment. Network
 segmentation will be introduced as the lab networking architecture is expanded.
 
-![Docker VM Config](./diagrams/docker-lab-vm.png)
 
-_Completed Debian/Docker VM hardware configuration_
 
 ### Post-Installation
 
