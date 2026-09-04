@@ -2,15 +2,12 @@
 
 ## Overview
 
-The Proxmox cluster uses a local storage architecture designed to separate
-virtual machine workloads from general-purpose host storage where hardware
-permits.
+The Proxmox cluster separates VM storage from general storage where possible.
 
-The standard nodes use dedicated NVMe storage for VM and container disks,
-while the primary SSD provides the Proxmox VE operating system and
-general-purpose ext4 storage.
+`prox-lab-01` and `prox-lab-02` use dedicated NVMe drives for VM and container
+disks, while the primary SSD is used for Proxmox and general ext4 storage.
 
-`prox-lab-03` uses a modified layout due to its smaller storage configuration.
+`prox-lab-03` uses a different layout because it has two smaller 500 GB drives.
 
 
 
@@ -95,17 +92,6 @@ The primary drive retains the normal Proxmox host and VM storage allocation.
 
 The secondary HDD is used for general-purpose storage rather than VM disks
 because of its lower storage performance.
-
-
-
-## Storage Roles
-
-| Storage Type | VM / CT Disks | Backups | ISOs | Templates | Snippets |
-|---|---:|---:|---:|---:|---:|
-| Root-backed `local` | No | Limited | Limited | Limited | Limited |
-| General ext4 storage | No | Yes | Yes | Yes | Yes |
-| NVMe LVM-Thin | Yes | No | No | No | No |
-| `prox-lab-03` HDD | No | Yes | Yes | Yes | Yes |
 
 
 
