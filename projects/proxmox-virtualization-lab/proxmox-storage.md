@@ -7,7 +7,9 @@ The Proxmox cluster separates VM storage from general storage where possible.
 `prox-lab-01` and `prox-lab-02` use dedicated NVMe drives for VM and container
 disks, while the primary SSD is used for Proxmox and general ext4 storage.
 
-`prox-lab-03` uses a different layout because it has two smaller 500 GB drives.
+`prox-lab-03` uses a modified layout because it contains two smaller 500 GB
+drives. Its primary NVMe hosts Proxmox and an LVM-thin pool for VM and
+container disks, while the secondary HDD provides general ext4 storage.
 
 
 
@@ -41,7 +43,7 @@ Secondary NVMe — 1 TB
 
 ### Design Notes
 
-- VM workloads stay on dedicated NVMe storage.
+- VM workloads stay on dedicated NVMe storage where possible.
 - General storage is separated from the root filesystem.
 - A small amount of LVM space remains available for future expansion.
 - Storage is local to each node and isn't shared across the cluster.
@@ -70,8 +72,9 @@ prox-lab-02
     └── LVM-Thin          → VM and container disks
 
 prox-lab-03
-├── 500 GB SSD/NVMe
-│   └── Proxmox default   → Proxmox VE and VM storage
+├── 500 GB NVMe
+│   ├── ~100 GB root      → Proxmox VE
+│   └── ~337 GB LVM-Thin  → VM and container disks
 └── 500 GB HDD
     └── ext4              → Backups, ISOs, templates, snippets
 ```
@@ -88,10 +91,18 @@ prox-lab-03
 500 GB drives.
 
 ```text
-Primary SSD/NVMe — 500 GB
+Primary NVMe — 500 GB
 │
 ├── Proxmox VE
-└── VM / CT storage
+│   └── ~100 GB root
+│
+├── LVM-Thin
+│   └── ~337 GB
+│       ├── VM disks
+│       └── Container disks
+│
+└── ~16 GB LVM Reserve
+    └── Future expansion
 
 
 Secondary HDD — 500 GB
@@ -103,7 +114,8 @@ Secondary HDD — 500 GB
     └── Snippets
 ```
 
-The primary drive retains the normal Proxmox host and VM storage allocation.
+The primary NVMe hosts both the Proxmox operating system and the LVM-thin
+pool used for VM and container disks.
 
 The secondary HDD is used for general-purpose storage rather than VM disks
 because of its lower storage performance.
@@ -114,10 +126,10 @@ because of its lower storage performance.
 
 The storage architecture provides:
 
-- Dedicated NVMe storage for VM workloads on the standard nodes
+- NVMe storage for VM and container workloads across all cluster nodes
 - Separation between operating system and bulk storage
-- Effective use of available capacity on the primary SSDs
+- Effective use of available local storage capacity
 - Local backup, ISO, template, and snippet storage
 - Reserved LVM capacity for future expansion
-- A consistent storage model across the cluster
-- A documented exception for `prox-lab-03`
+- A consistent storage strategy across the cluster
+- A documented storage exception for `prox-lab-03`
