@@ -3,13 +3,17 @@
 ## Purpose
 
 Documents the standard Proxmox local storage configuration using `prox-lab-01`
-as the representative implementation for repeatability across current and future nodes.
+as the representative implementation for repeatability across current and
+future nodes.
+
+
 
 ## Background
 
 During the initial install of each node, I didn't plan out the final storage
-layout and used the Proxmox defaults. This created an unused `/data` section
-of approximately 800 GB on the primary drive.
+layout and used the Proxmox defaults. This created an unused `pve/data`
+LVM-thin pool of approximately 800 GB on the primary drive.
+
 I used this process to reclaim that space as ext4 storage so it could be used
 for backups, ISOs, templates, and other general storage.
 
@@ -39,6 +43,9 @@ Secondary NVMe
 
 ## Inspect Existing Storage
 
+Inspect the current disk, LVM, and Proxmox storage configuration before making
+any changes.
+
 ```bash
 lsblk
 pvs
@@ -56,15 +63,22 @@ cat /etc/pve/storage.cfg
 Confirm that the OS-drive thin pool contains no VM or container disks before
 continuing.
 
+> [!WARNING]
+> Do not remove the thin pool if it contains VM or container disks. Storage
+> layouts can differ between nodes, so verify the actual configuration rather
+> than assuming the default layout is unused.
+
 
 
 ## Remove the Unused Thin Pool
+
+Remove the unused `pve/data` thin pool:
 
 ```bash
 lvremove /dev/pve/data
 ```
 
-Verify:
+Verify that the space has been returned to the `pve` volume group:
 
 ```bash
 lvs
@@ -74,6 +88,8 @@ vgs
 
 
 ## Create General Storage
+
+Create a new logical volume using the reclaimed space.
 
 Example using `prox-lab-01`:
 
@@ -88,12 +104,15 @@ lvs
 vgs
 ```
 
-A portion of the volume group is intentionally left unallocated for future
-expansion.
+The 800 GB allocation is an example based on the available capacity of the
+standard nodes. A portion of the volume group is intentionally left
+unallocated for future root or logical volume expansion.
 
 
 
 ## Create the ext4 Filesystem
+
+Create an ext4 filesystem on the new logical volume:
 
 ```bash
 mkfs.ext4 /dev/pve/prox-lab-01-storage
@@ -121,16 +140,17 @@ Add the filesystem to `/etc/fstab` using its UUID:
 UUID=<filesystem-uuid> /mnt/prox-lab-01-storage ext4 defaults 0 2
 ```
 
-Reload and mount:
+Reload systemd and mount the filesystem:
 
 ```bash
 systemctl daemon-reload
 mount -a
 ```
 
-Verify:
+Verify the mount:
 
 ```bash
+findmnt /mnt/prox-lab-01-storage
 df -h /mnt/prox-lab-01-storage
 ```
 
@@ -167,7 +187,7 @@ Datacenter
         └── Directory
 ```
 
-Example:
+Configure the Directory storage:
 
 ```text
 ID:
@@ -192,9 +212,15 @@ Shared:
 Do not enable VM or container disk content when dedicated LVM-Thin storage
 is used for those workloads.
 
+> [!NOTE]
+> The Directory storage is local to the node. Restrict it to the owning node
+> and leave **Shared** disabled.
+
 
 
 ## Validate
+
+Verify the completed Proxmox storage configuration:
 
 ```bash
 pvesm status
@@ -205,7 +231,7 @@ Confirm that:
 - The new Directory storage is active
 - The storage is restricted to the correct node
 - The filesystem is mounted correctly
-- VM storage remains on the dedicated LVM-Thin volume
+- VM and container disks remain on the dedicated LVM-Thin storage
 - The system volume group retains the intended free-space reserve
 
 
@@ -222,5 +248,14 @@ prox-lab-01-storage
 prox-lab-02-storage
 ```
 
-Always inspect the existing LVM configuration before making changes rather
-than assuming another node has an identical disk state.
+The node-specific name is used consistently for the logical volume, mount
+point, and Proxmox storage ID.
+
+```text
+Logical volume:     prox-lab-01-storage
+Mount point:        /mnt/prox-lab-01-storage
+Proxmox storage ID: prox-lab-01-storage
+```
+
+Always inspect the existing disk and LVM configuration before making changes
+rather than assuming another node has an identical storage layout.
