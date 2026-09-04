@@ -37,7 +37,7 @@ maintain quorum with two available nodes.
 | `prox-lab-03` | Dell OptiPlex 7040 | Intel Core i7-6700T (4C/8T) | 8 GB | ~500 GB NVMe SSD | ~337 GB NVMe LVM-Thin | Active |
 
 Detailed host capacity and workload allocation are documented in
-`resource-allocation.md`.
+`proxmox-resource-allocation.md`.
 
 
 
