@@ -1,10 +1,15 @@
 # Homelab Tool Catalog
 
+<p align="left">
+  <img src="../diagrams/tool-catalog.png" alt="Tool Catalog" width="400">
+</p>
+
 A quick reference to the technologies used throughout the homelab, organized by infrastructure function.
 
 This catalog serves as both a reference for technologies currently used in the homelab and a glossary for tools being researched or considered for future use. Inclusion does not necessarily indicate that a tool is currently deployed; entries may represent active, planned, or evaluated technologies retained for reference.
 
 Physical hardware and individual devices are documented separately in the Equipment Inventory.
+
 
 ## Navigation
 
