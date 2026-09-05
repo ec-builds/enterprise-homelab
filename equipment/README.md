@@ -7,7 +7,7 @@ The purpose of this inventory is to document system specifications, intended use
 <p align="left">
   <img src="../diagrams/enterprise-homelab-equipment.png"
        alt="Physical homelab infrastructure including Proxmox hosts and network equipment"
-       width="300">
+       width="400">
 </p>
 
 ---
