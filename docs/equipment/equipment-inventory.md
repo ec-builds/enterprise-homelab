@@ -5,7 +5,7 @@ This document serves as the centralized inventory for hardware and infrastructur
 The purpose of this inventory is to document system specifications, intended use cases, lifecycle considerations, and infrastructure dependencies. As the homelab evolves, this document will be updated to reflect new equipment, replacements, upgrades, and decommissioned assets.
 
 <p align="left">
-  <img src="../diagrams/optiplex-fleet.jpeg"
+  <img src="../../diagrams/optiplex-fleet.jpeg"
        alt="Optiplex Fleet"
        width="500">
 </p>
