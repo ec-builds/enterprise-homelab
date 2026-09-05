@@ -7,6 +7,12 @@ and failure testing.
 The environment began as a single virtualization host and was incrementally
 expanded into a three-node cluster.
 
+<p align="left">
+  <img src="../../diagrams/optiplex-fleet-02.jpeg"
+       alt="Optiplex Fleet"
+       width="500">
+</p>
+
 
 
 ## Cluster Overview
