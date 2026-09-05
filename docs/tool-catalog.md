@@ -8,9 +8,6 @@ A quick reference to the technologies used throughout the homelab, organized by 
 
 This catalog serves as both a reference for technologies currently used in the homelab and a glossary for tools being researched or considered for future use. 
 
-Inclusion does not necessarily indicate that a tool is currently deployed; entries may represent active, planned, or evaluated technologies retained for reference.
-
-
 ## Navigation
 
 - [Networking & Security](#networking--security)
