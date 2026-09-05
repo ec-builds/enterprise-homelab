@@ -42,6 +42,13 @@ The roadmap outlines the planned evolution of the homelab, highlighting current 
 
 The homelab is built on repurposed hardware, managed networking equipment, and dedicated storage platforms. Take a look at the equipment inventory below for more information. 
 
+<p align="left">
+  <img src="./diagrams/optiplex-fleet-02.jpeg"
+       alt="Optiplex Fleet"
+       width="400">
+</p>
+
+
 ➡️ **[See Equipment Inventory](./docs/equipment/equipment-inventory.md)**
 
 ## Current Infrastructure
