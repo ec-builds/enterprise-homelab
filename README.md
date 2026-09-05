@@ -45,9 +45,8 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 <p align="left">
   <img src="./diagrams/optiplex-fleet-02.jpeg"
        alt="Optiplex Fleet"
-       width="400">
+       width="250">
 </p>
-
 
 ➡️ **[See Equipment Inventory](./docs/equipment/equipment-inventory.md)**
 
