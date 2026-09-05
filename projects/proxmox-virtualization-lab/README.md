@@ -5,8 +5,7 @@
 Bare-metal virtualization environment built with **Proxmox VE** and repurposed hardware.
 
 This lab provides the virtualization foundation for the broader infrastructure
-homelab, supporting Windows and Linux workloads used throughout networking,
-identity, automation, monitoring, container, and security projects.
+homelab.
 
 ![Proxmox Dashboard](./diagrams/proxmox-lab-vm-01-dashboard.png)
 _Proxmox VE management interface from the lab environment._
