@@ -1,7 +1,7 @@
 # Homelab Tool Catalog
 
 <p align="left">
-  <img src="../diagrams/tool-catalog.png" alt="Tool Catalog" width="400">
+  <img src="../diagrams/tool-catalog.png" alt="Tool Catalog" width="350">
 </p>
 
 A quick reference to the technologies used throughout the homelab, organized by infrastructure function.
