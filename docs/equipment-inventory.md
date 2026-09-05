@@ -5,7 +5,7 @@ This document serves as the centralized inventory for hardware and infrastructur
 As the homelab evolves, this document will be updated to reflect new equipment, replacements, upgrades, and decommissioned assets.
 
 <p align="left">
-  <img src="../../diagrams/optiplex-fleet-02.jpeg"
+  <img src="../diagrams/optiplex-fleet-02.jpeg"
        alt="Optiplex Fleet"
        width="500">
 </p>
