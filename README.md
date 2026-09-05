@@ -46,7 +46,7 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
        width="250">
 </p>
 
-➡️ **[See Equipment Inventory](./docs/equipment/equipment-inventory.md)**
+➡️ **[See Equipment Inventory](./docs/equipment-inventory.md)**
 
 ## Current Infrastructure
 
