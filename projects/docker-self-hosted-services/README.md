@@ -16,9 +16,10 @@ Separating monitoring from the primary application host provides better fault is
 
 | Host | Category | Service | Status |
 |------|----------|---------|--------|
-| `docker-lab` | Management | Portainer | 🟡 In Progress |
-| `docker-lab` | Dashboard | Homepage | ⚪ Planned |
-| `docker-lab` | Productivity | Vaultwarden | ⚪ Planned |
+| `docker-lab` | Management | Portainer | 🟢 Deployed |
+| `docker-lab` | Dashboard | Homepage | 🟢 Deployed |
+| `docker-lab` | Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
+| `docker-lab` | Password Management | Bitwarden Lite | ⚪ Planned |
 | `monitor-lab` | Monitoring | Uptime Kuma | 🟢 Deployed |
 | `monitor-lab` | Metrics | Prometheus | ⚪ Planned |
 | `monitor-lab` | Visualization | Grafana | ⚪ Planned |
@@ -44,26 +45,29 @@ Managed Switch
     │
     ├── docker-lab (Debian VM)
     │   │  (self-hosted applications)
-    │   ├── Portainer       (in progress)
-    │   ├── Homepage        (planned)
-    │   └── Vaultwarden     (planned)
+    │   ├── Nginx Proxy Manager  (planned)
+    │   ├── Portainer            (deployed)
+    │   ├── Homepage             (deployed)
+    │   └── Bitwarden Lite       (planned)
     │
     └── monitor-lab (Debian VM)
         │  (monitoring and observability)
         ├── Uptime Kuma
-        ├── Prometheus      (planned)
-        ├── Grafana         (planned)
-        ├── Loki            (planned)
-        ├── Alertmanager    (planned)
+        ├── Prometheus           (planned)
+        ├── Grafana              (planned)
+        ├── Loki                 (planned)
+        ├── Alertmanager         (planned)
         │
         └── Supporting Components
-            ├── Node Exporter        (planned)
-            ├── SNMP Exporter        (planned)
-            ├── cAdvisor             (planned)
-            └── Grafana Alloy        (planned)
+            ├── Node Exporter    (planned)
+            ├── SNMP Exporter    (planned)
+            ├── cAdvisor         (planned)
+            └── Grafana Alloy    (planned)
 ```
 
 The monitoring host is placed separately from the primary Docker host so monitoring remains available if the application host becomes unavailable.
+
+Nginx Proxy Manager will provide centralized hostname-based routing and HTTPS management for web services. Initial deployment will remain internal to the lab and will not require Internet-facing router port forwarding.
 
 Compose files are version-controlled in this repository under `configs/` and deployed to `/opt/docker` on the appropriate host. See [architecture.md](architecture.md) for the complete environment topology.
 
@@ -77,6 +81,7 @@ Planned responsibilities include:
 
 - Container management
 - Internal dashboards
+- Reverse proxy and HTTPS management
 - Productivity applications
 - Future self-hosted services
 
@@ -90,6 +95,7 @@ Planned responsibilities include:
 - Infrastructure metrics collection
 - Metrics visualization
 - Centralized log aggregation
+- Alerting
 
 Running monitoring on a separate host reduces dependency on `docker-lab` and allows monitoring to remain available during maintenance or failure of the primary application host.
 
@@ -97,22 +103,29 @@ Running monitoring on a separate host reduces dependency on `docker-lab` and all
 
 ### Docker Services
 
-- [ ] Deploy Portainer
-- [ ] Deploy Homepage
-- [ ] Deploy Vaultwarden
+- [x] Deploy Portainer
+- [x] Deploy Homepage
+- [ ] Deploy Nginx Proxy Manager
+- [ ] Deploy Bitwarden Lite
 
 ### Monitoring Stack
 
+- [x] Deploy Uptime Kuma
 - [ ] Deploy Prometheus
 - [ ] Deploy Grafana
 - [ ] Deploy Loki
+- [ ] Deploy Alertmanager
+- [ ] Deploy supporting monitoring components
 - [ ] Create baseline dashboards
 - [ ] Add infrastructure monitoring targets
 
 ### Networking
 
+- [ ] Deploy Nginx Proxy Manager
+- [ ] Configure internal DNS for service hostnames
+- [ ] Configure reverse proxy hosts
+- [ ] Configure and validate HTTPS/TLS
 - [ ] Create custom Docker networks
-- [ ] Evaluate reverse proxy and TLS options
 - [ ] Document service exposure strategy
 
 ### Operations
@@ -143,3 +156,4 @@ Foundational Docker documentation is maintained centrally under `docs/reference/
 - Services follow least-privilege principles, with administrative access restricted to authorized users.
 - Persistent application data is stored outside the container filesystem using Docker volumes or bind mounts. Containers are treated as disposable and recreatable.
 - Monitoring and logging data use defined retention policies to prevent uncontrolled storage growth.
+- Reverse proxy services will initially remain internal to the lab without Internet-facing router port forwarding.
