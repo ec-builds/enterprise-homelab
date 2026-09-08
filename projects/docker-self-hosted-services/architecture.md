@@ -32,20 +32,28 @@ proxmox-lab     nas-lab              Current Media Host
     │
     ├── docker-lab (Debian VM)
     │   │  (self-hosted applications)
+    │   ├── Nginx Proxy Manager  (planned)
     │   ├── Portainer
-    │   ├── Homepage      (planned)
-    │   └── Vaultwarden   (planned)
+    │   ├── Homepage
+    │   └── Bitwarden Lite       (planned)
     │
     ├── monitor-lab (Debian VM)
     │   │  (monitoring and observability)
     │   ├── Uptime Kuma
-    │   ├── Prometheus    (planned)
-    │   ├── Grafana       (planned)
-    │   └── Loki          (planned)
+    │   ├── Prometheus           (planned)
+    │   ├── Grafana              (planned)
+    │   ├── Loki                 (planned)
+    │   ├── Alertmanager         (planned)
+    │   │
+    │   └── Supporting Components
+    │       ├── Node Exporter    (planned)
+    │       ├── SNMP Exporter    (planned)
+    │       ├── cAdvisor         (planned)
+    │       └── Grafana Alloy    (planned)
     │
     └── media-lab (Debian VM)
         │  (dedicated media services)
-        └── Jellyfin      (planned migration)
+        └── Jellyfin             (planned migration)
 ```
 
 > [!NOTE]
@@ -65,14 +73,17 @@ proxmox-lab     nas-lab              Current Media Host
 | `media-lab` | Dedicated Debian VM hosting media services |
 | Current Media Host | Physical Debian-based host currently running Jellyfin |
 | `nas-lab` | Shared storage and media repository |
+| Nginx Proxy Manager | Reverse proxy and centralized HTTPS management (planned) |
 | Portainer | Container management UI |
+| Homepage | Service dashboard |
+| Bitwarden Lite | Self-hosted password management (planned) |
 | Uptime Kuma | Service availability monitoring |
-| Jellyfin | Media streaming platform |
 | Prometheus | Metrics collection (planned) |
 | Grafana | Metrics visualization (planned) |
 | Loki | Log aggregation (planned) |
-| Homepage | Service dashboard (planned) |
-| Vaultwarden | Self-hosted password management (planned) |
+| Alertmanager | Monitoring alert management (planned) |
+| Grafana Alloy | Telemetry and log collection (planned) |
+| Jellyfin | Media streaming platform |
 
 ## Service Relationships
 
@@ -81,13 +92,31 @@ proxmox-lab     nas-lab              Current Media Host
 ```text
 docker-lab (Debian VM)              monitor-lab (Debian VM)             media-lab (Debian VM)
     │  self-hosted applications         │  monitoring / observability       │  media services
-    ├── Portainer                       ├── Uptime Kuma                      └── Jellyfin
-    ├── Homepage (planned)              ├── Prometheus (planned)
-    └── Vaultwarden (planned)           ├── Grafana (planned)
-                                        └── Loki (planned)
+    ├── Nginx Proxy Manager              ├── Uptime Kuma                      └── Jellyfin
+    │   (planned)                        ├── Prometheus (planned)
+    ├── Portainer                        ├── Grafana (planned)
+    ├── Homepage                         ├── Loki (planned)
+    └── Bitwarden Lite (planned)         └── Alertmanager (planned)
 ```
 
 General self-hosted applications, monitoring services, and media services are separated by operational role. This provides fault isolation between experimental workloads, observability infrastructure, and persistent household services.
+
+### Reverse Proxy
+
+```text
+Internal DNS
+     │
+     ▼
+Nginx Proxy Manager
+     │
+     ├── Homepage
+     ├── Bitwarden Lite
+     └── Other Web Services
+```
+
+Internal DNS will resolve service hostnames to the reverse proxy. Nginx Proxy Manager will then route requests to the appropriate backend service and provide centralized HTTPS/TLS management.
+
+The initial reverse proxy deployment will remain internal to the lab and will not require Internet-facing router port forwarding.
 
 ### Monitoring
 
@@ -97,7 +126,8 @@ monitor-lab
     ├── Uptime Kuma
     ├── Prometheus
     ├── Grafana
-    └── Loki
+    ├── Loki
+    └── Alertmanager
           │
           ▼
     Monitored Environment
@@ -160,9 +190,10 @@ Containers are deployed using Docker Compose, with each service in its own direc
 
 ```text
 /opt/docker
+├── nginx-proxy-manager/  (planned)
 ├── portainer/
-├── homepage/      (planned)
-└── vaultwarden/   (planned)
+├── homepage/
+└── bitwarden-lite/       (planned)
 ```
 
 **`monitor-lab`** (monitoring and observability):
@@ -170,9 +201,11 @@ Containers are deployed using Docker Compose, with each service in its own direc
 ```text
 /opt/docker
 ├── uptime-kuma/
-├── prometheus/    (planned)
-├── grafana/       (planned)
-└── loki/          (planned)
+├── prometheus/           (planned)
+├── grafana/              (planned)
+├── loki/                 (planned)
+├── alertmanager/         (planned)
+└── supporting-components/
 ```
 
 **`media-lab`** (media services):
@@ -189,19 +222,33 @@ Compose files are version-controlled in the repository and deployed to `/opt/doc
 ## Planned Observability Stack
 
 ```text
-Prometheus
+Infrastructure
     │
     ├── Node Exporter
-    ├── cAdvisor
-    └── Additional Exporters
+    ├── SNMP Exporter
+    └── cAdvisor
+          │
+          ▼
+      Prometheus
           │
           ▼
        Grafana
 
+Logs
+    │
+    ▼
+Grafana Alloy
+    │
+    ▼
 Loki
     │
     ▼
-Log Aggregation
+Grafana
+
+Prometheus
+    │
+    ▼
+Alertmanager
 ```
 
 Roles:
@@ -210,6 +257,11 @@ Roles:
 - Prometheus → Metrics collection
 - Grafana → Visualization
 - Loki → Log aggregation
+- Alertmanager → Alert management
+- Grafana Alloy → Telemetry and log collection
+- Node Exporter → Linux host metrics
+- SNMP Exporter → Network device metrics
+- cAdvisor → Container metrics
 
 ## Media Migration Strategy
 
@@ -246,8 +298,10 @@ This approach minimizes disruption to the existing media service while allowing 
 
 - Complete migration of Jellyfin to `media-lab`
 - Evaluate hardware acceleration for media transcoding
-- Reverse proxy implementation
-- TLS certificate management
+- Deploy Nginx Proxy Manager
+- Configure internal DNS for service hostnames
+- Configure reverse proxy hosts
+- Configure and validate HTTPS/TLS
 - Complete centralized observability stack
 - Automated backup procedures
 - UPS-backed graceful shutdown
@@ -258,6 +312,7 @@ This approach minimizes disruption to the existing media service while allowing 
 | Document | Purpose |
 |----------|---------|
 | [README.md](README.md) | Project overview and objectives |
+| [reverse-proxy-container.md](reverse-proxy-container.md) | Reverse proxy deployment and design |
 | [docker-installation.md](../../docs/reference/docker/docker-installation.md) | Docker installation procedure |
 | [docker-container-deployment.md](../../docs/reference/docker/docker-container-deployment.md) | Container deployment standard |
 | [docker-concepts.md](../../docs/reference/docker/docker-concepts.md) | Docker concepts and terminology |
