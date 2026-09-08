@@ -146,7 +146,7 @@ Update package information:
 sudo apt update
 ```
 
-![Apt-update example](../../diagrams/screenshots/docker/docker-installation/docker-apt-update-example.png)
+![Apt-update example](../../../diagrams/screenshots/docker/docker-apt-update-example.png)
 
 *Example output after successfully adding the Docker APT repository and updating package information. The output confirms that the Docker repository is reachable and that package metadata was downloaded successfully.*
 
