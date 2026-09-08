@@ -20,9 +20,10 @@ Separating monitoring from the primary application host provides better fault is
 | `docker-lab` | Dashboard | Homepage | ⚪ Planned |
 | `docker-lab` | Productivity | Vaultwarden | ⚪ Planned |
 | `monitor-lab` | Monitoring | Uptime Kuma | 🟢 Deployed |
-| `monitor-lab` | Monitoring | Prometheus | ⚪ Planned |
-| `monitor-lab` | Monitoring | Grafana | ⚪ Planned |
+| `monitor-lab` | Metrics | Prometheus | ⚪ Planned |
+| `monitor-lab` | Visualization | Grafana | ⚪ Planned |
 | `monitor-lab` | Logging | Loki | ⚪ Planned |
+| `monitor-lab` | Alerting | Alertmanager | ⚪ Planned |
 
 > [!NOTE]
 > Media services (Jellyfin) currently run on a separate Debian-based media host. A future migration will move these services from the existing physical host to the Proxmox environment, either as containers on `docker-lab` or on a dedicated media services VM. See [architecture.md](architecture.md) for the full environment topology.
