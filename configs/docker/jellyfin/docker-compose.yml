@@ -1,0 +1,16 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    ports:
+      - 8096:8096/tcp
+      - 7359:7359/udp
+    volumes:
+      - jellyfin-config:/config
+      - jellyfin-cache:/cache
+      - /mnt/media:/media:ro
+    restart: unless-stopped
+
+volumes:
+  jellyfin-config:
+  jellyfin-cache:
