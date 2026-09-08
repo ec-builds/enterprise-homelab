@@ -44,21 +44,28 @@ Managed Switch
     │
     ├── docker-lab (Debian VM)
     │   │  (self-hosted applications)
-    │   ├── Portainer
-    │   ├── Homepage      (planned)
-    │   └── Vaultwarden   (planned)
+    │   ├── Portainer       (in progress)
+    │   ├── Homepage        (planned)
+    │   └── Vaultwarden     (planned)
     │
     └── monitor-lab (Debian VM)
         │  (monitoring and observability)
         ├── Uptime Kuma
-        ├── Prometheus    (planned)
-        ├── Grafana       (planned)
-        └── Loki          (planned)
+        ├── Prometheus      (planned)
+        ├── Grafana         (planned)
+        ├── Loki            (planned)
+        ├── Alertmanager    (planned)
+        │
+        └── Supporting Components
+            ├── Node Exporter        (planned)
+            ├── SNMP Exporter        (planned)
+            ├── cAdvisor             (planned)
+            └── Grafana Alloy        (planned)
 ```
 
 The monitoring host is placed separately from the primary Docker host so monitoring remains available if the application host becomes unavailable.
 
-Compose files are version-controlled in this repository under `services/` and deployed to `/opt/docker` on the appropriate host. See [architecture.md](architecture.md) for the complete environment topology.
+Compose files are version-controlled in this repository under `configs/` and deployed to `/opt/docker` on the appropriate host. See [architecture.md](architecture.md) for the complete environment topology.
 
 ## Host Roles
 
@@ -134,5 +141,5 @@ Foundational Docker documentation is maintained centrally under `docs/reference/
 - Secrets are never committed to source control; `.env` files are excluded via `.gitignore`.
 - Example configuration files are provided as templates.
 - Services follow least-privilege principles, with administrative access restricted to authorized users.
-- Persistent data is stored in Docker volumes; containers are treated as disposable and recreatable without data loss.
+- Persistent application data is stored outside the container filesystem using Docker volumes or bind mounts. Containers are treated as disposable and recreatable.
 - Monitoring and logging data use defined retention policies to prevent uncontrolled storage growth.
