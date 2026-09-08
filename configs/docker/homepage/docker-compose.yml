@@ -1,0 +1,18 @@
+# Source: https://gethomepage.dev/installation/docker/
+# Update the field - "docker-hostname-or-ip" before deploying
+
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - homepage-config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: <docker-hostname-or-ip>:3000
+
+volumes:
+  homepage-config:
