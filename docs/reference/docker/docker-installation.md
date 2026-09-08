@@ -9,7 +9,7 @@ Reference guide for installing Docker Engine and Docker Compose on Debian using 
 >
 > The Docker documentation is the authoritative source and should be consulted for the latest installation procedures, package requirements, and platform-specific updates. This guide documents the installation method used and validated within this homelab environment.
 
----
+
 
 ## Table of Contents
 
@@ -27,7 +27,7 @@ Reference guide for installing Docker Engine and Docker Compose on Debian using 
 - [Installation Checklist](#installation-checklist)
 - [Related Documentation](#related-documentation)
 
----
+
 
 ## Purpose
 
@@ -55,7 +55,7 @@ Update package information:
 sudo apt update
 ```
 
----
+
 
 ## Remove Old Docker Packages
 
@@ -68,7 +68,7 @@ sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podm
 > [!NOTE]
 > It is normal if some packages are not installed.
 
----
+
 
 ## Install Prerequisite Packages
 
@@ -110,7 +110,7 @@ Set appropriate permissions:
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 ```
 
----
+
 
 ## Add Docker Repository
 
@@ -138,7 +138,7 @@ Architectures: amd64
 Signed-By: /etc/apt/keyrings/docker.asc
 ```
 
----
+
 
 Update package information:
 
@@ -150,7 +150,7 @@ sudo apt update
 
 *Example output after successfully adding the Docker APT repository and updating package information. The output confirms that the Docker repository is reachable and that package metadata was downloaded successfully.*
 
----
+
 
 ## Install Docker Engine
 
@@ -175,7 +175,7 @@ Installed components:
 | Docker Buildx | Extended image build functionality |
 | Docker Compose Plugin | Compose-based deployments |
 
----
+
 
 ## Verify Installation
 
@@ -207,7 +207,7 @@ active (running)
 
 *Example output of docker status*
 
----
+
 
 ## Test Docker Installation
 
@@ -230,7 +230,7 @@ This confirms:
 - Images can be downloaded
 - Containers can be created and executed
 
----
+
 
 ## Configure Non-Root Docker Access
 
@@ -256,7 +256,7 @@ docker ps
 
 The command should execute without requiring `sudo`.
 
----
+
 
 ## Verify Installed Components
 
@@ -284,7 +284,7 @@ Verify containerd:
 containerd --version
 ```
 
----
+
 
 ## Post-Installation Validation
 
@@ -303,7 +303,7 @@ Expected output:
 - Default Docker networks present
 - Docker daemon accessible by the current user
 
----
+
 
 ## Common Troubleshooting
 
@@ -323,7 +323,7 @@ sudo usermod -aG docker $USER
 
 Log out and log back in.
 
----
+
 
 ### Docker Service Not Running
 
@@ -345,7 +345,7 @@ Enable automatic startup:
 sudo systemctl enable docker
 ```
 
----
+
 
 ### Repository Update Fails
 
@@ -367,7 +367,7 @@ Update repositories:
 sudo apt update
 ```
 
----
+
 
 ## Installation Checklist
 
@@ -384,7 +384,7 @@ sudo apt update
 | User added to Docker group | ☐ |
 | Non-root access verified | ☐ |
 
----
+
 
 ## Related Documentation
 
