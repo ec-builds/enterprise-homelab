@@ -22,7 +22,7 @@ Quick reference for common Docker and Docker Compose commands used throughout th
 | View Docker disk usage | `docker system df` |
 | Remove unused resources | `docker system prune` |
 
----
+
 
 ## Table of Contents
 
@@ -38,7 +38,7 @@ Quick reference for common Docker and Docker Compose commands used throughout th
 10. [Useful Concepts](#useful-concepts)
 11. [Naming Conventions](#naming-conventions)
 
----
+
 
 ## Verify Installation
 
@@ -60,7 +60,7 @@ Verify Docker service status:
 systemctl status docker
 ```
 
----
+
 
 ## Images
 
@@ -94,7 +94,7 @@ Remove all unused Docker resources:
 docker system prune
 ```
 
----
+
 
 ## Containers
 
@@ -164,7 +164,7 @@ Open a shell inside a container:
 docker exec -it <container> bash
 ```
 
----
+
 
 ## Docker Compose
 
@@ -223,7 +223,7 @@ Validate compose file:
 docker compose config
 ```
 
----
+
 
 ## Volumes
 
@@ -251,7 +251,7 @@ Remove unused volumes:
 docker volume prune
 ```
 
----
+
 
 ## Networks
 
@@ -273,7 +273,7 @@ Remove a network:
 docker network rm <network>
 ```
 
----
+
 
 ## Resource Usage
 
@@ -289,7 +289,7 @@ View disk usage:
 docker system df
 ```
 
----
+
 
 ## Troubleshooting
 
@@ -317,7 +317,7 @@ Check container status:
 docker ps
 ```
 
----
+
 
 ## Common Uptime Kuma Commands
 
@@ -359,7 +359,7 @@ Open web interface:
 http://<server-ip>:3001
 ```
 
----
+
 
 ## Useful Concepts
 
@@ -372,7 +372,7 @@ http://<server-ip>:3001
 | Docker Compose | Multi-container management |
 | Docker Daemon | Background service that runs containers |
 
----
+
 
 ## Naming Conventions
 
