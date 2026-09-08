@@ -108,6 +108,10 @@ volumes:
   application-data:
 ```
 
+> [!NOTE]
+> The application-specific values in a Compose file should be obtained from the application's official documentation. Start with the project's official installation or Docker documentation, then use the official GitHub repository or container registry when additional details are needed.
+>
+> Values such as the container image, internal container ports, required volume paths, and environment variables are defined by the application and should not be guessed. Values such as the service name, container name, host-side port, and Docker volume name can generally be chosen to fit the local environment.
 
 
 ## Example: Uptime Kuma
