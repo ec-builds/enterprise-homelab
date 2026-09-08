@@ -2,6 +2,8 @@
 
 Deployment of a reverse proxy for web services hosted within the Docker lab.
 
+Currently this is pending DNS deployment
+
 ## Overview
 
 **Service:** Nginx Proxy Manager (NPM)  
