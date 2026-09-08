@@ -203,7 +203,7 @@ Expected result:
 active (running)
 ```
 
-![Example output of docker status](../../screenshots/docker-installation/docker-service-status-running.png)
+![Example output of docker status](../../../diagrams/screenshots/docker/docker-service-status-running.png)
 
 *Example output of docker status*
 
@@ -219,7 +219,7 @@ sudo docker run hello-world
 
 Expected result:
 
-![Example output of hello world test](../../screenshots/docker-installation/docker-hello-world-sample-output.png)
+![Example output of hello world test](../../../diagrams/screenshots/docker/docker-hello-world-sample-output.png)
 
 *Successful execution of the hello-world container used to validate the Docker installation.*
 
