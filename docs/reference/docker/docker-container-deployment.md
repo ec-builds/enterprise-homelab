@@ -15,7 +15,7 @@ It is intended to document the standard workflow used for services such as:
 - Homepage
 - Other self-hosted services
 
----
+
 
 ## Deployment Standard
 
@@ -38,7 +38,7 @@ Example structure:
 
 Each application should have its own project directory containing its Compose file and any related configuration files.
 
----
+
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ Before deploying a Docker Compose application, verify:
 | Docker service running | `systemctl status docker` |
 | User has Docker access | `docker ps` |
 
----
+
 
 ## Create Project Directory
 
@@ -81,7 +81,7 @@ sudo chown -R $USER:$USER /opt/docker/uptime-kuma
 cd /opt/docker/uptime-kuma
 ```
 
----
+
 
 ## Create Docker Compose File
 
@@ -108,7 +108,7 @@ volumes:
   application-data:
 ```
 
----
+
 
 ## Example: Uptime Kuma
 
@@ -129,7 +129,7 @@ volumes:
   uptime-kuma:
 ```
 
----
+
 
 ## Validate Compose File
 
@@ -141,7 +141,7 @@ docker compose config
 
 This checks the Compose file for syntax errors and displays the final interpreted configuration.
 
----
+
 
 ## Deploy Application
 
@@ -158,7 +158,7 @@ Docker Compose will:
 3. Create required volumes.
 4. Create and start the container.
 
----
+
 
 ## Verify Deployment
 
@@ -192,7 +192,7 @@ Follow logs live:
 docker compose logs -f
 ```
 
----
+
 
 ## Access the Application
 
@@ -210,7 +210,7 @@ For Uptime Kuma:
 http://<server-ip>:3001
 ```
 
----
+
 
 ## Common Post-Deployment Tasks
 
@@ -223,7 +223,7 @@ After confirming the container is running:
 5. Document exposed ports and service purpose.
 6. Add the service to inventory documentation.
 
----
+
 
 ## Updating a Docker Compose Application
 
@@ -257,7 +257,7 @@ Check logs:
 docker compose logs
 ```
 
----
+
 
 ## Stopping an Application
 
@@ -270,7 +270,7 @@ docker compose down
 > [!IMPORTANT]
 > `docker compose down` removes the container and project network, but it does not remove named volumes by default. Persistent application data remains intact.
 
----
+
 
 ## Removing an Application
 
@@ -301,7 +301,7 @@ docker volume rm <volume-name>
 > [!WARNING]
 > Removing a Docker volume deletes persistent application data. Only remove volumes after confirming backups are available or the data is no longer needed.
 
----
+
 
 ## Backup Considerations
 
@@ -316,7 +316,7 @@ For most Docker Compose applications, back up:
 
 Do not rely on containers themselves as backups. Containers should be considered disposable.
 
----
+
 
 ## Troubleshooting
 
@@ -340,7 +340,7 @@ Check container status:
 docker ps -a
 ```
 
----
+
 
 ### Port Already in Use
 
@@ -361,7 +361,7 @@ Resolve by either:
 - Changing the host port in `docker-compose.yml`
 - Stopping the conflicting service
 
----
+
 
 ### Container Name Conflict
 
@@ -389,7 +389,7 @@ Recreate the Compose stack:
 docker compose up -d
 ```
 
----
+
 
 ### Application Is Running but Not Accessible
 
@@ -417,7 +417,7 @@ Check logs:
 docker compose logs
 ```
 
----
+
 
 ## Deployment Checklist
 
@@ -435,7 +435,7 @@ docker compose logs
 | Service documented in inventory | ☐ |
 | Backup requirements identified | ☐ |
 
----
+
 
 ## Related Documentation
 
