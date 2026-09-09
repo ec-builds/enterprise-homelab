@@ -5,33 +5,22 @@ Quick reference for common Docker and Docker Compose commands used throughout th
 ## Quick Summary
 
 | Category | Task | Command |
-|----------|------|---------|
-| System | Verify Docker installation | `docker --version` |
-| System | Verify Docker Compose | `docker compose version` |
+|----------|------|-------|
 | Containers | View running containers | `docker ps` |
 | Containers | View all containers | `docker ps -a` |
-| Containers | Inspect container | `docker inspect <container>` |
-| Containers | Restart container | `docker restart <container>` |
-| Containers | View container logs | `docker logs <container>` |
+| Containers | View logs | `docker logs <container>` |
 | Containers | Follow logs live | `docker logs -f <container>` |
-| Containers | Open shell in container | `docker exec -it <container> bash` |
-| Images | View images | `docker images` |
-| Images | Pull image | `docker pull <image>` |
-| Compose | Validate Compose file | `docker compose config` |
-| Compose | Start Compose stack | `docker compose up -d` |
-| Compose | Stop Compose stack | `docker compose down` |
-| Compose | View Compose services | `docker compose ps` |
-| Compose | View Compose logs | `docker compose logs` |
-| Compose | Pull updated images | `docker compose pull` |
+| Containers | Restart container | `docker restart <container>` |
+| Containers | Inspect container | `docker inspect <container>` |
+| Compose | Validate configuration | `docker compose config` |
+| Compose | Start stack | `docker compose up -d` |
+| Compose | Stop stack | `docker compose down` |
+| Compose | View stack status | `docker compose ps` |
 | Networks | View networks | `docker network ls` |
-| Networks | Create network | `docker network create <network>` |
 | Networks | Inspect network | `docker network inspect <network>` |
-| Networks | View running container IPs | `docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' $(docker ps -q)` |
 | Volumes | View volumes | `docker volume ls` |
-| Volumes | Inspect volume | `docker volume inspect <volume>` |
-| Resources | View live resource usage | `docker stats` |
-| Resources | View Docker disk usage | `docker system df` |
-| Cleanup | Remove unused resources | `docker system prune` |
+| Resources | View resource usage | `docker stats` |
+| Resources | View disk usage | `docker system df` |
 
 
 ## Table of Contents
