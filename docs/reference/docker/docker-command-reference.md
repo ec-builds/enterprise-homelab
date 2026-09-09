@@ -261,10 +261,22 @@ List networks:
 docker network ls
 ```
 
+Create a network:
+
+```bash
+docker network create <network>
+```
+
 Inspect a network:
 
 ```bash
 docker network inspect <network>
+```
+
+View container IP addresses:
+
+```bash
+docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' $(docker ps -q)
 ```
 
 Remove a network:
@@ -272,7 +284,6 @@ Remove a network:
 ```bash
 docker network rm <network>
 ```
-
 
 
 ## Resource Usage
