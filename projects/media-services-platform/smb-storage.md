@@ -1,13 +1,32 @@
 # SMB Storage Configuration
 
-This document outlines the configuration used to integrate network-based media storage into the Media Services Platform.
+This document outlines the storage integration used by the Media Services Platform.
 
 ## Overview
 
-Media content is stored centrally on a NAS platform and mounted to the Debian host using the SMB/CIFS protocol.
+Media content is stored centrally on network-attached storage (NAS) and made available to Jellyfin through the Debian media server.
 
-The mount is configured as read-only to protect source media files from accidental modification or deletion while still allowing Jellyfin to access the content.
+The Debian host mounts the media share using SMB/CIFS. The share is mounted at `/mnt/media` using a dedicated read-only service account and is then exposed to the Jellyfin Docker container as a read-only bind mount.
 
+```text
+NAS Media Share
+      │
+      │ SMB/CIFS
+      │ Read-only service account
+      ▼
+Debian Host
+      │
+      │ /mnt/media
+      ▼
+Docker
+      │
+      │ /mnt/media:/media:ro
+      ▼
+Jellyfin
+    /media
+```
+
+This design keeps NAS authentication at the operating-system layer. Jellyfin does not receive NAS credentials or connect directly to the SMB share.
 
 
 ## Storage Architecture
@@ -16,189 +35,105 @@ The mount is configured as read-only to protect source media files from accident
   <img src="./diagrams/smb-architecture.png" alt="SMB Storage Architecture" width="500">
   <br>
   <br>
-  <em>Figure 1. Read-only SMB storage path from NAS storage to Jellyfin.</em>
+  <em>Figure 1. Read-only storage path from NAS storage through the Debian host to Jellyfin.</em>
 </p>
 
 
-> [!NOTE]
-> Access to the SMB share is performed using a dedicated read-only service account (`service-account-jellyfin`).
->
-> Credentials are stored in a protected file on the Debian host and are not embedded directly within the mount configuration.
 
+## Storage Configuration
 
-
-## Create Mount Point
-
-Create the local mount point that will be used to access the media share.
-
-```bash
-sudo mkdir -p /mnt/media
-```
-
-
-
-## Create SMB Credentials File
-
-Store SMB credentials in a dedicated file rather than directly within the mount configuration.
-
-Create the credentials file:
-
-```bash
-sudo vim /root/.smbcredentials-jellyfin
-```
-
-Contents:
+The media share is mounted on the Debian host at:
 
 ```text
-username=service-account-jellyfin
-password=YOUR_PASSWORD
+/mnt/media
 ```
 
+The implementation uses:
 
+| Component | Configuration |
+|---|---|
+| Protocol | SMB/CIFS |
+| Mount Point | `/mnt/media` |
+| Authentication | Dedicated service account |
+| NAS Permissions | Read-Only |
+| Host Mount | Read-Only |
+| Credential Storage | Protected host credentials file |
+| Container Access | Read-Only bind mount |
 
-## Service Account Configuration
+### How the Mount Works
 
-A dedicated service account was created on the NAS specifically for Jellyfin access.
+The Debian host:
 
-The account was granted only the minimum permissions required to perform its function.
+- Stores the SMB credentials in a protected file.
+- Establishes the SMB mount through `/etc/fstab`.
+- Exposes the mounted filesystem to the application.
 
-| Setting | Configuration |
-|----------|----------|
-| Account Name | service-account-jellyfin |
-| Access Type | Service Account |
-| Share Access | Read-Only |
-| Scope | Media Share Only |
-
-### Security Rationale
-
-Using a dedicated service account provides several benefits:
-
-- Limits access to only the media required by Jellyfin
-- Prevents accidental modification or deletion of media files
-- Separates application access from administrative accounts
-- Supports the principle of least privilege
-- Simplifies auditing and future permission management
-
-The credentials stored in the SMB credentials file belong to this dedicated service account rather than a personal or administrative NAS account.
+The detailed SMB mount and credential-protection procedure is maintained separately in the [Secure SMB Mount](../../reference/linux/smb-secure-mount.md) reference guide.
 
 
 
-## Secure Credentials
+## Docker Integration
 
-Restrict access to the credentials file.
+The mounted media directory is exposed to the Jellyfin container using a read-only bind mount.
 
-```bash
-sudo chmod 600 /root/.smbcredentials-jellyfin
+```yaml
+volumes:
+  - /mnt/media:/media:ro
 ```
 
-Verify permissions:
-
-```bash
-ls -l /root/.smbcredentials-jellyfin
-```
-
-
-
-## Backup Existing fstab Configuration
-
-Create a backup before modifying the filesystem mount configuration.
-
-```bash
-sudo cp /etc/fstab /etc/fstab.bak
-```
-
-
-
-## Configure Persistent Mount
-
-Add the following entry to `/etc/fstab`:
-
-```fstab
-//nas-lab.local/media /mnt/media cifs credentials=/root/.smbcredentials-jellyfin,vers=3.0,ro,nofail,x-systemd.automount,_netdev 0 0
-```
-
-### Configuration Notes
-
-| Option | Purpose |
-|----------|----------|
-| credentials | Uses a separate credentials file |
-| vers=3.0 | Uses SMB version 3 |
-| ro | Mounts the share as read-only |
-| nofail | Allows the system to boot if the share is unavailable |
-| x-systemd.automount | Mounts the share on first access |
-| _netdev | Delays mount processing until networking is available |
-
-
-
-## Reload System Configuration
-
-Reload systemd configuration after updating fstab.
-
-```bash
-sudo systemctl daemon-reload
-```
-
-
-
-## Test the Mount
-
-Apply the new mount configuration.
-
-```bash
-sudo mount -a
-```
-
-Verify media content is accessible.
-
-```bash
-ls /mnt/media
-```
-
-
-
-## Verify Mount Status
-
-Confirm that the mount is active and using the expected configuration.
-
-```bash
-findmnt /mnt/media
-```
-
-Example output:
+This provides the following storage path:
 
 ```text
-TARGET      SOURCE                 FSTYPE OPTIONS
-/mnt/media  //nas-lab.local/media  cifs   ro,...
+NAS
+ │
+ ▼
+/mnt/media        Debian host
+ │
+ ▼
+/media            Jellyfin container
 ```
 
+The container receives filesystem access to the media but does not receive the credentials used to authenticate to the NAS.
+
+Jellyfin therefore interacts with `/media` as a normal filesystem path while the Debian host handles the underlying SMB connection.
 
 
-## Security Considerations
 
-The SMB share is mounted as read-only.
+## Security Model
 
-Benefits include:
+Storage access follows a defense-in-depth approach:
 
-- Protection against accidental file deletion
-- Reduced risk of application misconfiguration
-- Preservation of source media files
-- Separation of storage and application responsibilities
+```text
+NAS Permissions
+      │
+      │ Read-Only
+      ▼
+Debian SMB Mount
+      │
+      │ Read-Only
+      ▼
+Docker Bind Mount
+      │
+      │ Read-Only
+      ▼
+Jellyfin
+```
 
-Administrative changes to media content are performed directly on the NAS rather than through the media server.
+A dedicated service account limits NAS access to the required media share, while read-only controls at the NAS, host, and container layers protect source media from unintended modification.
 
-The use of a dedicated read-only service account further limits access and aligns with the principle of least privilege.
+Detailed credential handling and SMB security configuration are documented in the [Secure SMB Mount](../../reference/linux/smb-secure-mount.md) reference guide.
 
 
 
 ## Validation
 
-The following checks were performed:
+The storage integration is validated by confirming:
 
-- Mount successfully established
-- Media content accessible through `/mnt/media`
-- Share automatically available after reboot
-- Jellyfin successfully detected media files
-- Read-only permissions functioning as expected
+- The NAS media share is accessible through `/mnt/media`
+- The SMB share becomes available automatically following a system startup or reboot
+- The host mount is read-only
+- The Jellyfin container can access the media through `/media`
+- Source media cannot be modified through the container
 
 
 
@@ -207,10 +142,15 @@ The following checks were performed:
 - [Architecture](./architecture.md)
 - [Base System Configuration](./base-system-configuration.md)
 - [Jellyfin Deployment](./jellyfin-deployment.md)
+- [Secure SMB Mount](../../reference/linux/smb-secure-mount.md)
 - [Troubleshooting](./troubleshooting.md)
 
 
 
 ## Outcome
 
-The Media Services Platform successfully integrates centralized NAS storage through a secure read-only SMB mount, providing reliable access to media content while protecting source files from unintended modification.
+The Media Services Platform uses centralized NAS storage while keeping storage authentication separate from the Jellyfin application.
+
+The Debian host manages SMB authentication and establishes the NAS connection through the persistent filesystem configuration. The NAS media share is presented locally through `/mnt/media`, which is then passed to the Jellyfin container as `/media`.
+
+Jellyfin therefore receives only read-only filesystem access to the media library while NAS credentials and SMB connectivity remain managed by the Debian host.
