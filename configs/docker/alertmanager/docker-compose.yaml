@@ -1,3 +1,26 @@
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/docker-compose.yaml
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/alertmanager/alertmanager.yml
+# source: https://hub.docker.com/r/prom/alertmanager
+
+services:
+  alertmanager:
+    image: prom/alertmanager:<version>
+    container_name: alertmanager
+    restart: unless-stopped
+
+    networks:
+      - monitoring
+
+    ports:
+      - "9093:9093"
+
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+
+networks:
+  monitoring:
+    external: true
 
