@@ -1,18 +1,37 @@
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/alertmanager/alertmanager.yml
 # source: https://prometheus.io/docs/alerting/latest/configuration/
-# UPDATE - <INSERT-YOUR-WEBHOOK> before deploying
+#
+# DEPLOYMENT:
+# Remove the default_receiver configuration and replace it with the
+# webhook_receiver configuration shown below after a valid webhook URL
+# has been configured.
 
 route:
   # Default is 30s. Reduced to 5s for faster alert testing in the lab.
   group_wait: 5s
 
-  # Default receiver for alerts that do not match a more specific route.
-  receiver: webhook_receiver
+  # Default receiver used until a notification webhook is configured.
+  receiver: default_receiver
 
 receivers:
-  - name: webhook_receiver
-    webhook_configs:
-      - url: "<INSERT-YOUR-WEBHOOK>"
+  - name: default_receiver
 
-        # Send a second notification when the alert returns to a resolved state.
-        send_resolved: true
+
+# --- Webhook Deployment Example ---
+#
+# Remove:
+#
+#   receiver: default_receiver
+#
+#   receivers:
+#     - name: default_receiver
+#
+# Replace with:
+#
+#   receiver: webhook_receiver
+#
+#   receivers:
+#     - name: webhook_receiver
+#       webhook_configs:
+#         - url: "<INSERT-YOUR-WEBHOOK>"
+#           send_resolved: true
