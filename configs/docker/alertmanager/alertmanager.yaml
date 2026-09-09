@@ -1,4 +1,5 @@
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/alertmanager/alertmanager.yml
+# source: https://prometheus.io/docs/alerting/latest/configuration/
 
 route:
 # `group_wait` default is 30s, indicating the duration to hold off before sending an alert notification.
