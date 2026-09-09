@@ -1,12 +1,20 @@
 # source: https://prometheus.io/docs/prometheus/latest/installation/#using-docker
+# loki-config.yml example - https://grafana.com/docs/loki/latest/configure/examples/configuration-examples/
+#
+# networks assumes there is an existing docker network "monitoring"
 
 services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     restart: unless-stopped
+
+    networks:
+      - monitoring
+    
     ports:
       - "9090:9090"
+      
     volumes:
       # Relative to this Compose file: /opt/docker/prometheus/prometheus.yml
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
@@ -14,3 +22,7 @@ services:
 
 volumes:
   prometheus-data:
+
+networks:
+  monitoring:
+    external: true
