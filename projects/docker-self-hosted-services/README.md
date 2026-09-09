@@ -82,18 +82,20 @@ Managed Switch
     │
     └── monitor-lab (Debian VM)
         │  (monitoring and observability)
-        ├── Uptime Kuma
+        ├── Uptime Kuma          (deployed)
         ├── Prometheus           (planned)
         ├── Grafana              (planned)
         ├── Loki                 (planned)
         ├── Alertmanager         (planned)
         │
         └── Supporting Components
-            ├── Node Exporter    (planned)
-            ├── SNMP Exporter    (planned)
-            ├── cAdvisor         (planned)
-            └── Grafana Alloy    (planned)
+            ├── Node Exporter     (planned)
+            ├── SNMP Exporter     (planned)
+            ├── cAdvisor          (planned)
+            ├── Blackbox Exporter (planned)
+            └── Grafana Alloy     (planned)
 ```
+
 
 The monitoring host is placed separately from the primary Docker host so monitoring remains available if the application host becomes unavailable.
 
