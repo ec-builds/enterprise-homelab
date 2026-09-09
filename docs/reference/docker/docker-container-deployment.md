@@ -88,7 +88,7 @@ cd /opt/docker/uptime-kuma
 Create the Compose file:
 
 ```bash
-vi docker-compose.yml
+vi docker-compose.yaml
 ```
 
 Example template:
@@ -313,7 +313,7 @@ For most Docker Compose applications, back up:
 
 | Item | Reason |
 |----------|----------|
-| `docker-compose.yml` | Defines how the application is deployed |
+| `docker-compose.yaml` | Defines how the application is deployed |
 | `.env` files | Stores environment-specific variables |
 | Bind mount directories | Stores application configuration or data |
 | Named volumes | Stores persistent application data |
@@ -362,7 +362,7 @@ sudo ss -tulpn | grep 3001
 
 Resolve by either:
 
-- Changing the host port in `docker-compose.yml`
+- Changing the host port in `docker-compose.yaml`
 - Stopping the conflicting service
 
 
@@ -429,7 +429,7 @@ docker compose logs
 |----------|----------|
 | Project directory created under `/opt/docker` | ☐ |
 | Ownership assigned to administrative user | ☐ |
-| `docker-compose.yml` created | ☐ |
+| `docker-compose.yaml` created | ☐ |
 | Compose file validated | ☐ |
 | Application deployed with `docker compose up -d` | ☐ |
 | Container status verified | ☐ |
