@@ -16,27 +16,27 @@ Separating monitoring from the primary application host provides better fault is
 
 ### Docker Lab
 
-| Category | Service | Status |
-|---|---|---|
-| Management | Portainer | 🟢 Deployed |
-| Dashboard | Homepage | 🟢 Deployed |
-| Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
-| Password Management | Bitwarden Lite | ⚪ Planned |
+| Node | VM | Category | Service | Status |
+|---|---|---|---|---|
+| `prox-lab-01` | `docker-lab-vm` | Management | Portainer | 🟢 Deployed |
+| `prox-lab-01` | `docker-lab-vm` | Dashboard | Homepage | 🟢 Deployed |
+| `prox-lab-01` | `docker-lab-vm` | Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
+| `prox-lab-01` | `docker-lab-vm` | Password Management | Bitwarden Lite | ⚪ Planned |
 
 ### Monitoring Lab
 
-| Category | Service | Status |
-|---|---|---|
-| Availability Monitoring | Uptime Kuma | 🟢 Deployed |
-| Metrics | Prometheus | ⚪ Planned |
-| Visualization | Grafana | ⚪ Planned |
-| Logging | Loki | ⚪ Planned |
-| Alerting | Alertmanager | ⚪ Planned |
-| Log Collection | Grafana Alloy | ⚪ Planned |
-| Host Metrics | Node Exporter | ⚪ Planned |
-| Container Metrics | cAdvisor | ⚪ Planned |
-| Network Metrics | SNMP Exporter | ⚪ Planned |
-| Availability Metrics | Blackbox Exporter | ⚪ Planned |
+| Node | VM | Category | Service | Status |
+|---|---|---|---|---|
+| `prox-lab-02` | `monitor-lab-vm` | Availability Monitoring | Uptime Kuma | 🟢 Deployed |
+| `prox-lab-02` | `monitor-lab-vm` | Metrics | Prometheus | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Visualization | Grafana | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Logging | Loki | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Alerting | Alertmanager | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Log Collection | Grafana Alloy | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Host Metrics | Node Exporter | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Container Metrics | cAdvisor | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Network Metrics | SNMP Exporter | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Availability Metrics | Blackbox Exporter | ⚪ Planned |
 
 ```text
 Node Exporter ──────┐
@@ -52,9 +52,9 @@ Uptime Kuma ──► Independent uptime checks/notifications
 
 ### Media Lab
 
-| Category | Service | Status |
-|---|---|---|
-| Media Server | Jellyfin | ⚪ Planned |
+| Node | VM | Category | Service | Status |
+|---|---|---|---|---|
+| `prox-lab-03` | `media-lab-vm` | Media Server | Jellyfin | ⚪ Planned |
 
 > [!NOTE]
 > Media services (Jellyfin) currently run on a separate Debian-based media host. A future migration will move these services from the existing physical host to the Proxmox environment, either as containers on `docker-lab` or on a dedicated media services VM. See [architecture.md](architecture.md) for the full environment topology.
