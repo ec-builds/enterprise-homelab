@@ -1,10 +1,12 @@
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/docker-compose.yaml
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/alertmanager/alertmanager.yml
 # source: https://hub.docker.com/r/prom/alertmanager
+#
+# networks assumes there is an existing docker network "monitoring"
 
 services:
   alertmanager:
-    image: prom/alertmanager:<version>
+    image: prom/alertmanager:0.34.0
     container_name: alertmanager
     restart: unless-stopped
 
@@ -15,12 +17,11 @@ services:
       - "9093:9093"
 
     volumes:
-      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yaml:ro
 
     command:
-      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--config.file=/etc/alertmanager/alertmanager.yaml"
 
 networks:
   monitoring:
     external: true
-
