@@ -1,16 +1,27 @@
+# source: https://jellyfin.org/docs/general/installation/container/
+
 services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
+    restart: unless-stopped
+
+    networks:
+      - media
+    
     ports:
-      - 8096:8096/tcp
-      - 7359:7359/udp
+      - "8096:8096/tcp"
+      - "7359:7359/udp"
+      
     volumes:
       - jellyfin-config:/config
       - jellyfin-cache:/cache
       - /mnt/media:/media:ro
-    restart: unless-stopped
 
 volumes:
   jellyfin-config:
   jellyfin-cache:
+
+networks:
+  media:
+    external: true
