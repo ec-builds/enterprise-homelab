@@ -4,6 +4,10 @@
 # Email notifications via Gmail SMTP are currently configured.
 # Replace the mail receiver with the webhook example below if webhook
 # notifications are preferred instead.
+#
+# Before Deployment:
+# - update auth-username
+# - update from and to fields
 
 route:
   receiver: mail
