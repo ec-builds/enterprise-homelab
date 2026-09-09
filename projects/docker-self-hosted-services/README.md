@@ -14,17 +14,47 @@ Separating monitoring from the primary application host provides better fault is
 
 ## Services
 
-| Host | Category | Service | Status |
-|------|----------|---------|--------|
-| `docker-lab` | Management | Portainer | 🟢 Deployed |
-| `docker-lab` | Dashboard | Homepage | 🟢 Deployed |
-| `docker-lab` | Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
-| `docker-lab` | Password Management | Bitwarden Lite | ⚪ Planned |
-| `monitor-lab` | Monitoring | Uptime Kuma | 🟢 Deployed |
-| `monitor-lab` | Metrics | Prometheus | ⚪ Planned |
-| `monitor-lab` | Visualization | Grafana | ⚪ Planned |
-| `monitor-lab` | Logging | Loki | ⚪ Planned |
-| `monitor-lab` | Alerting | Alertmanager | ⚪ Planned |
+### Docker Lab
+
+| Category | Service | Status |
+|---|---|---|
+| Management | Portainer | 🟢 Deployed |
+| Dashboard | Homepage | 🟢 Deployed |
+| Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
+| Password Management | Bitwarden Lite | ⚪ Planned |
+
+### Monitoring Lab
+
+| Category | Service | Status |
+|---|---|---|
+| Availability Monitoring | Uptime Kuma | 🟢 Deployed |
+| Metrics | Prometheus | ⚪ Planned |
+| Visualization | Grafana | ⚪ Planned |
+| Logging | Loki | ⚪ Planned |
+| Alerting | Alertmanager | ⚪ Planned |
+| Log Collection | Grafana Alloy | ⚪ Planned |
+| Host Metrics | Node Exporter | ⚪ Planned |
+| Container Metrics | cAdvisor | ⚪ Planned |
+| Network Metrics | SNMP Exporter | ⚪ Planned |
+| Availability Metrics | Blackbox Exporter | ⚪ Planned |
+
+```text
+Node Exporter ──────┐
+cAdvisor ───────────┤
+SNMP Exporter ──────┼──► Prometheus ───► Grafana
+Blackbox Exporter ──┘          │
+                               └──► Alertmanager
+
+Servers/Containers ──► Alloy ──► Loki ──► Grafana
+
+Uptime Kuma ──► Independent uptime checks/notifications
+```
+
+### Media Lab
+
+| Category | Service | Status |
+|---|---|---|
+| Media Server | Jellyfin | ⚪ Planned |
 
 > [!NOTE]
 > Media services (Jellyfin) currently run on a separate Debian-based media host. A future migration will move these services from the existing physical host to the Proxmox environment, either as containers on `docker-lab` or on a dedicated media services VM. See [architecture.md](architecture.md) for the full environment topology.
