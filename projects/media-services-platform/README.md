@@ -46,7 +46,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 
 ## Future Enhancements
 
-- [ ] Migrate to a VM on the Proxmox host ([virtualization-lab](../virtualization-lab/))
+- [ ] Migrate to a VM on the Proxmox host ([proxmox-virtualization-lab](../proxmox-virtualization-lab/))
 - [ ] Migrate to a Docker container ([docker-self-hosted-services](../docker-self-hosted-services/))
 - [ ] Add hardware transcoding (GPU/QuickSync)
 - [ ] Include config in backup jobs ([backup-disaster-recovery](../backup-disaster-recovery/))
