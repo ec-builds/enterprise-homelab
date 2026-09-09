@@ -2,7 +2,9 @@
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/alertmanager/alertmanager.yml
 # source: https://hub.docker.com/r/prom/alertmanager
 #
-# networks assumes there is an existing docker network "monitoring"
+# Assumes an existing external Docker network named "monitoring"
+#
+# Before deployment: ensure gmail-app-password file exists in the alertmanager directory where docker-compose is running
 
 services:
   alertmanager:
@@ -18,6 +20,7 @@ services:
 
     volumes:
       - ./alertmanager.yaml:/etc/alertmanager/alertmanager.yaml:ro
+      - ./gmail-app-password:/run/secrets/gmail-app-password:ro
 
     command:
       - "--config.file=/etc/alertmanager/alertmanager.yaml"
