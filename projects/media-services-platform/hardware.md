@@ -9,7 +9,7 @@ The platform is currently deployed on a repurposed **Late 2014 Mac Mini**, demon
 
 
 <p align="left">
-  <img src="../../equipment/images/mac-mini-2014.jpeg" alt="Late 2014 Mac Mini" width="500">
+  <img src="../../diagrams/mac-mini-2014.jpeg" alt="Late 2014 Mac Mini" width="400">
   <br>
   <em>Late 2014 Mac Mini (Macmini7,1)</em>
 </p>
