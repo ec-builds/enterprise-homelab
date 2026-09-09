@@ -75,3 +75,11 @@ Container IP addresses such as `172.x.x.x` should not be used in application con
 ## Design Principle
 
 > Segregate Docker networks by purpose and connect containers only to the networks required for their function.
+
+## References
+
+- Docker Docs — Networking in Compose
+  https://docs.docker.com/compose/how-tos/networking/
+
+- Docker Docs — Define and Manage Networks in Docker Compose
+  https://docs.docker.com/reference/compose-file/networks/
