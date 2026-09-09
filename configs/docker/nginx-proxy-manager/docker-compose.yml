@@ -6,6 +6,9 @@ services:
     container_name: nginx-proxy-manager
     restart: unless-stopped
 
+    networks:
+      - proxy
+
     ports:
       - '80:80'
       - '443:443'
@@ -14,3 +17,7 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+
+networks:
+  proxy:
+    external: true
