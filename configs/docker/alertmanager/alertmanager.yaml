@@ -1,13 +1,18 @@
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/alertmanager/alertmanager.yml
 # source: https://prometheus.io/docs/alerting/latest/configuration/
+# UPDATE - <INSERT-YOUR-WEBHOOK>
 
 route:
-# `group_wait` default is 30s, indicating the duration to hold off before sending an alert notification.
+  # Default is 30s. Reduced to 5s for faster alert testing in the lab.
   group_wait: 5s
+
+  # Default receiver for alerts that do not match a more specific route.
   receiver: webhook_receiver
 
 receivers:
   - name: webhook_receiver
     webhook_configs:
-      - url: '<INSERT-YOUR-WEBHOOK>'
-        send_resolved: false
+      - url: "<INSERT-YOUR-WEBHOOK>"
+
+        # Send a second notification when the alert returns to a resolved state.
+        send_resolved: true
