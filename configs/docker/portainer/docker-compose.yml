@@ -1,15 +1,20 @@
+# source: https://docs.portainer.io/start/install-ce/server/docker/linux#docker-compose
+# removed: - 8000:8000  # Remove if you do not intend to use Edge Agents
+
+
 services:
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:lts
     restart: always
+    
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+      
     ports:
-      - 9443:9443
-      - 8000:8000
-
+      - "9443:9443"
+      
 volumes:
   portainer_data:
     name: portainer_data
