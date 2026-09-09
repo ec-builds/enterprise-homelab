@@ -1,6 +1,6 @@
 # source: https://github.com/grafana/prometheus-alertmanager-tutorial/blob/main/alertmanager/alertmanager.yml
 # source: https://prometheus.io/docs/alerting/latest/configuration/
-# UPDATE - <INSERT-YOUR-WEBHOOK>
+# UPDATE - <INSERT-YOUR-WEBHOOK> before deploying
 
 route:
   # Default is 30s. Reduced to 5s for faster alert testing in the lab.
