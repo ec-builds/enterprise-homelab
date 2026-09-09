@@ -1,12 +1,23 @@
+# source: https://github.com/louislam/uptime-kuma/blob/master/compose.yaml
+
 services:
   uptime-kuma:
     image: louislam/uptime-kuma:2
     container_name: uptime-kuma
     restart: unless-stopped
+
+    networks:
+      - monitoring
+    
     ports:
       - "3001:3001"
+      
     volumes:
       - uptime-kuma:/app/data
 
 volumes:
   uptime-kuma:
+
+networks:
+  monitoring:
+    external: true
