@@ -33,22 +33,22 @@ prox-lab-01
 
 prox-lab-02
 ├── monitor-lab-vm
-├── dc02-lab-vm
+└── dc02-lab-vm
+
+prox-lab-03
 ├── security-lab-vm
 ├── utility-lab-vm
 └── media-lab-vm
-
-prox-lab-03
-└── Available capacity for future workloads
 ```
 
-Persistent services are intentionally distributed across nodes where
-practical. In particular, monitoring and media services are hosted on
-`prox-lab-02` rather than concentrating Docker, monitoring, and media
-workloads on `prox-lab-01`.
+Persistent services are intentionally distributed across all three
+virtualization nodes. General Docker services remain on `prox-lab-01`,
+monitoring services and the secondary domain controller are hosted on
+`prox-lab-02`, while security, utility, and media workloads are assigned to
+`prox-lab-03`.
 
-`prox-lab-03` currently provides additional cluster capacity for future
-workloads, testing, and workload redistribution.
+This distribution reduces workload concentration on `prox-lab-02` while
+making use of the available compute capacity on `prox-lab-03`.
 
 
 
@@ -87,15 +87,15 @@ filesystem caching, virtualization overhead, and temporary workloads.
 
 ## `prox-lab-02`
 
-Secondary virtualization node for infrastructure redundancy, monitoring,
-security workloads, media services, and additional lab capacity.
+Secondary virtualization node for infrastructure redundancy and centralized
+monitoring services.
 
 ### Capacity
 
 | Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 4 cores / 8 threads | 10 vCPU | ~1.25:1 vCPU-to-thread |
-| Memory | 16 GB | 14 GB | ~2 GB unallocated |
+| CPU | 4 cores / 8 threads | 4 vCPU | ~0.5:1 vCPU-to-thread |
+| Memory | 16 GB | 4 GB | ~12 GB unallocated |
 | NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
 ### Planned VMs
@@ -104,69 +104,70 @@ security workloads, media services, and additional lab capacity.
 |---|---|---:|---:|
 | `monitor-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
 | `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
-| `security-lab-vm` | Security / SIEM Testing | 2 | 4 GB |
-| `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
-| `media-lab-vm` | Docker / Jellyfin Media Services | 2 | 4 GB |
-| **Total** | | **10 vCPU** | **14 GB** |
+| **Total** | | **4 vCPU** | **4 GB** |
 
 ### Capacity Notes
 
-The processor provides **4 physical cores and 8 hardware threads**. The
-planned 10 vCPU allocation represents approximately **1.25:1
-vCPU-to-thread** overcommit for workloads that are not expected to sustain
-maximum utilization simultaneously.
+The processor provides **4 physical cores and 8 hardware threads**. Current
+planned workloads leave substantial CPU capacity available for monitoring
+growth and additional infrastructure services.
 
-Approximately **2 GB of memory remains unallocated** for the hypervisor,
-filesystem caching, virtualization overhead, and temporary workloads.
+Approximately **12 GB of memory remains unallocated** for the hypervisor,
+filesystem caching, virtualization overhead, monitoring growth, and temporary
+workloads.
 
-Memory is the primary capacity constraint on this node and should be monitored
-as additional services are deployed.
+`monitor-lab-vm` is intentionally given additional host-level capacity because
+metrics and logging workloads may grow as additional systems, containers, and
+network devices are integrated into the monitoring environment.
 
-`monitor-lab-vm` and `media-lab-vm` are intentionally hosted on
-`prox-lab-02` to distribute persistent services across virtualization nodes.
-This prevents general Docker, monitoring, and media services from depending
-on a single Proxmox host.
+The secondary domain controller provides directory and DNS redundancy on a
+different physical virtualization node from `dc01-lab-vm`.
 
 
 
 ## `prox-lab-03`
 
-Third virtualization node providing additional compute capacity, cluster
-quorum, and workload distribution.
+Third virtualization node providing security, utility, and media workloads
+while also contributing compute capacity and cluster quorum.
 
 ### Capacity
 
 | Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 4 cores / 8 threads | None assigned | Available |
-| Memory | 8 GB | None assigned | Available |
-| NVMe VM Storage | ~337 GB | Workload dependent | Available |
+| CPU | 4 cores / 8 threads | 6 vCPU | ~0.75:1 vCPU-to-thread |
+| Memory | 8 GB | 8 GB | No planned memory reserve |
+| NVMe VM Storage | ~337 GB | Workload dependent | Expand as required |
 
 ### Planned VMs
 
-No persistent workloads are currently assigned to `prox-lab-03`.
-
-Future workloads may include additional infrastructure services, temporary
-lab systems, testing workloads, or services redistributed from other nodes as
-capacity requirements change.
+| VM / Workload | Role | vCPU | RAM |
+|---|---|---:|---:|
+| `security-lab-vm` | Security / SIEM Testing | 2 | 3 GB |
+| `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
+| `media-lab-vm` | Docker / Jellyfin Media Services | 2 | 3 GB |
+| **Total** | | **6 vCPU** | **8 GB** |
 
 ### Capacity Notes
 
 The processor provides **4 physical cores and 8 hardware threads**, providing
 compute capability similar to `prox-lab-02`.
 
-Memory is the primary capacity constraint on this node. With **8 GB of RAM**,
-workload placement should favor lightweight infrastructure services,
-temporary lab systems, or workloads with modest memory requirements.
+CPU capacity is sufficient for the planned workloads, which are not expected
+to sustain maximum utilization simultaneously.
+
+Memory is the primary capacity constraint on this node. The planned
+allocations consume the node's current **8 GB of RAM**, so actual memory
+utilization should be monitored and workloads should not be expected to
+consume their full allocations simultaneously.
+
+A future memory upgrade would provide additional operating margin and allow
+these workloads to grow without requiring redistribution to another node.
 
 The primary NVMe drive hosts both the Proxmox installation and approximately
 **337 GB of LVM-thin storage** for VM and container disks.
 
 A secondary HDD provides general-purpose storage and is not included in the
 VM storage capacity shown above.
-
-Leaving the node initially unallocated also provides capacity for migration,
-maintenance testing, and future workload placement.
 
 
 
@@ -177,9 +178,9 @@ maintenance testing, and future workload placement.
 | Physical Cores | 6 | 4 | 4 | **14** |
 | Hardware Threads | 6 | 8 | 8 | **22** |
 | Memory | 32 GB | 16 GB | 8 GB | **56 GB** |
-| Planned vCPU | 12 | 10 | 0 | **22** |
-| Planned VM Memory | 22 GB | 14 GB | 0 GB | **36 GB** |
-| Unallocated Memory | ~10 GB | ~2 GB | ~8 GB | **~20 GB** |
+| Planned vCPU | 12 | 4 | 6 | **22** |
+| Planned VM Memory | 22 GB | 4 GB | 8 GB | **34 GB** |
+| Unallocated Memory | ~10 GB | ~12 GB | ~0 GB | **~22 GB** |
 | NVMe VM Storage | ~1 TB | ~1 TB | ~337 GB | **~2.3 TB** |
 
 > **Note:** Combined capacity is useful for planning, but CPU and memory remain
@@ -201,10 +202,14 @@ dependencies.
 - Preserve spare capacity for migration, maintenance, and temporary lab workloads
 - Reevaluate workload placement as utilization and hardware availability change
 
-`prox-lab-03` adds additional compute capacity while also providing flexibility
-for workload redistribution and future infrastructure services. Its lower
-memory capacity makes RAM usage an important consideration when selecting
-workloads for the node.
+`prox-lab-03` now provides active workload capacity rather than remaining
+reserved exclusively for future use. Security, utility, and media services are
+placed on this node to reduce resource concentration on `prox-lab-02`.
+
+Its current **8 GB memory capacity is the primary limitation** of this
+placement. Increasing memory capacity in the future would provide additional
+headroom for these workloads while maintaining the current distribution
+strategy.
 
 
 
