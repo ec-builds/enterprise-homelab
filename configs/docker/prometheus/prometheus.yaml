@@ -1,6 +1,9 @@
 # source: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
 # example: https://github.com/prometheus/prometheus/blob/main/documentation/examples/prometheus.yml
 
+# targets: endpoints Prometheus scrapes; can use container names, IP addresses,
+# or DNS names as long as they are reachable from Prometheus
+
 global:
   scrape_interval: 15s
 
