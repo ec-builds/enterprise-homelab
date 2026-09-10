@@ -17,7 +17,7 @@ services:
 
     command:
       - "--config.file=/etc/snmp_exporter/snmp.yml"
-      - "--config.file=/etc/snmp_exporter/snmp-auth.yml"
+      - "--config.file=/etc/snmp_exporter/snmp-auth.yaml"
       - "--config.expand-environment-variables"
 
     environment:
@@ -26,7 +26,7 @@ services:
 
     volumes:
       - ./snmp.yml:/etc/snmp_exporter/snmp.yml:ro
-      - ./snmp-auth.yml:/etc/snmp_exporter/snmp-auth.yml:ro
+      - ./snmp-auth.yaml:/etc/snmp_exporter/snmp-auth.yaml:ro
 
     networks:
       - monitoring
