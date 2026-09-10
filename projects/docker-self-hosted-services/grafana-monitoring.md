@@ -9,13 +9,13 @@ The monitoring environment collects host, container, network, availability, and 
 Detailed information about the individual monitoring technologies is maintained separately at `docs/reference/docker/docker-monitoring-services-reference.md`
 
 
-## Grafana Dashboard
-
-#### Dashboard Preview
+### Dashboard Preview
 
 ![Grafana Monitoring Dashboard](./diagrams/grafana-dashboard.png)
 
+*Centralized Grafana dashboard displaying host resource utilization, container status, endpoint availability, response times, and network interface telemetry.*
 
+## Grafana Dashboard
 
 The Grafana dashboard provides a centralized view of infrastructure health and availability across the homelab.
 
