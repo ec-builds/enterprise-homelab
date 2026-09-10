@@ -1,0 +1,28 @@
+# Node Exporter - TESTING ONLY
+#
+# This configuration intentionally reduces Docker's isolation so Node Exporter
+# can collect metrics from the underlying host rather than only the container.
+#
+# Host access granted:
+#   - network_mode: host  -> Shares the host network namespace
+#   - pid: host           -> Shares the host PID/process namespace
+#   - /:/host:ro,rslave   -> Mounts the host root filesystem read-only
+#   - --path.rootfs=/host -> Tells Node Exporter to collect against the host root
+#
+# These "holes" are intentional for testing Node Exporter in Docker.
+# For long-term deployment, consider running Node Exporter directly on the host.
+
+services:
+  node-exporter:
+    image: prom/node-exporter:v1.12.1
+    container_name: node-exporter
+    restart: unless-stopped
+
+    network_mode: host
+    pid: host
+
+    volumes:
+      - /:/host:ro,rslave
+
+    command:
+      - '--path.rootfs=/host'
