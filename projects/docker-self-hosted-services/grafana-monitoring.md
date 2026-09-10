@@ -34,7 +34,7 @@ Additional panels, telemetry sources, and monitored systems can be added as the 
 
 ### Dashboard Configuration Reference
 
-The following panels provide the initial monitoring views used by the Grafana dashboard.
+The following panels provide the core monitoring views used by the Grafana dashboard.
 
 | Panel | Visualization | PromQL | Legend | Key Settings |
 |---|---|---|---|---|
@@ -197,16 +197,6 @@ This allows the monitoring environment to move beyond simply displaying system s
 SNMPv3 provides authenticated and encrypted monitoring of supported network infrastructure.
 
 Credentials, authentication information, notification secrets, and other sensitive values are supplied externally and are not stored in the repository.
-
-Public configuration examples use placeholders for environment-specific information:
-
-```text
-<host-IP>
-<device-IP>
-<hostname>
-<username>
-<password>
-```
 
 ## Purpose
 
