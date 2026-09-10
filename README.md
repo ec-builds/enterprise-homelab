@@ -127,7 +127,7 @@ Functionally, the environment is organized into several infrastructure domains:
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | ⚪ Planned |
 | [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
-| [Network Security](projects/network-security/) | Firewalls, segmentation, VPN, access security, system hardening | 🟡 In Progress |
+| [Network Security](projects/network-security/) | Firewalls, segmentation, VPN, access security | 🟡 In Progress |
 | [Proxmox Virtualization Lab](projects/proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
 | [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 
