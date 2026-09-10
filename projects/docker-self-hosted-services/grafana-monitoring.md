@@ -1,6 +1,6 @@
 # Grafana Monitoring
 
-<img src="./diagrams/grafana-welcome-02.png" alt="Grafana welcome" width="400">
+<img src="./diagrams/grafana-welcome.png" alt="Grafana welcome" width="400">
 
 A containerized monitoring and observability stack providing centralized visibility into the homelab, with **Grafana as the primary visualization and investigation interface**.
 
