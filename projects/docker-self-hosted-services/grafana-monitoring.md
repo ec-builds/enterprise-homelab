@@ -32,7 +32,43 @@ Additional panels, telemetry sources, and monitored systems can be added as the 
 
 *Centralized Grafana dashboard displaying host resource utilization, container status, endpoint availability, response times, and network interface telemetry.*
 
+### Dashboard Configuration Reference
 
+The following panels provide the initial monitoring views used by the Grafana dashboard.
+
+| Panel | Visualization | PromQL | Legend | Key Settings |
+|---|---|---|---|---|
+| **Docker VM CPU Usage** | Time series | `100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)` | `Docker VM` | Unit: Percent |
+| **Docker VM Memory Usage** | Time series | `100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))` | `Docker VM` | Unit: Percent |
+| **Docker VM Disk Usage** | Gauge | `100 * (1 - (node_filesystem_avail_bytes{mountpoint="/",fstype!~"tmpfs\|overlay"} / node_filesystem_size_bytes{mountpoint="/",fstype!~"tmpfs\|overlay"}))` | — | Unit: Percent; utilization thresholds |
+| **Running Containers** | Stat | `count(container_last_seen{name!=""})` | `Containers` | Stat with sparkline/background |
+| **HTTP Probe Status** | Stat | `probe_success{job="blackbox-http",name!=""}` | `{{name}}` | Instant query; status value mappings |
+| **HTTP Response Time** | Time series | `probe_duration_seconds{job="blackbox-http",name!=""}` | `{{name}}` | Range query; Unit: seconds |
+| **Switch Port Status** | Table | `ifOperStatus{job="snmp",ifName=~"Gi.*"}` | `{{ifName}}` | Instant query; status mappings; sorted by `ifIndex` |
+| **Switch RX/TX Traffic** | Time series | RX: `rate(ifHCInOctets{job="snmp",ifName=~"Gi.*"}[5m]) * 8`<br>TX: `rate(ifHCOutOctets{job="snmp",ifName=~"Gi.*"}[5m]) * 8` | `{{ifName}} RX`<br>`{{ifName}} TX` | Range query; Unit: bits/sec (SI) |
+
+#### Switch Port Status Mappings
+
+The SNMP `ifOperStatus` values are mapped to human-readable interface states:
+
+| Value | Status |
+|---:|---|
+| `1` | Up |
+| `2` | Down |
+| `3` | Testing |
+| `4` | Unknown |
+| `5` | Dormant |
+| `6` | Not Present |
+| `7` | Lower Layer Down |
+
+The table is sorted by `ifIndex` in ascending order. The displayed fields are simplified to:
+
+```text
+ifName  → Port
+Value   → Status
+```
+
+Other Prometheus metadata fields are hidden from the dashboard table to keep the visualization focused on interface state.
 
 ## Architecture Overview
 
