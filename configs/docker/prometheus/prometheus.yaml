@@ -1,3 +1,6 @@
+# source: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+# example: https://github.com/prometheus/prometheus/blob/main/documentation/examples/prometheus.yml
+
 global:
   scrape_interval: 15s
 
