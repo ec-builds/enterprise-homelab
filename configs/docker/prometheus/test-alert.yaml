@@ -1,0 +1,22 @@
+# Temporary Prometheus alert rule for testing Prometheus -> Alertmanager -> email delivery.
+#
+# Place this file in the Prometheus rules directory:
+#   /opt/docker/prometheus/rules/
+#
+# The rules directory must have execute/traverse permission so Prometheus can access it.
+# Example:
+#   chmod 755 /opt/docker/prometheus/rules
+#
+# Delete this test rule after successful alert and email delivery testing.
+
+groups:
+  - name: test
+    rules:
+      - alert: TestAlert
+        expr: vector(1)
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Prometheus test alert"
+          description: "End-to-end Alertmanager email test."
