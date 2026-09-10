@@ -1,12 +1,21 @@
 # Grafana Monitoring
 
+<img src="./diagrams/grafana-welcome.png" alt="Grafana welcome" width="500">
+
 A containerized monitoring and observability stack providing centralized visibility into the homelab, with **Grafana as the primary visualization and investigation interface**.
 
 The monitoring environment collects host, container, network, availability, and log telemetry and brings those data sources together through Grafana dashboards.
 
 Detailed information about the individual monitoring technologies is maintained separately at `docs/reference/docker/docker-monitoring-services-reference.md`
 
+
 ## Grafana Dashboard
+
+#### Dashboard Preview
+
+![Grafana Monitoring Dashboard](./diagrams/grafana-dashboard.png)
+
+
 
 The Grafana dashboard provides a centralized view of infrastructure health and availability across the homelab.
 
@@ -23,9 +32,7 @@ Current monitoring includes:
 
 Additional panels, telemetry sources, and monitored systems can be added as the environment expands.
 
-### Dashboard Preview
 
-![Grafana Monitoring Dashboard](<insert-dashboard-screenshot-path>)
 
 ## Architecture Overview
 
