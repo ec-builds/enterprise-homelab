@@ -1,0 +1,38 @@
+# Custom SNMP Exporter authentication profiles.
+#
+# Defines the SNMPv3 credentials and security settings used to communicate
+# with monitored network devices. This file is loaded alongside the stock
+# snmp.yml provided by the SNMP Exporter container.
+#
+# Passwords are supplied through environment variables rather than stored
+# directly in this file. SNMP Exporter expands these variables at startup
+# when --config.expand-environment-variables is enabled.
+#
+# The environment variables are passed into the container by Docker Compose
+# and should be defined in a local .env file that is excluded from Git.
+#
+# Before deployment:
+#   - Replace <snmp-auth-profile> with a name for the authentication profile.
+#   - Replace <snmp-username> with the SNMPv3 username configured on the device.
+#
+# The <snmp-auth-profile> value must also match the auth profile specified
+# in the Prometheus SNMP scrape configuration.
+
+auths:
+  # Update this field with the desired SNMP authentication profile name
+  <snmp-auth-profile>:
+    version: 3
+
+    # SNMPv3 username configured on the monitored network device
+    username: <snmp-username>
+
+    # authPriv provides authentication and encrypted SNMP communication
+    security_level: authPriv
+
+    # Authentication uses SHA with the password supplied through .env
+    password: ${SNMP_AUTH_PASSWORD}
+    auth_protocol: SHA
+
+    # Privacy uses AES encryption with a separate password supplied through .env
+    priv_protocol: AES
+    priv_password: ${SNMP_PRIV_PASSWORD}
