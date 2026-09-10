@@ -1,0 +1,43 @@
+# source: https://github.com/google/cadvisor
+#
+# cAdvisor container metrics exporter
+#
+# Notes:
+# - Uses the official GHCR image for v0.53.0 and newer.
+# - Host paths are mounted read-only so cAdvisor can inspect Docker/container metrics.
+# - privileged mode and /dev/kmsg access give cAdvisor deeper host visibility.
+# - Port 8080 exposes the cAdvisor web UI and /metrics endpoint.
+#
+# Test:
+#   curl http://localhost:8080/metrics
+#
+# Web UI:
+#   http://<docker-host-ip>:8080
+
+services:
+  cadvisor:
+    container_name: cadvisor
+    image: ghcr.io/google/cadvisor:v0.60.5
+    restart: unless-stopped
+
+    networks:
+      - monitoring
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+
+    privileged: true
+
+    devices:
+      - /dev/kmsg
+
+networks:
+  monitoring:
+    external: true
