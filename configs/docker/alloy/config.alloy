@@ -1,0 +1,7 @@
+# source: https://grafana.com/docs/alloy/latest/set-up/install/docker/
+# save in the same /opt/docker/alloy directory
+
+logging {
+  level  = "info"
+  format = "logfmt"
+}
