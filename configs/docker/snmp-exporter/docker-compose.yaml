@@ -8,9 +8,6 @@
 # Exporter UI / self-metrics:
 #   http://<docker-host-ip>:9116
 #   http://<docker-host-ip>:9116/metrics
-#
-# Example SNMP scrape:
-#   http://<docker-host-ip>:9116/snmp?target=10.10.10.2&module=if_mib&auth=public_v2
 
 services:
   snmp-exporter:
