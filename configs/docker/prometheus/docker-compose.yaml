@@ -2,6 +2,9 @@
 # loki-config.yml example - https://grafana.com/docs/loki/latest/configure/examples/configuration-examples/
 #
 # networks assumes there is an existing docker network "monitoring"
+#
+# Important: Prometheus defaults to /etc/prometheus/prometheus.yml inside the container.
+# The host configuration file may use .yaml, but it must be mounted to prometheus.yml.
 
 services:
   prometheus:
@@ -16,7 +19,7 @@ services:
       - "9090:9090"
       
     volumes:
-      # Relative to this Compose file: /opt/docker/prometheus/prometheus.yml
+      # Relative to this Compose file: /opt/docker/prometheus/prometheus.yaml
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
 
