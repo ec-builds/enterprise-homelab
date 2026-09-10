@@ -4,7 +4,13 @@
 # targets: endpoints Prometheus scrapes; can use container names, IP addresses,
 # or DNS names as long as they are reachable from Prometheus
 #
-# Insert host IP or relevant host IP in <insert-host-IP>
+# Replace placeholders such as:
+#   <host-ip>
+#   <network-device-ip>
+#   <snmp-auth-profile>
+#
+# The SNMP authentication profile is defined in SNMP Exporter's configuration,
+# not in this Prometheus configuration.
 
 global:
   scrape_interval: 15s
@@ -20,11 +26,12 @@ rule_files:
   - "/etc/prometheus/rules/*.yaml"
 
 scrape_configs:
+
   # Linux host metrics collected by Node Exporter
   - job_name: node-exporter
     static_configs:
       - targets:
-          - <insert-host-IP>:9100
+          - <host-ip>:9100
 
   # Docker container metrics collected by cAdvisor
   - job_name: cadvisor
@@ -42,8 +49,8 @@ scrape_configs:
 
     static_configs:
       - targets:
-          - https://google.com
-          - http://<insert-host-IP>:3000
+          - https://example.com
+          - http://<host-ip>:<service-port>
 
     relabel_configs:
       - source_labels:
@@ -63,13 +70,13 @@ scrape_configs:
 
     params:
       auth:
-        - public_v2
+        - <snmp-auth-profile>
       module:
         - if_mib
 
     static_configs:
       - targets:
-          - <insert-host-IP>
+          - <network-device-ip>
 
     relabel_configs:
       - source_labels:
