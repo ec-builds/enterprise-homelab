@@ -1,0 +1,29 @@
+# source: https://hub.docker.com/r/prom/snmp-exporter
+# source: https://github.com/prometheus/snmp_exporter
+#
+# Prometheus SNMP Exporter
+#
+# Converts SNMP data from network devices into Prometheus metrics.
+#
+# Exporter UI / self-metrics:
+#   http://<docker-host-ip>:9116
+#   http://<docker-host-ip>:9116/metrics
+#
+# Example SNMP scrape:
+#   http://<docker-host-ip>:9116/snmp?target=10.10.10.2&module=if_mib&auth=public_v2
+
+services:
+  snmp-exporter:
+    container_name: snmp-exporter
+    image: prom/snmp-exporter:latest
+    restart: unless-stopped
+
+    networks:
+      - monitoring
+
+    ports:
+      - "9116:9116"
+
+networks:
+  monitoring:
+    external: true
