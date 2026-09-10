@@ -1,0 +1,32 @@
+# source: https://grafana.com/docs/alloy/latest/set-up/install/docker/
+#
+# Assumes an existing external Docker network named "monitoring".
+
+services:
+  alloy:
+    image: grafana/alloy:v1.19.2
+    container_name: alloy
+    restart: unless-stopped
+
+    networks:
+      - monitoring
+
+    ports:
+      - "12345:12345"
+
+    volumes:
+      - ./config.alloy:/etc/alloy/config.alloy:ro
+      - alloy-data:/var/lib/alloy/data
+
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+
+volumes:
+  alloy-data:
+
+networks:
+  monitoring:
+    external: true
