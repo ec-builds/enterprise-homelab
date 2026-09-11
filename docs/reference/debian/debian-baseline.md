@@ -50,7 +50,7 @@ curl \
 wget \
 htop \
 tree \
-dnsutils \
+bind9-dnsutils \
 bash-completion \
 cifs-utils \
 rsync \
