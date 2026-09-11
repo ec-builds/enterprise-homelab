@@ -25,16 +25,6 @@ Docker Compose project directories should be stored under:
 /opt/docker
 ```
 
-Create the base Docker directory if it does not already exist:
-
-```bash
-sudo mkdir -p /opt/docker
-```
-
-> ➡️ **Debian Baseline:** See [Debian Baseline Build](../debian/debian-baseline.md) for initial host configuration and base system preparation.  
-> ➡️ **Docker Installation:** If Docker Engine is not installed, see [Docker Installation](docker-installation.md).
-
-
 Example structure:
 
 ```text
@@ -46,7 +36,16 @@ Example structure:
 └── homepage/
 ```
 
-Each application should have its own project directory containing its Compose file and any related configuration files.
+Each Docker Compose project should have its own directory containing its Compose file and any related configuration files.
+
+Create the base directory if it does not already exist:
+
+```bash
+sudo mkdir -p /opt/docker
+```
+
+> ➡️ **Debian Baseline:** See [Debian Baseline Build](../debian/debian-baseline.md) for base system preparation and host configuration.  
+> ➡️ **Docker Installation:** If Docker Engine is not installed, see [Docker Installation](docker-installation.md).
 
 
 
