@@ -11,7 +11,7 @@ The objective is to establish a consistent installation process that can be reus
 >
 > ARM-based platforms are not covered by this document and may require different installation media, firmware configuration, drivers, and deployment procedures.
 
----
+
 
 ## Overview
 
@@ -27,7 +27,7 @@ Debian provides:
 
 Create installation media from the official Debian DVD ISO and deploy it to the target Intel-based system.
 
----
+
 
 ## Implementation Summary
 
@@ -40,7 +40,7 @@ Create installation media from the official Debian DVD ISO and deploy it to the 
 | Post-Installation Tasks | Verify successful boot, network connectivity, and remote access |
 | Validation & Handoff | Confirm the operating system is stable and ready for baseline configuration |
 
----
+
 
 ## Installation Media Preparation
 
@@ -78,7 +78,7 @@ Debian provides multiple installation images. The two most common options are th
 
 Either approach is valid. This standard uses the DVD ISO to provide a self-contained installation experience.
 
----
+
 
 ### Identify the USB Device
 
@@ -91,7 +91,7 @@ diskutil list
 > [!NOTE]
 > Verify the correct disk identifier before proceeding. Selecting the wrong device may result in data loss.
 
----
+
 
 ### Unmount the USB Device
 
@@ -103,7 +103,7 @@ diskutil unmountDisk /dev/diskX
 
 Replace `diskX` with the appropriate disk identifier.
 
----
+
 
 ### Verify ISO Integrity
 
@@ -119,7 +119,7 @@ Compare the resulting hash with the checksum published by the Debian project.
 https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/
 ```
 
----
+
 
 ### Write the ISO to the USB Device
 
@@ -146,7 +146,7 @@ This command writes the Debian installation image directly to the USB device and
 >
 > Validate the installation media by confirming that the target system recognizes the USB device as a UEFI boot option.
 
----
+
 
 ### Eject the USB Device
 
@@ -156,7 +156,7 @@ After the write process completes, safely eject the installation media.
 diskutil eject /dev/diskX
 ```
 
----
+
 
 ## Booting the Installation Media
 
@@ -166,7 +166,7 @@ diskutil eject /dev/diskX
 4. Boot using UEFI mode.
 5. Launch the Debian installer.
 
----
+
 
 ## Debian Installation
 
@@ -193,7 +193,7 @@ Do not install a desktop environment.
 
 Deploy the system as a headless Linux server managed primarily through SSH.
 
----
+
 
 ## Post-Installation Tasks
 
@@ -206,7 +206,7 @@ After installation completes:
 5. Complete the Debian Base System Configuration standard.
 6. Proceed with project-specific configuration.
 
----
+
 
 ## Validation
 
@@ -220,15 +220,12 @@ Verify the following before proceeding:
 
 Successful validation confirms that the operating system is ready for baseline configuration.
 
----
+
 
 ## Related Documentation
 
-- [Naming Conventions](./naming-conventions.md)
 - [Debian Base System Configuration](./debian-baseline.md)
-- [SSH Hardening Standard](./ssh-hardening.md)
 
----
 
 ## Outcome
 
