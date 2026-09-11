@@ -124,7 +124,7 @@ Relevant project documentation:
 
 - [README.md](README.md)
 - [architecture.md](architecture.md)
-- [reverse-proxy-container.md](reverse-proxy-container.md)
+- [reverse-proxy.md](reverse-proxy.md)
 - [lessons-learned.md](lessons-learned.md)
 
 
