@@ -15,7 +15,7 @@ Uptime Kuma is a self-hosted monitoring platform used to monitor the availabilit
 >
 > The Uptime Kuma project documentation is the authoritative source and should be consulted for the latest installation procedures, supported features, and upgrade guidance.
 
----
+
 
 ## Prerequisites
 
@@ -37,7 +37,7 @@ Verify Docker is running:
 docker ps
 ```
 
----
+
 
 ## Create Project Directory
 
@@ -54,7 +54,7 @@ Move into the project directory:
 cd /opt/docker/uptime-kuma
 ```
 
----
+
 
 ## Create Docker Compose File
 
@@ -94,7 +94,7 @@ The official project recommends the `:2` image tag for Uptime Kuma v2 deployment
 > In this homelab environment, a custom Compose file was created instead. This approach provides consistency across deployments and helps reinforce Docker Compose concepts.
 
 
----
+
 
 ## Validate Configuration
 
@@ -108,7 +108,7 @@ Expected result:
 
 ![Docker compose config example](../../screenshots/uptime-kuma/uptime-kuma-compose-config-example.png)
 
----
+
 
 ## Deploy Uptime Kuma
 
@@ -127,7 +127,7 @@ Docker Compose will:
 3. Create the Docker volume.
 4. Create and start the container. ([GitHub](https://github.com/louislam/uptime-kuma/blob/master/compose.yaml?utm_source=chatgpt.com))
 
----
+
 
 ## Verify Deployment
 
@@ -161,7 +161,7 @@ Follow logs:
 docker compose logs -f
 ```
 
----
+
 
 ## Access Uptime Kuma
 
@@ -180,7 +180,7 @@ http://10.0.0.70:3001
 Uptime Kuma should display the first-time setup wizard. 
 
 
----
+
 
 ## Initial Configuration
 
@@ -201,13 +201,13 @@ Recommended first monitors:
 | Uptime Kuma | HTTP(s) |
 
 
----
+
 
 ![Example status page Uptime-Kuma](../../screenshots/uptime-kuma/uptime-kuma-status-page-example.png)
 
 *Example Status Page*
 
----
+
 
 ## Verify Persistent Storage
 
@@ -233,7 +233,7 @@ Mountpoint:
 > [!IMPORTANT]
 > Uptime Kuma stores configuration, monitor definitions, notifications, and historical data within `/app/data`. This data is persisted through the Docker volume and survives container recreation. ([GitHub](https://github.com/louislam/uptime-kuma?utm_source=chatgpt.com))
 
----
+
 
 ## Update Procedure
 
@@ -263,7 +263,7 @@ docker compose ps
 
 The existing volume is automatically reattached and configuration data remains intact. ([GitHub](https://github.com/louislam/uptime-kuma/wiki/%F0%9F%86%99-How-to-Update?utm_source=chatgpt.com))
 
----
+
 
 ## Removal Procedure
 
@@ -294,7 +294,7 @@ docker volume rm uptime-kuma
 > [!WARNING]
 > Removing the Docker volume permanently deletes all Uptime Kuma configuration, monitor definitions, and historical monitoring data.
 
----
+
 
 ## Lessons Learned
 
@@ -318,7 +318,7 @@ The Docker volume continued to exist and was automatically reattached to the new
 
 This demonstrated the importance of storing application data in persistent Docker volumes rather than within containers.
 
----
+
 
 ## Installation Checklist
 
@@ -335,14 +335,5 @@ This demonstrated the importance of storing application data in persistent Docke
 | First monitor configured | ☐ |
 | Volume persistence verified | ☐ |
 
----
 
-## Related Documentation
 
-| Document | Purpose |
-|----------|----------|
-| [docker-installation.md](docker-installation.md) | Docker installation procedures |
-| [docker-concepts.md](docker-concepts.md) | Docker architecture and terminology |
-| [docker-command-reference.md](docker-command-reference.md) | Common Docker administration commands |
-| [docker-container-deployment.md](docker-container-deployment.md) | Standard Docker Compose deployment workflow |
-| [uptime-kuma-reference.md](uptime-kuma-reference.md) | Monitor configuration and operational guidance |
