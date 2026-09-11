@@ -8,7 +8,7 @@ The environment began with Uptime Kuma for basic availability monitoring and has
 
 ## Monitoring Architecture
 
-![Infrastructure Monitoring Architecture](./diagrams/monitoring-architecture.png)
+<img src="./diagrams/monitoring-architecture.png" alt="Infrastructure Monitoring Architecture" width="800">
 
 *Figure 1. High-level monitoring architecture.*
 
