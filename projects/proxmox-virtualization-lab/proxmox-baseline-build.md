@@ -95,7 +95,7 @@ Baseline Configuration:
 
 Static management addressing was used to provide predictable host connectivity and support Proxmox cluster membership.
 
-See [`proxmox-network-configuration.md`](./proxmox-network-configuration.md) for detailed network configuration and troubleshooting.
+See [proxmox-network-configuration.md](../../docs/reference/proxmox-networking.md) for detailed network configuration and troubleshooting.
 
 ## System Updates
 
