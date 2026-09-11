@@ -33,6 +33,8 @@ sudo mkdir -p /opt/docker
 
 > ➡️ **Debian Baseline:** See [Debian Baseline Build](../debian/debian-baseline.md) for initial host configuration and base system preparation.  
 > ➡️ **Docker Installation:** If Docker Engine is not installed, see [Docker Installation](docker-installation.md).
+
+
 Example structure:
 
 ```text
