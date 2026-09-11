@@ -60,9 +60,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 | [Diagrams](./diagrams/) | Architecture diagrams, screenshots, and visual documentation |
 | [architecture.md](./architecture.md) | High-level architecture, component relationships, and system design |
 | [backup-strategy.md](./backup-strategy.md) | Backup procedures, recovery considerations, and data protection strategy |
-| [base-system-configuration.md](../../docs/reference/debian/base-system-configuration.md) | Initial Debian configuration, package setup, and system preparation |
 | [client-testing.md](./client-testing.md) | Validation testing, client access verification, and functionality checks |
-| [debian-install.md](../../docs/reference/debian/debian-install.md) | Debian installation process and operating system deployment notes |
 | [hardware.md](./hardware.md) | Hardware inventory, specifications, and platform selection rationale |
 | [jellyfin-deployment.md](./jellyfin-deployment.md) | Jellyfin installation, configuration, and service deployment procedures |
 | [lessons-learned.md](./lessons-learned.md) | Key takeaways, challenges encountered, and project reflections |
