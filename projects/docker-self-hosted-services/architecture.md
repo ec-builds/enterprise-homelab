@@ -311,8 +311,7 @@ This approach minimizes disruption to the existing media service while allowing 
 
 | Document | Purpose |
 |----------|---------|
-| [README.md](README.md) | Project overview and objectives |
-| [reverse-proxy-container.md](reverse-proxy-container.md) | Reverse proxy deployment and design |
+| [reverse-proxy.md](reverse-proxy.md) | Reverse proxy deployment and design |
 | [docker-installation.md](../../docs/reference/docker/docker-installation.md) | Docker installation procedure |
 | [docker-container-deployment.md](../../docs/reference/docker/docker-container-deployment.md) | Container deployment standard |
 | [docker-concepts.md](../../docs/reference/docker/docker-concepts.md) | Docker concepts and terminology |
