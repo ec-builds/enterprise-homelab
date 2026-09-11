@@ -177,11 +177,11 @@ Detailed implementation procedures are maintained in their respective project an
 
 ## Related Documentation
 
-- [Base System Configuration](./base-system-configuration.md)
+- [Base System Configuration](../../docs/reference/debian/debian-baseline.md)
 - [SSH Configuration](./ssh-configuration.md)
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 - [SMB Storage](./smb-storage.md)
-- [Secure SMB Mount](../../reference/linux/debian-smb-secure-mount.md)
+- [Secure SMB Mount](../../docs/reference/debian/debian-smb-secure-mount.md)
 
 
 
