@@ -31,8 +31,8 @@ Create the base Docker directory if it does not already exist:
 sudo mkdir -p /opt/docker
 ```
 
-> **Reference:** See the [Debian Baseline Build](../debian/debian-baseline.md) documentation for the initial Docker host configuration and base system preparation.
-
+> ➡️ **Debian Baseline:** See [Debian Baseline Build](../debian/debian-baseline.md) for initial host configuration and base system preparation.  
+> ➡️ **Docker Installation:** If Docker Engine is not installed, see [Docker Installation](docker-installation.md).
 Example structure:
 
 ```text
