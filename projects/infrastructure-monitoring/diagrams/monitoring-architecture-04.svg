@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1240 714" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <rect x="0" y="0" width="1240" height="764" style="fill:white;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,40,16)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12.5px;fill:rgb(100,116,139);">Metrics, logs, cloud telemetry and alerting — simpliﬁed view</text>
+    </g>
+    <g transform="matrix(1,0,0,1,124.923,48)">
+        <text x="-27.661px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(100,116,139);">S<tspan x="-20.17px -11.46px -3.362px 4.736px 12.833px 20.324px " y="0px 0px 0px 0px 0px 0px ">OURCES</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,364.923,48)">
+        <text x="-26.431px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(100,116,139);">C<tspan x="-18.333px -9.623px -2.75px 4.123px 11.614px 19.712px " y="0px 0px 0px 0px 0px 0px ">OLLECT</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,609.923,48)">
+        <text x="-19.255px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(100,116,139);">S<tspan x="-11.764px -4.89px 3.82px 11.918px " y="0px 0px 0px 0px ">TORE</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,844.923,48)">
+        <text x="-29.341px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(100,116,139);">V<tspan x="-21.85px -18.64px -11.149px -3.051px 5.047px 11.92px 15.13px 22.004px " y="0px 0px 0px 0px 0px 0px 0px 0px ">ISUALIZE</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,1094.92,48)">
+        <text x="-46.526px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:11px;fill:rgb(100,116,139);">A<tspan x="-38.429px -31.555px -24.064px -15.967px -9.093px -5.883px 2.215px 5.425px 13.523px 22.233px 29.106px 32.316px 39.189px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">LERT &amp; NOTIFY</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M40,106L1200,106" style="fill:none;fill-rule:nonzero;stroke:rgb(226,232,240);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M715,122C715,116.481 710.519,112 705,112L265,112C259.481,112 255,116.481 255,122L255,378C255,383.519 259.481,388 265,388L705,388C710.519,388 715,383.519 715,378L715,122Z" style="fill:rgb(240,253,244);stroke:rgb(22,163,74);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,267,78)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(22,163,74);">M<tspan x="8.45px 15.24px 21.468px 28.81px 31.708px 39.05px 45.84px 48.738px 55.528px 58.427px 65.216px 72.006px 78.235px 81.133px 88.475px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">ETRICS PIPELINE</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M715,414C715,408.481 710.519,404 705,404L265,404C259.481,404 255,408.481 255,414L255,480C255,485.519 259.481,490 265,490L705,490C710.519,490 715,485.519 715,480L715,414Z" style="fill:rgb(239,246,255);stroke:rgb(37,99,235);stroke-width:1px;stroke-dasharray:4,3;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,267,370)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(37,99,235);">L<tspan x="6.228px 14.127px 22.025px 24.923px 31.713px 34.612px 41.402px 48.191px 54.42px 57.318px 64.66px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">OG PIPELINE</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M715,512C715,506.481 710.519,502 705,502L265,502C259.481,502 255,506.481 255,512L255,578C255,583.519 259.481,588 265,588L705,588C710.519,588 715,583.519 715,578L715,512Z" style="fill:rgb(240,249,255);stroke:rgb(3,105,161);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,267,468)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(3,105,161);">C<tspan x="7.342px 13.57px 21.468px 28.81px " y="0px 0px 0px 0px ">LOUD</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M216,122C216,116.481 211.519,112 206,112L50,112C44.481,112 40,116.481 40,122L40,370C40,375.519 44.481,380 50,380L206,380C211.519,380 216,375.519 216,370L216,122Z" style="fill:rgb(239,246,255);stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M216,522C216,516.481 211.519,512 206,512L50,512C44.481,512 40,516.481 40,522L40,578C40,583.519 44.481,588 50,588L206,588C211.519,588 216,583.519 216,578L216,522Z" style="fill:rgb(239,246,255);stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,127C206,123.137 202.863,120 199,120L57,120C53.137,120 50,123.137 50,127L50,149C50,152.863 53.137,156 57,156L199,156C202.863,156 206,152.863 206,149L206,127Z" style="fill:white;stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M77,130.2C77,129.538 76.462,129 75.8,129L60.2,129C59.538,129 59,129.538 59,130.2L59,132.8C59,133.462 59.538,134 60.2,134L75.8,134C76.462,134 77,133.462 77,132.8L77,130.2Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="73.5" cy="131.5" r="0.9" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M77,136.7C77,136.038 76.462,135.5 75.8,135.5L60.2,135.5C59.538,135.5 59,136.038 59,136.7L59,139.3C59,139.962 59.538,140.5 60.2,140.5L75.8,140.5C76.462,140.5 77,139.962 77,139.3L77,136.7Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="73.5" cy="138" r="0.9" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M77,143.2C77,142.538 76.462,142 75.8,142L60.2,142C59.538,142 59,142.538 59,143.2L59,145.8C59,146.462 59.538,147 60.2,147L75.8,147C76.462,147 77,146.462 77,145.8L77,143.2Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="73.5" cy="144.5" r="0.9" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,86,86)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,23,42);">Servers</text>
+    </g>
+    <g transform="matrix(1,0,0,1,86,99)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10.5px;fill:rgb(100,116,139);">physical hosts</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,171C206,167.137 202.863,164 199,164L57,164C53.137,164 50,167.137 50,171L50,193C50,196.863 53.137,200 57,200L199,200C202.863,200 206,196.863 206,193L206,171Z" style="fill:white;stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M77,174.5C77,173.672 76.328,173 75.5,173L60.5,173C59.672,173 59,173.672 59,174.5L59,184C59,184.828 59.672,185.5 60.5,185.5L75.5,185.5C76.328,185.5 77,184.828 77,184L77,174.5Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M65,191L71,191M68,185.5L68,191" style="fill:none;fill-rule:nonzero;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,86,136.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,23,42);">Virtual machines</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,219C206,215.137 202.863,212 199,212L57,212C53.137,212 50,215.137 50,219L50,241C50,244.863 53.137,248 57,248L199,248C202.863,248 206,244.863 206,241L206,219Z" style="fill:white;stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M64,224.8C64,224.358 63.642,224 63.2,224L59.8,224C59.358,224 59,224.358 59,224.8L59,228.2C59,228.642 59.358,229 59.8,229L63.2,229C63.642,229 64,228.642 64,228.2L64,224.8Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M70.2,224.8C70.2,224.358 69.842,224 69.4,224L66,224C65.558,224 65.2,224.358 65.2,224.8L65.2,228.2C65.2,228.642 65.558,229 66,229L69.4,229C69.842,229 70.2,228.642 70.2,228.2L70.2,224.8Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M76.4,224.8C76.4,224.358 76.042,224 75.6,224L72.2,224C71.758,224 71.4,224.358 71.4,224.8L71.4,228.2C71.4,228.642 71.758,229 72.2,229L75.6,229C76.042,229 76.4,228.642 76.4,228.2L76.4,224.8Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M64,231.3C64,230.858 63.642,230.5 63.2,230.5L59.8,230.5C59.358,230.5 59,230.858 59,231.3L59,234.7C59,235.142 59.358,235.5 59.8,235.5L63.2,235.5C63.642,235.5 64,235.142 64,234.7L64,231.3Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M70.2,231.3C70.2,230.858 69.842,230.5 69.4,230.5L66,230.5C65.558,230.5 65.2,230.858 65.2,231.3L65.2,234.7C65.2,235.142 65.558,235.5 66,235.5L69.4,235.5C69.842,235.5 70.2,235.142 70.2,234.7L70.2,231.3Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M76.4,231.3C76.4,230.858 76.042,230.5 75.6,230.5L72.2,230.5C71.758,230.5 71.4,230.858 71.4,231.3L71.4,234.7C71.4,235.142 71.758,235.5 72.2,235.5L75.6,235.5C76.042,235.5 76.4,235.142 76.4,234.7L76.4,231.3Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,86,178)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,23,42);">Containers</text>
+    </g>
+    <g transform="matrix(1,0,0,1,86,191)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10.5px;fill:rgb(100,116,139);">Docker</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,279C206,275.137 202.863,272 199,272L57,272C53.137,272 50,275.137 50,279L50,301C50,304.863 53.137,308 57,308L199,308C202.863,308 206,304.863 206,301L206,279Z" style="fill:white;stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M78,288C78,286.896 77.104,286 76,286L60,286C58.896,286 58,286.896 58,288L58,293C58,294.104 58.896,295 60,295L76,295C77.104,295 78,294.104 78,293L78,288Z" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="62" cy="290.5" r="1.1" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="66.3" cy="290.5" r="1.1" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="70.6" cy="290.5" r="1.1" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="74.9" cy="290.5" r="1.1" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,86,244.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,23,42);">Network devices</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,339C206,335.137 202.863,332 199,332L57,332C53.137,332 50,335.137 50,339L50,361C50,364.863 53.137,368 57,368L199,368C202.863,368 206,364.863 206,361L206,339Z" style="fill:white;stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <circle cx="68" cy="350" r="8" style="fill:none;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M60,350L76,350M68,342C64,346 64,354 68,358C72,354 72,346 68,342" style="fill:none;fill-rule:nonzero;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,86,298)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,23,42);">Endpoints</text>
+    </g>
+    <g transform="matrix(1,0,0,1,86,311)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10.5px;fill:rgb(100,116,139);">services &amp; URLs</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,539C206,535.137 202.863,532 199,532L57,532C53.137,532 50,535.137 50,539L50,561C50,564.863 53.137,568 57,568L199,568C202.863,568 206,564.863 206,561L206,539Z" style="fill:white;stroke:rgb(191,219,254);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M63.5,556C63.417,556.005 63.333,556.008 63.25,556.008C61.051,556.008 59.242,554.199 59.242,552C59.242,549.896 60.9,548.131 63,548C63.502,545.428 65.777,543.554 68.398,543.554C70.638,543.554 72.663,544.922 73.5,547C73.583,546.995 73.667,546.993 73.75,546.993C76.222,546.993 78.257,549.028 78.257,551.5C78.257,553.878 76.375,555.868 74,556L63.5,556Z" style="fill:none;fill-rule:nonzero;stroke:rgb(37,99,235);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,86,498)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12px;fill:rgb(15,23,42);">Cloud resources</text>
+    </g>
+    <g transform="matrix(1,0,0,1,86,511)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10.5px;fill:rgb(100,116,139);">Azure</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,144C460,139.585 456.415,136 452,136L278,136C273.585,136 270,139.585 270,144L270,176C270,180.415 273.585,184 278,184L452,184C456.415,184 460,180.415 460,176L460,144Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M274,146C274,144.896 273.104,144 272,144C270.896,144 270,144.896 270,146L270,174C270,175.104 270.896,176 272,176C273.104,176 274,175.104 274,174L274,146Z" style="fill:rgb(22,163,74);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,286,108)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Node Exporter</text>
+    </g>
+    <g transform="matrix(1,0,0,1,286,124)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">host CPU · memory · disk · net</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,214C460,209.585 456.415,206 452,206L278,206C273.585,206 270,209.585 270,214L270,246C270,250.415 273.585,254 278,254L452,254C456.415,254 460,250.415 460,246L460,214Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M274,216C274,214.896 273.104,214 272,214C270.896,214 270,214.896 270,216L270,244C270,245.104 270.896,246 272,246C273.104,246 274,245.104 274,244L274,216Z" style="fill:rgb(22,163,74);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,286,178)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">cAdvisor</text>
+    </g>
+    <g transform="matrix(1,0,0,1,286,194)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">container metrics</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,274C460,269.585 456.415,266 452,266L278,266C273.585,266 270,269.585 270,274L270,306C270,310.415 273.585,314 278,314L452,314C456.415,314 460,310.415 460,306L460,274Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M274,276C274,274.896 273.104,274 272,274C270.896,274 270,274.896 270,276L270,304C270,305.104 270.896,306 272,306C273.104,306 274,305.104 274,304L274,276Z" style="fill:rgb(22,163,74);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,286,238)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">SNMP Exporter</text>
+    </g>
+    <g transform="matrix(1,0,0,1,286,254)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">network device metrics</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,334C460,329.585 456.415,326 452,326L278,326C273.585,326 270,329.585 270,334L270,366C270,370.415 273.585,374 278,374L452,374C456.415,374 460,370.415 460,366L460,334Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M274,336C274,334.896 273.104,334 272,334C270.896,334 270,334.896 270,336L270,364C270,365.104 270.896,366 272,366C273.104,366 274,365.104 274,364L274,336Z" style="fill:rgb(22,163,74);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,286,298)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Blackbox Exporter</text>
+    </g>
+    <g transform="matrix(1,0,0,1,286,314)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">HTTP · TCP · DNS probes</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,138L238,138L238,182M206,182L238,182" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M238,160L268,160" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,230L268,230" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,290L268,290" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,350L268,350" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M206,550L268,550" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M700,228C700,223.585 696.415,220 692,220L528,220C523.585,220 520,223.585 520,228L520,282C520,286.415 523.585,290 528,290L692,290C696.415,290 700,286.415 700,282L700,228Z" style="fill:rgb(250,245,255);stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M524,230C524,228.896 523.104,228 522,228C520.896,228 520,228.896 520,230L520,280C520,281.104 520.896,282 522,282C523.104,282 524,281.104 524,280L524,230Z" style="fill:rgb(124,58,237);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,536,203)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Prometheus</text>
+    </g>
+    <g transform="matrix(1,0,0,1,536,219)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">metrics storage &amp; query</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,160L490,160" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,230L490,230" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,290L490,290" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,350L490,350" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M490,160L490,350" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:2px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M490,255L518,255" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,436C460,431.585 456.415,428 452,428L278,428C273.585,428 270,431.585 270,436L270,468C270,472.415 273.585,476 278,476L452,476C456.415,476 460,472.415 460,468L460,436Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M274,438C274,436.896 273.104,436 272,436C270.896,436 270,436.896 270,438L270,466C270,467.104 270.896,468 272,468C273.104,468 274,467.104 274,466L274,438Z" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,286,400)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Grafana Alloy</text>
+    </g>
+    <g transform="matrix(1,0,0,1,286,416)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">log &amp; telemetry collector</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M700,436C700,431.585 696.415,428 692,428L528,428C523.585,428 520,431.585 520,436L520,468C520,472.415 523.585,476 528,476L692,476C696.415,476 700,472.415 700,468L700,436Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M524,438C524,436.896 523.104,436 522,436C520.896,436 520,436.896 520,438L520,466C520,467.104 520.896,468 522,468C523.104,468 524,467.104 524,466L524,438Z" style="fill:rgb(37,99,235);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,536,400)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Loki</text>
+    </g>
+    <g transform="matrix(1,0,0,1,536,416)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">log storage &amp; query</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,452L518,452" style="fill:none;fill-rule:nonzero;stroke:rgb(37,99,235);stroke-width:1.6px;stroke-linejoin:round;stroke-dasharray:2,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,534C460,529.585 456.415,526 452,526L278,526C273.585,526 270,529.585 270,534L270,566C270,570.415 273.585,574 278,574L452,574C456.415,574 460,570.415 460,566L460,534Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M274,536C274,534.896 273.104,534 272,534C270.896,534 270,534.896 270,536L270,564C270,565.104 270.896,566 272,566C273.104,566 274,565.104 274,564L274,536Z" style="fill:rgb(3,105,161);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,286,498)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Azure Monitor</text>
+    </g>
+    <g transform="matrix(1,0,0,1,286,514)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">Azure metrics · logs · alerts</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M930,376C930,371.585 926.415,368 922,368L768,368C763.585,368 760,371.585 760,376L760,460C760,464.415 763.585,468 768,468L922,468C926.415,468 930,464.415 930,460L930,376Z" style="fill:rgb(255,247,237);stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M764,378C764,376.896 763.104,376 762,376C760.896,376 760,376.896 760,378L760,458C760,459.104 760.896,460 762,460C763.104,460 764,459.104 764,458L764,378Z" style="fill:rgb(234,88,12);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,776,366)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Grafana</text>
+    </g>
+    <g transform="matrix(1,0,0,1,776,382)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">dashboards &amp; exploration</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M700,267L820,267L820,366" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,760,211)">
+        <text x="-17.722px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:11px;fill:rgb(30,41,59);">metrics</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M700,452L758,452" style="fill:none;fill-rule:nonzero;stroke:rgb(37,99,235);stroke-width:1.6px;stroke-linejoin:round;stroke-dasharray:2,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,738,395)">
+        <text x="-10.09px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:11px;fill:rgb(37,99,235);">logs</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M460,550L845,550L845,470" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,640,494)">
+        <text x="-26.6px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:11px;fill:rgb(30,41,59);">Azure data</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M1200,219C1200,214.585 1196.41,211 1192,211L998,211C993.585,211 990,214.585 990,219L990,263C990,267.415 993.585,271 998,271L1192,271C1196.41,271 1200,267.415 1200,263L1200,219Z" style="fill:rgb(254,242,242);stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M994,221C994,219.896 993.104,219 992,219C990.896,219 990,219.896 990,221L990,261C990,262.104 990.896,263 992,263C993.104,263 994,262.104 994,261L994,221Z" style="fill:rgb(220,38,38);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1006,189)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Alertmanager</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1006,205)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">routing · grouping · silencing</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M1200,333C1200,328.585 1196.41,325 1192,325L998,325C993.585,325 990,328.585 990,333L990,377C990,381.415 993.585,385 998,385L1192,385C1196.41,385 1200,381.415 1200,377L1200,333Z" style="fill:rgb(254,242,242);stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M994,335C994,333.896 993.104,333 992,333C990.896,333 990,333.896 990,335L990,375C990,376.104 990.896,377 992,377C993.104,377 994,376.104 994,375L994,335Z" style="fill:rgb(220,38,38);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1006,303)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">ntfy / Webhooks</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1006,319)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">push · email · Slack</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M700,241L988,241" style="fill:none;fill-rule:nonzero;stroke:rgb(220,38,38);stroke-width:1.6px;stroke-linejoin:round;stroke-dasharray:6,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,900,183)">
+        <text x="-13.449px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:11px;fill:rgb(220,38,38);">alerts</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M1095,271L1095,323" style="fill:none;fill-rule:nonzero;stroke:rgb(220,38,38);stroke-width:1.6px;stroke-linejoin:round;stroke-dasharray:6,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1103,251)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Oblique', 'Helvetica';font-style:italic;font-size:11px;fill:rgb(220,38,38);">notify</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M1200,622C1200,616.481 1195.52,612 1190,612L50,612C44.481,612 40,616.481 40,622L40,680C40,685.519 44.481,690 50,690L1190,690C1195.52,690 1200,685.519 1200,680L1200,622Z" style="fill:rgb(240,253,244);stroke:rgb(22,163,74);stroke-width:1px;stroke-dasharray:5,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,52,578)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(22,163,74);">O<tspan x="7.898px 15.24px 21.468px 24.918px 32.817px 39.045px 42.495px 49.837px 57.179px 64.52px 71.862px 74.76px 82.102px 88.892px 96.234px 99.132px 105.36px 112.702px 120.044px 122.942px 129.17px 132.069px 138.297px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">UT-OF-BAND AVAILABILITY</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M276,642C276,637.585 272.415,634 268,634L64,634C59.585,634 56,637.585 56,642L56,672C56,676.415 59.585,680 64,680L268,680C272.415,680 276,676.415 276,672L276,642Z" style="fill:white;stroke:rgb(203,213,225);stroke-width:1.25px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M60,644C60,642.896 59.104,642 58,642C56.896,642 56,642.896 56,644L56,670C56,671.104 56.896,672 58,672C59.104,672 60,671.104 60,670L60,644Z" style="fill:rgb(22,163,74);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,72,605)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:13.5px;fill:rgb(15,23,42);">Uptime Kuma</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72,621)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">HTTP · TCP · Ping · DNS checks</text>
+    </g>
+    <g transform="matrix(1,0,0,1,296,603)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:12.5px;fill:rgb(15,23,42);">Runs independently of Prometheus — it monitors the monitors.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,296,620)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">Keeps availability visibility even if the metrics stack itself is down.</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M40,726L74,726" style="fill:none;fill-rule:nonzero;stroke:rgb(30,41,59);stroke-width:1.6px;stroke-linejoin:round;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,84,680)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11.5px;fill:rgb(100,116,139);">Telemetry / data ﬂow</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M254.4,726L288.4,726" style="fill:none;fill-rule:nonzero;stroke:rgb(37,99,235);stroke-width:1.6px;stroke-linejoin:round;stroke-dasharray:2,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,298.4,680)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11.5px;fill:rgb(100,116,139);">Log ﬂow</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <path d="M385.6,726L419.6,726" style="fill:none;fill-rule:nonzero;stroke:rgb(220,38,38);stroke-width:1.6px;stroke-linejoin:round;stroke-dasharray:6,4;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,429.6,680)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:11.5px;fill:rgb(100,116,139);">Alert / notiﬁcation ﬂow</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1199.93,680)">
+        <text x="-107.431px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(100,116,139);">EC<tspan x="-92.018px -88.289px -80.279px -71.657px -62.428px -55.025px -48.841px -41.438px -34.035px -30.913px -27.791px -24.669px -18.485px -12.301px -6.118px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">-HOMELAB · 2026</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-50)">
+        <use xlink:href="#_Image1" x="1079" y="713" width="147px" height="33px"/>
+    </g>
+    <defs>
+        <image id="_Image1" width="147px" height="33px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJMAAAAhCAYAAADd55lrAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFSUlEQVR4nO2cO4wcRRCGv57dvfOdH/hsfNaZhwATGQuBEULiTWIhIZEgSMgJkUMSUjIHTi2BSEAEQIIQBBA7ACQkEA8bdAiQ4M7iHuDbe+ztNEFV7fT2zu7t3mNhz/1LrZ2a6e6p7fmn+lU1kJCwS3CDZPbeW/74F8Cr7PS4Xzkuvx3ZR/qUybtxr63+i4/O4ZzzhBUVbYhzzu+1zBDRF5m891XgIHASOAFMAYeBo8ABpOHWgTEgA5pAA6gBlUC265ua4vxjqtMmkGv5UK4G5b3KLpJR2em9y+SG1lPVcpuBnAe6m7ymulVVV/uvTuW6lm/o8aL+rgErwN9aD4EOpjt6LVM5V51Mjl+8rV6cTdXJ2rgBbGg+q7tFst0kXE8yee8rCIHOAY8DDwJ3IGSaQBq0EtVjDTAoYmuwk/xxA/dbNqPT8kB3S0Qg28PKkYdnD9EIVQdWVV5H2i3TOpoU5PIqZ5pylSvRdXtx7J6Wd0OTHa8AywihF4A5YF7P3Qh0a+yUWF0fnvd+EngIeBF4BjiFWKNqr3IJ/0sY2ZsIeeaAX4GfgO+BH4Gf9fyq5R+UXKWk8N4fBp4FXkGs0VEK85ywf5Aj5JlHyPUN8CUwCyxpWgBWnXPNrSrrIJNapOeACwiRDpTlS9iXsLHvMvA7YrG+Ar5ALNhiL1K1kUTHSI8CryNjpIm90TlhROCRbvEa8CnwIfCtc26tLHNMphngNeBl4Fh8PeGmxipwBbgEfO6cW4kz2IzApv/ngKeRMVIiUkKICWQiNg3UvPcfxxYqC44PAo8hs7Y02E4ogwPOIsOgR3RY1EIGrVXZaeAB4NCwNUwYOdwPvIpwpoXQMp0AZpCFyISEXnDAeeB8aJ2y4OIRpF/MOssmJHTgEPACMr4G2olTIREpYTA8DNxjQiJPwk5wHDjjvc+gnUx1ZHNyqG4LCSONKrLx30Ymj+zBLCKbgQkJ/cDG2g6UTLo7PIfsxdT/M9USRhGtxe2wm1tClsuXhq5Owihj3Q6y6OQV4GuSdUroD02kR8shIJN2dbPAB4j7QV5WOiEhQB3xKPDQuTSwCnwGvAP8SZrZJfTGNeA751y7ZYK2gfi7wJvAbyQLlVCOTeAThC9A4IJicM41vfe/AG8h7pwvIb7gk8PRMWFEcBV43znXGoD3CiioIFEoZ4GngCeA+4BbKSFhwk2FJcQN5bJzbsNObhXq5BAvgingdmQf5k7Eu+AYsslnm8Oewg8qDscxOQ7XCeU8qMfKxLFkLpItHGgM8cO6jSIWL2FvcAO4DLzhnPsrvNBvEKYFMI5rqiEPzYIsoTPWK6fdyS6+bmSA7lGy4XWrzwIfoZ28U4iX6PPAGaRbrgV19vyLgc5NitizBkWAaJw3PLYgTyiCPSdUh3EkKCOOLxw15MgOydvARefcH3GGbf25YYY4DwCHPLjTwJMU3fJxPW9eER6ZtS4A15FZ63WVlzVZRK7tVVpEsZVvBvf0CPGamoyQY3rvaWT/6jRwrx7PIEQbBY9Wi2j+ARlHvxdbJMMovymliLrmU4jT3xGky60gRFpEZiH/IA1lUbZGBhj8WwZyIghc1N10s+iTSBCr6XU3cBcyfDiJDBkmESs2TtFdW1cfd939RivH/8PqCi12mN9ehgbSPleR5aKPkGWADbpg35EphBKrLMy764clhqSPkayKdIe3aJpEfPHNUbGCPFwbUphVjL/hUKX4LsI6Qsbwmw61oC6zmjaerVF8MwKEQCuItZ5F1pLmw1lbN+xrMo0SAqJB5xdVtvOFlq3yh3LocWsvVw5gC5IJCUPFv48j+xj0XifKAAAAAElFTkSuQmCC"/>
+    </defs>
+</svg>
