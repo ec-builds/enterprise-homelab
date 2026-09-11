@@ -4,7 +4,7 @@ The monitoring platform provides visibility into the health, availability, and p
 
 ## Architecture Overview
 
-<img src="./diagrams/monitoring-architecture.png" alt="Infrastructure Monitoring Architecture" width="600">
+<img src="./diagrams/monitoring-architecture-02.png" alt="Infrastructure Monitoring Architecture" width="600">
 
 *Figure 1. High-level monitoring architecture showing metric, log, availability, visualization, and alerting flows across the platform.*
 
