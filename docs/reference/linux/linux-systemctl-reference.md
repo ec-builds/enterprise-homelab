@@ -373,5 +373,5 @@ Useful for servers, virtual machines, and remote administration.
 
 ## Related Documentation
 
-- [Debian Baseline](../standards/debian-baseline.md)
-- [SSH Hardening](../standards/ssh-hardening.md)
+- [Debian Baseline](../debian/debian-baseline.md)
+- [SSH Hardening](../debian/ssh-hardening.md)
