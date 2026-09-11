@@ -5,7 +5,7 @@ Welcome to my Enterprise Homelab.
 This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure, Linux, automation, virtualization, and cloud technologies.
 
 <p align="left">
-  <img src="./diagrams/enterprise-homelab-equipment.png"
+  <img src="./diagrams/enterprise-homelab-equipment-02.jpeg"
        alt="Physical homelab infrastructure including Proxmox hosts and network equipment"
        width="600">
 </p>
