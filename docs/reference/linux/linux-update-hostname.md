@@ -200,10 +200,3 @@ Successful validation confirms that the hostname update is complete.
 >```
 
 
----
-
-## Related Documentation
-
-- [Naming Conventions](../standards/naming-conventions.md)
-- [Debian Installation](../standards/debian-install.md)
-- [Configure sudo Access](./configure-sudo.md)
