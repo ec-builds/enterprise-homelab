@@ -20,30 +20,32 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 ![network topology](./diagrams/current-logical-network-architecture.png)
 
 > [!NOTE]
-> The Cisco managed switch shown above is planned for Phase 2 and is not yet deployed. In the current environment, devices connect directly to the ASUS RT-AX5400.
-
+> The Cisco managed switch is deployed and provides centralized Ethernet connectivity for wired infrastructure. The ASUS RT-AX5400 currently remains responsible for routing, firewall, DHCP, VPN, and wireless services. VLAN segmentation and dedicated firewall services are planned for a future phase.
 
 ## Current Environment
 
 - ASUS RT-AX5400 Router
+- Cisco Catalyst Managed Switch
 - 10.0.0.0/24 Network
 - DHCP Reservations for infrastructure devices
-- Synology NAS connected via Ethernet
-- Media Server connected via Ethernet
+- Synology NAS connected through the managed switch
+- Proxmox virtualization hosts connected through the managed switch
+- Ethernet-connected infrastructure and lab systems
 - Guest Wi-Fi used for IoT isolation
-- Cisco Managed Switch planned for expansion
 
 ## Technologies
 
 ### Current
+
 - ASUS RT-AX5400
+- Cisco Catalyst Managed Switch
 - DHCP Reservations
 - Guest Network Isolation
 - Synology NAS
-- Ethernet-connected Media Server (2014 Mac mini)
+- Ethernet-connected virtualization and server infrastructure
 
 ### Planned
-- Cisco Managed Switch
+
 - VLAN Segmentation
 - Internal DNS Services
 - Configuration Backups
@@ -53,18 +55,22 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 ## Key Tasks
 
 ### Completed
+
 - [x] Define IP addressing plan
 - [x] Configure DHCP reservations
 - [x] Implement guest network isolation
+- [x] Deploy Cisco managed switch
+- [x] Configure switch management access
 - [x] Document current network architecture
 
 ### In Progress
-- [ ] Deploy Cisco managed switch
+
 - [ ] Create physical port maps
 - [ ] Build device inventory
 - [ ] Document cabling layout
 
 ### Planned
+
 - [ ] Implement VLAN segmentation
 - [ ] Configure VLAN trunks
 - [ ] Map SSIDs to VLANs
@@ -98,7 +104,7 @@ See [`ip-addressing-plan.md`](./ip-addressing-plan.md) for detailed assignments.
 
 ## Related Projects
 
-- [virtualization-lab](../virtualization-lab/) — Hypervisors, VMs, and lab workloads connected to this network
+- [proxmox-virtualization-lab](../proxmox-virtualization-lab/) — Proxmox cluster, VMs, and lab workloads connected to this network
 - [network-security](../network-security/) — Firewall policies and segmentation strategy
 - [media-services-platform](../media-services-platform/) — Media services hosted on network infrastructure
 - [infrastructure-monitoring](../infrastructure-monitoring/) — Monitoring and observability stack
