@@ -105,8 +105,6 @@ Functionally, the environment is organized into several infrastructure domains:
 
 The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
 
-➡️ **[Browse All Projects](./projects/README.md)**
-
 ## Project Status Legend
 
 | Status | Meaning |
@@ -114,6 +112,10 @@ The homelab is organized into independent project areas. Each project contains i
 | 🟢 **Operational** | Deployed, documented, and working as intended |
 | 🟡 **In Progress** | Currently being built, configured, or tested |
 | ⚪ **Planned** | Defined and included in the project roadmap |
+
+
+➡️ **[Browse All Projects](./projects/README.md)**
+
 
 ## Documentation Scope
 
