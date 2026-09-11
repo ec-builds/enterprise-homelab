@@ -145,8 +145,8 @@ Future phases will include hybrid identity synchronization, Microsoft Entra auth
 
 - [Proxmox Virtualization Lab](../proxmox-virtualization-lab/) — virtualization platform hosting the domain controllers and client VMs
 - [Microsoft 365 & Entra ID](../microsoft-365-entra-id/) — future hybrid identity and Microsoft cloud integration
-- [Microsoft Intune Lab](../intune-lab/) — endpoint enrollment, configuration, compliance, and management
-- [Security Operations Lab](../security-operations-lab/) — future collection and analysis of Active Directory security events
+- [Microsoft Intune Lab](../microsoft-intune/) — endpoint enrollment, configuration, compliance, and management
+- [Security Operations Lab](../security-operations/) — future collection and analysis of Active Directory security events
 
 ## Folder Structure
 
