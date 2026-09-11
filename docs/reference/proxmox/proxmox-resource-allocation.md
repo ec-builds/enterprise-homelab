@@ -2,7 +2,7 @@
 
 Resource sizing and allocation standards for virtual machines in the Proxmox virtualization lab.
 
-This document defines how CPU, memory, and storage should be assigned to workloads. Current host capacity, workload placement, and VM allocations are maintained separately in the [Proxmox Capacity Plan](capacity-plan.md).
+This document defines how CPU, memory, and storage should be assigned to workloads. Current host capacity, workload placement, and VM allocations are maintained separately in the `Proxmox Virtualization Lab`
 
 ## Core Principles
 
@@ -275,7 +275,7 @@ Capacity Planning
         └── Where should it run, and does the host have capacity?
 ```
 
-Current host specifications, VM placement, planned allocations, and remaining cluster capacity are documented in the [Proxmox Capacity Plan](capacity-plan.md).
+Current host specifications, VM placement, planned allocations, and remaining cluster capacity are documented in the `Proxmox Virtualization Lab`
 
 ## Rule of Thumb
 
