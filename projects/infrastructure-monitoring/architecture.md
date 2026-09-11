@@ -1,6 +1,6 @@
 # Monitoring Architecture
 
-The monitoring platform provides visibility into the health, availability, and performance of the Enterprise Homelab through independent availability monitoring, metrics collection, centralized logging, dashboards, and alerting.
+The monitoring platform provides centralized visibility into the health, availability, and performance of the homelab infrastructure through independent availability monitoring, metrics collection, centralized logging, dashboards, and alerting.
 
 ## Architecture Overview
 
@@ -27,40 +27,11 @@ The monitoring platform provides visibility into the health, availability, and p
 
 ## Data Flow
 
-```text
-Infrastructure
-   │
-   ├── Host / Container / Network Metrics
-   │        │
-   │        ▼
-   │     Exporters
-   │        │
-   │        ▼
-   │    Prometheus
-   │        │
-   │        ├────────► Grafana
-   │        │
-   │        └────────► Alertmanager
-   │                     │
-   │                     ▼
-   │               ntfy / Webhooks
-   │
-   ├── Logs
-   │     │
-   │     ▼
-   │ Grafana Alloy
-   │     │
-   │     ▼
-   │    Loki
-   │     │
-   │     ▼
-   │  Grafana
-   │
-   └── Availability
-         │
-         ▼
-     Uptime Kuma
-```
+Infrastructure metrics are collected through purpose-specific exporters and scraped by Prometheus. Grafana queries Prometheus for visualization and analysis, while Prometheus forwards configured alerts to Alertmanager for routing to ntfy and other notification endpoints.
+
+Logs are collected by Grafana Alloy and stored in Loki, which Grafana queries alongside Prometheus metrics. This provides centralized access to both metrics and logs through the Grafana interface while keeping their collection and storage responsibilities separate.
+
+Uptime Kuma operates independently from the Prometheus monitoring stack to provide availability checks for infrastructure and services. Keeping availability monitoring separate provides an additional monitoring path that does not depend on the primary metrics pipeline.
 
 Azure resources are monitored through Azure Monitor and can be queried or visualized through Grafana as the cloud environment expands.
 
