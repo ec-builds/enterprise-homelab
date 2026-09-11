@@ -7,7 +7,7 @@ This repository showcases my enterprise-focused homelab, where I build and docum
 <p align="left">
   <img src="./diagrams/enterprise-homelab-equipment.jpeg"
        alt="Physical homelab infrastructure including Proxmox hosts and network equipment"
-       width="600">
+       width="700">
 </p>
 
 *Physical compute and network infrastructure supporting the homelab environment.*
