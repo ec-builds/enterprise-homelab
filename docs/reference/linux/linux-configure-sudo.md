@@ -246,6 +246,5 @@ Successful validation confirms that delegated administrative access is configure
 
 ## Related Documentation
 
-- [Debian Installation](../../standards/debian-install.md)
-- [Debian Baseline](../../standards/debian-baseline.md)
-- [SSH Hardening](../../standards/ssh-hardening.md)
+- [Debian Installation](../debian/debian-install.md)
+- [Debian Baseline](../debian/debian-baseline.md)
