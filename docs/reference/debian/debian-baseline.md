@@ -9,8 +9,8 @@ project-specific configuration.
 
 > [!NOTE]
 > If `sudo` is not yet installed on the system, follow the
-> [Configure sudo Access](../reference/linux/linux-configure-sudo.md)
-> runbook before proceeding.
+> [Configure sudo Access](../linux/linux-configure-sudo.md)
+> reference before proceeding.
 
 
 
