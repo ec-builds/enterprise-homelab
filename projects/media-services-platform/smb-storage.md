@@ -140,9 +140,8 @@ The storage integration is validated by confirming:
 ## Related Documentation
 
 - [Architecture](./architecture.md)
-- [Base System Configuration](./base-system-configuration.md)
 - [Jellyfin Deployment](./jellyfin-deployment.md)
-- [Secure SMB Mount](../../reference/linux/smb-secure-mount.md)
+- [Secure SMB Mount](../../docs/reference/linux/smb-secure-mount.md)
 - [Troubleshooting](./troubleshooting.md)
 
 
