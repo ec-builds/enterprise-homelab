@@ -4,7 +4,7 @@
 
 This project focuses on the *prevention* side of security by hardening the network infrastructure through segmentation, filtering, and secure remote access.
 
-**Scope:** Detection and response live in [security-operations-lab](../security-operations-lab/). This project builds the defenses.
+**Scope:** Detection and response live in [security-operations](../security-operations/). This project builds the defenses.
 
 ## Objectives
 
