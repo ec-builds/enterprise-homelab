@@ -5,10 +5,10 @@
 Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the Proxmox virtualization lab.
 
 <p align="left">
-  <img src="./diagrams/dc-lab-01-desktop.png" alt="Windows Server 2025 domain controller running Active Directory Domain Services and DNS" width="1000">
+  <img src="./diagrams/dc-lab-01-desktop.png" alt="Windows Server 2025 domain controller running Active Directory Domain Services" width="1000">
 </p>
 
-*Windows Server 2025 domain controller with Active Directory Domain Services and DNS deployed.*
+*Windows Server 2025 domain controller with Active Directory Domain Services deployed.*
 
 ## Architecture
 
@@ -32,7 +32,9 @@ Proxmox Cluster
       AD Replication
 ```
 
-Separating the domain controllers across Proxmox hosts provides continued directory and DNS availability if a virtualization host is unavailable.
+`dc-lab-01` is currently deployed as the first domain controller. DNS configuration, DHCP configuration, and deployment of the second domain controller remain in progress or planned.
+
+Separating the domain controllers across Proxmox hosts will provide continued directory and DNS availability if a virtualization host is unavailable.
 
 ## Objectives
 
@@ -60,22 +62,34 @@ Separating the domain controllers across Proxmox hosts provides continued direct
 
 ## Domain Controllers
 
-| Server | Proxmox Host | Roles |
-|---|---|---|
-| `dc-lab-01` | `prox-lab-01` | AD DS, DNS, DHCP |
-| `dc-lab-02` | `prox-lab-02` | AD DS, DNS |
+| Server | Proxmox Host | Roles | Status |
+|---|---|---|---|
+| `dc-lab-01` | `prox-lab-01` | AD DS, DNS, DHCP | 🟡 In Progress |
+| `dc-lab-02` | `prox-lab-02` | AD DS, DNS | ⚪ Planned |
 
-Both domain controllers will provide directory and DNS services while residing on separate virtualization hosts.
+`dc-lab-01` currently provides the Active Directory Domain Services foundation for the lab. DNS and DHCP configuration remain part of the current deployment phase.
+
+The second domain controller will provide additional directory and DNS services while residing on a separate virtualization host.
 
 FSMO roles will initially reside on `dc-lab-01` and will be documented as part of the deployment.
 
 ## Key Tasks
 
-- [ ] Deploy `dc-lab-01` Windows Server VM on `prox-lab-01`
-- [ ] Configure static network addressing
-- [ ] Install AD DS and create the Active Directory forest
-- [ ] Configure AD-integrated DNS
+### Completed
+
+- [x] Deploy `dc-lab-01` Windows Server VM on `prox-lab-01`
+- [x] Configure static network addressing
+- [x] Install Active Directory Domain Services
+- [x] Create the Active Directory forest and domain
+- [x] Promote `dc-lab-01` as the first domain controller
+
+### In Progress
+
+- [ ] Configure and validate AD-integrated DNS on `dc-lab-01`
 - [ ] Configure DHCP and document scopes
+
+### Planned
+
 - [ ] Build OU structure for departments, users, workstations, and servers
 - [ ] Create security groups using AGDLP best practices
 - [ ] Configure GPOs for password policy, account lockout, drive mappings, and workstation restrictions
@@ -83,13 +97,32 @@ FSMO roles will initially reside on `dc-lab-01` and will be documented as part o
 - [ ] Join Windows client VMs to the domain
 - [ ] Verify Group Policy application
 - [ ] Deploy `dc-lab-02` on `prox-lab-02`
+- [ ] Configure `dc-lab-02` to use `dc-lab-01` for DNS during deployment
 - [ ] Promote `dc-lab-02` as an additional domain controller
-- [ ] Configure DNS on `dc-lab-02`
+- [ ] Configure and validate DNS on `dc-lab-02`
 - [ ] Verify AD DS and DNS replication between `dc-lab-01` and `dc-lab-02`
 - [ ] Document FSMO role placement
 - [ ] Configure and document Active Directory Sites and Services
 - [ ] Generate user and group audit reports with PowerShell
 - [ ] Validate directory services following simulated domain controller or Proxmox host failure
+
+## Deployment Progress
+
+```text
+dc-lab-01 VM Deployment        ██████████  Complete
+Static Network Configuration   ██████████  Complete
+AD DS Installation             ██████████  Complete
+Forest / Domain Creation       ██████████  Complete
+DC Promotion                   ██████████  Complete
+DNS Configuration              ░░░░░░░░░░  Next
+DHCP Configuration             ░░░░░░░░░░  Planned
+OU / Group Policy Design       ░░░░░░░░░░  Planned
+Client Domain Join             ░░░░░░░░░░  Planned
+dc-lab-02 Deployment           ░░░░░░░░░░  Planned
+Replication Validation         ░░░░░░░░░░  Planned
+```
+
+The immediate next step is to configure and validate DNS on `dc-lab-01`. Once the first domain controller is providing reliable internal DNS, additional domain services and the second domain controller can be introduced.
 
 ## Future Integration
 
