@@ -93,9 +93,3 @@ Before publishing:
 - [ ] Credentials, API keys, tokens, and secrets are removed
 - [ ] Diagrams and screenshots contain no operational identifiers
 
-## Related Documentation
-
-- [Documentation Standards](./documentation-standards.md)
-- [Equipment Inventory](../../equipment/README.md)
-- [Network Infrastructure](../../projects/network-infrastructure/)
-- [Virtualization Lab](../../projects/virtualization-lab/)
