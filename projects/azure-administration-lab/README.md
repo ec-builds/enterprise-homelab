@@ -71,7 +71,7 @@ The lab will prioritize free and low-cost resources. Billable services will be d
 - [Active Directory Lab](../active-directory-lab/) — provides on-premises directory services
 - [Microsoft 365 & Entra ID](../microsoft-365-entra-id/) — provides cloud identity and Microsoft 365 administration
 - [Infrastructure Automation](../infrastructure-automation/) — future Terraform/Bicep automation
-- [Security Operations Lab](../security-operations-lab/) — future Microsoft Sentinel integration
+- [Security Operations Lab](../security-operations/) — future Microsoft Sentinel integration
 
 ## Folder Structure
 
