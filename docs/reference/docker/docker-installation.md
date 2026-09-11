@@ -314,6 +314,11 @@ Show all containers, including stopped ones
 docker ps -a
 ```
 
+Show all docker images stored locally
+```bash
+docker image ls
+```
+
 Delete a stopped container by name or ID
 ```bash
 docker rm <container_name_or_id>
