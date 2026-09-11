@@ -121,7 +121,7 @@ Jellyfin
 
 A dedicated service account limits NAS access to the required media share, while read-only controls at the NAS, host, and container layers protect source media from unintended modification.
 
-Detailed credential handling and SMB security configuration are documented in the [Secure SMB Mount](../../reference/linux/smb-secure-mount.md) reference guide.
+Detailed credential handling and SMB security configuration are documented in the - [Secure SMB Mount](../docs/reference/linux/smb-secure-mount.md) reference guide.
 
 
 
@@ -141,7 +141,7 @@ The storage integration is validated by confirming:
 
 - [Architecture](./architecture.md)
 - [Jellyfin Deployment](./jellyfin-deployment.md)
-- [Secure SMB Mount](../../docs/reference/linux/smb-secure-mount.md)
+- [Secure SMB Mount](../docs/reference/linux/smb-secure-mount.md)
 - [Troubleshooting](./troubleshooting.md)
 
 
