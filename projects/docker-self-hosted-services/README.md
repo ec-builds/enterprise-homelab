@@ -28,11 +28,11 @@ Separating monitoring from the primary application host provides better fault is
 | Node | VM | Category | Service | Status |
 |---|---|---|---|---|
 | `prox-lab-02` | `monitor-lab-vm` | Availability Monitoring | Uptime Kuma | 🟢 Deployed |
-| `prox-lab-02` | `monitor-lab-vm` | Metrics | Prometheus | ⚪ Planned |
-| `prox-lab-02` | `monitor-lab-vm` | Visualization | Grafana | ⚪ Planned |
-| `prox-lab-02` | `monitor-lab-vm` | Logging | Loki | ⚪ Planned |
-| `prox-lab-02` | `monitor-lab-vm` | Alerting | Alertmanager | ⚪ Planned |
-| `prox-lab-02` | `monitor-lab-vm` | Log Collection | Grafana Alloy | ⚪ Planned |
+| `prox-lab-02` | `monitor-lab-vm` | Metrics | Prometheus | 🟢 Deployed |
+| `prox-lab-02` | `monitor-lab-vm` | Visualization | Grafana | 🟢 Deployed |
+| `prox-lab-02` | `monitor-lab-vm` | Logging | Loki | 🟢 Deployed |
+| `prox-lab-02` | `monitor-lab-vm` | Alerting | Alertmanager | 🟢 Deployed |
+| `prox-lab-02` | `monitor-lab-vm` | Log Collection | Grafana Alloy | 🟢 Deployed |
 | `prox-lab-02` | `monitor-lab-vm` | Host Metrics | Node Exporter | ⚪ Planned |
 | `prox-lab-02` | `monitor-lab-vm` | Container Metrics | cAdvisor | ⚪ Planned |
 | `prox-lab-02` | `monitor-lab-vm` | Network Metrics | SNMP Exporter | ⚪ Planned |
@@ -83,17 +83,17 @@ Managed Switch
     └── monitor-lab (Debian VM)
         │  (monitoring and observability)
         ├── Uptime Kuma          (deployed)
-        ├── Prometheus           (planned)
-        ├── Grafana              (planned)
-        ├── Loki                 (planned)
-        ├── Alertmanager         (planned)
+        ├── Prometheus           (deployed)
+        ├── Grafana              (deployed)
+        ├── Loki                 (deployed)
+        ├── Alertmanager         (deployed)
         │
         └── Supporting Components
+            ├── Grafana Alloy     (deployed)
             ├── Node Exporter     (planned)
-            ├── SNMP Exporter     (planned)
             ├── cAdvisor          (planned)
-            ├── Blackbox Exporter (planned)
-            └── Grafana Alloy     (planned)
+            ├── SNMP Exporter     (planned)
+            └── Blackbox Exporter (planned)
 ```
 
 
@@ -121,7 +121,7 @@ Planned responsibilities include:
 
 The monitoring host provides centralized monitoring, metrics, visualization, and logging for the environment.
 
-Planned responsibilities include:
+Responsibilities include:
 
 - Service availability monitoring
 - Infrastructure metrics collection
@@ -143,11 +143,15 @@ Running monitoring on a separate host reduces dependency on `docker-lab` and all
 ### Monitoring Stack
 
 - [x] Deploy Uptime Kuma
-- [ ] Deploy Prometheus
-- [ ] Deploy Grafana
-- [ ] Deploy Loki
-- [ ] Deploy Alertmanager
-- [ ] Deploy supporting monitoring components
+- [x] Deploy Prometheus
+- [x] Deploy Grafana
+- [x] Deploy Loki
+- [x] Deploy Alertmanager
+- [x] Deploy Grafana Alloy
+- [ ] Deploy Node Exporter
+- [ ] Deploy cAdvisor
+- [ ] Deploy SNMP Exporter
+- [ ] Deploy Blackbox Exporter
 - [ ] Create baseline dashboards
 - [ ] Add infrastructure monitoring targets
 
