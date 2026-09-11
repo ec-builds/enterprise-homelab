@@ -2,7 +2,7 @@
 
 Welcome to my Enterprise Homelab.
 
-This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure, Linux, automation, virtualization, and cloud technologies.
+This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure and identity, Linux, automation, virtualization, and cloud technologies.
 
 <p align="left">
   <img src="./diagrams/enterprise-homelab-equipment.jpeg"
