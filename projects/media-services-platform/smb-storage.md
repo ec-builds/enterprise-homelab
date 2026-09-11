@@ -68,7 +68,7 @@ The Debian host:
 - Establishes the SMB mount through `/etc/fstab`.
 - Exposes the mounted filesystem to the application.
 
-The detailed SMB mount and credential-protection procedure is maintained separately in the [Secure SMB Mount](../../reference/linux/smb-secure-mount.md) reference guide.
+The detailed SMB mount and credential-protection procedure is maintained separately in the [Secure SMB Mount](../../docs/reference/debian/debian-smb-secure-mount.md) reference guide.
 
 
 
