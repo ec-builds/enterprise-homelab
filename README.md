@@ -51,13 +51,16 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 ## Current Infrastructure
 
 | Category | Current | Planned |
-|----------|----------|----------|
-| Router | ASUS RT-AX5400 | OPNsense Firewall |
+|----------|---------|---------|
+| Router / Firewall | ASUS RT-AX5400 | OPNsense Firewall |
+| Switching | Cisco Catalyst 3560CG | VLAN Segmentation |
 | Storage | Synology DS718+ | — |
-| Servers | Debian Media Server, Proxmox VE Host | Multi-Node Proxmox Cluster |
-| Switching | Cisco Catalyst 3560CG | — |
-| Networking | DHCP Reservations, WireGuard | VLANs, Internal DNS |
-| Documentation | GitHub + Markdown | Continue expanding documentation |
+| Virtualization | Three-Node Proxmox VE Cluster | Continue expanding virtualized services |
+| Identity | Windows Server Active Directory | Additional identity services and hybrid integration |
+| Containers | Docker Self-Hosted Services Platform | Continue expanding containerized services |
+| Monitoring | Prometheus, Grafana, Loki, Alertmanager, Grafana Alloy, Uptime Kuma | Additional exporters, dashboards, and alerting |
+| Networking | Managed Switching, DHCP Reservations, WireGuard | Internal DNS, VLANs, reverse proxy, HTTPS |
+| Documentation | GitHub + Markdown | Continue expanding standards, references, and runbooks |
 
 ## Architecture Overview
 
