@@ -113,6 +113,5 @@ After validation:
 
 ## Related Documentation
 
-- [Proxmox Virtualization Lab](../../projects/virtualization-lab/)
-- [Proxmox Networking Reference](../reference/proxmox/proxmox-networking.md)
-- [Virtual Machine Deployment Standard](../standards/vm-deployment-standard.md)
+- [Proxmox Networking Reference](../docs/reference/proxmox/proxmox-networking.md)
+- [Virtual Machine Deployment Standard](../docs/standards/vm-deployment-standard.md)
