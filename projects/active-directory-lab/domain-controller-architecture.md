@@ -27,7 +27,7 @@ The initial deployment consists of `dc-lab-01` running as a virtual machine on `
 
 A second domain controller, `dc-lab-02`, is planned for `prox-lab-02` to provide directory and DNS redundancy and reduce dependency on a single virtualization host.
 
-For additional information about the virtualization platform, architecture, and resource strategy, see the [Proxmox Virtualization Lab](../../proxmox-virtualization-lab/).
+For additional information about the virtualization platform, architecture, and resource strategy, see the [Proxmox Virtualization Lab](../proxmox-virtualization-lab/).
 
 ## Operating System
 
