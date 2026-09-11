@@ -105,7 +105,7 @@ Functionally, the environment is organized into several infrastructure domains:
 
 The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
 
-## Project Status Legend
+### Project Status Legend
 
 | Status | Meaning |
 |--------|---------|
