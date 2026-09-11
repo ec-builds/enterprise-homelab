@@ -135,9 +135,6 @@ nas-lab
 
 ## Related Documentation
 
-- [Debian Installation](./debian-install.md)
-- [Base System Configuration](./base-system-configuration.md)
-- [SMB Storage](./smb-storage.md)
 - [Jellyfin Deployment](./jellyfin-deployment.md)
 
 ---
