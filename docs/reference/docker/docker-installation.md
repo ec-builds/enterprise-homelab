@@ -309,22 +309,22 @@ Expected output:
 > [!note]
 > If the hello-world container was created during installation testing, it can be removed after validation:
 
-Show all containers, including stopped ones
+Show all containers, including stopped ones:
 ```bash
 docker ps -a
 ```
 
-Show all docker images stored locally
+Show all docker images stored locally:
 ```bash
 docker image ls
 ```
 
-Delete a stopped container by name or ID
+Delete a stopped container by name or ID:
 ```bash
 docker rm <container_name_or_id>
 ```
 
-Delete an image
+Delete an image:
 ```bash
 docker rmi <image_name_or_id>
 ```
