@@ -15,18 +15,18 @@ This repository showcases my enterprise-focused homelab, where I build and docum
 
 ## Navigation
 
-#### README Sections
-
-- [Roadmap](#roadmap)
-- [Equipment](#equipment)
-- [Current Infrastructure](#current-infrastructure)
-- [Architecture Overview](#architecture-overview)
-- [Areas of Focus](#areas-of-focus)
-- [Project Portfolio](#project-portfolio)
-- [Documentation Scope](#documentation-scope)
-- [Learning Philosophy](#learning-philosophy)
-- [Technology Stack](#technology-stack)
-- [Core Documents](#core-documents)
+| README Section | Description |
+|---|---|
+| [Roadmap](#roadmap) | Planned infrastructure projects and future lab development |
+| [Equipment](#equipment) | Physical compute, networking, and storage hardware |
+| [Current Infrastructure](#current-infrastructure) | Current and planned infrastructure components |
+| [Architecture Overview](#architecture-overview) | Logical topology and infrastructure domains |
+| [Areas of Focus](#areas-of-focus) | Technologies and skills being developed |
+| [Project Portfolio](#project-portfolio) | Hands-on infrastructure projects and their status |
+| [Documentation Scope](#documentation-scope) | Types of technical documentation maintained in the repository |
+| [Learning Philosophy](#learning-philosophy) | Approach to hands-on learning and documentation |
+| [Technology Stack](#technology-stack) | Technologies and platforms used throughout the lab |
+| [Core Documents](#core-documents) | Architecture, standards, references, and supporting documentation |
 
 ## Roadmap
 
