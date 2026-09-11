@@ -304,7 +304,7 @@ Expected output:
 - Docker daemon accessible by the current user
 
 
-## Cleanup
+### Cleanup
 
 > [!note]
 > If the hello-world container was created during installation testing, it can be removed after validation:
