@@ -21,7 +21,6 @@ This repository showcases my enterprise-focused homelab, where I build and docum
 | [Equipment](#equipment) | Physical compute, networking, and storage hardware |
 | [Current Infrastructure](#current-infrastructure) | Current and planned infrastructure components |
 | [Architecture Overview](#architecture-overview) | Logical topology and infrastructure domains |
-| [Areas of Focus](#areas-of-focus) | Technologies and skills being developed |
 | [Project Portfolio](#project-portfolio) | Hands-on infrastructure projects and their status |
 | [Documentation Scope](#documentation-scope) | Types of technical documentation maintained in the repository |
 | [Learning Philosophy](#learning-philosophy) | Approach to hands-on learning and documentation |
@@ -80,36 +79,6 @@ Functionally, the environment is organized into several infrastructure domains:
 | Media Services | Linux administration, storage, streaming |
 | Automation & DevOps | Infrastructure as code, CI/CD |
 
-➡️ **[See Project Portfolio](#project-portfolio)**
-
-## Areas of Focus
-
-#### Infrastructure
-
-- Systems Administration
-- Linux Administration
-- Microsoft 365 & Entra ID
-- Azure Administration
-
-#### Networking
-
-- Enterprise Networking
-- Network Security
-- Virtualization
-- Containerization & Kubernetes
-
-#### Automation
-
-- Infrastructure as Code
-- CI/CD
-- Automation
-
-#### Operations
-
-- Infrastructure Monitoring
-- Backup & Disaster Recovery
-- Security Operations
-- Documentation
 
 ## Project Portfolio
 
