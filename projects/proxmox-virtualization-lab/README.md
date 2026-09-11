@@ -222,7 +222,7 @@ recovery testing.
 - [Proxmox Cluster](./proxmox-cluster.md)
 - [Proxmox Storage](./proxmox-storage.md)
 - [Proxmox Resource Allocation](./proxmox-resource-allocation.md)
-- [Proxmox Host Baseline Build](./proxmox-host-build.md)
+- [Proxmox Host Baseline Build](../../docs/reference/proxmox/proxmox-debian-vm-template.md)
 - [Proxmox VM Deployment Baseline](./proxmox-vm-deployment.md)
 - [Troubleshooting](./troubleshooting.md)
 - [Lessons Learned](./lessons-learned.md)
@@ -237,7 +237,7 @@ This virtualization environment provides infrastructure for:
 - [Docker / Self-Hosted Services](../docker-self-hosted-services/)
 - [Kubernetes Lab](../kubernetes-lab/)
 - [Infrastructure Monitoring](../infrastructure-monitoring/)
-- [Security Operations Lab](../security-operations-lab/)
+- [Security Operations Lab](../security-operations/)
 - [Infrastructure Automation](../infrastructure-automation/)
 
 
