@@ -2,7 +2,9 @@
 
 **Status:** 🟢 Operational
 
-Availability monitoring for the Enterprise Homelab, with a roadmap toward full observability through metrics, logging, alerting, and dashboards.
+Centralized monitoring and observability for the Enterprise Homelab, providing visibility into infrastructure availability, performance, and health through metrics and dashboards.
+
+The environment began with Uptime Kuma for basic availability monitoring and has expanded into a Prometheus and Grafana-based monitoring stack. Centralized logging, expanded alerting, and cloud monitoring remain planned.
 
 ## Monitoring Architecture
 
@@ -12,9 +14,10 @@ Availability monitoring for the Enterprise Homelab, with a roadmap toward full o
 
 ## Objectives
 
-- Monitor infrastructure availability
-- Collect metrics from hosts and services
-- Visualize infrastructure health
+- Monitor infrastructure and service availability
+- Collect metrics from hosts, containers, and network devices
+- Visualize infrastructure health through Grafana
+- Centralize infrastructure and application logs
 - Alert on actionable events
 - Extend monitoring to Azure resources
 
@@ -23,21 +26,31 @@ Availability monitoring for the Enterprise Homelab, with a roadmap toward full o
 | Capability | Status |
 |------------|:------:|
 | Uptime Monitoring | 🟢 |
-| Metrics Collection | ⚪ |
-| Dashboards | ⚪ |
+| Metrics Collection | 🟢 |
+| Dashboards | 🟢 |
+| Network Monitoring | 🟢 |
 | Centralized Logging | ⚪ |
-| Alerting | ⚪ |
+| Alerting | 🟡 |
 | Cloud Monitoring | ⚪ |
 
-## Documentation
+## Monitoring Stack
 
-| Document | Purpose |
-|----------|---------|
-| `uptime-kuma.md` | Uptime Kuma deployment |
-| `implementation-roadmap.md` | Build phases and milestones |
-| `monitoring-strategy.md` | Monitoring goals and philosophy |
-| `retention-policy.md` | Data retention standards |
-| `lessons-learned.md` | Key decisions and implementation lessons |
+| Component | Purpose | Status |
+|-----------|---------|:------:|
+| Uptime Kuma | Availability monitoring | 🟢 |
+| Prometheus | Metrics collection and storage | 🟢 |
+| Grafana | Dashboards and visualization | 🟢 |
+| Node Exporter | Linux host metrics | 🟢 |
+| cAdvisor | Container metrics | 🟢 |
+| Blackbox Exporter | Endpoint probing | 🟢 |
+| SNMP Exporter | Network device metrics | 🟢 |
+| Alertmanager | Alert routing and notifications | 🟡 |
+| Loki | Centralized log storage | ⚪ |
+| Grafana Alloy | Telemetry and log collection | ⚪ |
+| Azure Monitor | Cloud monitoring | ⚪ |
+
+**Legend:** 🟢 Operational · 🟡 In Progress · ⚪ Planned
+
 
 ## Folder Structure
 
@@ -45,9 +58,9 @@ Availability monitoring for the Enterprise Homelab, with a roadmap toward full o
 infrastructure-monitoring/
 ├── diagrams/
 ├── README.md
+├── grafana.md
 ├── implementation-roadmap.md
 ├── lessons-learned.md
 ├── monitoring-strategy.md
 ├── retention-policy.md
 └── uptime-kuma.md
-```
