@@ -2,7 +2,7 @@
 
 **Status:** 🟢 Operational
 
-Uptime Kuma provides availability monitoring for the Enterprise Homelab by monitoring the health of infrastructure and services.
+Uptime Kuma provides independent availability monitoring for infrastructure and services across the Enterprise Homelab.
 
 #### Uptime Kuma Dashboard
 
@@ -12,10 +12,10 @@ Uptime Kuma provides availability monitoring for the Enterprise Homelab by monit
 
 ## Objectives
 
-- Monitor infrastructure availability
-- Detect service outages
-- Centralize health monitoring
-- Establish the foundation for the monitoring platform
+- Monitor infrastructure and service availability
+- Detect outages and connectivity failures
+- Track uptime and response times
+- Maintain a simple availability layer independent of the broader monitoring stack
 
 ## Deployment
 
@@ -47,22 +47,18 @@ Additional monitors will be added as the homelab grows.
 - Uptime History
 - Response Time Tracking
 
-## Future Integrations
+## Role in Monitoring Architecture
 
-- Prometheus
-- Grafana
-- Loki
-- Node Exporter
-- SNMP Exporter
-- Alertmanager
+Uptime Kuma serves as the dedicated availability monitoring layer alongside the broader observability platform.
+
+Prometheus and its exporters provide infrastructure metrics, while Grafana provides centralized visualization and analysis. Uptime Kuma remains focused on quickly determining whether critical infrastructure and services are reachable.
 
 ## Related Documentation
 
 - Infrastructure Monitoring
+- Monitoring Architecture
 - Prometheus
 - Grafana
-- Loki
-- Alertmanager
 
 ## Security Note
 
