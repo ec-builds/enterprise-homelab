@@ -33,15 +33,6 @@ For resource planning guidance, see:
 
 Operating system configuration should follow the applicable baseline and deployment references.
 
-### Debian
-
-- [Debian Installation](../reference/debian/debian-install.md)
-- [Debian Base System Configuration](../reference/debian/debian-baseline.md)
-- [Debian Post-Clone Configuration](../reference/debian/debian-post-clone-config.md)
-
-### Windows
-
-- [Windows 11 VM Template](../reference/proxmox/proxmox-win11-template.md)
 
 ## Validation
 
@@ -55,8 +46,3 @@ Before a VM is considered operational, verify:
 - Required services start successfully
 - Workload-specific functionality has been tested
 
-## Related Documentation
-
-- [Proxmox Virtualization Lab](../../projects/virtualization-lab/)
-- [Proxmox Resource Allocation](../reference/proxmox/proxmox-resource-allocation.md)
-- [Naming Conventions](./naming-conventions.md)
