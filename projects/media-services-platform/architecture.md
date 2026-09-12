@@ -32,6 +32,9 @@ Media is stored independently on centralized network-attached storage and presen
 
 Jellyfin follows the standardized Docker service structure under `/opt/docker`:
 
+> [!note]
+> See [Standard Docker Container Deployment](../../docs/reference/docker/docker-container-deployment.md) for more information on the docker standard used in the lab.
+
 ```text
 /opt/docker/jellyfin/
 ├── docker-compose.yaml
