@@ -49,8 +49,6 @@ Persistent storage is mapped into the container using bind mounts:
 
 Keeping persistent application state outside the container allows Jellyfin to be recreated or upgraded without storing configuration inside the container filesystem.
 
-For a detailed example config file see [Jellyfin Docker Compose YAML](../../configs/docker/jellyfin/docker-compose.yaml)
-
 ## Design Considerations
 
 | Design Decision | Implementation | Benefits |
@@ -100,6 +98,9 @@ Media storage remains external to the Jellyfin container and is mounted read-onl
 The original deployment was intentionally simple and provided hands-on experience with Debian administration, APT repositories, systemd, Linux permissions, SMB storage, and native service troubleshooting.
 
 As the broader homelab matured, the workload was moved into the Proxmox virtualization environment and Jellyfin was redeployed according to the standardized Docker Compose service model.
+
+For a detailed example docker-compose config file see [Jellyfin Docker Compose YAML](../../configs/docker/jellyfin/docker-compose.yaml)
+
 
 ## Migration Strategy
 
