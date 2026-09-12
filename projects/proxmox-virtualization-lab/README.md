@@ -1,6 +1,6 @@
 # 🟧 Proxmox Virtualization Lab
 
-**Status: 🟡 In Progress**
+**Status: 🟢 Operational**
 
 Bare-metal virtualization environment built with **Proxmox VE** and repurposed hardware.
 
