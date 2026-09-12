@@ -76,8 +76,8 @@ Standalone Debian Host
         ├── Jellyfin (systemd)
         │
         └── /mnt/media
-                    │
-                    └── SMB → nas-lab
+                │
+                └── SMB → nas-lab
 ```
 
 **Current deployment**
