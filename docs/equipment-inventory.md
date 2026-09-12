@@ -10,7 +10,7 @@ As the homelab evolves, this document will be updated to reflect new equipment, 
        width="500">
 </p>
 
----
+
 
 ## Inventory Summary
 
