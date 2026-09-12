@@ -1,4 +1,4 @@
-# Client Testing
+# Jellyfin Client Testing
 
 This document records validation testing performed following the deployment of the Media Services Platform.
 
