@@ -82,8 +82,17 @@ Functionally, the environment is organized into several infrastructure domains:
 
 ## Project Portfolio
 
+### Project Status Legend
+
+| Status | Meaning |
+|--------|---------|
+| 🟢 **Operational** | Deployed, documented, and working as intended |
+| 🟡 **In Progress** | Currently being built, configured, or tested |
+| ⚪ **Planned** | Defined and included in the project roadmap |
+
 > [!NOTE]
 > Projects are documented independently and may progress at different rates depending on current learning objectives and infrastructure priorities.
+
 
 | Project | Focus Area | Status |
 |----------|------------|--------|
@@ -100,18 +109,12 @@ Functionally, the environment is organized into several infrastructure domains:
 | [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
 | [Network Security](projects/network-security/) | Firewalls, segmentation, VPN, access security | 🟡 In Progress |
-| [Proxmox Virtualization Lab](projects/proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
+| [Proxmox Virtualization Lab](projects/proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟢 Operational |
 | [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 
 The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
 
-### Project Status Legend
 
-| Status | Meaning |
-|--------|---------|
-| 🟢 **Operational** | Deployed, documented, and working as intended |
-| 🟡 **In Progress** | Currently being built, configured, or tested |
-| ⚪ **Planned** | Defined and included in the project roadmap |
 
 
 ➡️ **[Browse All Projects](./projects/README.md)**
