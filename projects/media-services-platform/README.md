@@ -160,29 +160,4 @@ The original deployment established practical experience with Linux permissions,
 The subsequent migration introduced additional experience with workload virtualization, Docker Compose, container networking, persistent storage design, bind mounts, service portability, and infrastructure lifecycle management.
 
 See [Lessons Learned](./lessons-learned.md) for detailed notes from both phases of the project.
-
-## Outcome
-
-The Media Services Platform initially demonstrated:
-
-- Debian server deployment
-- Linux administration fundamentals
-- SMB storage integration
-- Native service management with systemd
-- Media streaming with Jellyfin
-- Client compatibility validation
-- Technical documentation practices
-
-The later modernization expanded the project to demonstrate:
-
-- Workload migration to Proxmox VE
-- Virtual machine administration
-- Docker and Docker Compose
-- Container networking
-- Persistent container storage
-- Bind-mount design
-- Application migration and redeployment
-- Container health validation
-- Infrastructure standardization
-
-Rather than replacing the original project, the migration represents the next stage of its lifecycle. The project now documents both the initial implementation and the process of evolving a standalone Linux service into a virtualized, containerized workload aligned with the broader homelab architecture.
+migration represents the next stage of its lifecycle. The project now documents both the initial implementation and the process of evolving a standalone Linux service into a virtualized, containerized workload aligned with the broader homelab architecture.
