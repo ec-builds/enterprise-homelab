@@ -91,7 +91,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 - [x] Replace Docker-managed volumes with bind mounts for configuration and cache
 - [x] Mount media storage read-only inside the Jellyfin container
 - [x] Validate container health, networking, persistent storage, and FFmpeg initialization
-- [x] Retire the original Jellyfin application deployment
+- [x] Decommission the original bare-metal Jellyfin deployment and repurpose the host for network infrastructure
 
 ## Current Docker Layout
 
