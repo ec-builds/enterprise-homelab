@@ -7,7 +7,7 @@ Self-hosted media platform built on Debian and Jellyfin, focused on Linux admini
 The platform was originally deployed as a standalone Debian server running Jellyfin as a native systemd service. After the homelab adopted Proxmox VE and a standardized Docker Compose deployment model, Jellyfin was rebuilt as a containerized service running inside a dedicated Debian virtual machine.
 
 <p align="left">
-  <img src="./diagrams/architecture.png" alt="Architecture Diagram" width="900">
+  <img src="./diagrams/media-lab-architecture.png" alt="Architecture Diagram" width="900">
   <br>
   <em>Figure 1. High-level architecture of the Media Services Platform.</em>
 </p>
