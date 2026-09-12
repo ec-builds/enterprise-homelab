@@ -28,7 +28,7 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [Microsoft Intune Lab](./microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
 | [Network Infrastructure](./network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
 | [Network Security](./network-security/) | Firewalls, segmentation, VPN, access security, system hardening | 🟡 In Progress |
-| [Proxmox Virtualization Lab](./proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟡 In Progress |
+| [Proxmox Virtualization Lab](./proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟢 Operational |
 | [Security Operations](./security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 
 > [!NOTE]
