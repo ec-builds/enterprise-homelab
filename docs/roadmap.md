@@ -1,4 +1,4 @@
-# Roadmap
+# 🗺️ Roadmap
 
 ![Homelab Roadmap](../diagrams/roadmap.png)
 
