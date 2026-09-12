@@ -50,7 +50,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 
 ### Current Platform
 
-- Proxmox VE virtualization
+- Proxmox VE virtualization on Optiplex micro node
 - Debian 13
 - Docker Engine
 - Docker Compose
@@ -62,6 +62,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 
 ### Original Platform
 
+- Bare metal Debian install on 2014 Mac Mini
 - Debian 13
 - Jellyfin native package installation
 - systemd service management
@@ -111,6 +112,8 @@ Persistent container mappings:
 ```
 
 Application configuration therefore persists independently of the Jellyfin container itself. Containers can be recreated or upgraded without storing persistent application state inside the container filesystem.
+
+For more details see [Architecture](./architecture.md)
 
 ## Future Enhancements
 
