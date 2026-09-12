@@ -1,26 +1,29 @@
 # source: https://jellyfin.org/docs/general/installation/container/
+#
+# Notes:
+#   - Bind mounts are used for Jellyfin configuration and cache data.
+#   - Configuration is stored locally under ./config instead of a
+#     Docker-managed volume to simplify backups, inspection, and
+#     future migrations.
+#   - Cache is stored under ./cache and can be recreated if needed.
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:12.0
     container_name: jellyfin
     restart: unless-stopped
 
     networks:
       - media
-    
+
     ports:
       - "8096:8096/tcp"
       - "7359:7359/udp"
-      
-    volumes:
-      - jellyfin-config:/config
-      - jellyfin-cache:/cache
-      - /mnt/media:/media:ro
 
-volumes:
-  jellyfin-config:
-  jellyfin-cache:
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - /mnt/media:/media:ro
 
 networks:
   media:
