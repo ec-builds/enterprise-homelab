@@ -153,25 +153,6 @@ Application configuration therefore persists independently of the Jellyfin conta
 - [ ] Add container metrics and Jellyfin-specific monitoring
 - [ ] Document Jellyfin container backup and recovery testing
 
-## 📁 Folder Structure
-
-| Document | Description |
-|-----------|-----------|
-| [README.md](./README.md) | Project overview, objectives, architecture evolution, and navigation |
-| [Diagrams](./diagrams/) | Architecture diagrams, screenshots, and visual documentation |
-| [architecture.md](./architecture.md) | Original and current architecture, component relationships, and system design |
-| [backup-strategy.md](./backup-strategy.md) | Backup procedures, recovery considerations, and data protection strategy |
-| [client-testing.md](./client-testing.md) | Validation testing, client access verification, and functionality checks |
-| [hardware.md](./hardware.md) | Original hardware inventory, specifications, and platform selection rationale |
-| [jellyfin-deployment.md](./jellyfin-deployment.md) | Jellyfin deployment history, native installation, and current containerized implementation |
-| [lessons-learned.md](./lessons-learned.md) | Key takeaways, migration experience, challenges encountered, and project reflections |
-| [media-libraries.md](./media-libraries.md) | Media organization, library structure, storage paths, and content management |
-| [monitoring.md](./monitoring.md) | System and service monitoring, health checks, and observability integration |
-| [smb-storage.md](./smb-storage.md) | SMB storage integration, mount configuration, and network file access |
-| [ssh-configuration.md](./ssh-configuration.md) | SSH hardening, remote access configuration, and administration practices |
-| [system-hardening.md](./system-hardening.md) | Security controls, system hardening measures, and security recommendations |
-| [troubleshooting.md](./troubleshooting.md) | Troubleshooting procedures, validation testing, and issue resolution documentation |
-
 ## 💡 Lessons Learned
 
 The original deployment established practical experience with Linux permissions, storage mounting, systemd, package management, networking, and service troubleshooting.
