@@ -2,6 +2,15 @@
 
 Hands-on projects that make up the **enterprise-homelab** environment. Each project contains its own documentation, configurations, scripts, and lessons learned.
 
+## Project Status Legend
+
+| Status | Meaning |
+|---|---|
+| 🟢 **Operational** | Deployed, documented, and working as intended |
+| 🟡 **In Progress** | Currently being built, configured, or tested |
+| ⚪ **Planned** | Defined and included in the project roadmap |
+
+
 ## Project Status & Navigation
 
 | Project | Focus Area | Status |
@@ -25,13 +34,6 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 > [!NOTE]
 > When making changes to any project, also update the main README located at [homepage README](../README.md).
 
-## Project Status Legend
-
-| Status | Meaning |
-|---|---|
-| 🟢 **Operational** | Deployed, documented, and working as intended |
-| 🟡 **In Progress** | Currently being built, configured, or tested |
-| ⚪ **Planned** | Defined and included in the project roadmap |
 
 
 ## Build Order
