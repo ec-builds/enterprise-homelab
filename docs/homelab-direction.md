@@ -1,4 +1,4 @@
-# Homelab Direction
+# 🧭 Homelab Direction
 
 ## Overview
 
