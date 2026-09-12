@@ -65,19 +65,37 @@ For a detailed example config file see [Jellyfin Docker Compose YAML](../../conf
 
 ## Architecture Evolution
 
-The platform has progressed through two primary deployment models.
+The Media Services Platform has progressed through two deployment models:
 
-| | Original Architecture | Current Architecture |
-|---|---|---|
-| **Compute** | Standalone physical host | Proxmox VE |
-| **Operating System** | Debian 13 | Debian 13 VM |
-| **Application Deployment** | Native package | Docker container |
-| **Service Management** | systemd | Docker Compose |
-| **Application State** | Native Linux filesystem paths | Docker bind mounts |
-| **Media Storage** | Centralized NAS | Centralized NAS |
-| **Media Access** | Read-only SMB mount | Read-only SMB mount |
-| **Deployment Model** | Host-centric | Virtualized and containerized |
-| **Recovery Options** | Host/application rebuild | VM recovery + container recreation |
+**Original deployment**
+
+```text
+Standalone Debian Host
+        │
+        ├── Jellyfin (systemd)
+        │
+        └── Mounted Media Storage
+```
+
+**Current deployment**
+
+```text
+Proxmox VE
+    │
+    └── Debian VM (media-lab-vm)
+            │
+            ├── Docker Engine
+            │
+            └── Jellyfin Container
+                    │
+                    ├── /config  → /opt/docker/jellyfin/config
+                    ├── /cache   → /opt/docker/jellyfin/cache
+                    └── /media   → /mnt/media
+```
+
+Jellyfin configuration and cache storage use Docker bind mounts rather than Docker-managed volumes. This keeps persistent application data directly accessible under `/opt/docker/jellyfin`, simplifying inspection, backup, recovery, and future migrations.
+
+Media storage remains external to the Jellyfin container and is mounted read-only at `/media`.
 
 The original deployment was intentionally simple and provided hands-on experience with Debian administration, APT repositories, systemd, Linux permissions, SMB storage, and native service troubleshooting.
 
