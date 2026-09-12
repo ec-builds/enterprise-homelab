@@ -7,7 +7,7 @@ As the homelab evolves, this document will be updated to reflect new equipment, 
 <p align="left">
   <img src="../diagrams/optiplex-fleet-02.jpeg"
        alt="Optiplex Fleet"
-       width="500">
+       width="400">
 </p>
 
 
