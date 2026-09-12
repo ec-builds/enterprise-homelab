@@ -101,7 +101,7 @@ Proxmox VE
 
 Jellyfin configuration and cache storage use Docker bind mounts rather than Docker-managed volumes. This keeps persistent application data directly accessible under `/opt/docker/jellyfin`, simplifying inspection, backup, recovery, and future migrations.
 
-Media storage remains external to the Jellyfin container and is mounted read-only at `/media`.
+Media storage remains external to the Jellyfin container. The SMB share is mounted on the Debian host at /mnt/media and exposed read-only to the Jellyfin container at /media.
 
 The original deployment was intentionally simple and provided hands-on experience with Debian administration, APT repositories, systemd, Linux permissions, SMB storage, and native service troubleshooting.
 
