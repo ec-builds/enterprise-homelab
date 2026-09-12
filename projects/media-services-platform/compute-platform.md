@@ -1,10 +1,11 @@
-# Hardware
+# Compute Platform
 
 ## Overview
 
 The Media Services Platform runs as a dedicated Debian 13 virtual machine on the Proxmox VE virtualization platform.
 
-The workload was originally hosted directly on a Late 2014 Mac Mini before being migrated into the homelab virtualization environment.
+The workload was originally hosted directly on a Late 2014 Mac mini before being migrated to the homelab's virtualized compute environment.
+
 
 ## Compute Platform
 
@@ -58,3 +59,4 @@ hostnamectl
 lscpu
 free -h
 lsblk
+```
