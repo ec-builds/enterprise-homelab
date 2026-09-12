@@ -6,7 +6,7 @@ This document provides a high-level overview of the Media Services Platform arch
 
 The Media Services Platform runs Jellyfin in a Docker container inside a dedicated Debian 13 virtual machine hosted on Proxmox VE.
 
-Media is stored independently on centralized network-attached storage and presented to Jellyfin through a read-only SMB mount. This separates compute, application state, and media storage while simplifying recovery, migration, and lifecycle management.
+Media is stored independently on centralized network-attached storage and mounted to the Debian host through SMB. The host mount is then presented read-only to the Jellyfin container, separating compute, application state, and media storage while simplifying recovery, migration, and lifecycle management.
 
 ## Architecture Diagram
 
@@ -32,8 +32,8 @@ Media is stored independently on centralized network-attached storage and presen
 
 Jellyfin follows the standardized Docker service structure under `/opt/docker`:
 
-> [!note]
-> See [Docker Container Deployment](../../docs/reference/docker/docker-container-deployment.md) for more information on the docker standard used in the lab.
+> [!NOTE]
+> See [Docker Container Deployment](../../docs/reference/docker/docker-container-deployment.md) for more information about the Docker standards used in the lab.
 
 ```text
 /opt/docker/jellyfin/
@@ -75,7 +75,9 @@ Standalone Debian Host
         │
         ├── Jellyfin (systemd)
         │
-        └── Mounted Media Storage
+        └── /mnt/media
+                    │
+                    └── SMB → nas-lab
 ```
 
 **Current deployment**
@@ -86,12 +88,15 @@ Proxmox VE
     └── Debian VM (media-lab-vm)
             │
             ├── Docker Engine
+            │       │
+            │       └── Jellyfin Container
+            │               ├── /config → /opt/docker/jellyfin/config
+            │               ├── /cache  → /opt/docker/jellyfin/cache
+            │               └── /media  → /mnt/media (read-only)
             │
-            └── Jellyfin Container
+            └── /mnt/media
                     │
-                    ├── /config  → /opt/docker/jellyfin/config
-                    ├── /cache   → /opt/docker/jellyfin/cache
-                    └── /media   → /mnt/media
+                    └── SMB → nas-lab
 ```
 
 Jellyfin configuration and cache storage use Docker bind mounts rather than Docker-managed volumes. This keeps persistent application data directly accessible under `/opt/docker/jellyfin`, simplifying inspection, backup, recovery, and future migrations.
@@ -102,8 +107,7 @@ The original deployment was intentionally simple and provided hands-on experienc
 
 As the broader homelab matured, the workload was moved into the Proxmox virtualization environment and Jellyfin was redeployed according to the standardized Docker Compose service model.
 
-For a detailed example docker-compose config file see [Jellyfin Docker Compose YAML](../../configs/docker/jellyfin/docker-compose.yaml)
-
+For a detailed Docker Compose configuration example, see [Jellyfin Docker Compose YAML](../../configs/docker/jellyfin/docker-compose.yaml).
 
 ## Migration Strategy
 
@@ -115,7 +119,7 @@ A clean Jellyfin deployment was selected rather than migrating the database and 
 | **Recreate users** | The small number of users made recreation simpler than preserving the existing application database |
 | **Accept loss of watch history** | Watch history did not provide enough value to justify migrating the old database |
 | **Preserve media storage** | Media remained centralized and independent of Jellyfin, so no media migration was required |
-| **Retain old service temporarily** | The original Jellyfin installation was stopped but kept available during validation to provide a rollback path |
+| **Maintain rollback path** | The original Jellyfin installation was stopped but kept available during validation to provide a rollback path |
 | **Use bind mounts** | Persistent application state is easier to identify, inspect, back up, and migrate in the future |
 
 The migration treated the application as replaceable while preserving the more important and significantly larger media storage layer.
@@ -134,4 +138,4 @@ The migration treated the application as replaceable while preserving the more i
 
 The current architecture separates compute, operating system, container runtime, application state, and media storage into distinct layers.
 
-This modernization preserves the original design's storage separation and least-privilege principles while adding virtualization, containerization, workload portability, and standardized deployment practices.
+This modernization preserves the original design's storage separation and least-privilege principles while introducing virtualization, containerization, workload portability, declarative deployment, and clearer lifecycle boundaries between infrastructure, application state, and media storage.
