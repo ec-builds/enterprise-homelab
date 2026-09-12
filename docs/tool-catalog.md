@@ -1,4 +1,4 @@
-# 🧰 Homelab Tool Catalog
+# 🛠️ Homelab Tool Catalog
 
 <p align="left">
   <img src="../diagrams/tool-catalog.png" alt="Tool Catalog" width="350">
