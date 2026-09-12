@@ -22,6 +22,8 @@ For more information about this diagram, see [architecture.md](./architecture.md
 > The platform has since been migrated to a dedicated Debian virtual machine hosted on Proxmox VE, with Jellyfin deployed through Docker Compose using the homelab's standardized `/opt/docker` service structure.
 >
 > The original implementation remains documented throughout this project to preserve the build history and its learning objectives. Current-state documentation identifies the newer virtualized and containerized architecture where applicable.
+> 
+> See [Architecture Doc](./architecture.md) for the details on the architecture evolution.
 
 ![Jellyfin Library](./diagrams/jellyfin-library.png)
 
