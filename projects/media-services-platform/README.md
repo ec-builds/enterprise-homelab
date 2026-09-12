@@ -112,7 +112,10 @@ Persistent container mappings:
 
 Application configuration therefore persists independently of the Jellyfin container itself. Containers can be recreated or upgraded without storing persistent application state inside the container filesystem.
 
-For additional design details, see [Architecture⁠](./architecture.md).
+For a detailed Docker Compose configuration example, see [Jellyfin Docker Compose YAML](../../configs/docker/jellyfin/docker-compose.yaml).
+
+For additional design details, see [Architecture](./architecture.md).
+
 
 ## Future Enhancements
 
