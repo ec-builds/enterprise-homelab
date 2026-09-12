@@ -22,8 +22,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 > The platform has since been migrated to a dedicated Debian virtual machine hosted on Proxmox VE, with Jellyfin deployed through Docker Compose using the homelab's standardized `/opt/docker` service structure.
 >
 > The original implementation remains documented throughout this project to preserve the build history and its learning objectives. Current-state documentation identifies the newer virtualized and containerized architecture where applicable.
-> 
-> See [Architecture Doc](./architecture.md) for the details on the architecture evolution.
+
 
 ![Jellyfin Library](./diagrams/jellyfin-library.png)
 
@@ -50,7 +49,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 
 ### Current Platform
 
-- Proxmox VE virtualization on Optiplex micro node
+- Proxmox VE virtualization on a Dell OptiPlex Micro node
 - Debian 13
 - Docker Engine
 - Docker Compose
@@ -62,7 +61,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 
 ### Original Platform
 
-- Bare metal Debian install on 2014 Mac Mini
+- Bare-metal Debian deployment on a 2014 Mac mini
 - Debian 13
 - Jellyfin native package installation
 - systemd service management
@@ -113,7 +112,7 @@ Persistent container mappings:
 
 Application configuration therefore persists independently of the Jellyfin container itself. Containers can be recreated or upgraded without storing persistent application state inside the container filesystem.
 
-For more details see [Architecture](./architecture.md)
+For additional design details, see [Architecture⁠](./architecture.md).
 
 ## Future Enhancements
 
@@ -132,4 +131,3 @@ The original deployment established practical experience with Linux permissions,
 The subsequent migration introduced additional experience with workload virtualization, Docker Compose, container networking, persistent storage design, bind mounts, service portability, and infrastructure lifecycle management.
 
 See [Lessons Learned](./lessons-learned.md) for detailed notes from both phases of the project.
-migration represents the next stage of its lifecycle. The project now documents both the initial implementation and the process of evolving a standalone Linux service into a virtualized, containerized workload aligned with the broader homelab architecture.
