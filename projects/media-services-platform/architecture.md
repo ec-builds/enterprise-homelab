@@ -1,144 +1,113 @@
 # Architecture
 
-This document provides a high-level overview of the Media Services Platform architecture and the relationship between the core system components.
+This document provides a high-level overview of the Media Services Platform architecture and its evolution from the original native deployment to the current virtualized and containerized platform.
 
 ## Overview
 
-The Media Services Platform is a self-hosted media server environment built on Debian 13 and Jellyfin. Media content is stored centrally on a NAS platform and accessed by the server through a read-only SMB mount.
+The Media Services Platform runs Jellyfin in a Docker container inside a dedicated Debian 13 virtual machine hosted on Proxmox VE.
 
-This design separates application services from storage, allowing media to be managed independently while maintaining a simplified server configuration.
-
-
+Media is stored independently on centralized network-attached storage and presented to Jellyfin through a read-only SMB mount. This separates compute, application state, and media storage while simplifying recovery, migration, and lifecycle management.
 
 ## Architecture Diagram
 
-![Media Services Platform Architecture](./diagrams/architecture.png)
+<img src="./diagrams/media-lab-architecture.png" alt="Media Services Platform Architecture" width="900">
 
-The following diagram illustrates the relationship between the host system, operating system, media services, and centralized storage.
-
-
+*Figure 1. Current Media Services Platform architecture.*
 
 ## Components
 
-### media-server-lab
+| Component | Role | Responsibilities |
+|---|---|---|
+| **Proxmox VE** | Virtualization platform | Hosts the media VM and provides virtual compute, networking, backup, and lifecycle management |
+| **media-lab-vm** | Media services VM | Runs Debian 13, Docker, and the supporting media services environment |
+| **Debian 13** | Operating system | Provides package management, networking, storage integration, system administration, and Docker host functionality |
+| **Docker Engine** | Container runtime | Runs and isolates Jellyfin and manages container networking and lifecycle |
+| **Docker Compose** | Service definition | Defines the Jellyfin deployment declaratively and provides repeatable container configuration |
+| **Jellyfin** | Media server | Provides library management, metadata, authentication, streaming, client compatibility, and transcoding |
+| **Read-Only SMB Mount** | Storage integration | Makes centralized media available to Jellyfin while preventing modification of source files |
+| **nas-lab** | Centralized storage | Provides primary media storage, file management, retention, expansion, and backup integration |
+| **Client Devices** | Service consumers | Access Jellyfin through browsers, mobile devices, smart TVs, streaming devices, and applications |
 
-The host system for the Media Services Platform.
+## Application Layout
 
-**Responsibilities:**
+Jellyfin follows the standardized Docker service structure under `/opt/docker`:
 
-- Runs the Debian operating system
-- Hosts the Jellyfin service
-- Provides media streaming functionality
-- Maintains SMB connectivity to storage
+```text
+/opt/docker/jellyfin/
+├── docker-compose.yaml
+├── config/
+└── cache/
+```
 
+Persistent storage is mapped into the container using bind mounts:
 
+| Host Path | Container Path | Access | Purpose |
+|---|---|---|---|
+| `/opt/docker/jellyfin/config` | `/config` | Read/Write | Jellyfin configuration and persistent application state |
+| `/opt/docker/jellyfin/cache` | `/cache` | Read/Write | Application cache and temporary generated data |
+| `/mnt/media` | `/media` | Read-Only | Centralized media library |
 
-### Debian 13
-
-The operating system platform for the project.
-
-**Responsibilities:**
-
-- System administration
-- Package management
-- Service management through systemd
-- Network connectivity
-- Storage integration
-
-
-
-### Jellyfin
-
-Open-source media server application.
-
-**Responsibilities:**
-
-- Media library management
-- Metadata retrieval
-- User access and authentication
-- Content streaming
-- Client device compatibility
-
-
-
-### Read-Only SMB Mount
-
-Network file share mounted from the NAS platform.
-
-**Responsibilities:**
-
-- Provides access to media content
-- Prevents accidental modification or deletion of source files
-- Centralizes media storage outside the application host
-
-
-
-### nas-lab
-
-Network-attached storage platform.
-
-**Responsibilities:**
-
-- Primary media storage
-- Centralized file management
-- Long-term data retention
-- Storage expansion and backup integration
-
-
+Keeping persistent application state outside the container allows Jellyfin to be recreated or upgraded without storing configuration inside the container filesystem.
 
 ## Design Considerations
 
-### Storage Separation
+| Design Decision | Implementation | Benefits |
+|---|---|---|
+| **Virtualization** | Dedicated Debian VM on Proxmox VE | Improves resource allocation, workload portability, backup, and recovery |
+| **Containerization** | Jellyfin deployed through Docker Compose | Provides application isolation, repeatable deployment, and simplified recreation |
+| **Persistent Application Data** | Bind mounts under `/opt/docker/jellyfin` | Simplifies inspection, backup, troubleshooting, and future migration |
+| **Storage Separation** | Media remains on centralized network storage | Keeps application and storage lifecycles independent and reduces VM storage requirements |
+| **Read-Only Media Access** | Media is exposed to Jellyfin as read-only | Reduces accidental modification or deletion and reinforces least privilege |
+| **Dedicated Workload VM** | Media services operate within `media-lab-vm` | Separates the media workload from other infrastructure services |
+| **Declarative Deployment** | Service configuration maintained in `docker-compose.yaml` | Makes deployment repeatable, reviewable, and easier to document |
 
-Media storage is maintained independently from the application host.
+## Architecture Evolution
 
-**Benefits:**
+The platform has progressed through two primary deployment models.
 
-- Easier server rebuilds
-- Simplified migrations
-- Reduced storage requirements on the host
-- Centralized media management
+| | Original Architecture | Current Architecture |
+|---|---|---|
+| **Compute** | Standalone physical host | Proxmox VE |
+| **Operating System** | Debian 13 | Debian 13 VM |
+| **Application Deployment** | Native package | Docker container |
+| **Service Management** | systemd | Docker Compose |
+| **Application State** | Native Linux filesystem paths | Docker bind mounts |
+| **Media Storage** | Centralized NAS | Centralized NAS |
+| **Media Access** | Read-only SMB mount | Read-only SMB mount |
+| **Deployment Model** | Host-centric | Virtualized and containerized |
+| **Recovery Options** | Host/application rebuild | VM recovery + container recreation |
 
+The original deployment was intentionally simple and provided hands-on experience with Debian administration, APT repositories, systemd, Linux permissions, SMB storage, and native service troubleshooting.
 
+As the broader homelab matured, the workload was moved into the Proxmox virtualization environment and Jellyfin was redeployed according to the standardized Docker Compose service model.
 
-### Read-Only Access
+## Migration Strategy
 
-The SMB share is mounted with read-only permissions.
+A clean Jellyfin deployment was selected rather than migrating the database and configuration from the original native installation.
 
-**Benefits:**
+| Decision | Rationale |
+|---|---|
+| **Deploy a fresh Jellyfin instance** | Moving from a native package installation to Docker represented a significant architectural change, and a clean deployment reduced migration complexity |
+| **Recreate users** | The small number of users made recreation simpler than preserving the existing application database |
+| **Accept loss of watch history** | Watch history did not provide enough value to justify migrating the old database |
+| **Preserve media storage** | Media remained centralized and independent of Jellyfin, so no media migration was required |
+| **Retain old service temporarily** | The original Jellyfin installation was stopped but kept available during validation to provide a rollback path |
+| **Use bind mounts** | Persistent application state is easier to identify, inspect, back up, and migrate in the future |
 
-- Reduced risk of accidental file deletion
-- Protection against application misconfiguration
-- Improved integrity of stored media
-
-
-
-### Future Virtualization
-
-The current architecture is designed to support migration into a virtualized environment.
-
-**Planned Future State:**
-
-```text
-proxmox-lab
-    ↓
-media-server-lab
-    ↓
-Jellyfin
-    ↓
-Read-Only SMB Mount
-    ↓
-nas-lab
-```
-
-
+The migration treated the application as replaceable while preserving the more important and significantly larger media storage layer.
 
 ## Related Documentation
 
-- [Jellyfin Deployment](./jellyfin-deployment.md)
-
-
+| Document | Purpose |
+|---|---|
+| [Jellyfin Deployment](./jellyfin-deployment.md) | Jellyfin installation and container deployment |
+| [SMB Storage](./smb-storage.md) | Network storage integration and mount configuration |
+| [Backup Strategy](./backup-strategy.md) | Application and infrastructure backup strategy |
+| [Monitoring](./monitoring.md) | Availability, health, and resource monitoring |
+| [Lessons Learned](./lessons-learned.md) | Technical and architectural lessons from the project |
 
 ## Outcome
 
-The architecture provides a simple, maintainable, and scalable foundation for self-hosted media services while reinforcing Linux administration, storage integration, and service management concepts.
+The current architecture separates compute, operating system, container runtime, application state, and media storage into distinct layers.
+
+This modernization preserves the original design's storage separation and least-privilege principles while adding virtualization, containerization, workload portability, and standardized deployment practices.
