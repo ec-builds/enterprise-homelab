@@ -67,39 +67,6 @@ For more information about this diagram, see [architecture.md](./architecture.md
 - Linux storage (`fstab`, mount points, permissions, and ownership)
 - SSH administration
 
-## Architecture Evolution
-
-The Media Services Platform has progressed through two deployment models:
-
-**Original deployment**
-
-```text
-Standalone Debian Host
-        │
-        ├── Jellyfin (systemd)
-        │
-        └── Mounted Media Storage
-```
-
-**Current deployment**
-
-```text
-Proxmox VE
-    │
-    └── Debian VM (media-lab-vm)
-            │
-            ├── Docker Engine
-            │
-            └── Jellyfin Container
-                    │
-                    ├── /config  → /opt/docker/jellyfin/config
-                    ├── /cache   → /opt/docker/jellyfin/cache
-                    └── /media   → /mnt/media
-```
-
-Jellyfin configuration and cache storage use Docker bind mounts rather than Docker-managed volumes. This keeps persistent application data directly accessible under `/opt/docker/jellyfin`, simplifying inspection, backup, recovery, and future migrations.
-
-Media storage remains external to the Jellyfin container and is mounted read-only at `/media`.
 
 ## Completed Work
 
