@@ -1,34 +1,28 @@
 # Jellyfin Client Testing
 
-This document records validation testing performed following the deployment of the Media Services Platform.
+This document records client validation testing performed following the deployment and modernization of the Media Services Platform.
 
 ## Overview
 
 Client testing was conducted to verify accessibility, functionality, and usability across multiple devices and platforms used within the household.
 
-The objective was to confirm that media content could be reliably accessed from common client devices while maintaining a separation between administrative and standard user access.
-
-
+The objective was to confirm that media content could be reliably accessed from common client devices while maintaining separation between administrative and standard user access.
 
 ## Testing Evidence
 
-The following screenshot shows the Jellyfin media library after initial configuration and validation testing.
+The following screenshot shows the Jellyfin media library after configuration and validation testing.
 
 ![Jellyfin Library](./diagrams/jellyfin-library.png)
 
 *Figure 1. Jellyfin media library successfully loaded during client validation testing.*
 
-
-
-## Network Configuration
+## Network Access
 
 The Media Services Platform is hosted on the local network and currently operates over HTTP.
 
-For this environment, HTTP access is acceptable because the service is intended for internal network use only and is not exposed to the public internet.
+HTTP access is acceptable for the current environment because the service is intended for internal network use only and is not directly exposed to the public internet.
 
-A DHCP reservation was configured on the router to ensure the server consistently receives the same IP address. This simplifies administration, client configuration, and future troubleshooting.
-
-Service discovery is also supported through Avahi (mDNS).
+A DHCP reservation is configured on the router to ensure the media server consistently receives the same IP address. This simplifies administration, client configuration, and troubleshooting.
 
 Users can access the platform using:
 
@@ -36,31 +30,21 @@ Users can access the platform using:
 http://media-server-lab.local:8096
 ```
 
-This eliminates the need to remember or manually enter the server's IP address.
-
-
+This provides a consistent hostname for accessing the service without requiring users to manually enter the server's IP address.
 
 ## Browser Testing
 
-The platform was tested using multiple web browsers.
+The Jellyfin web interface was validated across multiple browsers.
 
-| Browser | Result |
-|----------|----------|
-| Safari | Pass |
-| Google Chrome | Pass |
-| Microsoft Edge | Pass |
-
-### Validation Performed
-
-- Successfully loaded the Jellyfin web interface
-- Authenticated using a standard user account
-- Verified media library visibility
-- Confirmed media playback functionality
-- Verified navigation and search functionality
+| Test | Safari | Google Chrome | Microsoft Edge |
+|---|:---:|:---:|:---:|
+| Web interface loads | Pass | Pass | Pass |
+| User authentication | Pass | Pass | Pass |
+| Media library visibility | Pass | Pass | Pass |
+| Media playback | Pass | Pass | Pass |
+| Navigation and search | Pass | Pass | Pass |
 
 No browser-specific issues were identified during testing.
-
-
 
 ## Roku Testing
 
@@ -76,11 +60,9 @@ The Jellyfin application was tested on the primary Roku television used for medi
 
 The Roku client is currently the primary method used to access the Media Services Platform.
 
-
-
 ## User Access Model
 
-A dedicated non-administrative user account was created for day-to-day media consumption.
+Separate administrative and standard user accounts are maintained within Jellyfin.
 
 ### Standard User
 
@@ -99,12 +81,10 @@ Used only for:
 - User administration
 - System maintenance
 
-This separation reduces the risk of accidental configuration changes while following the principle of least privilege.
-
-
+Administrative access is separated from day-to-day media consumption, reducing unnecessary privileged access and applying the principle of least privilege at the application layer.
 
 ## Outcome
 
-Testing confirmed that the Media Services Platform is accessible from supported client devices and browsers, media playback functions as expected, and user access controls operate correctly.
+Client validation confirmed that the Media Services Platform is accessible across supported browsers and household streaming devices, media playback functions as expected, and standard users can consume media without administrative privileges.
 
-The platform is considered ready for ongoing household use and future enhancements.
+The testing established a functional baseline for validating client compatibility after future application, container, network, or infrastructure changes.
