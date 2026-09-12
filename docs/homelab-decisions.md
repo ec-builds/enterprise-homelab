@@ -1,4 +1,4 @@
-# Homelab Decisions
+# ⚖️ Homelab Decisions
 
 This document records major architectural, operational, and strategic decisions made throughout the lifecycle of the homelab.
 
