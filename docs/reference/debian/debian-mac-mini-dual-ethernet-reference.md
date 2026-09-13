@@ -1,4 +1,4 @@
-# Mac Mini Dual Ethernet / Thunderbolt Ethernet
+# Debian - Mac Mini Dual Ethernet / Thunderbolt Ethernet
 
 ## Overview
 
