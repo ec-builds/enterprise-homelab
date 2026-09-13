@@ -2,22 +2,50 @@
 
 ## Overview
 
-This document provides a deployment guide and technical reference for configuring and validating dual Ethernet connectivity on a Linux-based Mac mini using the built-in Ethernet interface and an Apple Thunderbolt to Gigabit Ethernet Adapter.
+This document provides a hardware validation guide and technical reference for configuring and testing dual Ethernet connectivity on a Mac mini running Debian Linux.
 
-The configuration provides two independent physical network interfaces suitable for:
+The system uses:
 
-- Firewall and router deployments
-- WAN/LAN separation
-- Network security labs
-- Traffic monitoring
+- Built-in Gigabit Ethernet
+- Apple Thunderbolt to Gigabit Ethernet Adapter
+
+In this deployment, Debian is used as a **temporary validation environment** before the Mac mini is repurposed as a dedicated OPNsense firewall.
+
+The objective is to verify that:
+
+- The Mac mini detects its built-in Ethernet controller
+- The Thunderbolt subsystem detects the external Ethernet adapter
+- The Thunderbolt device can be authorized
+- The Ethernet controller behind the Thunderbolt connection enumerates correctly
+- Linux creates a second physical network interface
+- The Thunderbolt adapter can be persistently authorized across reboots
+- Both physical Ethernet interfaces establish a Gigabit Ethernet link
+
+Successful validation confirms that the Mac mini hardware, Thunderbolt controller, Ethernet adapter, cabling, and switch connectivity are functional before replacing Debian with the target firewall operating system.
+
+> [!NOTE]
+> The Debian Thunderbolt authorization procedure documented here is Linux-specific. OPNsense is based on FreeBSD and does not use Debian tools such as `boltctl`, `boltd`, `polkitd`, `apt`, or the Linux Thunderbolt sysfs authorization interface.
+>
+> This document therefore validates the hardware under Debian but should not be used as an OPNsense configuration procedure.
+
+Although this deployment uses Debian primarily for hardware validation, the same dual-Ethernet configuration can also be useful on a permanent Debian or Linux installation for:
+
+- Router and firewall deployments
+- Virtualization hosts
+- Dedicated management networks
+- VM and container networks
+- Network monitoring
+- IDS/IPS sensors
+- SPAN or mirrored traffic collection
+- Storage and backup networks
+- Isolated lab networks
 - Network segmentation
-- General dual-NIC testing
+- Network migration and testing
+- Link redundancy or aggregation
 
-The example system runs Debian Linux.
+The workflow is designed to be reproducible after a fresh Debian installation. Interface names, Thunderbolt device paths, UUIDs, and PCI addresses should always be discovered on the current system rather than copied from a previous installation.
 
-The deployment workflow is designed to be reproducible after a fresh operating system installation. Interface names, Thunderbolt device paths, UUIDs, and PCI addresses should always be discovered on the current system rather than copied from a previous installation.
-
-> [!Important]
+> [!IMPORTANT]
 > Do not reassign, remove, or reconfigure the interface currently providing SSH connectivity until alternate management access is available. Network role assignment is intentionally outside the scope of this document.
 
 ## Tools and Components
@@ -52,35 +80,57 @@ Tools such as `ip`, `lspci`, `dmesg`, and `systemctl` are generally provided by 
 
 ## Architecture
 
-A typical firewall deployment can use the two interfaces as follows:
+For hardware validation, the two physical interfaces can be represented as:
 
 ```text
                     Mac mini
               ┌──────────────────┐
               │                  │
-Internet ────►│ Thunderbolt NIC  │
-              │      WAN         │
+ Network A ──►│ Thunderbolt NIC  │
               │                  │
-              │  Built-in NIC    │
-              │      LAN         │
-              └────────┬─────────┘
-                       │
-                       ▼
-                    Switch
-                       │
-                  Internal LAN
+ Network B ──►│  Built-in NIC    │
+              │                  │
+              └──────────────────┘
 ```
 
-The WAN and LAN assignments can be reversed if required.
+At this stage, the objective is simply to establish that both physical network interfaces function correctly.
 
-This reference establishes and validates both physical interfaces. IP addressing, routing, firewall rules, and final WAN/LAN role assignment should be performed separately as part of the firewall deployment.
+No permanent network roles are required during validation.
+
+### Potential Linux Applications
+
+If Debian or another Linux distribution were retained on the system, the two interfaces could support several architectures:
+
+```text
+Firewall
+NIC 1 → WAN
+NIC 2 → LAN
+
+Virtualization
+NIC 1 → Host management
+NIC 2 → VM or bridge network
+
+Network Monitoring
+NIC 1 → Management
+NIC 2 → SPAN / mirrored traffic
+
+Storage
+NIC 1 → Client network
+NIC 2 → Storage / backup network
+
+Security Lab
+NIC 1 → Management / home network
+NIC 2 → Isolated lab network
+```
+
+In the current deployment, these are reference examples only. The Mac mini will ultimately be repurposed as a dedicated OPNsense firewall.
 
 ## Hardware
 
 | Component | Purpose |
 |---|---|
-| Built-in Gigabit Ethernet | Primary physical NIC |
-| Apple Thunderbolt to Gigabit Ethernet Adapter | Secondary physical NIC |
+| Built-in Gigabit Ethernet | First physical NIC |
+| Apple Thunderbolt to Gigabit Ethernet Adapter | Second physical NIC |
 | Thunderbolt controller | Provides PCIe connectivity to the external NIC |
 | Ethernet switch | Network connectivity and physical link validation |
 
@@ -420,7 +470,7 @@ Duplex: Full
 Link detected: yes
 ```
 
-This confirms the complete path:
+This confirms the complete Linux hardware path:
 
 ```text
 Mac mini
@@ -438,9 +488,9 @@ Linux Network Interface
 Switch
 ```
 
-At this point, dual physical Ethernet functionality has been restored and validated.
+At this point, dual physical Ethernet functionality has been successfully validated under Debian.
 
-Do not assign WAN/LAN addresses until the firewall network configuration is ready.
+No permanent network role assignment is required for this validation.
 
 # Reference and Troubleshooting
 
@@ -508,7 +558,9 @@ IP: none
 
 and still be functioning correctly at Layer 1 and Layer 2.
 
-For a firewall deployment, avoid unintentionally assigning addresses from the same LAN subnet to both independent physical interfaces.
+During hardware validation, assigning an IP address to the second interface is not necessary.
+
+If both interfaces are later configured under Linux, avoid unintentionally assigning addresses from the same subnet to independent physical interfaces unless the network design specifically requires it.
 
 For example:
 
@@ -517,14 +569,9 @@ NIC 1 ── 10.0.0.x/24
 NIC 2 ── 10.0.0.y/24
 ```
 
-This can introduce unintended routing and neighbor-resolution behavior unless the configuration is deliberate.
+may introduce unintended routing and neighbor-resolution behavior.
 
-Instead, assign explicit network roles as part of the firewall deployment:
-
-```text
-NIC 1 → WAN
-NIC 2 → LAN
-```
+Network roles and Layer 3 configuration should therefore be assigned deliberately according to the intended deployment.
 
 ## PCI Address and Interface Naming
 
@@ -708,7 +755,7 @@ This separates Thunderbolt authorization problems from PCIe enumeration, Linux i
 
 # Validation Checklist
 
-Before considering the dual-Ethernet configuration complete, verify:
+Before considering hardware validation complete, verify:
 
 - [ ] Built-in Ethernet controller is detected
 - [ ] Built-in Ethernet interface is identified
@@ -726,4 +773,6 @@ Before considering the dual-Ethernet configuration complete, verify:
 - [ ] Link negotiates at 1 Gb/s
 - [ ] Link negotiates at full duplex
 
-Once these checks pass, the Mac mini has two independently usable physical Gigabit Ethernet interfaces and is ready for WAN/LAN assignment as part of a separate firewall or network-security deployment.
+Once these checks pass, the Mac mini's built-in and Thunderbolt Ethernet hardware has been successfully validated under Debian.
+
+For the current deployment, Debian has completed its role as the hardware validation environment. The system can now be repurposed for the target firewall operating system, with OPNsense installation and interface configuration documented separately.
