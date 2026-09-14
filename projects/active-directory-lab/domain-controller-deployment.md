@@ -9,11 +9,9 @@
 
 ## Overview
 
-This document outlines the deployment process for the primary Windows Server
-domain controller in the Active Directory lab.
-
-The deployment establishes the initial Windows Server infrastructure required
-for Active Directory Domain Services (AD DS), DNS, and DHCP.
+This document covers deployment of the first Windows Server domain controller,
+creation of the Active Directory forest and domain, and installation of
+AD-integrated DNS.
 
 The deployment workflow is:
 
@@ -42,13 +40,10 @@ Create AD Forest
 Promote to Domain Controller
         │
         ▼
-Validate AD + DNS
+Basic AD + DNS Validation
         │
         ▼
-Configure DHCP
-        │
-        ▼
-Final Validation
+Deployment Complete
 ```
 
 > [!NOTE]
@@ -71,7 +66,6 @@ The primary domain controller uses the following baseline configuration.
 | Storage | 64 GB |
 | Network | Static IPv4 |
 | Roles | AD DS, DNS |
-| Planned Role | DHCP |
 
 
 ## Configure Hostname
@@ -282,7 +276,6 @@ DNS Server
   <img src="./diagrams/DC-add-roles-and-features.png" alt="Windows Server Add Roles and Features Wizard with Active Directory Domain Services and DNS Server selected" width="700">
 </p>
 
-
 When prompted, select:
 
 **Add Features**
@@ -320,13 +313,7 @@ Domain Promotion
        │
        ▼
 AD/DNS Validation
-       │
-       ▼
-DHCP
 ```
-
-This allows Active Directory and DNS to be established and validated before
-introducing DHCP configuration.
 
 
 ### Role Installation
@@ -396,7 +383,7 @@ lab.example.com
 
 > [!NOTE]
 > The domain namespace shown in this document is a sanitized example and does
-> not represent the production or internal DNS namespace used by the lab.
+> not represent the internal DNS namespace used by the lab.
 
 
 ### Configure Domain Controller Options
@@ -459,7 +446,7 @@ LAB
 
 *NetBIOS domain name configured for the Active Directory lab.*
 
-This provides the legacy NetBIOS domain identifier:
+This provides the down-level domain identifier:
 
 ```text
 LAB
@@ -477,7 +464,7 @@ Domain accounts can therefore use formats such as:
 LAB\username
 ```
 
-or:
+or the User Principal Name (UPN) format:
 
 ```text
 username@lab.example.com
@@ -584,94 +571,119 @@ the server was successfully configured as a domain controller.
 
 *Successful promotion of the primary server as the first domain controller in the new Active Directory forest.*
 
-At this stage, the sanitized representation of the Active Directory
-environment is:
-
-```text
-Forest:         lab.example.com
-Domain:         lab.example.com
-NetBIOS:        LAB
-Primary DC:     dc-lab-01
-DNS:            Installed
-Global Catalog: Enabled
-```
-
-
-## Configure DHCP
-
-**Status: ⏳ Pending**
-
-DHCP will be installed after the newly created Active Directory and
-AD-integrated DNS environment have been validated.
-
-Planned configuration includes:
-
-- DHCP Server role installation
-- DHCP authorization in Active Directory
-- IPv4 scope creation
-- Address pool configuration
-- Exclusion ranges
-- Default gateway option
-- AD DNS server options
-- DNS domain option
-- Lease configuration
-- DHCP validation
-
 
 ## Post-Promotion Validation
 
-**Status: ⏳ Pending**
+Basic validation was performed after promotion to confirm that the server
+was operating as an Active Directory domain controller and DNS server.
 
-The next deployment stage will validate the newly promoted domain controller
-before DHCP is introduced.
+Verify the installed server roles:
 
-Validation will include:
-
-```text
-AD DS
-├── Domain available
-├── Domain controller discoverable
-├── SYSVOL available
-├── NETLOGON available
-└── FSMO roles assigned
-
-DNS
-├── AD-integrated DNS zone created
-├── Domain controller records registered
-├── SRV records registered
-├── Internal domain resolution working
-└── External DNS forwarding working
+```powershell
+Get-WindowsFeature AD-Domain-Services,DNS
 ```
 
-After AD DS and DNS validation is complete, DHCP will be installed and
-configured.
-
-
-## Final Validation
-
-**Status: ⏳ Pending**
-
-After DHCP configuration, final validation will confirm:
+Both roles should report:
 
 ```text
-Active Directory
-├── Domain authentication working
-├── Domain controller discovery working
-└── Domain client can join lab.example.com
-
-DNS
-├── Client uses domain controller DNS
-├── Internal AD names resolve
-└── External names resolve
-
-DHCP
-├── Server authorized
-├── Scope active
-├── Client receives address
-├── Client receives AD DNS server
-├── Client receives DNS domain
-└── Client receives correct gateway
+Install State: Installed
 ```
+
+Verify the Active Directory domain:
+
+```powershell
+Get-ADDomain
+```
+
+Verify the Active Directory forest:
+
+```powershell
+Get-ADForest
+```
+
+Verify domain controller discovery:
+
+```powershell
+Get-ADDomainController
+```
+
+Verify that the DNS Server service is running:
+
+```powershell
+Get-Service DNS
+```
+
+Expected status:
+
+```text
+Running
+```
+
+Verify the AD-integrated DNS zones:
+
+```powershell
+Get-DnsServerZone
+```
+
+The DNS server should contain the Active Directory domain zone and the
+forest-wide `_msdcs` zone.
+
+Sanitized representation:
+
+```text
+_msdcs.lab.example.com
+lab.example.com
+```
+
+Verify domain controller name resolution:
+
+```powershell
+Resolve-DnsName dc-lab-01.lab.example.com
+```
+
+Expected sanitized IPv4 result:
+
+```text
+10.0.0.10
+```
+
+Verify Active Directory LDAP service records:
+
+```powershell
+Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.lab.example.com
+```
+
+The query should return the domain controller as an LDAP service endpoint.
+
+Detailed AD-integrated DNS testing, record validation, forwarding, dynamic
+updates, and DNS diagnostics are documented separately in the DNS
+configuration and validation documentation.
+
+
+## Deployment Result
+
+The first domain controller and Active Directory forest were successfully
+deployed and validated.
+
+The sanitized environment is represented as:
+
+```text
+Active Directory Forest
+└── lab.example.com
+    │
+    └── dc-lab-01
+        ├── Active Directory Domain Services
+        ├── DNS Server
+        ├── Global Catalog
+        └── FSMO Roles
+```
+
+The completed deployment provides the initial identity and DNS foundation for
+the Active Directory lab.
+
+Additional domain controllers, DNS redundancy, DHCP, organizational unit
+design, Group Policy, and other identity services are deployed and documented
+separately.
 
 
 ## Deployment Status
@@ -686,7 +698,6 @@ DHCP
 | DNS Server Installation | ✅ Complete |
 | Active Directory Forest Creation | ✅ Complete |
 | Domain Promotion | ✅ Complete |
-| AD/DNS Validation | ⚪ Pending |
-| DHCP Installation | ⚪ Pending |
-| DHCP Configuration | ⚪ Pending |
-| Final Validation | ⚪ Pending |
+| Basic AD Validation | ✅ Complete |
+| Basic DNS Validation | ✅ Complete |
+| Domain Controller Deployment | ✅ Complete |
