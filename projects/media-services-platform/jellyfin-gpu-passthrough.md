@@ -1,5 +1,7 @@
 # Jellyfin Hardware Acceleration and GPU Passthrough
 
+![Jellyfin transcoding](./diagrams/jellyfin-transcoding.png)
+
 ## Overview
 
 Jellyfin originally ran with 2 vCPUs and relied entirely on CPU-based transcoding. This worked well for normal playback, but even relatively simple transcoding tasks, particularly playback involving subtitles, could push both assigned CPU cores close to 100% utilization.
