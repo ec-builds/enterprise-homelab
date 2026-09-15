@@ -1,4 +1,10 @@
-# source: https://jellyfin.org/docs/general/installation/container/
+# Source:
+# - Container installation:
+#   https://jellyfin.org/docs/general/installation/container/
+# - Hardware acceleration:
+#   https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/
+# - Intel GPU hardware acceleration:
+#   https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/intel/#
 #
 # Notes:
 #   - Bind mounts are used for Jellyfin configuration and cache data.
@@ -6,6 +12,19 @@
 #     Docker-managed volume to simplify backups, inspection, and
 #     future migrations.
 #   - Cache is stored under ./cache and can be recreated if needed.
+#
+# Hardware Transcoding:
+# - devices exposes the Intel GPU render device to the Jellyfin container.
+#   /dev/dri/renderD128 is used by Intel Quick Sync (QSV) and VA-API for
+#   hardware-accelerated video transcoding.
+# - group_add grants the container membership in the host's "render" group,
+#   allowing Jellyfin to access /dev/dri/renderD128.
+# - The render group ID is host-specific. Verify it with:
+#     getent group render
+#   On this host, the render GID is 992.
+#
+# Hardware acceleration must also be enabled in the Jellyfin web interface
+# under Dashboard > Playback > Transcoding.
 
 services:
   jellyfin:
@@ -15,15 +34,21 @@ services:
 
     networks:
       - media
-
+    
     ports:
       - "8096:8096/tcp"
       - "7359:7359/udp"
-
+      
     volumes:
       - ./config:/config
       - ./cache:/cache
       - /mnt/media:/media:ro
+
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+
+    group_add:
+      - "992"
 
 networks:
   media:
