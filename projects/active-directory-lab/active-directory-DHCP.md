@@ -106,11 +106,13 @@ After validation, the previous DHCP service was disabled and Windows DHCP became
 
 DHCP availability was tested by shutting down each DHCP server independently.
 
+Failure testing was performed in both directions, independently validating DHCP continuity with either server unavailable.
+
 During each outage, the surviving server detected the loss of communication and entered the `CommunicationInterrupted` state. Clients were able to release and obtain DHCP leases from the remaining server with the expected gateway, DNS servers, domain suffix, and lease duration.
 
 After each server was restored, the failover relationship automatically returned to the `Normal` state.
 
-Automatic transition to `PartnerDown` remains disabled. This allows an extended partner outage to be declared manually when required.
+Automatic state transition remains disabled to prevent a communication failure alone from automatically declaring the partner unavailable. `PartnerDown` can be declared manually during a confirmed extended outage.
 
 
 ## Validation
