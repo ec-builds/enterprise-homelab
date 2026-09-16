@@ -2,36 +2,42 @@
 
 **Status:** 🟢 Operational (Phase 1)
 
-The physical and logical foundation of the homelab—routing, switching, wireless, IP design, and core network services.
+The physical and logical foundation of the homelab, including routing, switching, wireless connectivity, IP addressing, DHCP, DNS, and core network services.
 
 > [!NOTE]
-> The current environment is built around an ASUS RT-AX5400 router that consolidates routing, firewall, DHCP, VPN, and wireless services. This intentionally simplifies the initial homelab while providing a stable foundation for learning and future expansion.
+> Implementation-specific network addresses, allocation ranges, VLAN identifiers, and device assignments are intentionally omitted or generalized in public documentation.
 
 ## Objectives
 
 - Design and document a structured network topology
-- Implement a scalable IP addressing scheme
-- Establish reliable DHCP and DNS services
-- Segment trusted, guest, and lab traffic
-- Maintain documentation sufficient to rebuild the network from scratch
+- Maintain predictable infrastructure addressing
+- Deploy redundant DHCP and DNS services
+- Establish centralized Ethernet connectivity
+- Segment trusted, guest, IoT, server, and management traffic
+- Maintain documentation sufficient to rebuild and troubleshoot the environment
+- Prepare the network for dedicated firewall and VLAN deployment
 
 ## Logical Network Topology
 
 ![network topology](./diagrams/current-logical-network-architecture.png)
 
 > [!NOTE]
-> The Cisco managed switch is deployed and provides centralized Ethernet connectivity for wired infrastructure. The ASUS RT-AX5400 currently remains responsible for routing, firewall, DHCP, VPN, and wireless services. VLAN segmentation and dedicated firewall services are planned for a future phase.
+> The Cisco managed switch provides centralized Ethernet connectivity for wired infrastructure. The ASUS RT-AX5400 currently remains responsible for routing, firewall, VPN, and wireless services.
+>
+> DHCP has been deployed on redundant Windows Server infrastructure and is being migrated from the ASUS router. Dedicated firewall services and VLAN segmentation are planned for a future phase.
 
 ## Current Environment
 
-- ASUS RT-AX5400 Router
-- Cisco Catalyst Managed Switch
-- 10.0.0.0/24 Network
-- DHCP Reservations for infrastructure devices
-- Synology NAS connected through the managed switch
-- Proxmox virtualization hosts connected through the managed switch
+- ASUS RT-AX5400 gateway and wireless router
+- Cisco Catalyst managed switch
+- Redundant Active Directory-integrated DNS
+- Redundant Windows Server DHCP with failover
+- Statically addressed infrastructure and server systems
+- DHCP-managed client devices
+- Synology NAS
+- Proxmox virtualization hosts
 - Ethernet-connected infrastructure and lab systems
-- Guest Wi-Fi used for IoT isolation
+- Guest wireless isolation for guest and IoT devices
 
 ## Technologies
 
@@ -39,68 +45,108 @@ The physical and logical foundation of the homelab—routing, switching, wireles
 
 - ASUS RT-AX5400
 - Cisco Catalyst Managed Switch
-- DHCP Reservations
+- Windows Server DHCP
+- DHCP Failover
+- Active Directory-integrated DNS
+- Static Infrastructure Addressing
+- DHCP Client Addressing
 - Guest Network Isolation
 - Synology NAS
-- Ethernet-connected virtualization and server infrastructure
+- Proxmox VE
 
 ### Planned
 
 - VLAN Segmentation
-- Internal DNS Services
-- Configuration Backups
-- NetBox IPAM
 - OPNsense Firewall
+- Inter-VLAN Firewall Policies
+- Configuration Backups
+- IP Address Management (IPAM)
 
 ## Key Tasks
 
 ### Completed
 
-- [x] Define IP addressing plan
-- [x] Configure DHCP reservations
-- [x] Implement guest network isolation
+- [x] Define IP addressing strategy
 - [x] Deploy Cisco managed switch
 - [x] Configure switch management access
+- [x] Deploy redundant internal DNS services
+- [x] Deploy Windows Server DHCP
+- [x] Authorize DHCP servers in Active Directory
+- [x] Configure DHCP scope options
+- [x] Configure DHCP failover
+- [x] Validate DHCP failover relationship
+- [x] Configure static addressing for infrastructure systems
+- [x] Implement guest network isolation
 - [x] Document current network architecture
 
 ### In Progress
 
+- [ ] Migrate DHCP from ASUS RT-AX5400 to Windows Server
+- [ ] Validate DHCP client migration
+- [ ] Test DHCP service failover
 - [ ] Create physical port maps
 - [ ] Build device inventory
 - [ ] Document cabling layout
 
 ### Planned
 
+- [ ] Deploy OPNsense firewall
 - [ ] Implement VLAN segmentation
 - [ ] Configure VLAN trunks
-- [ ] Map SSIDs to VLANs
-- [ ] Deploy internal DNS services
+- [ ] Map wireless networks to VLANs
+- [ ] Implement inter-VLAN firewall policies
 - [ ] Implement automated configuration backups
-- [ ] Deploy IPAM solution (NetBox)
+- [ ] Deploy IPAM solution
 
-## Current Network Design
+## Addressing Strategy
 
-> **Note:** IP addresses shown below have been sanitized for public documentation. The production network uses a different private IP addressing scheme, but the allocation strategy remains the same.
+The environment separates infrastructure addressing from DHCP-managed client addressing.
 
-### LAN
+```text
+Private Address Space
+│
+├── Infrastructure
+│   └── Static addressing
+│
+├── Client Address Space
+│   ├── Dynamic DHCP
+│   └── DHCP reservations where required
+│
+└── Reserved Capacity
+    └── Future expansion
+```
 
-| Setting | Value |
-|----------|-------|
-| Network | 10.0.0.0/24 |
-| Gateway | 10.0.0.1 |
-| DHCP Pool | 10.0.0.150 - 10.0.0.249 |
+Foundational infrastructure and persistent server systems use static addressing where independence from DHCP is appropriate.
 
-### Address Allocation
+Client systems receive network configuration through redundant Windows Server DHCP services.
 
-| Range | Purpose |
-|---------|---------|
-| 10.0.0.2 - 10.0.0.49 | Infrastructure |
-| 10.0.0.50 - 10.0.0.99 | Future Infrastructure |
-| 10.0.0.100 - 10.0.0.149 | Servers and Lab Systems |
-| 10.0.0.150 - 10.0.0.249 | DHCP Clients |
-| 10.0.0.250 - 10.0.0.254 | Reserved |
+Specific address ranges and device assignments are intentionally excluded from public documentation.
 
-See [`ip-addressing-plan.md`](./ip-addressing-plan.md) for detailed assignments.
+See [`ip-addressing-strategy.md`](./ip-addressing-strategy.md) for additional design information.
+
+## DHCP and DNS
+
+DHCP is provided by two Windows Server systems configured with a failover relationship. The environment centrally distributes client addressing, gateway information, internal DNS servers, and DNS domain configuration.
+
+Internal name resolution is provided by redundant Active Directory-integrated DNS services.
+
+The previous DHCP service provided by the ASUS RT-AX5400 is being retired through a controlled DHCP server migration.
+
+See [`dhcp-server-migration.md`](./dhcp-server-migration.md) for the migration process.
+
+## Future Segmentation
+
+Future segmentation will use VLANs to separate systems by function, with dedicated subnets, DHCP scopes where appropriate, and firewall policies controlling inter-VLAN communication.
+
+Planned segmentation includes:
+
+- Management infrastructure
+- Trusted endpoints
+- Servers and services
+- IoT devices
+- Guest devices
+
+Specific VLAN identifiers, subnet assignments, and firewall policies are intentionally excluded from public documentation.
 
 ## Related Projects
 
@@ -115,7 +161,8 @@ See [`ip-addressing-plan.md`](./ip-addressing-plan.md) for detailed assignments.
 network-infrastructure/
 ├── README.md
 ├── network-design.md
-├── ip-addressing-plan.md
+├── ip-addressing-strategy.md
+├── dhcp-server-migration.md
 ├── device-inventory.md
 ├── lessons-learned.md
 ├── configs/
