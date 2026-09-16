@@ -1,144 +1,144 @@
-# IP Addressing Plan
+# IP Addressing Strategy
 
 **Status: 🟢 Active**
 
-> **Note:** The IP addresses shown in this document have been sanitized for public release. The production network uses a different private IP addressing scheme, but the addressing strategy remains the same.
+> **Note:** Network addresses, allocation ranges, VLAN identifiers, and implementation-specific details have been intentionally omitted or generalized for public documentation.
 
-This document defines the IP addressing strategy for the homelab environment. The goal is to provide predictable device placement, simplify troubleshooting, and reserve capacity for future growth.
+This document describes the addressing principles used to organize the homelab environment. The design emphasizes predictable infrastructure addressing, centralized client configuration, service availability, and capacity for future network segmentation.
 
-## Network Information
+## Addressing Model
 
-| Setting | Value |
-|----------|-------|
-| Network | 10.0.0.0/24 |
-| Subnet Mask | 255.255.255.0 |
-| Gateway | 10.0.0.1 |
-| DHCP Pool | 10.0.0.150 - 10.0.0.249 |
-| DNS | ASUS RT-AX5400 |
-| Address Space | 254 Usable Hosts |
+The environment uses a combination of static addressing and DHCP based on system role and infrastructure dependencies.
 
-## Address Allocation Strategy
+| System Type | Addressing Method |
+|---|---|
+| Foundational infrastructure | Static |
+| Persistent infrastructure services | Static where appropriate |
+| User endpoints | DHCP |
+| IoT and general client devices | DHCP |
+| Temporary lab systems | DHCP |
+| Devices requiring a predictable DHCP address | DHCP Reservation |
 
-| Range | Purpose |
-|---------|---------|
-| 10.0.0.1 | Gateway |
-| 10.0.0.2 - 10.0.0.49 | Core Infrastructure |
-| 10.0.0.50 - 10.0.0.99 | Future Infrastructure |
-| 10.0.0.100 - 10.0.0.149 | Servers and Lab Systems |
-| 10.0.0.150 - 10.0.0.249 | DHCP Client Pool |
-| 10.0.0.250 - 10.0.0.254 | Reserved |
+Foundational systems are configured so that essential network services do not depend on DHCP for their own addressing.
 
-## Core Infrastructure
+DHCP is used to centrally distribute network configuration to client systems and simplify endpoint management.
 
-| IP Address | Device | Notes |
-|------------|--------|-------|
-| 10.0.0.1 | ASUS RT-AX5400 | Gateway and DHCP Server |
-| 10.0.0.10 | Synology NAS | Primary Storage |
-| 10.0.0.20 | Cisco Managed Switch | Planned |
-| 10.0.0.30 | Printer | Future |
-| 10.0.0.40 | Access Point | Future |
+## Static Infrastructure
 
-## Server and Lab Allocation
+Static addressing is used for systems where predictable addressing or independence from DHCP is operationally important.
 
-The following range is reserved for servers, hypervisors, virtual machines, and lab infrastructure.
+Examples may include:
 
-**Range:** `10.0.0.100 - 10.0.0.149`
-
-### Planned Assignments
-
-| IP Address | Device |
-|------------|--------|
-| 10.0.0.100 | Primary Hypervisor |
-| 10.0.0.105 | Media Server |
-| 10.0.0.110 | Docker Host |
-| 10.0.0.115 | Monitoring Server |
-| 10.0.0.120 | Active Directory Lab |
-| 10.0.0.125 | Kubernetes Lab |
-| 10.0.0.130 | Backup Services |
-| 10.0.0.135 | Future Service |
-| 10.0.0.140 | Future Service |
-| 10.0.0.145 | Future Service |
-
-## DHCP Client Pool
-
-The DHCP pool is reserved for end-user devices and temporary systems.
-
-**Range:** `10.0.0.150 - 10.0.0.249`
-
-Examples:
-
-- Laptops
-- Phones
-- Tablets
-- Guest Devices
-- Temporary Test Systems
-
-## DHCP Reservations
-
-Persistent services generally use DHCP reservations, while foundational infrastructure such as hypervisors, domain controllers, DNS, and DHCP servers use static addressing where DHCP independence is required.
-
-Benefits:
-
-- Centralized management
-- Easier device replacement
-- Consistent addressing
-- Reduced configuration drift
-
-Reserved devices include:
-
-- Router
-- NAS
-- Media Server
-- Switches
+- Routing and firewall infrastructure
+- Network management interfaces
+- Directory and name-resolution services
+- DHCP infrastructure
 - Hypervisors
-- Printers
-- Infrastructure Appliances
+- Storage
+- Persistent infrastructure services
 
-## Guest and IoT Network
+Static assignments are documented separately from DHCP lease information to prevent address conflicts and maintain an authoritative inventory.
 
-The ASUS Guest Network currently isolates IoT devices from the primary LAN.
+## DHCP
 
-Characteristics:
+DHCP provides centralized network configuration for endpoints and temporary systems.
 
-- Internet access only
-- No access to internal resources
-- No access to servers or NAS
-- Device isolation enabled where supported
+The DHCP environment supports:
 
-Examples:
+- Dynamic address allocation
+- Scope options
+- Default gateway distribution
+- DNS server distribution
+- DNS domain configuration
+- Lease management
+- Reservations
+- DHCP failover
 
-- Smart TVs
-- Streaming Devices
-- Smart Home Equipment
-- Guest Devices
+DHCP reservations may be used when a DHCP-managed device requires a predictable address without requiring locally configured static addressing.
 
-## Future VLAN Plan
+## DHCP Availability
 
-| VLAN | Name | Purpose |
-|------|------|---------|
-| 10 | Management | Infrastructure Management |
-| 20 | Trusted | Workstations and Laptops |
-| 30 | Servers | Homelab Services |
-| 40 | IoT | Smart Devices |
-| 50 | Guest | Guest Wireless Access |
+DHCP services are deployed redundantly using Windows Server DHCP failover.
 
-*Planned for future managed switch and firewall deployment.*
+This provides continued DHCP availability if an individual DHCP server becomes unavailable and allows DHCP configuration to be maintained across the failover relationship.
+
+Foundational infrastructure remains statically addressed and does not depend on DHCP availability for its own network configuration.
+
+## DNS Integration
+
+Internal name resolution is provided through redundant Active Directory-integrated DNS services.
+
+DHCP clients receive the appropriate internal DNS configuration through DHCP scope options. Statically addressed infrastructure is configured with the appropriate DNS settings directly.
+
+This provides consistent internal name resolution while maintaining redundancy for core DNS services.
+
+## Address Management
+
+DHCP manages only address space delegated for dynamic allocation or reservations.
+
+Static infrastructure is managed separately through the addressing plan and device inventory.
+
+```text
+Private Address Space
+│
+├── Infrastructure
+│   └── Static addressing
+│
+├── Client Address Space
+│   ├── Dynamic DHCP
+│   └── DHCP reservations
+│
+└── Reserved Capacity
+    └── Future expansion
+```
+
+A dedicated IP Address Management (IPAM) platform may be introduced as the environment grows to provide centralized visibility into:
+
+- Subnets
+- Static assignments
+- DHCP-managed address space
+- Reservations
+- VLANs
+- Address utilization
+
+## Network Segmentation
+
+The current addressing model is designed to support migration toward a segmented network architecture.
+
+Future segmentation will use VLANs to separate systems by function, with dedicated subnets, DHCP scopes where appropriate, and firewall policies controlling inter-VLAN communication.
+
+Planned segmentation may separate systems such as:
+
+- Management infrastructure
+- Trusted endpoints
+- Servers and services
+- IoT devices
+- Guest devices
+
+Each VLAN will operate as a separate Layer 3 network with its own subnet. DHCP scopes will be deployed where dynamic addressing is required, while infrastructure requiring DHCP independence may continue to use static addressing.
+
+Inter-VLAN communication will be controlled through firewall policy rather than relying solely on logical address organization for separation.
+
+Specific VLAN identifiers, subnet assignments, and firewall policies are intentionally excluded from public documentation.
 
 ## Change Management
 
-When adding new infrastructure:
+Addressing changes should follow a documented process:
 
-1. Assign a reserved IP address.
-2. Update the device inventory.
-3. Update the network topology.
-4. Include the device in configuration backups.
+1. Verify that the proposed address is available.
+2. Assign the address using the appropriate static or DHCP method.
+3. Update the device inventory.
+4. Update network documentation where applicable.
+5. Validate DNS and network connectivity.
+6. Include infrastructure configuration in backup procedures where applicable.
 
 ## Maintenance
 
-Update this document whenever:
+Review the addressing strategy when:
 
-- A reservation is created or changed
-- A server is deployed
-- Network ranges change
-- VLANs are introduced
-- Infrastructure devices are added or removed
+- Infrastructure systems are added or removed
+- DHCP scopes change
+- Reservations are introduced or retired
+- New subnets or VLANs are deployed
+- DNS or DHCP architecture changes
+- Network segmentation is introduced
