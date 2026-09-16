@@ -18,7 +18,7 @@ Detailed deployment and validation procedures are maintained separately in the W
 | Network | `10.0.0.0/24` |
 | Default Gateway | `10.0.0.1` |
 | DHCP Scope | `10.0.0.100–10.0.0.199` |
-| Lease Duration | 3 days |
+| Lease Duration | 1 day |
 | DHCP Failover Mode | Load Balance |
 | Load Balance | 50/50 |
 | Maximum Client Lead Time | 1 hour |
@@ -49,7 +49,7 @@ A single IPv4 scope was created for the primary LAN.
 | Start Address | `10.0.0.100` |
 | End Address | `10.0.0.199` |
 | Subnet Mask | `255.255.255.0` |
-| Lease Duration | 3 days |
+| Lease Duration | 1 day |
 
 Infrastructure systems use addresses outside the DHCP allocation range.
 
@@ -79,35 +79,64 @@ The relationship uses **Load Balance** mode with a 50/50 distribution. Both DHCP
 | Local Server | 50% |
 | Partner Server | 50% |
 | Maximum Client Lead Time | 1 hour |
-| Automatic State Transition | Disabled (**will be used later**) |
+| Automatic State Transition | Disabled |
 | Message Authentication | Enabled |
 | Shared Secret | Stored securely outside the repository |
 
 The failover relationship successfully replicated the LAN scope to the partner DHCP server.
 
 
+## DNS Registration
+
+DHCP-managed dynamic DNS registration is disabled to keep DHCP and DNS responsibilities separate.
+
+Domain-joined Windows clients may securely register their own DNS records with Active Directory-integrated DNS. DNS records for infrastructure systems are managed separately.
+
+
+## DHCP Cutover
+
+DHCP service was migrated from the existing network DHCP service to the redundant Windows DHCP environment.
+
+The previous DHCP allocation range was temporarily moved to prevent overlapping address assignment during migration. Existing clients were allowed to transition away from the original range before the Windows DHCP scopes were activated.
+
+After validation, the previous DHCP service was disabled and Windows DHCP became the active DHCP service for the network.
+
+
+## Failover Testing
+
+DHCP availability was tested by shutting down each DHCP server independently.
+
+During each outage, the surviving server detected the loss of communication and entered the `CommunicationInterrupted` state. Clients were able to release and obtain DHCP leases from the remaining server with the expected gateway, DNS servers, domain suffix, and lease duration.
+
+After each server was restored, the failover relationship automatically returned to the `Normal` state.
+
+Automatic transition to `PartnerDown` remains disabled. This allows an extended partner outage to be declared manually when required.
+
+
 ## Validation
 
-The deployment was validated from both DHCP servers.
+The deployment was validated from both DHCP servers and DHCP clients.
 
 Validation confirmed:
 
 - Both DHCP servers are authorized in Active Directory
-- The LAN scope exists on both servers
+- The LAN scope exists and is active on both servers
 - Scope configuration is consistent between servers
 - DHCP failover relationship is established
-- Failover state reports `Normal`
+- Failover state reports `Normal` during normal operation
 - Load balancing is configured at 50/50
 - Maximum Client Lead Time is configured for one hour
 - Message authentication is enabled
-- Automatic state transition is disabled
+- Clients receive the expected gateway, DNS servers, domain suffix, and lease duration
+- Either DHCP server can continue servicing clients while its partner is unavailable
+- Failover returns to `Normal` after partner recovery
 
 
 ## Current Deployment State
 
-The Windows DHCP environment has been configured and validated but has not yet been placed into service.
+Windows DHCP is the active DHCP service for the network.
 
-The DHCP scopes remain **inactive** while the existing network DHCP service continues to provide addresses. Client migration and production cutover will be performed separately to avoid conflicts with existing DHCP leases.
+Both DHCP servers operate in a load-balanced failover relationship and provide redundant address assignment. Client cutover and bidirectional DHCP failure testing have been completed successfully.
 
 
 ## Status
@@ -123,5 +152,5 @@ The DHCP scopes remain **inactive** while the existing network DHCP service cont
 | Load Balance Configuration | ✅ Complete |
 | Failover Authentication | ✅ Complete |
 | Failover Validation | ✅ Complete |
-| Client DHCP Cutover | ⏳ Pending |
-| DHCP Failure Testing | ⏳ Pending |
+| Client DHCP Cutover | ✅ Complete |
+| DHCP Failure Testing | ✅ Complete |
