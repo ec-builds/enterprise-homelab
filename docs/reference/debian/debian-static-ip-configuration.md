@@ -145,6 +145,9 @@ sudo ifup ens18
 > [!Warning]
 > Running `ifdown` on an interface being used for SSH will interrupt the connection. Use local or hypervisor console access when possible.
 
+> [!Note]
+> When changing an active interface from DHCP to static, the old DHCP address or routes may remain temporarily. Verify with `ip -br addr` and `ip route`. If they remain, a planned reboot provides a clean network restart.
+
 A reboot may also be used during a planned maintenance window:
 
 ```bash
