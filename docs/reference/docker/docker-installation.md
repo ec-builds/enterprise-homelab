@@ -234,31 +234,29 @@ This confirms:
 
 ## Configure Non-Root Docker Access
 
-Add the current user to the Docker group:
+By default, Docker commands may require `sudo`. Add the current user to the `docker` group so Docker can be managed without elevated commands:
 
 ```bash
 sudo usermod -aG docker $USER
 ```
 
-Apply group membership:
-
-> [!Note]
-> `newgrp docker` starts a new shell session with the updated Docker group membership. Logging out and back in, or reconnecting the SSH session, is preferred for applying group membership cleanly.
+The new group membership does not take effect in the current login session. The preferred method is to **log out and log back in**, or disconnect and reconnect the SSH session.
+For testing without logging out, start a new shell with the updated group membership:
 
 ```bash
 newgrp docker
 ```
 
-Alternatively, log out and log back in.
+> [!Note]
+> `newgrp docker` starts a new shell with the `docker` group active. It does not create the group or permanently replace the need for a fresh login session.
 
-Verify Docker access:
+After reconnecting or starting the new shell, verify that Docker can be accessed without `sudo`:
 
 ```bash
 docker ps
 ```
 
-The command should execute without requiring `sudo`.
-
+If the command executes successfully, non-root Docker access is working.
 
 
 ## Verify Installed Components
