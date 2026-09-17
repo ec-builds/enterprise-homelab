@@ -283,17 +283,6 @@ Recommended baseline settings for most monitors:
 | Accepted HTTP Status | 200-299 |
 | IP Family | Auto Select |
 
-Critical connectivity monitors may use shorter intervals:
-
-| Monitor Category | Interval |
-|---|---:|
-| Gateway | 30 seconds |
-| Internet Reachability | 30 seconds |
-| DNS | 30-60 seconds |
-| Core Infrastructure | 60 seconds |
-| Platform Services | 60 seconds |
-| Applications | 60 seconds |
-
 
 ## Current Monitors
 
