@@ -12,7 +12,8 @@
 #   - System identity and resources
 #   - Storage and SMART visibility
 #   - Network configuration and connectivity
-#   - DNS and time synchronization
+#   - DNS and resolver configuration
+#   - Time synchronization
 #   - Systemd service health
 #   - APT sources, repository access, and available updates
 #
@@ -25,11 +26,9 @@
 
 set -u
 
-set -u
-
-# ============================================================
-# Debian Initial Validation
-# ============================================================
+# ------------------------------------------------------------
+# Baseline Packages
+# ------------------------------------------------------------
 
 BASE_PACKAGES=(
   vim
@@ -46,6 +45,7 @@ BASE_PACKAGES=(
   ncdu
   smartmontools
   ca-certificates
+  resolvconf
 )
 
 PASS="[PASS]"
@@ -53,16 +53,28 @@ WARN="[WARN]"
 FAIL="[FAIL]"
 INFO="[INFO]"
 
+# ------------------------------------------------------------
+# System Information
+# ------------------------------------------------------------
+
 HOSTNAME="$(hostname)"
 OS_NAME="$(. /etc/os-release && echo "$PRETTY_NAME")"
 KERNEL="$(uname -r)"
 ARCH="$(uname -m)"
 VIRTUALIZATION="$(systemd-detect-virt 2>/dev/null || echo "unknown")"
 
-PRIMARY_IFACE="$(ip route show default 2>/dev/null | awk '{print $5; exit}')"
-DEFAULT_GW="$(ip route show default 2>/dev/null | awk '{print $3; exit}')"
+PRIMARY_IFACE="$(
+  ip route show default 2>/dev/null \
+    | awk '{print $5; exit}'
+)"
+
+DEFAULT_GW="$(
+  ip route show default 2>/dev/null \
+    | awk '{print $3; exit}'
+)"
 
 if [[ -n "${PRIMARY_IFACE:-}" ]]; then
+
   IPV4_ADDR="$(
     ip -4 addr show "$PRIMARY_IFACE" 2>/dev/null \
       | awk '/inet / {print $2; exit}'
@@ -72,9 +84,12 @@ if [[ -n "${PRIMARY_IFACE:-}" ]]; then
     ip -6 addr show "$PRIMARY_IFACE" scope global 2>/dev/null \
       | awk '/inet6 / {print $2; exit}'
   )"
+
 else
+
   IPV4_ADDR="N/A"
   IPV6_ADDR="N/A"
+
 fi
 
 [[ -z "${IPV4_ADDR:-}" ]] && IPV4_ADDR="N/A"
@@ -82,19 +97,23 @@ fi
 [[ -z "${DEFAULT_GW:-}" ]] && DEFAULT_GW="N/A"
 
 ROOT_USAGE="$(
-  df -h / | awk 'NR==2 {print $3 " / " $2 " (" $5 " used)"}'
+  df -h / \
+    | awk 'NR==2 {print $3 " / " $2 " (" $5 " used)"}'
 )"
 
 ROOT_FREE="$(
-  df -h / | awk 'NR==2 {print $4}'
+  df -h / \
+    | awk 'NR==2 {print $4}'
 )"
 
 ROOT_PERCENT="$(
-  df / | awk 'NR==2 {gsub("%","",$5); print $5}'
+  df -P / \
+    | awk 'NR==2 {gsub("%","",$5); print $5}'
 )"
 
 ROOT_INODE_PERCENT="$(
-  df -i / | awk 'NR==2 {gsub("%","",$5); print $5}'
+  df -i / \
+    | awk 'NR==2 {gsub("%","",$5); print $5}'
 )"
 
 MEMORY_TOTAL="$(free -h | awk '/^Mem:/ {print $2}')"
@@ -108,6 +127,10 @@ SMART_DEVICES="$(
 )"
 
 [[ -z "$SMART_DEVICES" ]] && SMART_DEVICES="None detected"
+
+# ------------------------------------------------------------
+# Header
+# ------------------------------------------------------------
 
 echo "========================================"
 echo " Debian Initial Validation"
@@ -123,14 +146,28 @@ echo "=== Base Package Validation ==="
 missing_packages=()
 
 for pkg in "${BASE_PACKAGES[@]}"; do
+
   if dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null \
       | grep -q "install ok installed"; then
+
     printf "%-20s %s\n" "$pkg" "$PASS"
+
   else
+
     printf "%-20s %s\n" "$pkg" "$FAIL"
     missing_packages+=("$pkg")
+
   fi
+
 done
+
+echo
+
+if command -v dig >/dev/null 2>&1; then
+  echo "$PASS DNS utilities functional (dig available)"
+else
+  echo "$FAIL DNS utilities not functional (dig unavailable)"
+fi
 
 echo
 
@@ -221,20 +258,94 @@ echo
 
 echo "=== Connectivity Validation ==="
 
-if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
+if ping -c 1 -W 2 1.1.1.1 >/dev/null 2>&1; then
+
   INTERNET_STATUS="PASS"
   echo "$PASS Internet connectivity"
+
 else
+
   INTERNET_STATUS="FAIL"
   echo "$FAIL Internet connectivity"
+
 fi
 
-if getent hosts google.com >/dev/null 2>&1; then
+if getent hosts debian.org >/dev/null 2>&1; then
+
   DNS_STATUS="PASS"
   echo "$PASS DNS resolution"
+
 else
+
   DNS_STATUS="FAIL"
   echo "$FAIL DNS resolution"
+
+fi
+
+echo
+
+# ------------------------------------------------------------
+# Resolver Validation
+# ------------------------------------------------------------
+
+echo "=== Resolver Validation ==="
+
+RESOLVER_STATUS="PASS"
+RESOLVER_TYPE="Unknown"
+
+if [[ -e /etc/resolv.conf ]]; then
+
+  echo "$PASS /etc/resolv.conf exists"
+
+  if grep -Eq '^[[:space:]]*nameserver[[:space:]]+' /etc/resolv.conf; then
+    echo "$PASS Resolver contains at least one nameserver"
+  else
+    RESOLVER_STATUS="FAIL"
+    echo "$FAIL /etc/resolv.conf contains no nameserver entries"
+  fi
+
+  if [[ -L /etc/resolv.conf ]]; then
+
+    RESOLV_TARGET="$(
+      readlink -f /etc/resolv.conf 2>/dev/null || true
+    )"
+
+    if [[ "$RESOLV_TARGET" == *"/run/resolvconf/"* ]]; then
+
+      RESOLVER_TYPE="resolvconf"
+      echo "$PASS /etc/resolv.conf managed by resolvconf"
+
+    elif [[ "$RESOLV_TARGET" == *"/run/systemd/resolve/"* ]]; then
+
+      RESOLVER_TYPE="systemd-resolved"
+      echo "$INFO /etc/resolv.conf managed by systemd-resolved"
+
+    else
+
+      RESOLVER_TYPE="Managed symlink"
+      echo "$INFO /etc/resolv.conf is a managed symlink"
+
+    fi
+
+  elif grep -qi "generated by resolvconf" /etc/resolv.conf; then
+
+    RESOLVER_TYPE="resolvconf"
+    echo "$PASS /etc/resolv.conf managed by resolvconf"
+
+  else
+
+    RESOLVER_TYPE="Regular file"
+    echo "$INFO /etc/resolv.conf is a regular file"
+
+  fi
+
+else
+
+  RESOLVER_STATUS="FAIL"
+  RESOLVER_TYPE="Missing"
+
+  echo "$FAIL /etc/resolv.conf does not exist"
+
 fi
 
 echo
@@ -247,24 +358,32 @@ echo "=== System Health Validation ==="
 
 FAILED_UNITS="$(
   systemctl --failed --no-legend 2>/dev/null \
-    | grep -c .
+    | grep -c '[^[:space:]]' || true
 )"
 
 if (( FAILED_UNITS == 0 )); then
+
   SYSTEMD_STATUS="PASS"
   echo "$PASS No failed systemd units"
+
 else
+
   SYSTEMD_STATUS="FAIL"
   echo "$FAIL Failed systemd units detected: $FAILED_UNITS"
+
 fi
 
 if timedatectl show -p NTPSynchronized --value 2>/dev/null \
     | grep -q '^yes$'; then
+
   TIME_STATUS="PASS"
   echo "$PASS System clock synchronized"
+
 else
+
   TIME_STATUS="WARN"
   echo "$WARN System clock is not synchronized"
+
 fi
 
 echo
@@ -278,31 +397,50 @@ echo "=== APT Sources ==="
 APT_SOURCE_FOUND=0
 
 if [[ -f /etc/apt/sources.list ]]; then
-  if grep -Ev '^[[:space:]]*(#|$)' /etc/apt/sources.list | grep -q .; then
+
+  if grep -Ev '^[[:space:]]*(#|$)' /etc/apt/sources.list \
+      | grep -q .; then
+
     echo "/etc/apt/sources.list:"
     grep -Ev '^[[:space:]]*(#|$)' /etc/apt/sources.list
+
     APT_SOURCE_FOUND=1
+
   fi
+
 fi
 
 if compgen -G "/etc/apt/sources.list.d/*.list" >/dev/null; then
+
   for file in /etc/apt/sources.list.d/*.list; do
-    if grep -Ev '^[[:space:]]*(#|$)' "$file" | grep -q .; then
+
+    if grep -Ev '^[[:space:]]*(#|$)' "$file" \
+        | grep -q .; then
+
       echo
       echo "$file:"
       grep -Ev '^[[:space:]]*(#|$)' "$file"
+
       APT_SOURCE_FOUND=1
+
     fi
+
   done
+
 fi
 
 if compgen -G "/etc/apt/sources.list.d/*.sources" >/dev/null; then
+
   for file in /etc/apt/sources.list.d/*.sources; do
+
     echo
     echo "$file:"
     cat "$file"
+
     APT_SOURCE_FOUND=1
+
   done
+
 fi
 
 if (( APT_SOURCE_FOUND == 0 )); then
@@ -318,20 +456,28 @@ echo
 echo "=== APT Repository Validation ==="
 
 if apt-get update -qq >/dev/null 2>&1; then
+
   APT_STATUS="PASS"
   echo "$PASS APT repositories reachable"
+
+  UPDATES_AVAILABLE="$(
+    apt-get -s upgrade 2>/dev/null \
+      | awk '/^[0-9]+ upgraded/ {print $1}'
+  )"
+
+  UPDATES_AVAILABLE="${UPDATES_AVAILABLE:-0}"
+
+  echo "$INFO Available package updates: $UPDATES_AVAILABLE"
+
 else
+
   APT_STATUS="FAIL"
+  UPDATES_AVAILABLE="Unknown"
+
   echo "$FAIL APT repository update failed"
+  echo "$WARN Available package updates not evaluated because package metadata could not be refreshed"
+
 fi
-
-UPDATES_AVAILABLE="$(
-  apt list --upgradable 2>/dev/null \
-    | tail -n +2 \
-    | grep -c .
-)"
-
-echo "$INFO Available package updates: $UPDATES_AVAILABLE"
 
 echo
 
@@ -340,12 +486,20 @@ echo
 # ------------------------------------------------------------
 
 if (( ${#missing_packages[@]} == 0 )); then
+
   PACKAGE_STATUS="PASS"
   PACKAGE_SUMMARY="${#BASE_PACKAGES[@]}/${#BASE_PACKAGES[@]} installed"
+
 else
+
   PACKAGE_STATUS="FAIL"
-  INSTALLED_COUNT=$((${#BASE_PACKAGES[@]} - ${#missing_packages[@]}))
+
+  INSTALLED_COUNT=$((
+    ${#BASE_PACKAGES[@]} - ${#missing_packages[@]}
+  ))
+
   PACKAGE_SUMMARY="${INSTALLED_COUNT}/${#BASE_PACKAGES[@]} installed"
+
 fi
 
 # ------------------------------------------------------------
@@ -377,6 +531,7 @@ printf "%-22s %-40s\n" "Root Free Space" "$ROOT_FREE"
 printf "%-22s %-40s\n" "Root Inodes" "${ROOT_INODE_PERCENT}% used"
 printf "%-22s %-40s\n" "SMART Devices" "$SMART_DEVICES"
 printf "%-22s %-40s\n" "Base Packages" "$PACKAGE_SUMMARY"
+printf "%-22s %-40s\n" "Resolver" "$RESOLVER_TYPE"
 printf "%-22s %-40s\n" "Internet" "$INTERNET_STATUS"
 printf "%-22s %-40s\n" "DNS" "$DNS_STATUS"
 printf "%-22s %-40s\n" "Time Sync" "$TIME_STATUS"
@@ -389,8 +544,10 @@ printf "%-22s %-40s\n" "Available Updates" "$UPDATES_AVAILABLE"
 # ------------------------------------------------------------
 
 if (( ${#missing_packages[@]} > 0 )); then
+
   echo
   echo "Missing baseline packages:"
+
   printf '  - %s\n' "${missing_packages[@]}"
 
   echo
@@ -399,6 +556,7 @@ if (( ${#missing_packages[@]} > 0 )); then
   echo "sudo apt install -y \\"
 
   for i in "${!missing_packages[@]}"; do
+
     pkg="${missing_packages[$i]}"
 
     if (( i == ${#missing_packages[@]} - 1 )); then
@@ -406,8 +564,14 @@ if (( ${#missing_packages[@]} > 0 )); then
     else
       echo "  $pkg \\"
     fi
+
   done
+
 fi
+
+# ------------------------------------------------------------
+# Overall Status
+# ------------------------------------------------------------
 
 echo
 echo "========================================"
@@ -415,11 +579,16 @@ echo "========================================"
 if [[ "$PACKAGE_STATUS" == "PASS" \
       && "$INTERNET_STATUS" == "PASS" \
       && "$DNS_STATUS" == "PASS" \
+      && "$RESOLVER_STATUS" == "PASS" \
       && "$SYSTEMD_STATUS" == "PASS" \
       && "$APT_STATUS" == "PASS" ]]; then
+
   echo " Overall Status: PASS"
+
 else
+
   echo " Overall Status: REVIEW REQUIRED"
+
 fi
 
 echo "========================================"
