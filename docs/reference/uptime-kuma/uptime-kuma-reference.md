@@ -1,102 +1,222 @@
 # Uptime Kuma Reference
 
-Reference guide for configuring and managing monitors in Uptime Kuma.
+Reference guide for configuring and managing Uptime Kuma monitors in a homelab environment.
 
 ## Quick Start
 
-Recommended settings for most homelab services:
+Recommended baseline settings for most homelab services:
 
 | Setting | Recommended Value |
-|----------|----------|
-| Monitor Type | Depends on Service Type |
+|----------|-------------------|
+| Monitor Type | Depends on service |
 | Heartbeat Interval | 60 seconds |
 | Retries | 2 |
 | Request Timeout | 10 seconds |
-| Method | GET |
+| HTTP Method | GET |
 | Accepted Status Codes | 200-299 |
 | Max Redirects | 10 |
 | IP Family | Auto Select |
 
-### Uptime Kuma Monitor Selection Guide
+### Monitor Selection Guide
 
-| Service Type | Recommended Monitor | Example |
-|----------|----------|----------|
-| Web Application | HTTP(s) | Grafana, Uptime Kuma, Homepage |
-| Device with Web Management Interface | HTTP(s) | Router, NAS DSM, iDRAC, iLO |
-| Server Without Web Interface | Ping | Linux Server, Hypervisor Host |
-| Specific Service Port | TCP Port | SSH (22), RDP (3389), SMB (445), Database Ports |
-| DNS Server | DNS | Internal DNS, Public DNS Servers |
-| Network Device | Ping | Switches, Access Points, Firewalls |
-| Internet Connectivity | Ping | 1.1.1.1, 8.8.8.8 |
-| API Endpoint | HTTP(s) | REST APIs, Webhooks |
-| Database Service | TCP Port | SQL Server, MySQL, PostgreSQL |
+Choose the monitor based on **what needs to be validated**, not simply the type of device.
 
-> [!TIP]
-> For critical systems, monitor both the host and the application. This helps distinguish between a device outage and an application outage.
+| Target | Recommended Monitor | What It Validates |
+|----------|---------------------|-------------------|
+| Web Application | HTTP(s) | Application is responding |
+| Web Management Interface | HTTP(s) | Management service is responding |
+| Linux / Windows Server | Ping | Host is reachable |
+| Hypervisor | Ping | Host is reachable |
+| Network Device | Ping | Device is reachable |
+| Specific Service | TCP Port | Service is listening |
+| DNS Server | DNS | DNS queries are working |
+| Internet Connectivity | Ping | External network connectivity |
+| API Endpoint | HTTP(s) | API endpoint is responding |
+| Database Service | TCP Port | Database port is listening |
+
+Examples:
+
+| Service | Monitor |
+|----------|---------|
+| Grafana | HTTP(s) |
+| Prometheus | HTTP(s) |
+| Homepage | HTTP(s) |
+| Uptime Kuma | HTTP(s) |
+| Proxmox Host | Ping |
+| Docker Host | Ping |
+| Router / Firewall | Ping + HTTP(s) |
+| Managed Switch | Ping |
+| NAS | Ping + HTTP(s) |
+| SSH | TCP Port 22 |
+| RDP | TCP Port 3389 |
+| SMB | TCP Port 445 |
+| DNS | DNS |
+
+> [!Tip]
+> For important systems, monitor both the **host** and the **application or service**.
 >
 > Example:
 >
-> - `Debian VM (Ping)` → Confirms the server is reachable.
-> - `Uptime Kuma (HTTP)` → Confirms the application is functioning.
+> ```text
+> Docker Host (Ping)       → Is the server reachable?
+> Uptime Kuma (HTTP)       → Is the application responding?
+> ```
 >
-> If Ping is UP but HTTP is DOWN, the server is healthy but the application likely has an issue.
+> If Ping is UP but HTTP is DOWN, the host is reachable but the application or its Docker container may have a problem.
 
----
+
+## Initial Deployment
+
+### Database Type
+
+During the initial Uptime Kuma setup, select the database used to store monitors, configuration, notifications, and historical monitoring data.
+
+| Database | How It Works | Advantages | Best Use Case |
+|----------|--------------|------------|---------------|
+| **SQLite** | Stores the database in a local file within the Uptime Kuma data directory | Simple, lightweight, no separate database server, easy to back up and migrate | **Single-instance homelab deployments** |
+| **MariaDB** | Uses a separate MariaDB database server or container | Centralized database, mature MySQL-compatible platform, database can be managed independently of Uptime Kuma | Larger deployments or environments already using MariaDB |
+| **MySQL** | Uses a separate MySQL database server or container | Centralized database, widely supported, independent database management and backup | Environments already running MySQL |
+
+### Recommended Homelab Configuration
+
+For a single Uptime Kuma instance, use:
+
+```text
+Database Type: SQLite
+```
+
+SQLite does not require another container or database server and keeps the deployment simple.
+
+With the Docker bind mount:
+
+```yaml
+volumes:
+  - ./data:/app/data
+```
+
+persistent Uptime Kuma data is stored under:
+
+```text
+/opt/docker/uptime-kuma/data/
+```
+
+This keeps the application configuration and database together with the Docker project, making the deployment easier to back up and migrate between Docker hosts.
+
+> [!Tip]
+> SQLite is generally the best choice when Uptime Kuma is the only application that needs the database. MariaDB or MySQL becomes more useful when there is already centralized database infrastructure or a specific requirement to manage the database independently.
+
+> [!Important]
+> The live SQLite database should remain on local storage. Backing up the data directory to a NAS is appropriate, but the active database should not be placed directly on an SMB or NFS network share.
+
+
 
 ## Monitor Types
 
-| Type | Purpose | Example |
-|----------|----------|----------|
-| HTTP(s) | Monitor web applications and management interfaces | Router, NAS, Grafana |
-| Ping | Monitor host availability | Servers, routers, switches |
-| TCP Port | Verify a service is listening on a port | SSH, RDP, databases |
-| DNS | Monitor DNS functionality | Public or internal DNS servers |
+### HTTP(s)
 
-### Recommendation
+Use HTTP(s) when the objective is to verify that a web application or management interface is responding.
 
-Use:
+Examples:
 
-- HTTP(s) for applications with a web interface
-- Ping for basic device availability
-- TCP Port for infrastructure services
+```text
+Grafana
+Prometheus
+Homepage
+Uptime Kuma
+Portainer
+NAS Management
+Router / Firewall Management
+```
 
----
+HTTP monitoring provides more useful application-level validation than Ping alone.
+
+### Ping
+
+Use Ping to determine whether a host or network device is reachable.
+
+Examples:
+
+```text
+Proxmox Hosts
+Docker Hosts
+Linux Servers
+Switches
+Access Points
+Router / Firewall
+NAS
+```
+
+Ping confirms network reachability but does **not** confirm that an application running on the host is healthy.
+
+### TCP Port
+
+Use TCP monitoring when the objective is to verify that a specific service is listening.
+
+Examples:
+
+```text
+SSH        22
+DNS        53
+SMB        445
+RDP        3389
+PostgreSQL 5432
+```
+
+A successful TCP connection confirms that the port is accepting connections but does not necessarily validate the complete application workflow.
+
+### DNS
+
+Use DNS monitoring when the objective is to verify that a DNS server can successfully resolve queries.
+
+This provides better DNS validation than simply monitoring TCP/UDP port 53 because it tests the actual DNS service.
+
+Examples:
+
+```text
+Internal DNS Server
+1.1.1.1
+8.8.8.8
+```
 
 ## General Settings
 
 ### Friendly Name
 
-Display name shown in the dashboard.
+Use a name that identifies both the system and, when necessary, what is being monitored.
 
 Examples:
 
 ```text
-Router
-NAS
-Debian VM
-Grafana
-Prometheus
+prox-lab-01 - Ping
+docker-lab-01 - Ping
+Grafana - HTTP
+DNS01 - DNS
+NAS - DSM
 ```
 
----
+This becomes particularly useful when the same device has multiple monitors.
 
-### URL
+### Target / URL
 
-Target address monitored by Uptime Kuma.
+Use the address appropriate for the monitor.
 
 Examples:
 
 ```text
-https://<router-ip>
-https://<nas-ip>:5001
-http://<server-ip>:3001
+10.0.0.10
+https://10.0.0.1
+https://10.0.0.10:5001
+http://10.0.0.70:3001
 ```
 
----
+Internal DNS names can also be used when DNS itself is not the dependency being tested.
+
+> [!Note]
+> When troubleshooting infrastructure, using an IP address can help separate application availability from DNS availability. Using a hostname tests the service together with its DNS dependency.
 
 ### Heartbeat Interval
 
-How often the monitor performs a check.
+Controls how frequently Uptime Kuma performs the check.
 
 | Value | Frequency |
 |----------|----------|
@@ -104,146 +224,208 @@ How often the monitor performs a check.
 | 300 | Every 5 minutes |
 | 900 | Every 15 minutes |
 
-### Recommendation
+Recommended baseline:
 
 ```text
 60 seconds
 ```
 
-Provides timely alerts while maintaining low resource usage.
-
----
+A one-minute interval provides timely detection while generating very little load in a typical homelab.
 
 ### Retries
 
-Number of failed checks before the monitor is marked down.
+Retries prevent a single temporary failure from immediately generating a DOWN event.
 
-Example:
-
-```text
-Retries = 2
-
-Check 1 → Fail
-Check 2 → Fail
-Check 3 → Fail
-
-Status = DOWN
-```
-
-### Recommendation
+Recommended:
 
 ```text
 2
 ```
 
-Helps prevent false positives caused by temporary network issues.
+Conceptually:
 
----
+```text
+Check → Fail
+Retry → Fail
+Retry → Fail
+Status → DOWN
+```
+
+This helps reduce alerts caused by brief network interruptions or application delays.
 
 ### Request Timeout
 
-Maximum time Uptime Kuma waits for a response.
+Maximum amount of time Uptime Kuma waits for the target to respond.
 
-### Recommendation
+Recommended baseline:
 
 ```text
 10 seconds
 ```
 
-Suitable for most LAN and internet services.
-
----
+For LAN services, consistently reaching the timeout may itself indicate a performance or connectivity problem.
 
 ## HTTP Options
 
 ### Method
 
-HTTP method used for the check.
-
-Common values:
-
-```text
-GET
-POST
-HEAD
-```
-
-### Recommendation
+Recommended for normal web monitoring:
 
 ```text
 GET
 ```
 
-Suitable for most monitors.
-
----
-
-### Body Encoding
-
-Used when sending request bodies.
-
-Common values:
-
-```text
-JSON
-Form Data
-```
-
-### Recommendation
-
-Leave default unless monitoring an API that requires a request body.
-
----
+Other methods such as `POST` or `HEAD` should only be used when required by the endpoint being monitored.
 
 ### Body
 
-Optional request payload.
+Leave empty for normal web monitoring.
 
-### Recommendation
-
-Not required for standard web monitoring.
-
----
+Configure a request body only when testing an endpoint that specifically requires one.
 
 ### Headers
 
-Custom HTTP headers.
+Leave empty unless the endpoint requires custom headers.
 
 Example:
 
 ```json
 {
-  "Authorization": "Bearer TOKEN"
+  "Authorization": "Bearer <token>"
 }
 ```
 
-### Recommendation
-
-Leave blank unless required.
-
----
+> [!Important]
+> Do not place credentials, API keys, or tokens in public documentation or screenshots.
 
 ### Authentication
 
-Used when monitoring protected services.
+Configure authentication only when the monitored endpoint requires it.
 
-Common methods:
+The exact authentication method depends on the application.
 
-- None
-- Basic Authentication
-- Token Authentication
+## TLS and Certificate Monitoring
 
-### Recommendation
+### Certificate Expiry Notification
 
-Use only when the endpoint requires authentication.
+Enable for HTTPS services where certificate expiration needs to be tracked.
 
----
+Particularly useful for:
+
+```text
+Public websites
+Reverse-proxied services
+Public APIs
+```
+
+### Domain Name Expiry Notification
+
+Enable for registered public domains when domain expiration monitoring is useful.
+
+Not applicable to IP-only monitors or internal-only DNS names.
+
+### Ignore TLS/SSL Errors
+
+Leave disabled whenever possible.
+
+It may be required for internal services using self-signed or otherwise untrusted certificates.
+
+Examples:
+
+```text
+Router / Firewall
+NAS
+Lab management interfaces
+```
+
+> [!Note]
+> Ignoring TLS errors allows availability monitoring to continue, but it also means the monitor is no longer validating certificate trust.
+
+## Advanced HTTP Settings
+
+### Add Cachebuster Parameter
+
+Recommended:
+
+```text
+Disabled
+```
+
+Enable only when caching interferes with the monitor.
+
+### Upside Down Mode
+
+Recommended:
+
+```text
+Disabled
+```
+
+This reverses the normal monitor logic and is intended for specialized use cases.
+
+### Max Redirects
+
+Recommended:
+
+```text
+10
+```
+
+The default is normally sufficient.
+
+### Save HTTP Error Response
+
+Recommended:
+
+```text
+Enabled
+```
+
+The response can provide useful troubleshooting information when a monitor fails.
+
+### Save HTTP Success Response
+
+Recommended:
+
+```text
+Disabled
+```
+
+Usually unnecessary unless response content is specifically needed.
+
+### Response Max Length
+
+Recommended:
+
+```text
+1024 bytes
+```
+
+The default is sufficient for normal monitoring.
+
+### Accepted Status Codes
+
+Recommended:
+
+```text
+200-299
+```
+
+Change this only when an application intentionally returns another status code that should be considered healthy.
+
+### IP Family
+
+Recommended:
+
+```text
+Auto Select
+```
+
+Force IPv4 or IPv6 only when intentionally testing a specific protocol.
 
 ## Notifications
 
-Notification providers can be configured for alerts.
-
-Examples:
+Uptime Kuma supports multiple notification providers, including:
 
 - Email
 - Discord
@@ -252,266 +434,179 @@ Examples:
 - ntfy
 - Webhooks
 
-### Recommendation
+Configure monitors and confirm that they behave correctly before enabling production notifications.
 
-Configure notifications after monitor validation.
+This prevents configuration mistakes from generating unnecessary alerts.
 
----
+## Recommended Homelab Monitoring Pattern
 
-## Advanced Settings
+As the environment grows, separate **infrastructure availability** from **application availability**.
 
-### Certificate Expiry Notification
-
-Alerts when an SSL certificate approaches expiration.
-
-### Recommendation
-
-Enable for public-facing services.
-
----
-
-### Domain Name Expiry Notification
-
-Alerts when a domain approaches expiration.
-
-Examples:
+Example:
 
 ```text
-example.com
-example.net
-example.org
+Internet
+└── External Ping
+
+Network
+├── Router / Firewall - Ping
+├── Switch - Ping
+└── Access Point - Ping
+
+Proxmox
+├── prox-lab-01 - Ping
+├── prox-lab-02 - Ping
+└── prox-lab-03 - Ping
+
+Docker
+├── docker-lab-01 - Ping
+│   ├── Homepage - HTTP
+│   ├── Portainer - HTTP
+│   └── Reverse Proxy - HTTP
+│
+├── monitor-lab-01 - Ping
+│   ├── Prometheus - HTTP
+│   ├── Grafana - HTTP
+│   └── Uptime Kuma - HTTP
+│
+└── media-lab-vm - Ping
+    └── Jellyfin - HTTP
 ```
 
-### Recommendation
+This makes failures easier to interpret.
 
-Enable for public domains.
-
-Not useful for IP-based monitors.
-
----
-
-### Ignore TLS/SSL Errors
-
-Ignores certificate validation failures.
-
-### Common Use Case
-
-Internal devices using self-signed certificates:
+For example:
 
 ```text
-Router
-NAS
-Lab services
+Host DOWN + Applications DOWN
+→ Likely host, VM, network, or power problem
+
+Host UP + One Application DOWN
+→ Likely container or application problem
+
+Multiple Hosts DOWN
+→ Investigate shared network, hypervisor, or power dependency
 ```
-
-### Recommendation
-
-Enable only when necessary.
-
----
-
-### Add Cachebuster Parameter
-
-Adds a random parameter to bypass caching.
-
-### Recommendation
-
-Leave disabled unless cache-related issues are suspected.
-
----
-
-### Upside Down Mode
-
-Marks the service as down when it is reachable.
-
-### Recommendation
-
-Leave disabled.
-
-Used only for specialized monitoring scenarios.
-
----
-
-### Max Redirects
-
-Maximum redirects to follow.
-
-### Recommendation
-
-```text
-10
-```
-
-Default is sufficient.
-
----
-
-### Save HTTP Error Response
-
-Stores failed responses for use in notifications.
-
-### Recommendation
-
-Enable.
-
-Useful for troubleshooting.
-
----
-
-### Save HTTP Success Response
-
-Stores successful responses.
-
-### Recommendation
-
-Disable unless specifically required.
-
----
-
-### Response Max Length
-
-Maximum amount of response data to store.
-
-### Recommendation
-
-```text
-1024 bytes
-```
-
-Default is sufficient.
-
----
-
-### Accepted Status Codes
-
-HTTP status codes considered successful.
-
-Default:
-
-```text
-200-299
-```
-
-### Recommendation
-
-Keep default.
-
----
-
-### IP Family
-
-Network protocol preference.
-
-Options:
-
-```text
-Auto Select
-IPv4
-IPv6
-```
-
-### Recommendation
-
-```text
-Auto Select
-```
-
----
 
 ## Recommended Starter Monitors
 
-> **Note:** IP addresses below are sanitized examples using the documentation addressing scheme. Substitute your own network's values.
+> [!Note]
+> IP addresses below use sanitized documentation addressing. Substitute addresses appropriate for the environment.
 
-### Router
+### Router / Firewall
 
-| Setting | Value |
-|----------|----------|
-| Type | HTTP(s) |
-| URL | https://10.0.0.1 |
-| Interval | 60 seconds |
-| Retries | 2 |
-| Timeout | 10 seconds |
+```text
+Ping
+10.0.0.1
+```
 
----
+Optionally add a separate HTTP(s) monitor for the management interface.
 
-### Router (Availability)
+### Proxmox Hosts
 
-| Setting | Value |
-|----------|----------|
-| Type | Ping |
-| Target | 10.0.0.1 |
+```text
+Ping
+10.0.0.x
+```
 
----
+Create one monitor for each cluster node.
 
-### Debian VM
+### Docker Hosts
 
-| Setting | Value |
-|----------|----------|
-| Type | Ping |
-| Target | 10.0.0.70 |
+```text
+Ping
+10.0.0.x
+```
 
----
+Monitor important applications separately using HTTP(s).
 
 ### NAS
 
-| Setting | Value |
-|----------|----------|
-| Type | HTTP(s) |
-| URL | https://10.0.0.10:5001 |
+Use both:
 
----
+```text
+Ping
+10.0.0.10
+```
 
-### Uptime Kuma Self-Monitor
+and:
 
-| Setting | Value |
-|----------|----------|
-| Type | HTTP(s) |
-| URL | http://10.0.0.70:3001 |
+```text
+HTTP(s)
+https://10.0.0.10:5001
+```
 
----
+This distinguishes NAS availability from management-service availability.
+
+### DNS
+
+Use a DNS monitor against the internal DNS server and configure a known internal or external hostname as the query target.
+
+This validates actual DNS resolution rather than simply checking whether the server responds to Ping.
+
+### Uptime Kuma
+
+An HTTP monitor can be created for Uptime Kuma itself:
+
+```text
+http://10.0.0.70:3001
+```
+
+> [!Note]
+> Self-monitoring can detect some application-level problems and provides useful uptime history, but it cannot alert when the entire Uptime Kuma host or notification path is unavailable. External monitoring is required to detect a complete failure of the monitoring system itself.
 
 ## Monitoring Strategy
 
-### Ping Monitors
-
-Answer:
+Think of each monitor as answering a specific question:
 
 ```text
-Is the device reachable?
+Ping
+→ Is the host reachable?
+
+TCP
+→ Is the service accepting connections?
+
+DNS
+→ Can the DNS server resolve a query?
+
+HTTP(s)
+→ Is the application responding?
 ```
 
-Examples:
+Uptime Kuma should complement, rather than replace, infrastructure telemetry.
 
-- Router
-- Servers
-- Switches
-
----
-
-### HTTP(s) Monitors
-
-Answer:
+In this environment:
 
 ```text
-Is the application working?
+Uptime Kuma
+→ Availability and alerting
+
+Prometheus
+→ Metrics collection
+
+Grafana
+→ Visualization
+
+Loki
+→ Log aggregation
+
+Alertmanager
+→ Metrics-based alert routing
 ```
 
-Examples:
-
-- Router management page
-- NAS DSM
-- Grafana
-- Uptime Kuma
-
----
+Together, these provide both **availability monitoring** and deeper **performance and infrastructure telemetry**.
 
 ## Best Practices
 
-1. Start with a small number of monitors.
-2. Use meaningful monitor names.
-3. Enable retries to reduce false positives.
-4. Use HTTPS whenever available.
-5. Enable TLS error ignoring only when necessary.
-6. Configure notifications after monitor validation.
-7. Use both Ping and HTTP(s) monitors for critical infrastructure.
-8. Group related monitors as the environment grows.
+1. Monitor the dependency that actually matters rather than creating monitors simply because a device exists.
+2. Use Ping for host availability and HTTP(s) for application availability.
+3. Use DNS monitors to validate DNS resolution rather than relying only on Ping.
+4. Use meaningful names when multiple monitors target the same system.
+5. Use retries to reduce alerts from brief interruptions.
+6. Start with a 60-second heartbeat interval and adjust only when necessary.
+7. Validate monitors before enabling notifications.
+8. Monitor important hosts and their applications separately.
+9. Avoid ignoring TLS errors unless required.
+10. Never expose credentials, API tokens, internal addresses, or private hostnames in public documentation.
+11. Group related monitors as the environment grows.
+12. Use Uptime Kuma for availability while Prometheus, Grafana, and Loki provide deeper observability.
