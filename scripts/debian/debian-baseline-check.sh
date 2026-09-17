@@ -1,18 +1,56 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+# ============================================================
 # Debian Baseline & Template Readiness Check
-# Performs non-destructive system validation with package metadata refresh.
+# ============================================================
 #
-# Default mode:
-#   Validates the standard Debian baseline.
-#
-# Template mode:
-#   Validates the Debian baseline plus template-specific readiness checks.
+# Validates the standard Debian baseline and optionally performs
+# template-specific readiness checks.
 #
 # Usage:
 #   sudo bash debian-baseline-check.sh
 #   sudo bash debian-baseline-check.sh --template
 #   bash debian-baseline-check.sh --help
+#
+# Baseline mode validates:
+#   - Debian version and architecture
+#   - Required baseline packages
+#   - Administrative access
+#   - SSH configuration
+#   - Proxmox guest integration
+#   - Optional services
+#   - Network connectivity and DNS
+#   - Resolver configuration
+#   - APT repository access and updates
+#   - Time synchronization
+#   - Storage
+#   - Systemd service health
+#
+# Template mode additionally validates:
+#   - Machine ID state
+#   - SSH host keys
+#   - D-Bus machine ID
+#   - Additional persistent mounts
+# ============================================================
+
+set -u
+
+# ------------------------------------------------------------
+# Initial Notice
+# ------------------------------------------------------------
+
+echo "NOTE: For VM template readiness checks, run this script with --template."
+echo "      Example: sudo bash $0 --template"
+echo
+
+# ------------------------------------------------------------
+# Status Labels
+# ------------------------------------------------------------
+
+PASS="[PASS]"
+WARN="[WARN]"
+FAIL="[FAIL]"
+INFO="[INFO]"
 
 PASS_COUNT=0
 INFO_COUNT=0
@@ -64,34 +102,76 @@ fi
 # ------------------------------------------------------------
 
 pass() {
-    echo "[PASS] $1"
+    echo "$PASS $1"
     ((PASS_COUNT++))
 }
 
 info() {
-    echo "[INFO] $1"
+    echo "$INFO $1"
     INFO_MESSAGES+=("$1")
     ((INFO_COUNT++))
 }
 
 warn() {
-    echo "[WARN] $1"
+    echo "$WARN $1"
     WARNINGS+=("$1")
     ((WARN_COUNT++))
 }
 
 fail() {
-    echo "[FAIL] $1"
+    echo "$FAIL $1"
     FAILURES+=("$1")
     ((FAIL_COUNT++))
 }
 
-section() {
-    echo
-    echo "========================================"
-    echo " $1"
-    echo "========================================"
-}
+# ------------------------------------------------------------
+# System Information
+# ------------------------------------------------------------
+
+HOSTNAME_CURRENT="$(hostname)"
+OS_NAME="$(. /etc/os-release 2>/dev/null && echo "${PRETTY_NAME:-Unknown}")"
+OS_ID="$(. /etc/os-release 2>/dev/null && echo "${ID:-unknown}")"
+OS_VERSION="$(. /etc/os-release 2>/dev/null && echo "${VERSION_ID:-unknown}")"
+KERNEL="$(uname -r)"
+ARCH="$(uname -m)"
+VIRTUALIZATION="$(systemd-detect-virt 2>/dev/null || echo "unknown")"
+
+PRIMARY_IFACE="$(
+    ip route show default 2>/dev/null \
+        | awk '{print $5; exit}'
+)"
+
+DEFAULT_GW="$(
+    ip route show default 2>/dev/null \
+        | awk '{print $3; exit}'
+)"
+
+if [[ -n "${PRIMARY_IFACE:-}" ]]; then
+    IPV4_ADDR="$(
+        ip -4 addr show "$PRIMARY_IFACE" 2>/dev/null \
+            | awk '/inet / {print $2; exit}'
+    )"
+else
+    IPV4_ADDR=""
+fi
+
+[[ -z "${PRIMARY_IFACE:-}" ]] && PRIMARY_IFACE="N/A"
+[[ -z "${DEFAULT_GW:-}" ]] && DEFAULT_GW="N/A"
+[[ -z "${IPV4_ADDR:-}" ]] && IPV4_ADDR="N/A"
+
+ROOT_USAGE="$(
+    df -h / 2>/dev/null \
+        | awk 'NR==2 {print $3 " / " $2 " (" $5 " used)"}'
+)"
+
+ROOT_PERCENT="$(
+    df -P / 2>/dev/null \
+        | awk 'NR==2 {gsub("%","",$5); print $5}'
+)"
+
+MEMORY_TOTAL="$(free -h | awk '/^Mem:/ {print $2}')"
+MEMORY_USED="$(free -h | awk '/^Mem:/ {print $3}')"
+SWAP_TOTAL="$(free -h | awk '/^Swap:/ {print $2}')"
 
 # ------------------------------------------------------------
 # Header
@@ -100,72 +180,87 @@ section() {
 echo "========================================"
 
 if [[ "$TEMPLATE_MODE" == true ]]; then
-    echo " Debian Baseline & Template Readiness Check"
-    echo " Mode: Template"
+    echo " Debian Baseline & Template Readiness"
 else
-    echo " Debian Baseline Check"
-    echo " Mode: Baseline"
+    echo " Debian Baseline Validation"
 fi
 
 echo "========================================"
+echo
 
 # ------------------------------------------------------------
 # Operating System
 # ------------------------------------------------------------
 
-section "Operating System"
+echo "=== Operating System ==="
 
-if [[ -f /etc/os-release ]]; then
-    . /etc/os-release
-
-    if [[ "$ID" == "debian" ]]; then
-        pass "Debian detected: $PRETTY_NAME"
-    else
-        fail "System is not Debian"
-    fi
-
-    if [[ "$VERSION_ID" == "13" ]]; then
-        pass "Debian 13 detected"
-    else
-        warn "Expected Debian 13; detected version ${VERSION_ID:-unknown}"
-    fi
+if [[ "$OS_ID" == "debian" ]]; then
+    echo "$PASS Debian detected: $OS_NAME"
+    ((PASS_COUNT++))
 else
-    fail "/etc/os-release not found"
+    fail "System is not Debian"
 fi
 
-ARCH="$(uname -m)"
+if [[ "$OS_VERSION" == "13" ]]; then
+    echo "$PASS Debian 13 detected"
+    ((PASS_COUNT++))
+else
+    warn "Expected Debian 13; detected version $OS_VERSION"
+fi
 
 if [[ "$ARCH" == "x86_64" ]]; then
-    pass "Architecture: x86_64"
+    echo "$PASS Architecture: $ARCH"
+    ((PASS_COUNT++))
 else
     warn "Unexpected architecture: $ARCH"
 fi
+
+echo
 
 # ------------------------------------------------------------
 # System Identity
 # ------------------------------------------------------------
 
-section "System Identity"
+echo "=== System Identity ==="
 
-HOSTNAME_CURRENT="$(hostname)"
+echo "Hostname:          $HOSTNAME_CURRENT"
+echo "Operating System:  $OS_NAME"
+echo "Kernel:            $KERNEL"
+echo "Architecture:      $ARCH"
+echo "Virtualization:    $VIRTUALIZATION"
 
 if [[ -n "$HOSTNAME_CURRENT" ]]; then
-    pass "Hostname configured: $HOSTNAME_CURRENT"
+    ((PASS_COUNT++))
 else
     fail "Hostname not configured"
 fi
 
 if hostnamectl >/dev/null 2>&1; then
-    pass "hostnamectl is functional"
+    ((PASS_COUNT++))
 else
     fail "hostnamectl failed"
 fi
+
+echo
+
+# ------------------------------------------------------------
+# Resource Validation
+# ------------------------------------------------------------
+
+echo "=== Resource Validation ==="
+
+echo "$INFO Memory usage: ${MEMORY_USED} / ${MEMORY_TOTAL}"
+echo "$INFO Swap configured: ${SWAP_TOTAL}"
+
+((INFO_COUNT+=2))
+
+echo
 
 # ------------------------------------------------------------
 # Baseline Packages
 # ------------------------------------------------------------
 
-section "Baseline Packages"
+echo "=== Baseline Package Validation ==="
 
 BASELINE_PACKAGES=(
     vim
@@ -174,6 +269,7 @@ BASELINE_PACKAGES=(
     wget
     htop
     tree
+    bind9-dnsutils
     bash-completion
     cifs-utils
     rsync
@@ -184,30 +280,43 @@ BASELINE_PACKAGES=(
     resolvconf
 )
 
+BASELINE_INSTALLED=0
+BASELINE_TOTAL="${#BASELINE_PACKAGES[@]}"
+
 for package in "${BASELINE_PACKAGES[@]}"; do
+
     if dpkg-query -W -f='${Status}' "$package" 2>/dev/null \
         | grep -q "install ok installed"; then
-        pass "$package installed"
+
+        printf "%-20s %s\n" "$package" "$PASS"
+        ((BASELINE_INSTALLED++))
+        ((PASS_COUNT++))
+
     else
-        fail "$package not installed"
+
+        printf "%-20s %s\n" "$package" "$FAIL"
+        FAILURES+=("$package not installed")
+        ((FAIL_COUNT++))
+
     fi
+
 done
 
-# dnsutils is provided by bind9-dnsutils on Debian 13.
-# Validate the required DNS troubleshooting capability instead
-# of checking for a package literally named "dnsutils".
+echo
 
 if command -v dig >/dev/null 2>&1; then
-    pass "DNS utilities installed (dig available)"
+    pass "DNS utilities functional (dig available)"
 else
-    fail "DNS utilities not installed (dig unavailable)"
+    fail "DNS utilities not functional (dig unavailable)"
 fi
+
+echo
 
 # ------------------------------------------------------------
 # Administrative Access
 # ------------------------------------------------------------
 
-section "Administrative Access"
+echo "=== Administrative Access ==="
 
 if dpkg-query -W -f='${Status}' sudo 2>/dev/null \
     | grep -q "install ok installed"; then
@@ -216,11 +325,13 @@ else
     fail "sudo not installed"
 fi
 
+echo
+
 # ------------------------------------------------------------
 # SSH
 # ------------------------------------------------------------
 
-section "SSH"
+echo "=== SSH Validation ==="
 
 if dpkg-query -W -f='${Status}' openssh-server 2>/dev/null \
     | grep -q "install ok installed"; then
@@ -241,11 +352,13 @@ else
     warn "SSH service not enabled"
 fi
 
+echo
+
 # ------------------------------------------------------------
 # Proxmox Guest Integration
 # ------------------------------------------------------------
 
-section "Proxmox Guest Integration"
+echo "=== Proxmox Guest Integration ==="
 
 if dpkg-query -W -f='${Status}' qemu-guest-agent 2>/dev/null \
     | grep -q "install ok installed"; then
@@ -260,20 +373,18 @@ else
     fail "QEMU Guest Agent not running"
 fi
 
+echo
+
 # ------------------------------------------------------------
 # Optional Services
 # ------------------------------------------------------------
 
-section "Optional Services"
-
-# Avahi provides mDNS/local service discovery.
-# It is optional and intentionally not included in the base template.
-# Its absence is informational and does not affect readiness.
+echo "=== Optional Services ==="
 
 if dpkg-query -W -f='${Status}' avahi-daemon 2>/dev/null \
     | grep -q "install ok installed"; then
 
-    info "Avahi installed (optional; not required by template)"
+    info "Avahi installed (optional)"
 
     if systemctl is-active --quiet avahi-daemon; then
         pass "Avahi daemon running"
@@ -286,102 +397,213 @@ if dpkg-query -W -f='${Status}' avahi-daemon 2>/dev/null \
     else
         warn "Avahi daemon installed but not enabled"
     fi
+
 else
+
     info "Avahi not installed (optional; not included in template)"
+
 fi
 
+echo
+
 # ------------------------------------------------------------
-# Networking
+# Network Validation
 # ------------------------------------------------------------
 
-section "Networking"
+echo "=== Network Validation ==="
 
-if ip -4 addr show scope global 2>/dev/null | grep -q 'inet '; then
-    pass "Active IPv4 network interface detected"
+if [[ "$PRIMARY_IFACE" != "N/A" ]]; then
+    pass "Primary interface detected: $PRIMARY_IFACE"
 else
-    fail "No active IPv4 network interface detected"
+    fail "No default network interface detected"
 fi
 
-if ip route | grep -q '^default '; then
-    pass "Default route configured"
+if [[ "$IPV4_ADDR" != "N/A" ]]; then
+    pass "IPv4 address: $IPV4_ADDR"
+else
+    fail "No active IPv4 address detected"
+fi
+
+if [[ "$DEFAULT_GW" != "N/A" ]]; then
+    pass "Default gateway: $DEFAULT_GW"
 else
     fail "Default route not configured"
 fi
 
-if getent hosts debian.org >/dev/null 2>&1; then
-    pass "DNS resolution working"
+echo
+
+# ------------------------------------------------------------
+# Connectivity Validation
+# ------------------------------------------------------------
+
+echo "=== Connectivity Validation ==="
+
+if ping -c 1 -W 3 1.1.1.1 >/dev/null 2>&1; then
+    INTERNET_STATUS="PASS"
+    pass "Internet connectivity"
 else
+    INTERNET_STATUS="FAIL"
+    fail "Internet connectivity failed"
+fi
+
+if getent hosts debian.org >/dev/null 2>&1; then
+    DNS_STATUS="PASS"
+    pass "DNS resolution"
+else
+    DNS_STATUS="FAIL"
     fail "DNS resolution failed"
 fi
 
-if ping -c 1 -W 3 1.1.1.1 >/dev/null 2>&1; then
-    pass "External IP connectivity working"
+echo
+
+# ------------------------------------------------------------
+# Resolver Validation
+# ------------------------------------------------------------
+
+echo "=== Resolver Validation ==="
+
+RESOLVER_TYPE="Unknown"
+
+if [[ -e /etc/resolv.conf ]]; then
+
+    pass "/etc/resolv.conf exists"
+
+    if grep -Eq '^[[:space:]]*nameserver[[:space:]]+' /etc/resolv.conf; then
+        pass "Resolver contains at least one nameserver"
+    else
+        fail "/etc/resolv.conf contains no nameserver entries"
+    fi
+
+    if [[ -L /etc/resolv.conf ]]; then
+
+        RESOLV_TARGET="$(readlink -f /etc/resolv.conf 2>/dev/null || true)"
+
+        if [[ "$RESOLV_TARGET" == *"/run/resolvconf/"* ]]; then
+            RESOLVER_TYPE="resolvconf"
+            pass "/etc/resolv.conf managed by resolvconf"
+
+        elif [[ "$RESOLV_TARGET" == *"/run/systemd/resolve/"* ]]; then
+            RESOLVER_TYPE="systemd-resolved"
+            pass "/etc/resolv.conf managed by systemd-resolved"
+
+        else
+            RESOLVER_TYPE="Managed symlink"
+            info "/etc/resolv.conf is a managed symlink"
+        fi
+
+    elif grep -qi "generated by resolvconf" /etc/resolv.conf; then
+
+        RESOLVER_TYPE="resolvconf"
+        pass "/etc/resolv.conf managed by resolvconf"
+
+    else
+
+        RESOLVER_TYPE="Regular file"
+        info "/etc/resolv.conf is a regular file"
+
+    fi
+
 else
-    fail "External IP connectivity failed"
+
+    RESOLVER_TYPE="Missing"
+    fail "/etc/resolv.conf does not exist"
+
 fi
 
+echo
+
 # ------------------------------------------------------------
-# Package Updates
+# APT Repository Validation
 # ------------------------------------------------------------
 
-section "Package Updates"
+echo "=== APT Repository Validation ==="
 
 if apt-get update -qq >/dev/null 2>&1; then
-    pass "Debian repositories reachable"
+
+    APT_STATUS="PASS"
+    pass "APT repositories reachable"
+
+    UPGRADE_COUNT="$(
+        apt-get -s upgrade 2>/dev/null \
+            | awk '/^[0-9]+ upgraded/ {print $1}'
+    )"
+
+    UPGRADE_COUNT="${UPGRADE_COUNT:-0}"
+
+    if [[ "$UPGRADE_COUNT" -eq 0 ]]; then
+        pass "No pending package upgrades"
+    else
+        info "$UPGRADE_COUNT package upgrade(s) pending"
+    fi
+
 else
-    fail "Unable to reach Debian repositories"
+
+    APT_STATUS="FAIL"
+    UPGRADE_COUNT="Unknown"
+
+    fail "Unable to reach APT repositories"
+    warn "Pending package upgrades not evaluated because package metadata could not be refreshed"
+
 fi
 
-UPGRADE_COUNT="$(
-    apt-get -s upgrade 2>/dev/null \
-        | awk '/^[0-9]+ upgraded/ {print $1}'
-)"
-
-if [[ "${UPGRADE_COUNT:-0}" -eq 0 ]]; then
-    pass "No pending package upgrades"
-else
-    warn "$UPGRADE_COUNT package upgrade(s) pending"
-fi
+echo
 
 # ------------------------------------------------------------
 # Time Synchronization
 # ------------------------------------------------------------
 
-section "Time Synchronization"
+echo "=== Time Synchronization ==="
 
 if timedatectl show -p NTPSynchronized --value 2>/dev/null \
     | grep -q '^yes$'; then
+
+    TIME_STATUS="PASS"
     pass "System clock synchronized"
+
 else
+
+    TIME_STATUS="WARN"
     warn "System clock not synchronized"
+
 fi
+
+echo
 
 # ------------------------------------------------------------
 # Storage
 # ------------------------------------------------------------
 
-section "Storage"
+echo "=== Storage Validation ==="
 
-ROOT_USAGE="$(
-    df -P / \
-        | awk 'NR==2 {gsub("%","",$5); print $5}'
-)"
+if [[ "$ROOT_PERCENT" =~ ^[0-9]+$ ]]; then
 
-if [[ "$ROOT_USAGE" =~ ^[0-9]+$ ]]; then
-    if (( ROOT_USAGE < 90 )); then
-        pass "Root filesystem usage: ${ROOT_USAGE}%"
+    if (( ROOT_PERCENT < 80 )); then
+        pass "Root filesystem usage: ${ROOT_PERCENT}%"
+    elif (( ROOT_PERCENT < 90 )); then
+        warn "Root filesystem usage: ${ROOT_PERCENT}%"
     else
-        warn "Root filesystem usage high: ${ROOT_USAGE}%"
+        fail "Root filesystem usage: ${ROOT_PERCENT}%"
     fi
+
 else
+
     warn "Unable to determine root filesystem usage"
+
 fi
+
+if smartctl --scan >/dev/null 2>&1; then
+    pass "smartmontools device scan completed"
+else
+    warn "SMART device scan returned an error"
+fi
+
+echo
 
 # ------------------------------------------------------------
 # System Health
 # ------------------------------------------------------------
 
-section "System Health"
+echo "=== System Health Validation ==="
 
 FAILED_UNITS="$(
     systemctl --failed --no-legend 2>/dev/null \
@@ -389,64 +611,72 @@ FAILED_UNITS="$(
 )"
 
 if [[ "$FAILED_UNITS" -eq 0 ]]; then
+
+    SYSTEMD_STATUS="PASS"
     pass "No failed systemd units"
+
 else
+
+    SYSTEMD_STATUS="FAIL"
     fail "$FAILED_UNITS failed systemd unit(s) detected"
+
 fi
 
-# Template warnings indicate machine-specific identity that should be cleared
-# immediately before shutdown and conversion to a template. Clear /etc/machine-id
-# with `truncate -s 0`, remove the existing SSH host keys, and check
-# /var/lib/dbus/machine-id with `ls -l` before removing it. If the D-Bus
-# machine-id is a symlink to /etc/machine-id, leave the symlink intact; if it is
-# a regular file, remove it. This prevents cloned VMs from inheriting the same
-# machine identity or SSH host keys. Shut down immediately after cleanup and do
-# not boot the source VM again before converting it to a template.
-#
-# Commands:
-#   sudo truncate -s 0 /etc/machine-id
-#   ls -l /var/lib/dbus/machine-id
-#   if [[ ! -L /var/lib/dbus/machine-id ]]; then
-#       sudo rm -f /var/lib/dbus/machine-id
-#   fi
-#   sudo rm -f /etc/ssh/ssh_host_*
-#   sudo shutdown -h now
+echo
 
 # ------------------------------------------------------------
 # Template Readiness
 # ------------------------------------------------------------
 
+MACHINE_ID_STATUS="N/A"
+SSH_KEYS_STATUS="N/A"
+DBUS_ID_STATUS="N/A"
+CUSTOM_MOUNTS_STATUS="N/A"
+
 if [[ "$TEMPLATE_MODE" == true ]]; then
 
-    section "Template Readiness"
+    echo "=== Template Readiness ==="
 
     if [[ -s /etc/machine-id ]]; then
+
+        MACHINE_ID_STATUS="CLEAR REQUIRED"
         warn "/etc/machine-id is populated — clear during final template preparation"
+
     else
+
+        MACHINE_ID_STATUS="PASS"
         pass "/etc/machine-id already cleared"
+
     fi
 
     if compgen -G "/etc/ssh/ssh_host_*" >/dev/null; then
+
+        SSH_KEYS_STATUS="CLEAR REQUIRED"
         warn "SSH host keys exist — remove during final template preparation"
+
     else
+
+        SSH_KEYS_STATUS="PASS"
         pass "SSH host keys cleared"
+
     fi
 
-    if [[ -s /var/lib/dbus/machine-id ]]; then
+    if [[ -L /var/lib/dbus/machine-id ]]; then
+
+        DBUS_ID_STATUS="SYMLINK"
+        pass "/var/lib/dbus/machine-id is a symlink"
+
+    elif [[ -s /var/lib/dbus/machine-id ]]; then
+
+        DBUS_ID_STATUS="CLEAR REQUIRED"
         warn "/var/lib/dbus/machine-id contains machine-specific state"
-    else
-        pass "/var/lib/dbus/machine-id contains no machine-specific state"
-    fi
 
-    # Ignore expected Debian system mounts:
-    #   /
-    #   /boot
-    #   /boot/efi
-    #   swap
-    #   installer CD-ROM mounts
-    #
-    # Any remaining entries may represent workload-specific,
-    # network, or additional persistent storage.
+    else
+
+        DBUS_ID_STATUS="PASS"
+        pass "/var/lib/dbus/machine-id contains no machine-specific state"
+
+    fi
 
     CUSTOM_MOUNTS="$(
         awk '
@@ -459,115 +689,202 @@ if [[ "$TEMPLATE_MODE" == true ]]; then
     )"
 
     if [[ -n "$CUSTOM_MOUNTS" ]]; then
+
+        CUSTOM_MOUNTS_STATUS="REVIEW"
         warn "Additional persistent mounts found in /etc/fstab"
+
         echo
         echo "$CUSTOM_MOUNTS"
+
     else
+
+        CUSTOM_MOUNTS_STATUS="PASS"
         pass "No additional persistent mounts found"
+
     fi
+
+    echo
 
 fi
 
 # ------------------------------------------------------------
-# Summary
+# Baseline Package Summary
 # ------------------------------------------------------------
 
-section "Summary"
+if (( BASELINE_INSTALLED == BASELINE_TOTAL )); then
+    PACKAGE_STATUS="PASS"
+else
+    PACKAGE_STATUS="FAIL"
+fi
+
+PACKAGE_SUMMARY="${BASELINE_INSTALLED}/${BASELINE_TOTAL} installed"
+
+# ------------------------------------------------------------
+# Validation Summary
+# ------------------------------------------------------------
+
+echo "========================================"
+echo " Validation Summary"
+echo "========================================"
+
+printf "%-22s %-40s\n" "Item" "Value"
+printf "%-22s %-40s\n" \
+    "----------------------" \
+    "----------------------------------------"
+
+printf "%-22s %-40s\n" "Mode" \
+    "$([[ "$TEMPLATE_MODE" == true ]] && echo "Template" || echo "Baseline")"
+
+printf "%-22s %-40s\n" "Hostname" "$HOSTNAME_CURRENT"
+printf "%-22s %-40s\n" "Operating System" "$OS_NAME"
+printf "%-22s %-40s\n" "Kernel" "$KERNEL"
+printf "%-22s %-40s\n" "Architecture" "$ARCH"
+printf "%-22s %-40s\n" "Virtualization" "$VIRTUALIZATION"
+printf "%-22s %-40s\n" "Memory" "${MEMORY_USED} / ${MEMORY_TOTAL}"
+printf "%-22s %-40s\n" "Swap" "$SWAP_TOTAL"
+printf "%-22s %-40s\n" "Primary Interface" "$PRIMARY_IFACE"
+printf "%-22s %-40s\n" "IPv4 Address" "$IPV4_ADDR"
+printf "%-22s %-40s\n" "Default Gateway" "$DEFAULT_GW"
+printf "%-22s %-40s\n" "Root Filesystem" "$ROOT_USAGE"
+printf "%-22s %-40s\n" "Base Packages" "$PACKAGE_SUMMARY"
+printf "%-22s %-40s\n" "Resolver" "$RESOLVER_TYPE"
+printf "%-22s %-40s\n" "Internet" "$INTERNET_STATUS"
+printf "%-22s %-40s\n" "DNS" "$DNS_STATUS"
+printf "%-22s %-40s\n" "Time Sync" "$TIME_STATUS"
+printf "%-22s %-40s\n" "Failed Services" "$FAILED_UNITS"
+printf "%-22s %-40s\n" "APT Repositories" "$APT_STATUS"
+printf "%-22s %-40s\n" "Available Updates" "$UPGRADE_COUNT"
 
 if [[ "$TEMPLATE_MODE" == true ]]; then
-    echo "Mode: Template"
-else
-    echo "Mode: Baseline"
+    printf "%-22s %-40s\n" "Machine ID" "$MACHINE_ID_STATUS"
+    printf "%-22s %-40s\n" "SSH Host Keys" "$SSH_KEYS_STATUS"
+    printf "%-22s %-40s\n" "D-Bus Machine ID" "$DBUS_ID_STATUS"
+    printf "%-22s %-40s\n" "Persistent Mounts" "$CUSTOM_MOUNTS_STATUS"
 fi
 
 echo
-echo "PASS: $PASS_COUNT"
-echo "INFO: $INFO_COUNT"
-echo "WARN: $WARN_COUNT"
-echo "FAIL: $FAIL_COUNT"
+
+printf "%-22s %-10s\n" "Passed Checks" "$PASS_COUNT"
+printf "%-22s %-10s\n" "Information" "$INFO_COUNT"
+printf "%-22s %-10s\n" "Warnings" "$WARN_COUNT"
+printf "%-22s %-10s\n" "Failed Checks" "$FAIL_COUNT"
+
+# ------------------------------------------------------------
+# Information, Warnings, and Failures
+# ------------------------------------------------------------
 
 if (( INFO_COUNT > 0 )); then
+
     echo
     echo "Information:"
+
     for item in "${INFO_MESSAGES[@]}"; do
-        echo "  [INFO] $item"
+        echo "  $INFO $item"
     done
+
 fi
 
 if (( WARN_COUNT > 0 )); then
+
     echo
     echo "Warnings:"
+
     for item in "${WARNINGS[@]}"; do
-        echo "  [WARN] $item"
+        echo "  $WARN $item"
     done
+
 fi
 
 if (( FAIL_COUNT > 0 )); then
+
     echo
     echo "Failed Checks:"
+
     for item in "${FAILURES[@]}"; do
-        echo "  [FAIL] $item"
+        echo "  $FAIL $item"
     done
+
 fi
+
+# ------------------------------------------------------------
+# Template Preparation Instructions
+# ------------------------------------------------------------
+
+if [[ "$TEMPLATE_MODE" == true && "$WARN_COUNT" -gt 0 ]]; then
+
+    echo
+    echo "Template Preparation:"
+    echo
+    echo "  For machine identity or SSH host key warnings:"
+    echo
+    echo "  1. Check the D-Bus machine ID:"
+    echo "     ls -l /var/lib/dbus/machine-id"
+    echo
+    echo "     - Regular file: remove it during final preparation."
+    echo "     - Symlink: leave it unchanged."
+    echo
+    echo "  2. Clear the system machine ID:"
+    echo "     sudo truncate -s 0 /etc/machine-id"
+    echo
+    echo "  3. If the D-Bus machine ID is a regular file:"
+    echo "     sudo rm -f /var/lib/dbus/machine-id"
+    echo
+    echo "  4. Remove existing SSH host keys:"
+    echo "     sudo rm -f /etc/ssh/ssh_host_*"
+    echo
+    echo "  5. Shut down immediately:"
+    echo "     sudo shutdown -h now"
+    echo
+    echo "  Do not boot the source VM again before converting it"
+    echo "  to a template."
+
+fi
+
+# ------------------------------------------------------------
+# Final Result
+# ------------------------------------------------------------
 
 echo
+echo "========================================"
 
 if (( FAIL_COUNT > 0 )); then
-    echo "RESULT: NOT READY"
+
+    echo " Overall Status: NOT READY"
 
     if [[ "$TEMPLATE_MODE" == true ]]; then
-        echo "Resolve failed checks before preparing the VM as a template."
+        echo " Resolve failed checks before template preparation."
     else
-        echo "Resolve failed checks before considering the Debian baseline complete."
+        echo " Resolve failed checks before considering the baseline complete."
     fi
 
-    exit 2
+    RESULT=2
 
 elif (( WARN_COUNT > 0 )); then
-    echo "RESULT: READY WITH WARNINGS"
+
+    echo " Overall Status: READY WITH WARNINGS"
 
     if [[ "$TEMPLATE_MODE" == true ]]; then
-        echo "Review warnings before final template preparation."
-
-        echo
-        echo "Template Preparation:"
-        echo "  For machine identity or SSH host key warnings:"
-        echo
-        echo "  1. Check the D-Bus machine ID:"
-        echo "     ls -l /var/lib/dbus/machine-id"
-        echo "     - Regular file (output begins with \"-\"): remove it in step 3."
-        echo "     - Symlink (output begins with \"l\"): leave it unchanged."
-        echo
-        echo "  2. Clear the system machine ID:"
-        echo "     sudo truncate -s 0 /etc/machine-id"
-        echo
-        echo "  3. If the D-Bus machine ID is a regular file, remove it:"
-        echo "     sudo rm -f /var/lib/dbus/machine-id"
-        echo "     Skip this step if it is a symlink."
-        echo
-        echo "  4. Remove existing SSH host keys:"
-        echo "     sudo rm -f /etc/ssh/ssh_host_*"
-        echo
-        echo "  5. Shut down immediately:"
-        echo "     sudo shutdown -h now"
-        echo
-        echo "  This prevents cloned VMs from inheriting the same machine identity"
-        echo "  or SSH host keys. Do not boot the source VM again before converting"
-        echo "  it to a template."
+        echo " Review warnings before final template preparation."
     else
-        echo "Review warnings before considering the Debian baseline complete."
+        echo " Review warnings before considering the baseline complete."
     fi
 
-    exit 1
+    RESULT=1
 
 else
-    echo "RESULT: READY"
+
+    echo " Overall Status: PASS"
 
     if [[ "$TEMPLATE_MODE" == true ]]; then
-        echo "Baseline and template readiness checks passed."
+        echo " Baseline and template readiness checks passed."
     else
-        echo "Debian baseline checks passed."
+        echo " Debian baseline checks passed."
     fi
 
-    exit 0
+    RESULT=0
+
 fi
+
+echo "========================================"
+
+exit "$RESULT"
