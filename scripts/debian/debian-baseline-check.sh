@@ -181,6 +181,7 @@ BASELINE_PACKAGES=(
     ncdu
     smartmontools
     ca-certificates
+    resolvconf
 )
 
 for package in "${BASELINE_PACKAGES[@]}"; do
