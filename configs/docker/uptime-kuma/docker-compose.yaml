@@ -1,4 +1,7 @@
 # source: https://github.com/louislam/uptime-kuma/blob/master/compose.yaml
+#
+# Changed from a Docker named volume to a local bind mount
+# to simplify backups and migration between Docker hosts.
 
 services:
   uptime-kuma:
@@ -8,15 +11,12 @@ services:
 
     networks:
       - monitoring
-    
+
     ports:
       - "3001:3001"
-      
-    volumes:
-      - uptime-kuma:/app/data
 
-volumes:
-  uptime-kuma:
+    volumes:
+      - ./data:/app/data
 
 networks:
   monitoring:
