@@ -4,14 +4,13 @@ This document outlines the standard baseline configuration applied to
 Debian servers in the homelab environment following OS installation and
 initial SSH setup.
 
-Apply this standard to any new Debian server before beginning 
+Apply this standard to any new Debian server before beginning
 project-specific configuration.
 
 > [!NOTE]
 > If `sudo` is not yet installed on the system, follow the
 > [Configure sudo Access](../linux/linux-configure-sudo.md)
 > reference before proceeding.
-
 
 
 ## Baseline Components
@@ -23,7 +22,7 @@ The Debian baseline consists of:
 - Storage integration tools
 - Monitoring and diagnostic tools
 - Network troubleshooting utilities
-
+- DNS resolver integration
 
 
 ## Baseline Updates
@@ -35,7 +34,6 @@ making any additional changes.
 sudo apt update
 sudo apt upgrade -y
 ```
-
 
 
 ## Base Package Installation
@@ -57,9 +55,9 @@ rsync \
 unzip \
 ncdu \
 smartmontools \
-ca-certificates
+ca-certificates \
+resolvconf
 ```
-
 
 
 ## Package Summary
@@ -72,7 +70,7 @@ ca-certificates
 | wget | File downloads from remote systems |
 | htop | Interactive process and resource monitoring |
 | tree | Directory structure visualization |
-| dnsutils | DNS troubleshooting and name resolution tools |
+| bind9-dnsutils | DNS troubleshooting and name resolution tools |
 | bash-completion | Command-line auto-completion enhancements |
 | cifs-utils | SMB/CIFS network share integration |
 | rsync | File synchronization and backup operations |
@@ -80,7 +78,41 @@ ca-certificates
 | ncdu | Disk usage analysis and storage management |
 | smartmontools | Disk health monitoring and SMART diagnostics |
 | ca-certificates | Trusted Certificate Authority (CA) bundle required for HTTPS connections and SSL/TLS certificate validation |
+| resolvconf | Manages resolver information and supports propagation of DNS settings to `/etc/resolv.conf`, including `ifupdown` static network configurations |
 
+
+## Resolver Integration
+
+`resolvconf` is included in the homelab Debian baseline to provide consistent resolver management, particularly for systems using traditional `ifupdown` networking with static IP configuration.
+
+An `ifupdown` configuration may define DNS settings using:
+
+```text
+dns-nameservers 10.0.0.10 10.0.0.11
+dns-search lab.example.com
+```
+
+When `resolvconf` is used, these settings can be propagated to the dynamically managed `/etc/resolv.conf`.
+
+Verify resolver configuration with:
+
+```bash
+ls -l /etc/resolv.conf
+cat /etc/resolv.conf
+```
+
+A generated configuration may resemble:
+
+```text
+nameserver 10.0.0.10
+nameserver 10.0.0.11
+search lab.example.com
+```
+
+> [!NOTE]
+> `resolvconf` is not required by every Debian networking implementation. NetworkManager and `systemd-networkd` may use different resolver-management mechanisms. It is included in this baseline to provide consistent support for the networking configuration used by Debian servers in the homelab.
+
+For detailed static network configuration, refer to the Debian Static IP Configuration documentation.
 
 
 ## Configuration Goals
@@ -92,23 +124,24 @@ This baseline provides:
 - Network troubleshooting capabilities
 - System monitoring and diagnostics
 - Backup and synchronization support
+- DNS resolver integration
 - Foundation for future project-specific deployments
-
 
 
 ## Validation
 
 Run the following checks to verify package installation, system identity,
-storage visibility, and network connectivity before proceeding with
+storage visibility, resolver configuration, and network connectivity before proceeding with
 additional configuration.
 
 ```bash
-dpkg -l vim git curl wget htop tree dnsutils bash-completion cifs-utils rsync unzip ncdu smartmontools ca-certificates
+dpkg -l vim git curl wget htop tree bind9-dnsutils bash-completion cifs-utils rsync unzip ncdu smartmontools ca-certificates resolvconf
 df -h
 smartctl --scan
 hostnamectl
 ip addr
 ip route
+cat /etc/resolv.conf
 ping -c 4 8.8.8.8
 ping -c 4 google.com
 ```
@@ -120,10 +153,10 @@ ping -c 4 google.com
 - Hostname is configured correctly.
 - Network interfaces have valid IP addresses.
 - A valid default route is configured.
+- Resolver configuration contains appropriate DNS information.
 - Internet connectivity and DNS resolution are functional.
 
 If all checks pass, the system is ready for further configuration and service deployment.
-
 
 > [!TIP]
 > After applying operating system updates, consider rebooting the server
@@ -149,4 +182,3 @@ sudo apt install -y qemu-guest-agent
 ```
 
 The Debian template readiness script in the Linux reference section can also be used to verify the guest agent and other baseline requirements before converting a VM into a template.
-
