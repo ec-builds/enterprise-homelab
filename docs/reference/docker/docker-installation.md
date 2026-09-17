@@ -242,6 +242,9 @@ sudo usermod -aG docker $USER
 
 Apply group membership:
 
+> [!Note]
+> `newgrp docker` starts a new shell session with the updated Docker group membership. Logging out and back in, or reconnecting the SSH session, is preferred for applying group membership cleanly.
+
 ```bash
 newgrp docker
 ```
