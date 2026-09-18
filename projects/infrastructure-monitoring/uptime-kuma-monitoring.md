@@ -8,7 +8,7 @@ The monitoring strategy is organized around infrastructure dependencies so failu
 
 #### Uptime Kuma Dashboard
 
-![uptime-kuma](./diagrams/uptime-kuma-status-page.png)
+![Uptime Kuma dashboard](./diagrams/uptime-kuma-status-page.png)
 
 *Uptime Kuma dashboard monitoring the availability and health of infrastructure and services across the Enterprise Homelab.*
 
@@ -50,8 +50,7 @@ Performance metrics, resource utilization, historical telemetry, and deeper infr
 
 ![Uptime Kuma six-layer monitoring](./diagrams/uptime-kuma-status-page02.png)
 
-*Uptime Kuma monitors organized by dependency layer to provide visibility from network connectivity through application availability.*
-
+*Uptime Kuma monitors organized by dependency layer to provide visibility from network connectivity through application availability. LAN and Internet monitoring are combined into a single category on the status page.*
 
 Monitoring is organized into six dependency layers:
 
@@ -94,8 +93,6 @@ Layer 6 - Applications
 ├── Uptime Kuma
 └── Additional Applications
 ```
-
-
 
 Each layer provides context for the layers above it.
 
@@ -177,7 +174,7 @@ Server Unreachable
 
 Core infrastructure systems are monitored independently from the services they provide.
 
-| System | Recommended Monitor | Purpose |
+| System | Monitor Type | Purpose |
 |---|---|---|
 | `dc-lab-01` | Ping | Domain controller availability |
 | `dc-lab-02` | Ping | Domain controller availability |
@@ -187,9 +184,9 @@ Core infrastructure systems are monitored independently from the services they p
 | `nas-lab-01` | HTTP(s) | NAS management availability |
 | NAS SMB | TCP Port | Validate SMB service availability |
 
-Critical domain controller services can also be monitored independently:
+Critical domain controller services are also monitored independently:
 
-| Service | Port | Monitor |
+| Service | Port | Monitor Type |
 |---|---:|---|
 | DNS | 53 | DNS |
 | Kerberos | 88 | TCP Port |
@@ -202,7 +199,7 @@ These checks provide basic service availability monitoring. Detailed Active Dire
 
 Platform services provide functionality used by applications or other infrastructure components.
 
-| Service | Recommended Monitor | Purpose |
+| Service | Monitor Type | Purpose |
 |---|---|---|
 | `docker-lab-01` | Ping | Container host availability |
 | Prometheus | HTTP(s) | Metrics backend availability |
@@ -216,7 +213,7 @@ Platform monitoring helps distinguish application failures from failures of thei
 
 Application monitors validate that user-facing services are responding.
 
-| Application | Recommended Monitor |
+| Application | Monitor Type |
 |---|---|
 | Grafana | HTTP(s) |
 | Jellyfin | HTTP(s) |
@@ -225,7 +222,7 @@ Application monitors validate that user-facing services are responding.
 | Uptime Kuma | HTTP(s) |
 | Additional Web Applications | HTTP(s) |
 
-Where an application provides a dedicated health or readiness endpoint, that endpoint should be preferred over simply monitoring the root web page.
+Where an application provides a dedicated health or readiness endpoint, that endpoint is preferred over simply monitoring the root web page.
 
 
 ## Dependency-Based Troubleshooting
@@ -283,9 +280,9 @@ Jellyfin         DOWN
 
 ## Default Monitor Settings
 
-Recommended baseline settings for most monitors:
+Baseline settings for most monitors:
 
-| Setting | Recommended Value |
+| Setting | Value |
 |---|---|
 | Heartbeat Interval | 60 seconds |
 | Retries | 2 |
@@ -320,27 +317,30 @@ Infrastructure / Service
    Remote Notification
 ```
 
-Notifications are configured to provide:
+Notifications provide:
 
 - Initial notification when a monitor is determined to be down
-- Repeated notifications for sustained outages
+- Repeated notification after every 10 consecutive failures while an outage persists
 - Recovery notification when the monitored service becomes available again
 - Remote visibility into homelab availability while away from the environment
 
 The Discord webhook URL is treated as a secret and is never stored in repository documentation or committed to source control.
 
 
-## Current Monitors
+## Current Monitoring Coverage
 
-The initial monitoring deployment includes:
+Monitoring is currently deployed across the primary infrastructure dependency layers, including:
 
-- Internet connectivity
-- Network gateway
-- NAS
-- Jellyfin
-- Uptime Kuma self-monitoring
+- Local gateway and Internet connectivity
+- Internal and external DNS resolution
+- Domain controller reachability and directory services
+- Proxmox hypervisors
+- NAS availability and SMB
+- Container infrastructure
+- Monitoring platform services
+- User-facing applications
 
-Additional monitors are being deployed according to the layered monitoring strategy.
+Additional monitors are added as new infrastructure and services are deployed.
 
 
 ## Monitor Types
