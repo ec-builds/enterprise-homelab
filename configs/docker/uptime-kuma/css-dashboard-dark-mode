@@ -1,0 +1,765 @@
+/* =========================================================
+   EC-Builds Homelab Status
+   Uptime Kuma Custom CSS — v3
+
+   Design direction:
+   - EC-Builds blue = brand / navigation / structure
+   - Green / amber / red = system health only
+   - Charcoal = dark-mode canvas
+   - Restrained depth and decoration
+   - Clear typographic hierarchy
+   ========================================================= */
+
+
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+
+:root {
+
+    /* Brand */
+    --ec-blue-900: #0b4f8a;
+    --ec-blue-700: #1479bd;
+    --ec-blue-500: #28a5d8;
+
+    --ec-grad-from: var(--ec-blue-900);
+    --ec-grad-mid:  var(--ec-blue-700);
+    --ec-grad-to:   var(--ec-blue-500);
+
+    --ec-accent:       var(--ec-blue-700);
+    --ec-accent-hover: var(--ec-blue-900);
+    --ec-on-accent:    #ffffff;
+
+
+    /* Light surfaces */
+    --ec-bg:      transparent;
+    --ec-surface: #ffffff;
+    --ec-hover:   rgba(20, 121, 189, 0.045);
+
+
+    /* Typography */
+    --ec-text:       #1a1f26;
+    --ec-text-soft:  #66717d;
+    --ec-text-label: #46515d;
+
+
+    /* Structure */
+    --ec-divider: rgba(0, 0, 0, 0.075);
+    --ec-border:  rgba(0, 0, 0, 0.09);
+
+
+    /* Status */
+    --ec-ok:   #2f9e6e;
+    --ec-warn: #b57f23;
+    --ec-bad:  #c9453f;
+
+
+    /* Shape */
+    --ec-r-lg:   16px;
+    --ec-r-md:   12px;
+    --ec-r-pill: 999px;
+
+
+    /* Motion */
+    --ec-ease: 0.16s ease;
+}
+
+
+/* =========================================================
+   DARK MODE TOKENS
+   ========================================================= */
+
+.dark {
+
+    /*
+       Page and cards intentionally use nearby charcoal
+       values rather than black.
+    */
+
+    --ec-bg:      #23282d;
+    --ec-surface: #2b3137;
+    --ec-hover:   #31383f;
+
+
+    /* Slightly restrained gradient in dark mode */
+    --ec-grad-from: #0e527f;
+    --ec-grad-mid:  #126c9f;
+    --ec-grad-to:   #1683b8;
+
+
+    /* Brand accent */
+    --ec-accent:       #1a83bd;
+    --ec-accent-hover: #2699d3;
+
+
+    /* Typography */
+    --ec-text:       #f0f3f6;
+    --ec-text-soft:  #aeb8c2;
+    --ec-text-label: #c7d0d9;
+
+
+    /* Structure */
+    --ec-divider: rgba(255, 255, 255, 0.085);
+    --ec-border:  rgba(255, 255, 255, 0.105);
+
+
+    /* Status */
+    --ec-ok:   #5fd8a4;
+    --ec-warn: #e3b25c;
+    --ec-bad:  #f08a84;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+html.dark,
+html.dark body,
+.dark,
+.dark body,
+.dark #app,
+.dark .container {
+    background-color: var(--ec-bg) !important;
+    color: var(--ec-text) !important;
+}
+
+.container {
+    max-width: 1180px !important;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1 {
+    font-weight: 700 !important;
+    letter-spacing: -0.025em !important;
+}
+
+.item-name {
+    font-size: 0.95rem !important;
+    font-weight: 550 !important;
+    letter-spacing: -0.005em !important;
+}
+
+.dark .item-name {
+    color: var(--ec-text) !important;
+}
+
+.dark .word,
+.dark .time,
+.dark .datetime {
+    color: var(--ec-text-soft) !important;
+    font-size: 0.77rem !important;
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   HERO HEADER
+   Primary visual anchor of the page
+   ========================================================= */
+
+h1.title-flex {
+
+    background: linear-gradient(
+        145deg,
+        var(--ec-grad-from) 0%,
+        var(--ec-grad-mid) 58%,
+        var(--ec-grad-to) 100%
+    ) !important;
+
+    padding: 23px 27px !important;
+
+    border-radius: var(--ec-r-lg) !important;
+
+    margin-bottom: 18px !important;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.14) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.13),
+        0 3px 14px rgba(0, 0, 0, 0.20) !important;
+}
+
+
+/* Preserve white title */
+h1.title-flex,
+h1.title-flex span,
+h1.title-flex * {
+    color: #ffffff !important;
+}
+
+
+/* Logo treatment */
+h1.title-flex .logo {
+
+    background: #ffffff !important;
+
+    border-radius: 50% !important;
+
+    padding: 4px !important;
+
+    box-shadow:
+        0 2px 7px rgba(0, 0, 0, 0.18) !important;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.dark .btn-primary,
+.dark a.btn-primary,
+.dark button.btn-primary,
+.btn.btn-primary,
+.btn-primary.bg-primary {
+
+    background: var(--ec-accent) !important;
+    background-color: var(--ec-accent) !important;
+    background-image: none !important;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10) !important;
+
+    color: #ffffff !important;
+
+    border-radius: var(--ec-r-pill) !important;
+
+    font-weight: 600 !important;
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.16) !important;
+
+    transition:
+        transform var(--ec-ease),
+        background-color var(--ec-ease),
+        box-shadow var(--ec-ease) !important;
+}
+
+
+.btn.btn-primary:hover,
+.dark .btn-primary:hover {
+
+    background-color:
+        var(--ec-accent-hover) !important;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.18) !important;
+}
+
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+
+.btn-primary:focus-visible,
+a:focus-visible {
+
+    outline:
+        2px solid
+        var(--ec-blue-500) !important;
+
+    outline-offset: 3px !important;
+}
+
+
+/* =========================================================
+   OVERALL STATUS
+   Deliberately integrated into page rather than another card
+   ========================================================= */
+
+.overall-status {
+
+    padding: 14px 4px !important;
+
+    margin-top: 6px !important;
+    margin-bottom: 14px !important;
+
+    border: none !important;
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+}
+
+
+/* Dark mode: exactly match page */
+.dark .overall-status {
+
+    background:
+        var(--ec-bg) !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.description {
+
+    max-width: 72ch !important;
+
+    font-size: 0.92rem !important;
+
+    line-height: 1.65 !important;
+
+    margin-top: 10px !important;
+    margin-bottom: 28px !important;
+}
+
+
+.dark .description {
+    color: var(--ec-text-soft) !important;
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+   Editorial rather than "button/banner" styling
+   ========================================================= */
+
+.group-title {
+
+    background: none !important;
+    background-image: none !important;
+
+    color: var(--ec-text-label) !important;
+
+    font-size: 0.82rem !important;
+
+    font-weight: 700 !important;
+
+    letter-spacing: 0.085em !important;
+
+    text-transform: uppercase !important;
+
+    padding:
+        0 0 10px 2px !important;
+
+    border: none !important;
+
+    /*
+       A thinner rule gives structure without competing
+       with the hero header.
+    */
+    border-bottom:
+        1px solid
+        var(--ec-accent) !important;
+
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+
+    margin-top: 30px !important;
+    margin-bottom: 12px !important;
+}
+
+
+.group-title * {
+    color: var(--ec-text-label) !important;
+}
+
+
+.group-title svg {
+
+    width: 0.85em !important;
+    height: 0.85em !important;
+
+    opacity: 0.65 !important;
+
+    margin-right: 4px !important;
+}
+
+
+/* =========================================================
+   SERVICE GROUP CARDS
+   ========================================================= */
+
+.shadow-box {
+
+    border-radius:
+        var(--ec-r-md) !important;
+
+    overflow: hidden !important;
+}
+
+
+.dark .shadow-box {
+
+    background:
+        var(--ec-surface) !important;
+
+    border:
+        1px solid
+        var(--ec-border) !important;
+
+    /*
+       Very restrained elevation.
+       Avoid the "floating dashboard tile" look.
+    */
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.16) !important;
+}
+
+
+.group {
+    margin-bottom: 18px !important;
+}
+
+
+/* =========================================================
+   MONITOR ROWS
+   ========================================================= */
+
+.monitor-list .item,
+.dark .monitor-list .item {
+
+    background:
+        transparent !important;
+
+    border: none !important;
+
+    border-bottom:
+        1px solid
+        var(--ec-divider) !important;
+
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+
+    padding:
+        12px 18px !important;
+
+    margin: 0 !important;
+
+    transition:
+        background-color var(--ec-ease),
+        box-shadow var(--ec-ease) !important;
+}
+
+
+/* Remove final divider */
+.monitor-list .item:last-child,
+.dark .monitor-list .item:last-child {
+
+    border-bottom:
+        none !important;
+}
+
+
+/* Hover uses blue only as an interaction cue */
+.monitor-list .item:hover,
+.dark .monitor-list .item:hover {
+
+    background:
+        var(--ec-hover) !important;
+
+    box-shadow:
+        inset 3px 0 0
+        var(--ec-accent) !important;
+
+    transform: none !important;
+}
+
+
+/* =========================================================
+   UPTIME BADGES
+   Health color is semantic, not decorative
+   ========================================================= */
+
+.badge {
+
+    font-size: 0.73rem !important;
+
+    font-weight: 700 !important;
+
+    font-variant-numeric:
+        tabular-nums !important;
+
+    border-radius:
+        var(--ec-r-pill) !important;
+
+    padding:
+        4px 9px !important;
+
+    box-shadow: none !important;
+
+    opacity: 1 !important;
+}
+
+
+/* Healthy */
+
+.dark .badge.bg-primary,
+.dark .badge.bg-success {
+
+    color:
+        var(--ec-ok) !important;
+
+    background-color:
+        rgba(95, 216, 164, 0.11) !important;
+
+    border:
+        1px solid
+        rgba(95, 216, 164, 0.32) !important;
+}
+
+
+/* Warning */
+
+.dark .badge.bg-warning {
+
+    color:
+        var(--ec-warn) !important;
+
+    background-color:
+        rgba(227, 178, 92, 0.11) !important;
+
+    border:
+        1px solid
+        rgba(227, 178, 92, 0.34) !important;
+}
+
+
+/* Down */
+
+.dark .badge.bg-danger {
+
+    color:
+        var(--ec-bad) !important;
+
+    background-color:
+        rgba(240, 138, 132, 0.11) !important;
+
+    border:
+        1px solid
+        rgba(240, 138, 132, 0.34) !important;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+    font-size:
+        0.82rem !important;
+
+    margin-top:
+        34px !important;
+}
+
+
+.dark footer {
+
+    opacity: 1 !important;
+
+    color:
+        var(--ec-text-soft) !important;
+}
+
+
+/* =========================================================
+   STATUS PULSE
+   Keep extremely restrained
+   ========================================================= */
+
+:root {
+    --ec-pulse: 95, 216, 164;
+}
+
+
+@keyframes ec-status-pulse {
+
+    0% {
+        box-shadow:
+            0 0 0 0
+            rgba(var(--ec-pulse), 0.28);
+    }
+
+    70% {
+        box-shadow:
+            0 0 0 4px
+            rgba(var(--ec-pulse), 0);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 0
+            rgba(var(--ec-pulse), 0);
+    }
+}
+
+
+/*
+   Do not infer monitor state through unsupported
+   parent selectors. Kuma retains native status colors.
+*/
+.status.active,
+.status-maintenance.active {
+
+    animation:
+        ec-status-pulse
+        3.2s ease-out infinite;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .status.active,
+    .status-maintenance.active {
+
+        animation:
+            none !important;
+    }
+
+
+    .monitor-list .item,
+    .btn-primary {
+
+        transition:
+            none !important;
+    }
+
+
+    .btn-primary:hover,
+    .btn-primary:active {
+
+        transform:
+            none !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .container {
+
+        padding-left:
+            14px !important;
+
+        padding-right:
+            14px !important;
+    }
+
+
+    h1 {
+
+        font-size:
+            1.75rem !important;
+    }
+
+
+    /* Hero */
+
+    h1.title-flex {
+
+        padding:
+            18px 19px !important;
+
+        margin-bottom:
+            15px !important;
+
+        border-radius:
+            13px !important;
+    }
+
+
+    /* Overall status */
+
+    .overall-status {
+
+        padding:
+            12px 3px !important;
+
+        margin-bottom:
+            12px !important;
+    }
+
+
+    /* Description */
+
+    .description {
+
+        margin-bottom:
+            24px !important;
+    }
+
+
+    /* Sections */
+
+    .group-title {
+
+        font-size:
+            0.78rem !important;
+
+        margin-top:
+            24px !important;
+
+        margin-bottom:
+            10px !important;
+    }
+
+
+    .group {
+
+        margin-bottom:
+            16px !important;
+    }
+
+
+    /* Monitor rows */
+
+    .monitor-list .item {
+
+        padding:
+            10px 14px !important;
+    }
+
+
+    /*
+       Touch devices do not benefit from persistent
+       desktop hover treatment.
+    */
+
+    .monitor-list .item:hover {
+
+        background:
+            transparent !important;
+
+        box-shadow:
+            none !important;
+    }
+
+
+    .btn-primary:hover {
+
+        transform:
+            none !important;
+    }
+}
