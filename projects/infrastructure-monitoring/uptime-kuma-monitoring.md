@@ -2,7 +2,7 @@
 
 **Status:** 🟢 Operational
 
-Uptime Kuma provides independent availability and synthetic monitoring for infrastructure and services across the Enterprise Homelab.
+Uptime Kuma provides independent availability and service monitoring for infrastructure and services across the Enterprise Homelab.
 
 The monitoring strategy is organized around infrastructure dependencies so failures can be quickly isolated to the local network, Internet connection, DNS infrastructure, core systems, platform services, or applications.
 
