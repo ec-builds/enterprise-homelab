@@ -1,21 +1,45 @@
-# Source: https://gethomepage.dev/installation/docker/
-# Update the field - "docker-hostname-or-ip" before deploying
+# source: https://gethomepage.dev/installation/docker/
+# source: https://gethomepage.dev/configs/docker/
+# Update HOMEPAGE_ALLOWED_HOSTS before deploying
 
 services:
+  dockerproxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    container_name: dockerproxy
+    restart: unless-stopped
+
+    environment:
+      CONTAINERS: 1
+      POST: 0
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    networks:
+      - homepage
+
+
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     restart: unless-stopped
-    
+
+    depends_on:
+      - dockerproxy
+
     ports:
       - "3000:3000"
-      
-    volumes:
-      - homepage-config:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      
-    environment:
-      HOMEPAGE_ALLOWED_HOSTS: <docker-hostname-or-ip>:3000
 
-volumes:
-  homepage-config:
+    volumes:
+      - ./config:/app/config
+
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: docker-lab-01.lab.example.com:3000,homepage.lab.example.com:3000
+
+    networks:
+      - homepage
+
+
+networks:
+  homepage:
+    name: homepage
