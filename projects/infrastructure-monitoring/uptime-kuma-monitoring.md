@@ -8,7 +8,7 @@ The monitoring strategy is organized around infrastructure dependencies so failu
 
 #### Uptime Kuma Dashboard
 
-![uptime-kuma](./diagrams/uptime-kuma.png)
+![uptime-kuma](./diagrams/uptime-kuma-status-page.png)
 
 *Uptime Kuma dashboard monitoring the availability and health of infrastructure and services across the Enterprise Homelab.*
 
@@ -86,6 +86,9 @@ Layer 6 - Applications
 ├── Uptime Kuma
 └── Additional Applications
 ```
+
+![uptime-kuma](./diagrams/uptime-kuma-status-page02.png)
+
 
 Each layer provides context for the layers above it.
 
