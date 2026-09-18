@@ -22,6 +22,7 @@ The monitoring strategy is organized around infrastructure dependencies so failu
 - Perform basic synthetic service checks
 - Provide a simple availability layer independent of the broader monitoring stack
 - Organize monitoring around infrastructure dependencies to simplify troubleshooting
+- Provide remote outage notifications when monitored infrastructure becomes unavailable
 
 
 ## Deployment
@@ -31,9 +32,9 @@ The monitoring strategy is organized around infrastructure dependencies so failu
 | Platform | Debian |
 | Deployment | Docker Compose |
 | Image | `louislam/uptime-kuma:2` |
-| Database | SQL Lite |
+| Database | SQLite |
 | Interface | Port 3001 |
-| Storage | Docker Volume at /opt/docker/uptime-kuma |
+| Storage | Docker Volume at `/opt/docker/uptime-kuma` |
 
 
 ## Monitoring Strategy
@@ -278,10 +279,45 @@ Recommended baseline settings for most monitors:
 |---|---|
 | Heartbeat Interval | 60 seconds |
 | Retries | 2 |
+| Heartbeat Retry Interval | 30 seconds |
 | Request Timeout | 10 seconds |
+| Resend Notification if Down | Every 10 consecutive failures |
 | HTTP Method | GET |
 | Accepted HTTP Status | 200-299 |
 | IP Family | Auto Select |
+
+These settings provide relatively fast outage detection while allowing brief transient failures to be retried before a monitor is marked down.
+
+
+## Notifications
+
+Uptime Kuma uses Discord as the primary remote notification channel for homelab availability alerts.
+
+A Discord webhook connects Uptime Kuma to a dedicated notification channel. When a monitored service enters a down state, Uptime Kuma sends an alert through the webhook so infrastructure failures can be identified while away from the homelab.
+
+```text
+Infrastructure / Service
+          │
+          ▼
+      Uptime Kuma
+          │
+     Down Detected
+          │
+          ▼
+    Discord Webhook
+          │
+          ▼
+   Remote Notification
+```
+
+Notifications are configured to provide:
+
+- Initial notification when a monitor is determined to be down
+- Repeated notifications for sustained outages
+- Recovery notification when the monitored service becomes available again
+- Remote visibility into homelab availability while away from the environment
+
+The Discord webhook URL is treated as a secret and is never stored in repository documentation or committed to source control.
 
 
 ## Current Monitors
@@ -345,7 +381,7 @@ Uptime Kuma serves as the dedicated availability and synthetic monitoring layer 
 
 Prometheus and its exporters collect infrastructure and application metrics, while Grafana provides centralized visualization and analysis.
 
-Uptime Kuma remains focused on availability, reachability, synthetic testing, and outage detection.
+Uptime Kuma remains focused on availability, reachability, synthetic testing, outage detection, and remote notification.
 
 
 ## Monitoring Scope
@@ -360,8 +396,7 @@ Uptime Kuma is primarily responsible for:
 - External connectivity testing
 - Basic synthetic service checks
 - Outage notifications
-
-Metrics such as CPU utilization, memory utilization, disk usage, network throughput, container resource consumption, historical trends, and capacity planning are handled by Prometheus and Grafana.
+- Remote Discord alerts
 
 
 ## Related Documentation
@@ -376,4 +411,4 @@ Metrics such as CPU utilization, memory utilization, disk usage, network through
 
 Hostnames, addresses, endpoints, and other environment-specific identifiers should be sanitized before public release.
 
-Never include credentials, API tokens, public IP addresses, notification secrets, or other sensitive configuration data in repository documentation.
+Never include credentials, API tokens, webhook URLs, public IP addresses, notification secrets, or other sensitive configuration data in repository documentation.
