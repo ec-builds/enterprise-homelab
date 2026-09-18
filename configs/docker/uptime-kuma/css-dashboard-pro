@@ -340,7 +340,7 @@ a:focus-visible {
 
     color: var(--ec-text-label) !important;
 
-    font-size: 0.82rem !important;
+    font-size: 1.2rem !important;
 
     font-weight: 700 !important;
 
@@ -716,7 +716,7 @@ footer {
     .group-title {
 
         font-size:
-            0.78rem !important;
+            1rem !important;
 
         margin-top:
             24px !important;
