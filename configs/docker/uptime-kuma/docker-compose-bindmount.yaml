@@ -1,0 +1,22 @@
+# source: https://github.com/louislam/uptime-kuma/blob/master/compose.yaml
+#
+# Bind mount used to save the data locally at /opt/docker/uptime-kuma
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime-kuma
+    restart: unless-stopped
+
+    networks:
+      - monitoring
+    
+    ports:
+      - "3001:3001"
+      
+    volumes:
+      - ./data:/app/data
+
+networks:
+  monitoring:
+    external: true
