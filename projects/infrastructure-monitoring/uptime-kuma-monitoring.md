@@ -45,6 +45,14 @@ Uptime Kuma answers:
 
 Performance metrics, resource utilization, historical telemetry, and deeper infrastructure analysis are handled separately by Prometheus and Grafana.
 
+
+### Six-Layer Monitoring
+
+![Uptime Kuma six-layer monitoring](./diagrams/uptime-kuma-status-page02.png)
+
+*Uptime Kuma monitors organized by dependency layer to provide visibility from network connectivity through application availability.*
+
+
 Monitoring is organized into six dependency layers:
 
 ```text
@@ -87,7 +95,6 @@ Layer 6 - Applications
 └── Additional Applications
 ```
 
-![uptime-kuma](./diagrams/uptime-kuma-status-page02.png)
 
 
 Each layer provides context for the layers above it.
