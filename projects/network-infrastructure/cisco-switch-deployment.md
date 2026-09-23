@@ -181,4 +181,4 @@ Dedicated Management VLAN
 
 **Current:** Baseline switch deployment complete.
 
-**Next Phase:** Introduce VLAN segmentation after the firewall and supporting network infrastructure are ready.
+**Next Steps:** Introduce VLAN segmentation after the firewall and supporting network infrastructure are ready.
