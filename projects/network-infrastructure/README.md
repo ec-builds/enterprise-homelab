@@ -45,6 +45,18 @@ The physical and logical network foundation of the homelab, including routing, s
 - Trusted wireless network
 - Isolated guest and IoT wireless network
 
+## Core Network Services
+
+| Service | Implementation | Redundancy |
+|---|---|---|
+| DHCP | Windows Server DHCP | Two-server failover |
+| Internal DNS | Active Directory-integrated DNS | Two domain controllers |
+| External DNS Filtering | AdGuard Home | Two instances |
+| Upstream DNS | DNS-over-HTTPS | Multiple public resolvers |
+| Remote Access | WireGuard VPN | Router-hosted |
+| Network Storage | SMB / Synology NAS | NAS-hosted |
+| Availability Monitoring | Uptime Kuma | Dedicated monitoring host |
+
 ## Technologies
 
 ### Current
@@ -141,7 +153,7 @@ Client systems receive network configuration through redundant Windows Server DH
 
 Specific address ranges and device assignments are intentionally excluded from public documentation.
 
-See [`ip-addressing-strategy.md`](./ip-addressing-strategy.md) for additional design information.
+See [`ip-addressing-plan.md`](./ip-addressing-plan.md) for additional design information.
 
 ## DHCP and DNS
 
@@ -178,7 +190,7 @@ Independent failure testing confirmed that external DNS resolution continues whe
 
 See [`dns-filtering-adguard-home.md`](./dns-filtering-adguard-home.md) for the DNS filtering and encrypted upstream resolution architecture.
 
-See [`dhcp-server-migration.md`](./dhcp-server-migration.md) for the DHCP migration and validation process.
+Historical DHCP migration and validation documentation is retained in the [`archive/`](./archive/) directory.
 
 ## DNS Architecture
 
@@ -230,24 +242,31 @@ Specific VLAN identifiers, subnet assignments, and firewall policies are intenti
 
 ## Related Documentation
 
-- [`ip-addressing-strategy.md`](./ip-addressing-strategy.md) — Address allocation strategy
-- [`dhcp-server-migration.md`](./dhcp-server-migration.md) — Windows DHCP deployment and migration
+- [`cisco-switch-deployment.md`](./cisco-switch-deployment.md) — Managed switch deployment and configuration
 - [`dns-filtering-adguard-home.md`](./dns-filtering-adguard-home.md) — Redundant DNS filtering and encrypted upstream resolution
-- [`device-inventory.md`](./device-inventory.md) — Sanitized network device inventory
+- [`ip-addressing-plan.md`](./ip-addressing-plan.md) — Address allocation strategy
+- [`opnsense-firewall-mac-mini.md`](./opnsense-firewall-mac-mini.md) — Planned dedicated firewall deployment
+- [`port-map.md`](./port-map.md) — Physical and logical network port mapping
+- [`wireless-design.md`](./wireless-design.md) — Wireless network design
 - [`lessons-learned.md`](./lessons-learned.md) — Implementation lessons and troubleshooting findings
+
+Historical implementation and migration documentation is retained under [`archive/`](./archive/).
 
 ## Folder Structure
 
 ```text
 network-infrastructure/
 ├── README.md
-├── ip-addressing-strategy.md
-├── dhcp-server-migration.md
+├── cisco-switch-deployment.md
 ├── dns-filtering-adguard-home.md
-├── device-inventory.md
+├── ip-addressing-plan.md
 ├── lessons-learned.md
-├── configs/
-├── scripts/
+├── opnsense-firewall-mac-mini.md
+├── port-map.md
+├── wireless-design.md
+├── archive/
+│   └── ...
 └── diagrams/
-    └── current-logical-network-architecture.png
+    ├── current-logical-network-architecture.png
+    └── ...
 ```
