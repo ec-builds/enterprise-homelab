@@ -2,6 +2,8 @@
 
 **Status:** 🟢 Operational (Phase 1)
 
+![Cisco Switch](./diagrams/cisco-switch.jpeg)
+
 The physical and logical network foundation of the homelab, including routing, switching, wireless connectivity, IP addressing, DHCP, DNS, DNS filtering, encrypted upstream resolution, and core network services.
 
 > [!NOTE]
