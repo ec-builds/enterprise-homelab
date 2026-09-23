@@ -1,4 +1,4 @@
-# Enterprise Homelab
+# EC-Builds | Enterprise Homelab
 
 Welcome to my Enterprise Homelab.
 
