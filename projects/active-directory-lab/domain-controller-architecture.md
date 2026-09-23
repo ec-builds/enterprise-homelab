@@ -1,6 +1,6 @@
 # 🖥️ Domain Controller Architecture
 
-This document defines the initial deployment architecture for the Active Directory domain controllers used in the homelab.
+This document defines the current deployment architecture for the Active Directory domain controllers used in the homelab.
 
 > [!NOTE]
 > Hostnames and infrastructure identifiers shown in this document have been sanitized for public release.
@@ -10,7 +10,7 @@ This document defines the initial deployment architecture for the Active Directo
 
 The domain controllers are deployed as virtual machines on the existing **Proxmox VE cluster**.
 
-Proxmox was selected because it provides the virtualization foundation for the homelab and allows domain controllers to eventually be distributed across separate physical hosts.
+Proxmox provides the virtualization foundation for the homelab and allows the domain controllers to be distributed across separate physical hosts.
 
 ```text
 Proxmox Cluster
@@ -20,12 +20,9 @@ Proxmox Cluster
       │
       └── prox-lab-02
             └── dc-lab-02
-                (Planned)
 ```
 
-The initial deployment consists of `dc-lab-01` running as a virtual machine on `prox-lab-01`.
-
-A second domain controller, `dc-lab-02`, is planned for `prox-lab-02` to provide directory and DNS redundancy and reduce dependency on a single virtualization host.
+The environment uses two domain controllers distributed across separate Proxmox hosts. This provides directory, DNS, and DHCP redundancy while reducing dependency on a single virtual machine or virtualization host.
 
 For additional information about the virtualization platform, architecture, and resource strategy, see the [Proxmox Virtualization Lab](../proxmox-virtualization-lab/).
 
@@ -47,12 +44,14 @@ The graphical installation provides access to tools such as:
 - Event Viewer
 - Active Directory Administrative Center
 
-PowerShell will also be used for administration and automation.
+PowerShell is also used for administration, validation, and automation.
 
 
-## Primary Domain Controller
+## Domain Controller Configuration
 
-The initial domain controller, `dc-lab-01`, is deployed as the `dc-lab-01` virtual machine on `prox-lab-01`.
+### Primary Domain Controller
+
+`dc-lab-01` is deployed as a virtual machine on `prox-lab-01`.
 
 | Setting | Configuration |
 |---|---|
@@ -71,13 +70,21 @@ The initial domain controller, `dc-lab-01`, is deployed as the `dc-lab-01` virtu
 | **QEMU Guest Agent** | Enabled |
 | **Network Addressing** | Static |
 
-The VM is intentionally allocated modest resources because the initial workload consists primarily of Active Directory Domain Services and DNS.
+### Secondary Domain Controller
+
+`dc-lab-02` is deployed as an additional domain controller on `prox-lab-02`.
+
+The second domain controller provides replicated directory and DNS services and participates in DHCP failover with `dc-lab-01`.
+
+Both domain controllers are configured as Global Catalog servers.
+
+The virtual machines use intentionally modest resources because their workloads primarily consist of Active Directory Domain Services, DNS, and DHCP.
 
 Resources can be increased if monitoring indicates additional capacity is required.
 
-## Planned Domain Controller Roles
+## Domain Controller Roles
 
-### Primary Domain Controller
+### `dc-lab-01`
 
 ```text
 dc-lab-01
@@ -86,21 +93,24 @@ dc-lab-01
 └── DHCP
 ```
 
-`dc-lab-01` will initially host the FSMO roles and provide directory, DNS, and DHCP services for the lab.
+`dc-lab-01` provides directory, DNS, and DHCP services for the lab.
 
-### Secondary Domain Controller
+### `dc-lab-02`
 
 ```text
 dc-lab-02
 ├── Active Directory Domain Services
-└── DNS
+├── DNS
+└── DHCP
 ```
 
-`dc-lab-02` will be deployed later on `prox-lab-02` and promoted as an additional domain controller.
+`dc-lab-02` operates as an additional domain controller and provides redundant directory, DNS, and DHCP services.
+
+The two DHCP servers participate in a failover relationship, allowing DHCP service to continue when either individual DHCP server is unavailable.
 
 ## Redundancy Strategy
 
-The target architecture distributes the two domain controllers across separate Proxmox hosts.
+The two domain controllers are distributed across separate Proxmox hosts.
 
 ```text
              Active Directory Domain
@@ -110,50 +120,131 @@ The target architecture distributes the two domain controllers across separate P
             ▼                     ▼
        dc-lab-01 ◄── AD/DNS ──► dc-lab-02
             │       Replication    │
+            │                      │
+            └──── DHCP Failover ───┘
+            │                      │
             ▼                      ▼
        prox-lab-01            prox-lab-02
 ```
 
-This design allows directory and DNS services to remain available if one domain controller or its underlying Proxmox host becomes unavailable.
+This design allows core directory, DNS, and DHCP services to remain available when an individual domain controller or its underlying Proxmox host becomes unavailable.
 
-The dual-domain-controller deployment will also provide a lab environment for practicing:
+The multi-domain-controller environment also provides hands-on experience with:
 
 - Active Directory replication
 - DNS redundancy
+- DHCP failover
+- Global Catalog redundancy
 - FSMO role management
 - Domain controller maintenance
 - Active Directory Sites and Services
 - Domain controller failure and recovery
 
-## Deployment Strategy
+## DNS Architecture
+
+Both domain controllers host Active Directory-integrated DNS and replicate the internal DNS zones through Active Directory.
+
+Domain controller DNS client configuration uses the peer domain controller as the preferred DNS server and the local DNS service as the alternate. This avoids dependency on a single DNS server while retaining local DNS availability.
+
+External DNS queries are forwarded from the Active Directory DNS servers to redundant AdGuard Home instances for filtering and encrypted upstream resolution.
 
 ```text
-Deploy dc-lab-01 on prox-lab-01
-              │
-              ▼
+Internal Clients
+      │
+      ▼
+Active Directory DNS
+dc-lab-01 / dc-lab-02
+      │
+      ▼
+Redundant AdGuard Home
+      │
+      │ DNS Filtering
+      │ DNS-over-HTTPS
+      ▼
+Public DNS Resolvers
+```
+
+This preserves Active Directory DNS as the authoritative internal DNS layer while providing centralized filtering and encrypted upstream DNS resolution.
+
+## DHCP Architecture
+
+DHCP is provided by both domain controllers using Windows Server DHCP failover.
+
+```text
+                 Client Network
+                       │
+            ┌──────────┴──────────┐
+            │                     │
+            ▼                     ▼
+       dc-lab-01              dc-lab-02
+         DHCP       ◄────►       DHCP
+                    Failover
+```
+
+The DHCP servers distribute client addressing, gateway information, internal DNS servers, and the internal DNS domain.
+
+Controlled failure testing confirmed DHCP service continuity with either individual DHCP server unavailable.
+
+## Replication and Service Validation
+
+The completed deployment was validated to confirm that the two-domain-controller architecture operates as intended.
+
+Validation included:
+
+- Active Directory replication between both domain controllers
+- Domain, Configuration, Schema, DomainDnsZones, and ForestDnsZones replication
+- Active Directory-integrated DNS replication
+- Global Catalog availability on both domain controllers
+- SYSVOL and NETLOGON availability
+- LDAP and Kerberos service discovery through DNS SRV records
+- Internal hostname resolution through both DNS servers
+- External DNS resolution
+- DHCP failover operation
+- DHCP service continuity with individual DHCP servers unavailable
+- DNS service continuity during individual DNS server failure testing
+
+Active Directory replication and DNS diagnostic testing completed successfully without active replication or DNS failures.
+
+## Deployment Strategy
+
+The environment was deployed incrementally so each infrastructure layer could be validated before introducing redundancy.
+
+```text
+Deploy dc-lab-01
+      │
+      ▼
 Configure Windows Server
-              │
-              ▼
+      │
+      ▼
 Configure Static Networking
-              │
-              ▼
+      │
+      ▼
 Install AD DS + DNS
-              │
-              ▼
+      │
+      ▼
 Create Active Directory Forest
-              │
-              ▼
-Build and Validate AD Environment
-              │
-              ▼
-Deploy dc-lab-02 on prox-lab-02
-              │
-              ▼
+      │
+      ▼
+Validate Initial AD Environment
+      │
+      ▼
+Deploy dc-lab-02
+      │
+      ▼
 Promote Additional Domain Controller
-              │
-              ▼
-Validate AD + DNS Redundancy
+      │
+      ▼
+Validate AD + DNS Replication
+      │
+      ▼
+Deploy Windows Server DHCP
+      │
+      ▼
+Configure DHCP Failover
+      │
+      ▼
+Validate Service Continuity
 ```
 
 > [!NOTE]
-> **`dc-lab-01` provides the initial Active Directory environment → `dc-lab-02` will later provide a second replicated domain controller on a separate Proxmox host → the resulting architecture provides both a realistic multi-domain-controller environment and resilience against a single VM or virtualization-host failure.**
+> **The resulting architecture uses two replicated domain controllers distributed across separate Proxmox hosts, providing redundant Active Directory, DNS, and DHCP services while reducing dependency on any single virtual machine or virtualization host.**
