@@ -133,4 +133,4 @@ The original deployment established practical experience with Linux permissions,
 
 The subsequent migration introduced additional experience with workload virtualization, Docker Compose, container networking, persistent storage design, bind mounts, service portability, and infrastructure lifecycle management.
 
-See [Lessons Learned](./lessons-learned.md) for detailed notes from both phases of the project.
+See [Lessons Learned](./lessons-learned.md) for detailed notes from both implementations of the project.
