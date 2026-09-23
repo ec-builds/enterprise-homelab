@@ -2,34 +2,22 @@
 
 **Status:** 🟢 Operational (Phase 1)
 
-![Cisco Switch](./diagrams/cisco-switch.jpeg)
-
 The physical and logical network foundation of the homelab, including routing, switching, wireless connectivity, IP addressing, DHCP, DNS, DNS filtering, encrypted upstream resolution, and core network services.
+
+![Current Logical Network Architecture](./diagrams/current-logical-network-architecture.png)
+
+*Current logical architecture showing routing, switching, virtualization, Active Directory services, redundant DNS filtering, storage, wireless connectivity, and remote access.*
 
 > [!NOTE]
 > Implementation-specific network addresses, allocation ranges, VLAN identifiers, credentials, and device assignments are intentionally omitted or generalized in public documentation.
 
-## Objectives
+## Architecture Overview
 
-- Design and document a structured network topology
-- Maintain predictable infrastructure addressing
-- Provide redundant DHCP and DNS services
-- Centralize wired connectivity through managed switching
-- Provide redundant DNS filtering and encrypted upstream resolution
-- Isolate guest and IoT devices from the trusted network
-- Maintain documentation sufficient to rebuild and troubleshoot the environment
-- Prepare the network for dedicated firewall and VLAN deployment
+The Cisco managed switch provides centralized Ethernet connectivity for wired infrastructure. The ASUS RT-AX5400 currently provides routing, firewall, WireGuard VPN, and wireless services.
 
-## Logical Network Topology
+Windows Server provides redundant DHCP and Active Directory-integrated DNS. External DNS queries are forwarded through redundant AdGuard Home instances for filtering and encrypted upstream resolution using DNS-over-HTTPS (DoH).
 
-![network topology](./diagrams/current-logical-network-architecture.png)
-
-> [!NOTE]
-> The Cisco managed switch provides centralized Ethernet connectivity for wired infrastructure. The ASUS RT-AX5400 currently provides routing, firewall, WireGuard VPN, and wireless services.
->
-> Windows Server provides redundant DHCP and Active Directory-integrated DNS. External DNS queries are forwarded through redundant AdGuard Home instances for filtering and encrypted upstream resolution using DNS-over-HTTPS (DoH).
->
-> Dedicated firewall services and VLAN segmentation are planned for a future phase.
+Dedicated firewall services and VLAN segmentation are planned for a future phase.
 
 ## Current Environment
 
@@ -58,6 +46,17 @@ The physical and logical network foundation of the homelab, including routing, s
 | Remote Access | WireGuard VPN | Router-hosted |
 | Network Storage | SMB / Synology NAS | NAS-hosted |
 | Availability Monitoring | Uptime Kuma | Dedicated monitoring host |
+
+## Objectives
+
+- Design and document a structured network topology
+- Maintain predictable infrastructure addressing
+- Provide redundant DHCP and DNS services
+- Centralize wired connectivity through managed switching
+- Provide redundant DNS filtering and encrypted upstream resolution
+- Isolate guest and IoT devices from the trusted network
+- Maintain documentation sufficient to rebuild and troubleshoot the environment
+- Prepare the network for dedicated firewall and VLAN deployment
 
 ## Technologies
 
