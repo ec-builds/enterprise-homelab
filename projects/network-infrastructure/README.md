@@ -230,7 +230,6 @@ Specific VLAN identifiers, subnet assignments, and firewall policies are intenti
 
 ## Related Documentation
 
-- [`network-design.md`](./network-design.md) — Network architecture and design decisions
 - [`ip-addressing-strategy.md`](./ip-addressing-strategy.md) — Address allocation strategy
 - [`dhcp-server-migration.md`](./dhcp-server-migration.md) — Windows DHCP deployment and migration
 - [`dns-filtering-adguard-home.md`](./dns-filtering-adguard-home.md) — Redundant DNS filtering and encrypted upstream resolution
@@ -242,7 +241,6 @@ Specific VLAN identifiers, subnet assignments, and firewall policies are intenti
 ```text
 network-infrastructure/
 ├── README.md
-├── network-design.md
 ├── ip-addressing-strategy.md
 ├── dhcp-server-migration.md
 ├── dns-filtering-adguard-home.md
