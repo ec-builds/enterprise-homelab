@@ -58,20 +58,20 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 | Identity | Windows Server Active Directory | Additional identity services and hybrid integration |
 | Containers | Docker Self-Hosted Services Platform | Continue expanding containerized services |
 | Monitoring | Prometheus, Grafana, Loki, Alertmanager, Grafana Alloy, Uptime Kuma | Additional exporters, dashboards, and alerting |
-| Networking | Managed Switching, DHCP Reservations, WireGuard | Internal DNS, VLANs, reverse proxy, HTTPS |
+| Networking | Managed Switching, Redundant Windows DHCP, Active Directory-integrated DNS, AdGuard DNS Filtering, DNS-over-HTTPS, WireGuard | VLAN Segmentation, Inter-VLAN Firewall Policies |
 | Documentation | GitHub + Markdown | Continue expanding standards, references, and runbooks |
 
 ## Architecture Overview
 
 ![Homelab Architecture](diagrams/homelab-logical-architecture.svg)
 
-The diagram above shows the target logical topology — traffic flows from the edge router through the firewall and managed switch to the virtualization host, storage, and clients.
+The diagram above provides a logical overview of the homelab architecture, including current infrastructure and planned network security enhancements.
 
 Functionally, the environment is organized into several infrastructure domains:
 
 | Domain | Scope |
 |--------|-------|
-| Network Infrastructure | Routing, switching, VLANs, DNS/DHCP |
+| Network Infrastructure | Routing, switching, DHCP, DNS, DNS filtering, and remote access |
 | Virtualization | Proxmox hosts, VM lifecycle, storage, and virtual networking |
 | Identity & Access Management | Active Directory, Entra ID, RBAC |
 | Security Operations | Firewall, segmentation, IDS/IPS |
@@ -107,8 +107,8 @@ Functionally, the environment is organized into several infrastructure domains:
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | ⚪ Planned |
 | [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
-| [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
-| [Network Security](projects/network-security/) | Firewalls, segmentation, VPN, access security | 🟡 In Progress |
+| [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, DHCP, DNS, and network services | 🟢 Operational |
+| [Network Security](projects/network-security/) | Firewall, DNS security, VPN, wireless isolation, and segmentation | 🟢 Operational |
 | [Proxmox Virtualization Lab](projects/proxmox-virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟢 Operational |
 | [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 
@@ -150,7 +150,7 @@ The technologies used throughout the homelab are documented in the Tool Catalog,
 | Document | Description |
 |----------|-------------|
 | [`docs/homelab-decisions.md`](docs/homelab-decisions.md) | Architecture decisions and reasoning |
-| [`docs/homelab-direction.md`](docs/homelab-direction.md) | Strategic direction, goals, and phase sequencing |
+| [`docs/homelab-direction.md`](docs/homelab-direction.md) | Strategic direction, priorities, and long-term goals |
 | [`docs/reference/`](docs/reference/) | Quick reference guides and cheat sheets |
 | [`docs/standards/`](docs/standards/) | Baseline configurations, naming conventions, and documentation standards |
 | [`docs/tool-catalog.md`](docs/tool-catalog.md) | Quick reference of technologies used throughout the homelab |
