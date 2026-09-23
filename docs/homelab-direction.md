@@ -124,7 +124,7 @@ The objective is to understand the networking concepts required to design and se
 
 ## Summary
 
-| Phase | Focus | Primary Tools | Status |
+| Sequencing | Focus | Primary Tools | Status |
 |---|---|---|---|
 | 1 | Network Security | OPNsense, WireGuard, Suricata, Cisco Layer 2 switching | **Active** |
 | 2 | Identity | Active Directory, Group Policy, Entra ID | **Active / Expanding** |
