@@ -1,5 +1,7 @@
 # 🔀 Cisco Switch Deployment
 
+<img src="./diagrams/cisco-switch.jpeg" alt="Cisco Switch" width="600">
+
 ## Overview
 
 A Cisco Catalyst switch was deployed as the primary managed switch for the network infrastructure lab.
