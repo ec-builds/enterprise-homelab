@@ -96,7 +96,7 @@ Functionally, the environment is organized into several infrastructure domains:
 
 | Project | Focus Area | Status |
 |----------|------------|--------|
-| [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟡 In Progress |
+| [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 Operational |
 | [Azure Administration Lab](projects/azure-administration-lab/) | Azure infrastructure, RBAC, governance | ⚪ Planned |
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
 | [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
