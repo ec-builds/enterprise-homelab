@@ -2,18 +2,19 @@
 
 **Status:** 🟢 Operational (Phase 1)
 
-The physical and logical foundation of the homelab, including routing, switching, wireless connectivity, IP addressing, DHCP, DNS, and core network services.
+The physical and logical network foundation of the homelab, including routing, switching, wireless connectivity, IP addressing, DHCP, DNS, DNS filtering, encrypted upstream resolution, and core network services.
 
 > [!NOTE]
-> Implementation-specific network addresses, allocation ranges, VLAN identifiers, and device assignments are intentionally omitted or generalized in public documentation.
+> Implementation-specific network addresses, allocation ranges, VLAN identifiers, credentials, and device assignments are intentionally omitted or generalized in public documentation.
 
 ## Objectives
 
 - Design and document a structured network topology
 - Maintain predictable infrastructure addressing
-- Deploy redundant DHCP and DNS services
-- Establish centralized Ethernet connectivity
-- Segment trusted, guest, IoT, server, and management traffic
+- Provide redundant DHCP and DNS services
+- Centralize wired connectivity through managed switching
+- Provide redundant DNS filtering and encrypted upstream resolution
+- Isolate guest and IoT devices from the trusted network
 - Maintain documentation sufficient to rebuild and troubleshoot the environment
 - Prepare the network for dedicated firewall and VLAN deployment
 
@@ -22,22 +23,27 @@ The physical and logical foundation of the homelab, including routing, switching
 ![network topology](./diagrams/current-logical-network-architecture.png)
 
 > [!NOTE]
-> The Cisco managed switch provides centralized Ethernet connectivity for wired infrastructure. The ASUS RT-AX5400 currently remains responsible for routing, firewall, VPN, and wireless services.
+> The Cisco managed switch provides centralized Ethernet connectivity for wired infrastructure. The ASUS RT-AX5400 currently provides routing, firewall, WireGuard VPN, and wireless services.
 >
-> DHCP has been deployed on redundant Windows Server infrastructure and is being migrated from the ASUS router. Dedicated firewall services and VLAN segmentation are planned for a future phase.
+> Windows Server provides redundant DHCP and Active Directory-integrated DNS. External DNS queries are forwarded through redundant AdGuard Home instances for filtering and encrypted upstream resolution using DNS-over-HTTPS (DoH).
+>
+> Dedicated firewall services and VLAN segmentation are planned for a future phase.
 
 ## Current Environment
 
-- ASUS RT-AX5400 gateway and wireless router
+- ASUS RT-AX5400 gateway, firewall, VPN, and wireless router
 - Cisco Catalyst managed switch
+- Three-node Proxmox VE cluster
 - Redundant Active Directory-integrated DNS
 - Redundant Windows Server DHCP with failover
-- Statically addressed infrastructure and server systems
+- Redundant AdGuard Home DNS filtering
+- DNS-over-HTTPS upstream resolution
+- Static infrastructure addressing
 - DHCP-managed client devices
-- Synology NAS
-- Proxmox virtualization hosts
+- Synology NAS for storage and backups
 - Ethernet-connected infrastructure and lab systems
-- Guest wireless isolation for guest and IoT devices
+- Trusted wireless network
+- Isolated guest and IoT wireless network
 
 ## Technologies
 
@@ -45,19 +51,24 @@ The physical and logical foundation of the homelab, including routing, switching
 
 - ASUS RT-AX5400
 - Cisco Catalyst Managed Switch
+- Proxmox VE
 - Windows Server DHCP
 - DHCP Failover
 - Active Directory-integrated DNS
+- AdGuard Home
+- DNS-over-HTTPS (DoH)
+- Cloudflare DNS
+- Google Public DNS
 - Static Infrastructure Addressing
 - DHCP Client Addressing
+- WireGuard VPN
 - Guest Network Isolation
 - Synology NAS
-- Proxmox VE
 
 ### Planned
 
-- VLAN Segmentation
 - OPNsense Firewall
+- VLAN Segmentation
 - Inter-VLAN Firewall Policies
 - Configuration Backups
 - IP Address Management (IPAM)
@@ -75,15 +86,22 @@ The physical and logical foundation of the homelab, including routing, switching
 - [x] Configure DHCP scope options
 - [x] Configure DHCP failover
 - [x] Validate DHCP failover relationship
+- [x] Migrate DHCP service from ASUS router to Windows Server
+- [x] Validate DHCP client migration
+- [x] Test DHCP service continuity with individual DHCP servers offline
 - [x] Configure static addressing for infrastructure systems
+- [x] Deploy redundant AdGuard Home instances
+- [x] Configure both DNS servers to use both AdGuard instances as forwarders
+- [x] Configure encrypted upstream DNS using DoH
+- [x] Configure network-wide DNS filtering
+- [x] Separate AdGuard instances across Proxmox failure domains
+- [x] Validate AdGuard failover in both directions
+- [x] Configure internal reverse DNS resolution for AdGuard
 - [x] Implement guest network isolation
 - [x] Document current network architecture
 
 ### In Progress
 
-- [ ] Migrate DHCP from ASUS RT-AX5400 to Windows Server
-- [ ] Validate DHCP client migration
-- [ ] Test DHCP service failover
 - [ ] Create physical port maps
 - [ ] Build device inventory
 - [ ] Document cabling layout
@@ -97,10 +115,11 @@ The physical and logical foundation of the homelab, including routing, switching
 - [ ] Implement inter-VLAN firewall policies
 - [ ] Implement automated configuration backups
 - [ ] Deploy IPAM solution
+- [ ] Evaluate encrypted DNS closer to client endpoints
 
 ## Addressing Strategy
 
-The environment separates infrastructure addressing from DHCP-managed client addressing.
+The current environment uses a single trusted internal network while separating infrastructure addressing from DHCP-managed client addressing.
 
 ```text
 Private Address Space
@@ -126,19 +145,71 @@ See [`ip-addressing-strategy.md`](./ip-addressing-strategy.md) for additional de
 
 ## DHCP and DNS
 
-DHCP is provided by two Windows Server systems configured with a failover relationship. The environment centrally distributes client addressing, gateway information, internal DNS servers, and DNS domain configuration.
+DHCP is provided by two Windows Server systems configured with a failover relationship. Client addressing, gateway information, internal DNS servers, and DNS domain configuration are distributed centrally.
 
-Internal name resolution is provided by redundant Active Directory-integrated DNS services.
+Internal name resolution is provided by redundant Active Directory-integrated DNS servers. Domain clients query these servers directly, preserving Active Directory service discovery and internal namespace resolution.
 
-The previous DHCP service provided by the ASUS RT-AX5400 is being retired through a controlled DHCP server migration.
+External DNS resolution follows a separate forwarding path:
 
-See [`dhcp-server-migration.md`](./dhcp-server-migration.md) for the migration process.
+```text
+Internal Clients
+      │
+      ▼
+Active Directory DNS
+  dc-lab-01 / dc-lab-02
+      │
+      │ External DNS forwarding
+      ▼
+    AdGuard Home
+adguard-lab-01 / adguard-lab-02
+      │
+      │ DNS Filtering
+      │ DNS-over-HTTPS
+      ▼
+Cloudflare / Google
+      │
+      ▼
+   Internet DNS
+```
+
+Both Active Directory DNS servers are configured to use both AdGuard instances as forwarders. The AdGuard instances are hosted in separate Proxmox failure domains to avoid introducing a single virtualization-host dependency.
+
+Independent failure testing confirmed that external DNS resolution continues when either AdGuard instance is unavailable.
+
+See [`dns-filtering-adguard-home.md`](./dns-filtering-adguard-home.md) for the DNS filtering and encrypted upstream resolution architecture.
+
+See [`dhcp-server-migration.md`](./dhcp-server-migration.md) for the DHCP migration and validation process.
+
+## DNS Architecture
+
+The DNS design intentionally separates internal name resolution from external filtering.
+
+**Active Directory DNS** remains authoritative for the internal domain and provides the DNS functionality required by domain services.
+
+**AdGuard Home** provides:
+
+- Network-wide DNS filtering
+- Redundant external DNS forwarding
+- Encrypted upstream DNS using DoH
+- Internal PTR resolution for domain-controller identification
+
+Because client queries pass through Active Directory DNS first, AdGuard identifies the forwarding domain controller rather than the original endpoint. This reduced per-client visibility is an accepted design tradeoff that preserves the Active Directory DNS architecture.
+
+DoH currently protects the upstream connection between AdGuard and public DNS resolvers. DNS traffic between internal clients, Active Directory DNS, and AdGuard remains standard DNS within the trusted network.
+
+## Current Network Segmentation
+
+The trusted wired and wireless environment currently operates as a single internal network.
+
+Guest and IoT devices use the ASUS guest wireless network and are isolated from the trusted internal environment.
+
+Full infrastructure segmentation has not yet been implemented.
 
 ## Future Segmentation
 
-Future segmentation will use VLANs to separate systems by function, with dedicated subnets, DHCP scopes where appropriate, and firewall policies controlling inter-VLAN communication.
+A future network phase will introduce OPNsense and VLAN-based segmentation to separate systems by function.
 
-Planned segmentation includes:
+Planned logical zones include:
 
 - Management infrastructure
 - Trusted endpoints
@@ -146,14 +217,25 @@ Planned segmentation includes:
 - IoT devices
 - Guest devices
 
+Each zone can receive dedicated addressing, DHCP services where appropriate, and firewall policies controlling communication between network segments.
+
 Specific VLAN identifiers, subnet assignments, and firewall policies are intentionally excluded from public documentation.
 
 ## Related Projects
 
-- [proxmox-virtualization-lab](../proxmox-virtualization-lab/) — Proxmox cluster, VMs, and lab workloads connected to this network
-- [network-security](../network-security/) — Firewall policies and segmentation strategy
-- [media-services-platform](../media-services-platform/) — Media services hosted on network infrastructure
+- [proxmox-virtualization-lab](../proxmox-virtualization-lab/) — Proxmox cluster, VMs, and lab workloads
+- [network-security](../network-security/) — Firewall and segmentation strategy
+- [media-services-platform](../media-services-platform/) — Self-hosted media services
 - [infrastructure-monitoring](../infrastructure-monitoring/) — Monitoring and observability stack
+
+## Related Documentation
+
+- [`network-design.md`](./network-design.md) — Network architecture and design decisions
+- [`ip-addressing-strategy.md`](./ip-addressing-strategy.md) — Address allocation strategy
+- [`dhcp-server-migration.md`](./dhcp-server-migration.md) — Windows DHCP deployment and migration
+- [`dns-filtering-adguard-home.md`](./dns-filtering-adguard-home.md) — Redundant DNS filtering and encrypted upstream resolution
+- [`device-inventory.md`](./device-inventory.md) — Sanitized network device inventory
+- [`lessons-learned.md`](./lessons-learned.md) — Implementation lessons and troubleshooting findings
 
 ## Folder Structure
 
@@ -163,9 +245,11 @@ network-infrastructure/
 ├── network-design.md
 ├── ip-addressing-strategy.md
 ├── dhcp-server-migration.md
+├── dns-filtering-adguard-home.md
 ├── device-inventory.md
 ├── lessons-learned.md
 ├── configs/
 ├── scripts/
 └── diagrams/
+    └── current-logical-network-architecture.png
 ```
