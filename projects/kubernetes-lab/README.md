@@ -19,7 +19,7 @@ Container orchestration from homelab to cloud: a k3s cluster on Proxmox VMs, the
 - kubectl, Helm
 - Ingress controller (Traefik ships with k3s)
 - Persistent storage (local-path, then Longhorn or NFS)
-- Azure Kubernetes Service (later phase)
+- Azure Kubernetes Service (future project)
 
 ## Key Tasks
 
