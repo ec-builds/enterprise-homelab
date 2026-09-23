@@ -65,20 +65,27 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 
 ![Homelab Architecture](diagrams/homelab-logical-architecture.svg)
 
-The diagram above provides a logical overview of the homelab architecture, including current infrastructure and planned network security enhancements.
+The homelab is built around a three-node Proxmox VE cluster connected through managed network infrastructure, with dedicated storage and services distributed by operational role.
+
+Core network services include redundant Windows Server DHCP and Active Directory-integrated DNS. External DNS queries are forwarded through redundant AdGuard Home instances for network-wide filtering and DNS-over-HTTPS upstream resolution. WireGuard provides secure remote access, while guest and IoT wireless devices are isolated from the trusted network.
+
+Containerized applications, monitoring services, and media workloads run across dedicated Debian virtual machines. A Synology NAS provides centralized storage and backup services.
+
+The current architecture provides a functional foundation for continued development, including planned OPNsense deployment, VLAN segmentation, additional security controls, and cloud and identity integration.
 
 Functionally, the environment is organized into several infrastructure domains:
 
 | Domain | Scope |
 |--------|-------|
-| Network Infrastructure | Routing, switching, DHCP, DNS, DNS filtering, and remote access |
-| Virtualization | Proxmox hosts, VM lifecycle, storage, and virtual networking |
-| Identity & Access Management | Active Directory, Entra ID, RBAC |
-| Security Operations | Firewall, segmentation, IDS/IPS |
-| Infrastructure Monitoring | Metrics, logging, alerting |
-| Media Services | Linux administration, storage, streaming |
-| Automation & DevOps | Infrastructure as code, CI/CD |
-
+| Network Infrastructure | Routing, managed switching, DHCP, DNS, DNS filtering, and remote access |
+| Virtualization | Three-node Proxmox VE cluster, VM lifecycle, storage, and virtual networking |
+| Identity & Access Management | Active Directory, Group Policy, and planned Entra ID integration |
+| Network Security | Perimeter firewalling, WireGuard, DNS security, wireless isolation, and planned segmentation |
+| Security Operations | Detection engineering, centralized security monitoring, and incident response |
+| Infrastructure Monitoring | Availability monitoring, metrics, logging, visualization, and alerting |
+| Containerized Services | Docker Compose, application hosting, and service management |
+| Media Services | Containerized media services, Linux administration, and network storage integration |
+| Automation & DevOps | Infrastructure as code, configuration management, and CI/CD |
 
 ## Project Portfolio
 
