@@ -1,6 +1,6 @@
 # 🌐 Network Infrastructure
 
-**Status:** 🟢 Operational (Phase 1)
+**Status:** 🟢 Operational
 
 The physical and logical network foundation of the homelab, including routing, switching, wireless connectivity, IP addressing, DHCP, DNS, DNS filtering, encrypted upstream resolution, and core network services.
 
@@ -17,7 +17,7 @@ The Cisco managed switch provides centralized Ethernet connectivity for wired in
 
 Windows Server provides redundant DHCP and Active Directory-integrated DNS. External DNS queries are forwarded through redundant AdGuard Home instances for filtering and encrypted upstream resolution using DNS-over-HTTPS (DoH).
 
-Dedicated firewall services and VLAN segmentation are planned for a future phase.
+Dedicated firewall services and VLAN segmentation are planned for a future deployment.
 
 ## Current Environment
 
