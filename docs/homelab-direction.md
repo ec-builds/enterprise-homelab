@@ -28,7 +28,7 @@ The Cisco switch is plumbing, not the point. Its job is primarily Layer 2 connec
 
 ## Sequencing
 
-### Phase 1 — Network-Security Foundation (OPNsense)
+### Network-Security Foundation (OPNsense)
 
 The network-security foundation provides the control plane for segmentation, routing, filtering, remote access, and network visibility.
 
@@ -43,7 +43,7 @@ Inter-VLAN routing and firewall policy are handled by OPNsense using a router-on
 
 This keeps security policy concentrated at the firewall while allowing the switching layer to remain comparatively simple.
 
-### Phase 2 — Identity (Active Directory / Entra ID)
+### Identity (Active Directory / Entra ID)
 
 Identity development has begun alongside the network-security foundation rather than waiting for every networking component to be completed.
 
@@ -68,7 +68,7 @@ The next stage extends these concepts into **Microsoft 365 and Entra ID**, inclu
 
 Identity and access management is foundational to modern infrastructure and cloud security, making this a natural bridge between the on-premises lab and future cloud work.
 
-### Phase 3 — Cloud (Azure)
+### Cloud (Azure)
 
 Cloud development extends the infrastructure, security, and identity concepts established in the earlier phases into cloud-native environments.
 
