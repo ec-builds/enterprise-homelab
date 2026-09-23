@@ -57,7 +57,7 @@ The environment began with Uptime Kuma for basic availability monitoring and has
 ### Implementation Status
 
 | Status | Goal |
-|:------:------|
+|------|------|
 | 🟢 | Deploy Uptime Kuma for availability monitoring |
 | 🟢 | Collect infrastructure metrics with Prometheus and exporters |
 | 🟢 | Build Grafana dashboards for infrastructure visibility |
