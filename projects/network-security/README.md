@@ -11,7 +11,7 @@ Phase 1 establishes the current security baseline. Future phases will introduce 
 ## Network Security Architecture
 
 <p align="left">
-  <img src="./diagrams/network-security-architecture.png" alt="Network Security Architecture" width="750">
+  <img src="./diagrams/network-security-architecture.png" alt="Network Security Architecture" width="600">
 </p>
 
 > [!NOTE]
