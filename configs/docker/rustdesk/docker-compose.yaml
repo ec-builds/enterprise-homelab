@@ -5,10 +5,13 @@ services:
   hbbs:
     container_name: rustdesk-hbbs
     image: rustdesk/rustdesk-server:1.1.16
-    command: hbbs
+    command: hbbs -k _
     volumes:
       - ./data:/root
-    network_mode: "host"
+    ports:
+      - "21115:21115/tcp"
+      - "21116:21116/tcp"
+      - "21116:21116/udp"
     depends_on:
       - hbbr
     restart: unless-stopped
@@ -16,8 +19,9 @@ services:
   hbbr:
     container_name: rustdesk-hbbr
     image: rustdesk/rustdesk-server:1.1.16
-    command: hbbr
+    command: hbbr -k _
     volumes:
       - ./data:/root
-    network_mode: "host"
+    ports:
+      - "21117:21117/tcp"
     restart: unless-stopped
