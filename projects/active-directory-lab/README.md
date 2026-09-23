@@ -1,6 +1,6 @@
 # 🏢 Active Directory Lab
 
-**Status: 🟡 In Progress**
+**Status: 🟢 Operational**
 
 Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the Proxmox virtualization lab.
 
