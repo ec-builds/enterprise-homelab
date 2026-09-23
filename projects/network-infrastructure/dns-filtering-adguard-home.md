@@ -1,5 +1,7 @@
 # AdGuard Home DNS Filtering
 
+![AdGuard Dashboard](./diagrams/adguard-dashboard.png)
+
 ## Overview
 
 The homelab uses two AdGuard Home instances to provide centralized DNS filtering and encrypted upstream DNS resolution while preserving Active Directory DNS for internal services.
