@@ -91,7 +91,7 @@ FSMO role placement will be documented as part of the continuing Active Director
 
 ## Identity Management Roadmap
 
-With the core directory infrastructure operational, the next phase focuses on Active Directory administration, access management, policy enforcement, and security.
+With the core directory infrastructure operational, the next step focuses on Active Directory administration, access management, policy enforcement, and security.
 
 ```text
 Directory Infrastructure
@@ -163,7 +163,7 @@ This sequence builds identity administration and security capabilities on top of
 - [x] Validate DNS continuity during a domain controller outage
 - [x] Validate recovery to normal operation following server restoration
 
-### Next Phase
+### Next Steps
 
 - [ ] Design organizational unit structure
 - [ ] Create users, groups, and administrative structure
@@ -206,7 +206,7 @@ Backup / Recovery              ░░░░░░░░░░  Planned
 Hybrid Identity                ░░░░░░░░░░  Future
 ```
 
-The redundant directory services foundation is complete. The next phase moves from infrastructure deployment into identity administration, beginning with OU design, users and groups, access assignment, and Group Policy.
+The redundant directory services foundation is complete. The next iteration moves from infrastructure deployment into identity administration, beginning with OU design, users and groups, access assignment, and Group Policy.
 
 
 ## Lab Documentation
@@ -249,7 +249,7 @@ Microsoft Entra ID
       └── Microsoft Intune
 ```
 
-Future phases will include hybrid identity synchronization, Microsoft Entra authentication, Conditional Access, and endpoint management.
+Future deployments will include hybrid identity synchronization, Microsoft Entra authentication, Conditional Access, and endpoint management.
 
 The goal is to extend the identity concepts implemented on premises into Microsoft cloud identity rather than treating the environments as unrelated labs.
 
