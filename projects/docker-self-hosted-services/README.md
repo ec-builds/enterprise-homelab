@@ -8,9 +8,9 @@ Containerized self-hosted applications running on dedicated Debian Docker hosts.
 
 This project deploys, manages, and documents self-hosted services using Docker and Docker Compose. It serves as a platform for learning container operations, networking, monitoring, and backup strategies, with the long-term goal of a repeatable self-hosted platform and foundational skills for future Kubernetes work.
 
-Services are separated by operational role where appropriate. General self-hosted applications run on the primary Docker host (`docker-lab`), while monitoring and observability services run on a dedicated monitoring host (`monitor-lab`).
+Services are separated by operational role where appropriate. General self-hosted applications run on the primary Docker host (`docker-lab`), monitoring and observability services are being validated before final deployment to their permanent Docker host, and media services run in Docker on a dedicated media VM on the third Proxmox node.
 
-Separating monitoring from the primary application host provides better fault isolation. If `docker-lab` becomes unavailable, the monitoring stack remains operational and can continue reporting the outage and monitoring the rest of the environment.
+Separating workloads by operational role provides better fault isolation and allows application, monitoring, and media services to be maintained independently.
 
 ## Services
 
@@ -23,20 +23,20 @@ Separating monitoring from the primary application host provides better fault is
 | `prox-lab-01` | `docker-lab-vm` | Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
 | `prox-lab-01` | `docker-lab-vm` | Password Management | Bitwarden Lite | ⚪ Planned |
 
-### Monitoring Lab
+### Monitoring Stack
 
-| Node | VM | Category | Service | Status |
-|---|---|---|---|---|
-| `prox-lab-02` | `monitor-lab-vm` | Availability Monitoring | Uptime Kuma | 🟢 Deployed |
-| `prox-lab-02` | `monitor-lab-vm` | Metrics | Prometheus | 🟢 Deployed |
-| `prox-lab-02` | `monitor-lab-vm` | Visualization | Grafana | 🟢 Deployed |
-| `prox-lab-02` | `monitor-lab-vm` | Logging | Loki | 🟢 Deployed |
-| `prox-lab-02` | `monitor-lab-vm` | Alerting | Alertmanager | 🟢 Deployed |
-| `prox-lab-02` | `monitor-lab-vm` | Log Collection | Grafana Alloy | 🟢 Deployed |
-| `prox-lab-02` | `monitor-lab-vm` | Host Metrics | Node Exporter | ⚪ Planned |
-| `prox-lab-02` | `monitor-lab-vm` | Container Metrics | cAdvisor | ⚪ Planned |
-| `prox-lab-02` | `monitor-lab-vm` | Network Metrics | SNMP Exporter | ⚪ Planned |
-| `prox-lab-02` | `monitor-lab-vm` | Availability Metrics | Blackbox Exporter | ⚪ Planned |
+The monitoring stack has been deployed and tested on `test-docker-lab`. The services are operational in the test environment but are pending final deployment to the permanent `docker-lab-01` environment.
+
+| Current Environment | Category | Service | Status |
+|---|---|---|---|
+| `monitor-lab-01` | Availability Monitoring | Uptime Kuma | 🟢 Deployed |
+| `test-docker-lab` | Metrics | Prometheus | 🟡 Tested / Pending Permanent Deployment |
+| `test-docker-lab` | Visualization | Grafana | 🟡 Tested / Pending Permanent Deployment |
+| `test-docker-lab` | Logging | Loki | 🟡 Tested / Pending Permanent Deployment |
+| `test-docker-lab` | Alerting | Alertmanager | 🟡 Tested / Pending Permanent Deployment |
+| `test-docker-lab` | Log Collection | Grafana Alloy | 🟡 Tested / Pending Permanent Deployment |
+
+Additional exporters will be introduced as monitoring coverage expands.
 
 ```text
 Node Exporter ──────┐
@@ -47,17 +47,19 @@ Blackbox Exporter ──┘          │
 
 Servers/Containers ──► Alloy ──► Loki ──► Grafana
 
-Uptime Kuma ──► Independent uptime checks/notifications
+Uptime Kuma ──► Independent availability checks and notifications
 ```
 
 ### Media Lab
 
-| Node | VM | Category | Service | Status |
-|---|---|---|---|---|
-| `prox-lab-03` | `media-lab-vm` | Media Server | Jellyfin | ⚪ Planned |
+| Node | VM | Category | Service | Deployment | Status |
+|---|---|---|---|---|---|
+| `prox-lab-03` | `media-lab-vm` | Media Server | Jellyfin | Docker Compose | 🟢 Deployed |
 
 > [!NOTE]
-> Media services (Jellyfin) currently run on a separate Debian-based media host. A future migration will move these services from the existing physical host to the Proxmox environment, either as containers on `docker-lab` or on a dedicated media services VM. See [architecture.md](architecture.md) for the full environment topology.
+> Jellyfin runs as a Docker container on a dedicated Debian media VM hosted on the third Proxmox node. The service was migrated from a host-based installation to a containerized deployment to improve portability, simplify service recreation, and make configuration migration and backup workflows easier to manage.
+>
+> Persistent Jellyfin application data and required host resources are provided to the container using bind mounts, keeping persistent state outside the disposable container filesystem.
 
 ## Architecture
 
@@ -75,31 +77,32 @@ Managed Switch
     │
     ├── docker-lab (Debian VM)
     │   │  (self-hosted applications)
-    │   ├── Nginx Proxy Manager  (planned)
-    │   ├── Portainer            (deployed)
-    │   ├── Homepage             (deployed)
-    │   └── Bitwarden Lite       (planned)
+    │   ├── Portainer             (deployed)
+    │   ├── Homepage              (deployed)
+    │   ├── Nginx Proxy Manager   (planned)
+    │   └── Bitwarden Lite        (planned)
     │
-    └── monitor-lab (Debian VM)
-        │  (monitoring and observability)
-        ├── Uptime Kuma          (deployed)
-        ├── Prometheus           (deployed)
-        ├── Grafana              (deployed)
-        ├── Loki                 (deployed)
-        ├── Alertmanager         (deployed)
-        │
-        └── Supporting Components
-            ├── Grafana Alloy     (deployed)
-            ├── Node Exporter     (planned)
-            ├── cAdvisor          (planned)
-            ├── SNMP Exporter     (planned)
-            └── Blackbox Exporter (planned)
+    ├── monitor-lab-01
+    │   └── Uptime Kuma           (deployed)
+    │
+    ├── test-docker-lab
+    │   │  (monitoring stack validation)
+    │   ├── Prometheus            (tested / pending)
+    │   ├── Grafana               (tested / pending)
+    │   ├── Loki                  (tested / pending)
+    │   ├── Alertmanager          (tested / pending)
+    │   └── Grafana Alloy         (tested / pending)
+    │
+    └── media-lab (Debian VM)
+        │  (containerized media services)
+        └── Jellyfin              (Docker / deployed)
 ```
 
+The monitoring stack is currently running on `test-docker-lab`, where the services have been deployed and validated before final placement on the permanent Docker environment. Uptime Kuma is deployed independently on `monitor-lab-01` for availability monitoring.
 
-The monitoring host is placed separately from the primary Docker host so monitoring remains available if the application host becomes unavailable.
+Jellyfin runs as a Docker container on a dedicated Debian VM hosted on the third Proxmox node. The media workload remains separated from the primary application environment while using the same Docker Compose-based deployment approach.
 
-Nginx Proxy Manager will provide centralized hostname-based routing and HTTPS management for web services. Initial deployment will remain internal to the lab and will not require Internet-facing router port forwarding.
+Nginx Proxy Manager is planned to provide centralized hostname-based routing and HTTPS management for internal web services. Initial deployment will remain internal to the lab and will not require Internet-facing router port forwarding.
 
 Compose files are version-controlled in this repository under `configs/` and deployed to `/opt/docker` on the appropriate host. See [architecture.md](architecture.md) for the complete environment topology.
 
@@ -109,27 +112,56 @@ Compose files are version-controlled in this repository under `configs/` and dep
 
 The primary Docker host runs general self-hosted applications and management services.
 
-Planned responsibilities include:
+Current and planned responsibilities include:
 
 - Container management
 - Internal dashboards
+- Monitoring and observability services
 - Reverse proxy and HTTPS management
 - Productivity applications
 - Future self-hosted services
 
-### monitor-lab
+The validated monitoring stack will be deployed to the permanent Docker environment after testing and configuration are finalized.
 
-The monitoring host provides centralized monitoring, metrics, visualization, and logging for the environment.
+### monitor-lab-01
 
-Responsibilities include:
+`monitor-lab-01` provides dedicated availability monitoring independently from the primary Docker application environment.
+
+Current responsibilities include:
 
 - Service availability monitoring
+- Infrastructure availability checks
+- Failure notifications
+
+Uptime Kuma remains separated from the primary Docker host so availability monitoring can continue during maintenance or failure of the application environment.
+
+### test-docker-lab
+
+`test-docker-lab` provides a temporary environment for validating monitoring and observability services before permanent deployment.
+
+Current responsibilities include:
+
 - Infrastructure metrics collection
 - Metrics visualization
 - Centralized log aggregation
 - Alerting
+- Monitoring configuration validation
 
-Running monitoring on a separate host reduces dependency on `docker-lab` and allows monitoring to remain available during maintenance or failure of the primary application host.
+Once the monitoring stack is finalized, the validated configuration will be deployed to the permanent Docker environment.
+
+### media-lab
+
+`media-lab` is a dedicated Debian VM running on the third Proxmox node and hosts containerized media services.
+
+Current services include:
+
+- Jellyfin media server deployed with Docker
+- Network-mounted media storage integration
+- Persistent application data provided through bind mounts
+
+Jellyfin was converted from a host-based installation to a Docker deployment. Containerizing the service separates the application runtime from the underlying Debian VM and makes the deployment easier to reproduce, migrate, and restore.
+
+Persistent configuration and application data are maintained outside the container filesystem using bind mounts. This allows the container itself to remain disposable while important state can be backed up or transferred independently.
 
 ## What's Next
 
@@ -142,18 +174,28 @@ Running monitoring on a separate host reduces dependency on `docker-lab` and all
 
 ### Monitoring Stack
 
-- [x] Deploy Uptime Kuma
-- [x] Deploy Prometheus
-- [x] Deploy Grafana
-- [x] Deploy Loki
-- [x] Deploy Alertmanager
-- [x] Deploy Grafana Alloy
+- [x] Deploy Uptime Kuma to dedicated monitoring host
+- [x] Deploy and test Prometheus
+- [x] Deploy and test Grafana
+- [x] Deploy and test Loki
+- [x] Deploy and test Alertmanager
+- [x] Deploy and test Grafana Alloy
+- [ ] Deploy validated monitoring stack to permanent Docker environment
 - [ ] Deploy Node Exporter
 - [ ] Deploy cAdvisor
 - [ ] Deploy SNMP Exporter
 - [ ] Deploy Blackbox Exporter
 - [ ] Create baseline dashboards
 - [ ] Add infrastructure monitoring targets
+
+### Media Services
+
+- [x] Create dedicated media services VM on the third Proxmox node
+- [x] Migrate Jellyfin to the Proxmox environment
+- [x] Convert Jellyfin from host-based deployment to Docker
+- [x] Deploy Jellyfin using Docker Compose
+- [x] Configure persistent application data using bind mounts
+- [x] Integrate network-mounted media storage
 
 ### Networking
 
@@ -167,7 +209,7 @@ Running monitoring on a separate host reduces dependency on `docker-lab` and all
 ### Operations
 
 - [ ] Standardize Compose and `.env` templates
-- [ ] Configure Docker volume backups
+- [ ] Configure Docker volume and bind-mount backups
 - [ ] Define monitoring data retention
 - [ ] Document upgrade and disaster recovery procedures
 
@@ -176,7 +218,7 @@ Running monitoring on a separate host reduces dependency on `docker-lab` and all
 Foundational Docker documentation is maintained centrally under `docs/reference/`:
 
 | Document | Purpose |
-|----------|---------|
+|---|---|
 | [docker-installation.md](../../docs/reference/docker/docker-installation.md) | Docker Engine and Compose installation |
 | [docker-container-deployment.md](../../docs/reference/docker/docker-container-deployment.md) | Standard container deployment process |
 | [docker-concepts.md](../../docs/reference/docker/docker-concepts.md) | Core Docker concepts and architecture |
