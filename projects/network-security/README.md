@@ -4,7 +4,7 @@
 
 This project documents the preventive security controls used to protect the homelab network, including perimeter firewalling, secure remote access, DNS filtering, encrypted upstream DNS, wireless isolation, and infrastructure hardening.
 
-Phase 1 establishes the current security baseline. Future phases will introduce a dedicated OPNsense firewall, VLAN-based segmentation, inter-VLAN security policies, and IDS/IPS capabilities.
+The current environment provides an operational security baseline using perimeter firewalling, WireGuard remote access, wireless isolation, redundant DNS infrastructure, and network-wide DNS filtering. Planned enhancements include a dedicated OPNsense firewall, VLAN-based segmentation, inter-VLAN security policies, and IDS/IPS capabilities.
 
 **Scope:** Detection and response workflows are documented separately in [security-operations](../security-operations/). This project focuses on preventive network controls and security architecture.
 
@@ -15,7 +15,7 @@ Phase 1 establishes the current security baseline. Future phases will introduce 
 </p>
 
 > [!NOTE]
-> The current environment uses the ASUS router as the perimeter firewall and routing platform. OPNsense and full VLAN segmentation are planned for a future phase and are not represented as currently deployed controls.
+> The current environment uses the ASUS router as the perimeter firewall and routing platform. OPNsense and full VLAN segmentation are planned enhancements and are not represented as currently deployed controls.
 
 ## Current Security Architecture
 
@@ -111,7 +111,7 @@ AdGuard evaluates DNS filtering rules before forwarding permitted external queri
 
 Both Active Directory DNS servers use both AdGuard instances as forwarders. The AdGuard instances are hosted across separate Proxmox failure domains to reduce the impact of an individual virtualization-host failure.
 
-Failover testing confirmed that external DNS resolution continues when either AdGuard instance is unavailable.
+Controlled failure testing confirmed that external DNS resolution continues when either AdGuard instance is unavailable.
 
 DNS-over-HTTPS currently protects the connection between AdGuard and public DNS resolvers. DNS communication between internal clients, Active Directory DNS, and AdGuard remains standard DNS within the trusted network.
 
@@ -166,11 +166,11 @@ The following capabilities are not yet deployed:
 - Suricata IDS/IPS
 - Centralized firewall and IDS logging
 
-These capabilities are planned for subsequent phases.
+These capabilities are planned as future enhancements to the current security architecture.
 
 ## Target Architecture
 
-A future phase will introduce OPNsense on dedicated hardware as the primary routing and firewall platform.
+The target architecture introduces OPNsense on dedicated hardware as the primary routing and firewall platform.
 
 ```text
 Internet
@@ -190,7 +190,7 @@ Cisco Managed Switch
 
 The dedicated firewall will remain outside the Proxmox virtualization cluster. This keeps routing and firewall availability independent of virtualization-host maintenance, reboots, and lab experimentation.
 
-OPNsense will provide the foundation for VLAN routing, stateful inter-VLAN firewall policies, and additional security controls.
+OPNsense will provide the foundation for VLAN routing, stateful inter-VLAN firewall policies, centralized security policy, and additional network-security controls.
 
 ## Current Status
 
