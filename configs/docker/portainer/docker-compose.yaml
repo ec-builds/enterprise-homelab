@@ -10,11 +10,15 @@ services:
     
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./data:/data
       
     ports:
       - "9443:9443"
-      
-volumes:
-  portainer_data:
-    name: portainer_data
+     
+    networks:
+      - portainer
+
+networks:
+  portainer:
+    name: portainer
+    driver: bridge 
