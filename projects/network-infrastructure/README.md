@@ -187,7 +187,7 @@ Cloudflare / Google
 
 Both Active Directory DNS servers are configured to use both AdGuard instances as forwarders. The AdGuard instances are hosted in separate Proxmox failure domains to avoid introducing a single virtualization-host dependency.
 
-Independent failure testing confirmed that external DNS resolution continues when either AdGuard instance is unavailable.
+Controlled failure testing confirmed that external DNS resolution continues when either AdGuard instance is unavailable.
 
 See [`dns-filtering-adguard-home.md`](./dns-filtering-adguard-home.md) for the DNS filtering and encrypted upstream resolution architecture.
 
@@ -220,7 +220,7 @@ Full infrastructure segmentation has not yet been implemented.
 
 ## Future Segmentation
 
-A future network phase will introduce OPNsense and VLAN-based segmentation to separate systems by function.
+The target network architecture will introduce OPNsense and VLAN-based segmentation to separate systems by function.
 
 Planned logical zones include:
 
