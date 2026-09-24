@@ -63,7 +63,7 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 
 ## Architecture Overview
 
-![Homelab Architecture](diagrams/homelab-logical-architecture-simple.png)
+![Homelab Architecture](diagrams/homelab-architecture-simple.png)
 
 The homelab is built around a three-node Proxmox VE cluster connected through managed network infrastructure, with dedicated storage and services distributed by operational role.
 
