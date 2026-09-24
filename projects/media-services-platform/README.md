@@ -121,7 +121,7 @@ For additional design details, see [Architecture](./architecture.md).
 
 - [x] Migrate to a VM on the Proxmox host ([proxmox-virtualization-lab](../proxmox-virtualization-lab/))
 - [x] Migrate to Docker Compose ([docker-self-hosted-services](../docker-self-hosted-services/))
-- [ ] Add hardware transcoding (Intel Quick Sync)
+- [x] Add hardware transcoding (Intel Quick Sync)
 - [ ] Include Jellyfin configuration in backup jobs ([backup-disaster-recovery](../backup-disaster-recovery/))
 - [x] Add uptime/resource monitoring ([infrastructure-monitoring](../infrastructure-monitoring/))
 - [ ] Add container metrics and Jellyfin-specific monitoring
