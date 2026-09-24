@@ -5,7 +5,6 @@ This document defines the current deployment architecture for the Active Directo
 > [!NOTE]
 > Hostnames and infrastructure identifiers shown in this document have been sanitized for public release.
 
-
 ## Platform
 
 The domain controllers are deployed as virtual machines on the existing **Proxmox VE cluster**.
@@ -13,7 +12,7 @@ The domain controllers are deployed as virtual machines on the existing **Proxmo
 Proxmox provides the virtualization foundation for the homelab and allows the domain controllers to be distributed across separate physical hosts.
 
 ```text
-Proxmox Cluster
+Proxmox VE Cluster
       │
       ├── prox-lab-01
       │     └── dc-lab-01
@@ -45,7 +44,6 @@ The graphical installation provides access to tools such as:
 - Active Directory Administrative Center
 
 PowerShell is also used for administration, validation, and automation.
-
 
 ## Domain Controller Configuration
 
@@ -90,7 +88,8 @@ Resources can be increased if monitoring indicates additional capacity is requir
 dc-lab-01
 ├── Active Directory Domain Services
 ├── DNS
-└── DHCP
+├── DHCP
+└── Global Catalog
 ```
 
 `dc-lab-01` provides directory, DNS, and DHCP services for the lab.
@@ -101,7 +100,8 @@ dc-lab-01
 dc-lab-02
 ├── Active Directory Domain Services
 ├── DNS
-└── DHCP
+├── DHCP
+└── Global Catalog
 ```
 
 `dc-lab-02` operates as an additional domain controller and provides redundant directory, DNS, and DHCP services.
@@ -127,7 +127,7 @@ The two domain controllers are distributed across separate Proxmox hosts.
        prox-lab-01            prox-lab-02
 ```
 
-This design allows core directory, DNS, and DHCP services to remain available when an individual domain controller or its underlying Proxmox host becomes unavailable.
+This design reduces dependency on any individual domain controller or virtualization host for core directory, DNS, and DHCP services.
 
 The multi-domain-controller environment also provides hands-on experience with:
 
@@ -144,27 +144,42 @@ The multi-domain-controller environment also provides hands-on experience with:
 
 Both domain controllers host Active Directory-integrated DNS and replicate the internal DNS zones through Active Directory.
 
-Domain controller DNS client configuration uses the peer domain controller as the preferred DNS server and the local DNS service as the alternate. This avoids dependency on a single DNS server while retaining local DNS availability.
+Domain controller DNS client configuration uses the peer domain controller as the preferred DNS server and the local DNS service as the alternate. This reduces dependency on a single DNS server while retaining local DNS availability.
 
-External DNS queries are forwarded from the Active Directory DNS servers to redundant AdGuard Home instances for filtering and encrypted upstream resolution.
+Clients receive both domain controllers as DNS servers through DHCP.
+
+External DNS queries are forwarded from the Active Directory DNS servers to two redundant AdGuard Home instances for filtering and encrypted upstream resolution.
 
 ```text
-Internal Clients
-      │
-      ▼
-Active Directory DNS
-dc-lab-01 / dc-lab-02
-      │
-      ▼
-Redundant AdGuard Home
-      │
-      │ DNS Filtering
-      │ DNS-over-HTTPS
-      ▼
-Public DNS Resolvers
+                    Internal Clients
+                           │
+                ┌──────────┴──────────┐
+                ▼                     ▼
+           dc-lab-01              dc-lab-02
+             AD DNS                 AD DNS
+                │                     │
+                └──────────┬──────────┘
+                           ▼
+                 Redundant AdGuard Home
+                   │               │
+                   ▼               ▼
+             adguard-lab-01   adguard-lab-02
+                   │               │
+                   └───────┬───────┘
+                           │
+                  DNS Filtering + DoH
+                           │
+                           ▼
+                  Public DNS Resolvers
 ```
 
-This preserves Active Directory DNS as the authoritative internal DNS layer while providing centralized filtering and encrypted upstream DNS resolution.
+Both Active Directory DNS servers are configured with both AdGuard Home instances as external DNS forwarders.
+
+The AdGuard instances are distributed across separate virtualization hosts to reduce dependency on a single failure domain. Individual AdGuard instances have been taken offline during controlled testing while external DNS resolution continued through the remaining instance.
+
+This architecture preserves Active Directory DNS as the authoritative internal DNS layer while adding network-wide filtering and encrypted upstream DNS resolution.
+
+DNS encryption applies to the AdGuard-to-public-resolver portion of the resolution path. DNS traffic between internal clients, Active Directory DNS, and AdGuard remains standard DNS within the trusted internal network.
 
 ## DHCP Architecture
 
@@ -181,13 +196,22 @@ DHCP is provided by both domain controllers using Windows Server DHCP failover.
                     Failover
 ```
 
-The DHCP servers distribute client addressing, gateway information, internal DNS servers, and the internal DNS domain.
+The DHCP servers distribute:
+
+- IPv4 addressing
+- Default gateway information
+- Both Active Directory DNS servers
+- Internal DNS domain information
+
+The two DHCP servers operate in a load-balanced failover relationship.
 
 Controlled failure testing confirmed DHCP service continuity with either individual DHCP server unavailable.
 
+DHCP-managed dynamic DNS registration is intentionally disabled. Domain-joined Windows systems can securely register their own records with Active Directory DNS, while static infrastructure and selected non-domain systems are manually registered when internal name resolution is required.
+
 ## Replication and Service Validation
 
-The completed deployment was validated to confirm that the two-domain-controller architecture operates as intended.
+The deployment was validated to confirm that the two-domain-controller architecture operates as intended.
 
 Validation included:
 
@@ -197,17 +221,18 @@ Validation included:
 - Global Catalog availability on both domain controllers
 - SYSVOL and NETLOGON availability
 - LDAP and Kerberos service discovery through DNS SRV records
-- Internal hostname resolution through both DNS servers
+- Internal hostname resolution
 - External DNS resolution
 - DHCP failover operation
-- DHCP service continuity with individual DHCP servers unavailable
-- DNS service continuity during individual DNS server failure testing
+- DHCP service continuity with each individual DHCP server unavailable
+- Client DNS continuity with an individual Active Directory DNS server unavailable
+- AdGuard external DNS continuity with each individual AdGuard instance unavailable
 
 Active Directory replication and DNS diagnostic testing completed successfully without active replication or DNS failures.
 
 ## Deployment Strategy
 
-The environment was deployed incrementally so each infrastructure layer could be validated before introducing redundancy.
+The environment was deployed incrementally so each infrastructure layer could be validated before introducing additional redundancy and dependencies.
 
 ```text
 Deploy dc-lab-01
@@ -243,8 +268,32 @@ Deploy Windows Server DHCP
 Configure DHCP Failover
       │
       ▼
-Validate Service Continuity
+Validate DHCP Continuity
+      │
+      ▼
+Integrate Redundant AdGuard Forwarders
+      │
+      ▼
+Validate DNS and Forwarder Failover
 ```
+
+This incremental approach allowed directory services, DNS, DHCP, and external DNS forwarding to be validated independently before relying on the complete architecture.
+
+## Current Deployment State
+
+| Capability | Status |
+|---|---|
+| `dc-lab-01` | 🟢 Operational |
+| `dc-lab-02` | 🟢 Operational |
+| Active Directory Domain Services | 🟢 Operational |
+| Global Catalog redundancy | 🟢 Operational |
+| AD-integrated DNS | 🟢 Operational |
+| DNS replication | 🟢 Operational |
+| Windows Server DHCP | 🟢 Operational |
+| DHCP failover | 🟢 Operational |
+| Redundant external DNS forwarding | 🟢 Operational |
+| AdGuard DNS filtering | 🟢 Operational |
+| DNS-over-HTTPS upstream resolution | 🟢 Operational |
 
 > [!NOTE]
 > **The resulting architecture uses two replicated domain controllers distributed across separate Proxmox hosts, providing redundant Active Directory, DNS, and DHCP services while reducing dependency on any single virtual machine or virtualization host.**
