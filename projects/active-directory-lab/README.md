@@ -12,7 +12,6 @@ The environment provides redundant directory, DNS, and DHCP services and serves 
 
 *Windows Server 2025 domain controller with Active Directory Domain Services deployed.*
 
-
 ## Architecture
 
 The Active Directory environment uses two domain controllers distributed across separate Proxmox hosts.
@@ -33,15 +32,23 @@ Proxmox Cluster
         ├── DNS
         ├── DHCP
         └── Global Catalog
-             │
-             ▼
-      AD Replication
+
+dc-lab-01 ◄──── AD / DNS Replication ────► dc-lab-02
+     │                                         │
+     └──────────── DHCP Failover ──────────────┘
+                         │
+                         ▼
+                Redundant AdGuard Home
+                         │
+                         ▼
+                 Public DNS Resolvers
 ```
 
-Both domain controllers provide Active Directory-integrated DNS and participate in a load-balanced DHCP failover relationship.
+Both domain controllers provide Active Directory-integrated DNS and participate in a 50/50 load-balanced DHCP failover relationship.
 
-Separating the domain controllers across Proxmox hosts provides continued directory, DNS, and DHCP availability if a domain controller or virtualization host becomes unavailable.
+External DNS queries are forwarded through redundant AdGuard Home instances for network-wide DNS filtering and DNS-over-HTTPS upstream resolution.
 
+Separating the domain controllers across Proxmox hosts reduces dependency on an individual domain controller or virtualization host for directory, DNS, and DHCP services.
 
 ## Objectives
 
@@ -60,11 +67,10 @@ Separating the domain controllers across Proxmox hosts provides continued direct
 - Develop backup and recovery procedures
 - Establish the on-premises identity foundation for future Microsoft Entra ID integration
 
-
 ## Technologies
 
 - Proxmox VE
-- Windows Server
+- Windows Server 2025
 - Active Directory Domain Services
 - Active Directory-integrated DNS
 - Windows Server DHCP
@@ -73,7 +79,6 @@ Separating the domain controllers across Proxmox hosts provides continued direct
 - Active Directory Sites and Services
 - PowerShell
 - Windows 10/11 domain-joined clients
-
 
 ## Domain Controllers
 
@@ -84,14 +89,13 @@ Separating the domain controllers across Proxmox hosts provides continued direct
 
 Both domain controllers provide directory and DNS services. DHCP is configured using a 50/50 load-balanced failover relationship.
 
-Active Directory replication, DNS redundancy, DHCP redundancy, and single-server failure recovery have been validated.
+Active Directory replication, DNS redundancy, DHCP redundancy, and service continuity during controlled failure testing have been validated.
 
-FSMO role placement will be documented as part of the continuing Active Directory administration phase.
+FSMO role placement will be documented as Active Directory administration capabilities continue to be expanded.
 
+## Identity Management Direction
 
-## Identity Management Roadmap
-
-With the core directory infrastructure operational, the next step focuses on Active Directory administration, access management, policy enforcement, and security.
+With the core directory infrastructure operational, continued development focuses on Active Directory administration, access management, policy enforcement, security, and recovery.
 
 ```text
 Directory Infrastructure
@@ -133,8 +137,7 @@ Directory Infrastructure
       Microsoft Entra ID
 ```
 
-This sequence builds identity administration and security capabilities on top of the redundant directory services foundation before introducing hybrid cloud identity.
-
+This progression builds identity administration and security capabilities on top of the redundant directory-services foundation before introducing hybrid cloud identity.
 
 ## Key Tasks
 
@@ -160,8 +163,10 @@ This sequence builds identity administration and security capabilities on top of
 - [x] Migrate clients from the previous DHCP service
 - [x] Validate DHCP client configuration
 - [x] Perform bidirectional DHCP failure testing
-- [x] Validate DNS continuity during a domain controller outage
+- [x] Validate client DNS continuity with an individual DNS server unavailable
 - [x] Validate recovery to normal operation following server restoration
+- [x] Integrate redundant AdGuard Home external DNS forwarders
+- [x] Validate AdGuard failover in both directions
 
 ### Next Steps
 
@@ -182,7 +187,6 @@ This sequence builds identity administration and security capabilities on top of
 - [ ] Develop Active Directory backup and recovery procedures
 - [ ] Validate directory recovery procedures
 - [ ] Integrate the environment with Microsoft Entra ID
-
 
 ## Deployment Progress
 
@@ -206,8 +210,7 @@ Backup / Recovery              ░░░░░░░░░░  Planned
 Hybrid Identity                ░░░░░░░░░░  Future
 ```
 
-The redundant directory services foundation is complete. The next iteration moves from infrastructure deployment into identity administration, beginning with OU design, users and groups, access assignment, and Group Policy.
-
+The redundant directory-services foundation is complete. Continued development now moves from infrastructure deployment into identity administration, beginning with OU design, users and groups, access assignment, and Group Policy.
 
 ## Lab Documentation
 
@@ -233,7 +236,6 @@ active-directory-lab/
 
 Completed lab documents describe the deployed environment and validation results. Planned documents are added as the corresponding capabilities are implemented.
 
-
 ## Future Integration
 
 The Active Directory environment will provide the on-premises identity foundation for the Microsoft cloud labs.
@@ -253,10 +255,10 @@ Future deployments will include hybrid identity synchronization, Microsoft Entra
 
 The goal is to extend the identity concepts implemented on premises into Microsoft cloud identity rather than treating the environments as unrelated labs.
 
-
 ## Related Projects
 
 - [Proxmox Virtualization Lab](../proxmox-virtualization-lab/) — virtualization platform hosting the domain controllers and client VMs
+- [Network Infrastructure](../network-infrastructure/) — DHCP, DNS, DNS filtering, switching, and supporting network services
 - [Microsoft 365 & Entra ID](../microsoft-365-entra-id/) — future hybrid identity and Microsoft cloud integration
 - [Microsoft Intune Lab](../microsoft-intune/) — endpoint enrollment, configuration, compliance, and management
 - [Security Operations Lab](../security-operations/) — future collection and analysis of Active Directory security events
