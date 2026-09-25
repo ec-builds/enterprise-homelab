@@ -16,17 +16,17 @@ This document describes how the observability layers defined in the README are i
 
 | Component | Runs On | Deployment | Status |
 |-----------|---------|------------|:------:|
-| Uptime Kuma | Docker Monitoring Host (Proxmox Host 2) | Docker container | 🟢 |
-| Prometheus | Docker Monitoring Host (Proxmox Host 2) | Docker container | 🟢 |
-| Grafana | Docker Monitoring Host (Proxmox Host 2) | Docker container | 🟢 |
-| Alertmanager | Docker Monitoring Host (Proxmox Host 2) | Docker container | 🟡 |
-| SNMP Exporter | Docker Monitoring Host (Proxmox Host 2) | Docker container | 🟢 |
-| Blackbox Exporter | Docker Monitoring Host (Proxmox Host 2) | Docker container | 🟢 |
+| Uptime Kuma | Docker Monitoring Host (prox-lab-02) | Docker container | 🟢 |
+| Prometheus | Docker Monitoring Host (prox-lab-02) | Docker container | 🟢 |
+| Grafana | Docker Monitoring Host (prox-lab-02) | Docker container | 🟢 |
+| Alertmanager | Docker Monitoring Host (prox-lab-02) | Docker container | 🟡 |
+| SNMP Exporter | Docker Monitoring Host (prox-lab-02) | Docker container | 🟢 |
+| Blackbox Exporter | Docker Monitoring Host (prox-lab-02) | Docker container | 🟢 |
 | Node Exporter | Each monitored Linux host and VM | Agent / container | 🟢 |
 | cAdvisor | Each Docker host | Docker container | 🟢 |
-| Loki | Docker Monitoring Host (Proxmox Host 2) | Docker container | ⚪ |
+| Loki | Docker Monitoring Host (prox-lab-02) | Docker container | ⚪ |
 | Grafana Alloy | Linux and Docker hosts | Agent | ⚪ |
-| Syslog receiver | Alloy or Loki ingestion endpoint | Service | ⚪ |
+| rsyslog | Docker Monitoring Host (prox-lab-02) | Docker container | 🟢 |
 | Azure Monitor | Azure (SaaS) | Grafana data source | ⚪ |
 
 The core monitoring services are consolidated on a single Docker Monitoring Host. This simplifies management, but it creates a shared failure domain (see [Failure Domains](#failure-domains)).
@@ -64,15 +64,15 @@ SNMP Exporter and Blackbox Exporter act as proxies: Prometheus scrapes the expor
 
 ### Events & Logs ⚪
 
-The planned logging pipeline supports both agent-based collection and device-generated syslog.
+The planned logging pipeline supports both agent-based collection and centralized syslog collection.
 
 ```text
-Linux / Docker / Applications ──> Grafana Alloy ──┐
-                                                  ├──> Loki ──> Grafana
-Proxmox / Cisco / Firewall / NAS ──> Syslog ──────┘
+Linux / Docker / Applications ──> Grafana Alloy ─────────┐
+                                                         ├──> Loki ──> Grafana
+Proxmox / Cisco / Firewall / NAS ──> rsyslog ──> Alloy ──┘
 ```
 
-Alloy is used where an agent can be installed. Devices that cannot run an agent, such as network equipment and appliances, forward events through syslog. Both paths are used together rather than as alternatives.
+Alloy is used where an agent can be installed. Devices and systems that forward syslog send events to the central rsyslog collector, which feeds the Alloy and Loki logging pipeline. Both paths are used together rather than as alternatives.
 
 ### Visualization & Correlation 🟢
 
@@ -133,7 +133,7 @@ Default ports are listed; adjust if customized.
 | Grafana | Prometheus | 9090/TCP | Metrics queries |
 | Grafana | Loki | 3100/TCP | Log queries ⚪ |
 | Alloy | Loki | 3100/TCP | Log push ⚪ |
-| Network devices / hosts | Syslog receiver | 514/UDP or TCP | Syslog forwarding ⚪ |
+| Network devices / hosts | rsyslog | 514/UDP or TCP | Syslog forwarding 🟢 |
 | Users | Grafana | 3000/TCP | Dashboards |
 | Users | Uptime Kuma | 3001/TCP | Status and management |
 | Uptime Kuma | Discord | 443/TCP | Webhook notifications |
@@ -150,7 +150,7 @@ Default ports are listed; adjust if customized.
 | Grafana down | Dashboards unavailable | Collection, storage, and all alerting |
 | Uptime Kuma down | Availability checks and Discord alerts stop | Prometheus metrics and Blackbox probes |
 | Internet outage | Discord and external notifications cannot be delivered | Local collection and dashboards |
-| **Docker Monitoring Host or Proxmox Host 2 down** | **All monitoring and both alerting paths stop** | **Nothing — no notification is sent** |
+| **Docker Monitoring Host or prox-lab-02 down** | **All monitoring and both alerting paths stop** | **Nothing — no notification is sent** |
 
 > **Known limitation:** Uptime Kuma is independent of Prometheus at the application level but shares the same host with it. Losing that host removes both alerting paths at the same moment it would most need to alert. Planned mitigation is to run Uptime Kuma on a different Proxmox host or on a device outside the cluster, and optionally to add an external heartbeat check that alerts when the monitoring host stops reporting.
 
@@ -162,7 +162,7 @@ Default ports are listed; adjust if customized.
 - **Keep availability monitoring and alerting independent.** Uptime Kuma and its Discord notifications should not depend on Prometheus, Alertmanager, or the host they run on.
 - **Separate metrics from events and logs.** Prometheus shows how infrastructure is running; Loki explains what happened.
 - **Centralize visualization, not storage.** Grafana queries each telemetry store directly rather than duplicating data.
-- **Prefer purpose-specific collection.** Use exporters for metrics, SNMP for network telemetry, syslog for devices, and Alloy where an agent can run.
+- **Prefer purpose-specific collection.** Use exporters for metrics, SNMP for network telemetry, rsyslog for centralized syslog collection, and Alloy where an agent can run.
 - **Monitor infrastructure before applications.** Establish visibility into hosts, networks, containers, and core services first.
 - **Alert only on actionable conditions.** Every notification should require investigation or intervention.
 - **Add telemetry incrementally.** Expand monitoring as infrastructure and operational needs grow.
