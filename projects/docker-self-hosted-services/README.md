@@ -1,6 +1,6 @@
 # 🐳 Docker & Self-Hosted Services
 
-**Status: 🟡 In Progress**
+**Status: 🟢 Operational**
 
 Containerized self-hosted applications running across dedicated Debian Docker hosts. Services are deployed using version-controlled Docker Compose configuration and centrally managed through Portainer Community Edition.
 
