@@ -10,168 +10,180 @@ Operational procedures, installation guides, deployment procedures, and troubles
 
 ## Current Architecture
 
+The Docker environment consists of three dedicated Debian virtual machines distributed across the three-node Proxmox VE cluster.
+
 ```text
-Internet
-    │
-    ▼
-Edge Router ──── WireGuard VPN
-    │
-    ▼
-Managed Switch
-    │
-    ├───────────────┬────────────────────┐
-    ▼               ▼                    ▼
-Proxmox VE       nas-lab             Client Devices
-Cluster          (storage)
-    │
-    ├── docker-lab (Debian VM)
-    │   │  (self-hosted applications)
-    │   ├── Portainer
-    │   ├── Homepage
-    │   ├── Nginx Proxy Manager  (planned)
-    │   └── Bitwarden Lite       (planned)
-    │
-    ├── monitor-lab (Debian VM)
-    │   │  (monitoring and observability)
-    │   ├── Uptime Kuma
-    │   └── Monitoring Stack
-    │       ├── Prometheus
-    │       ├── Grafana
-    │       ├── Loki
-    │       ├── Alertmanager
-    │       └── Grafana Alloy
-    │
-    └── media-lab (Debian VM)
-        │  (dedicated media services)
-        └── Jellyfin
+                         Proxmox VE Cluster
+                                │
+              ┌─────────────────┼─────────────────┐
+              │                 │                 │
+              ▼                 ▼                 ▼
+        prox-lab-01       prox-lab-02       prox-lab-03
+              │                 │                 │
+              ▼                 ▼                 ▼
+       docker-lab-01      monitor-lab-01     media-lab-01
+              │                 │                 │
+       General Apps        Monitoring &           Media
+       Portainer CE        Observability          Services
+              │                 │                 │
+              │            Uptime Kuma          Jellyfin
+              │            Prometheus              │
+              │            Grafana                 ▼
+              │            Loki                  nas-lab
+              │            Alertmanager
+              │            Grafana Alloy
               │
-              ▼
-           nas-lab
-              │
-              ▼
-         Media Storage
+              │          Portainer Agent     Portainer Agent
+              │                 │                 │
+              └─────────────────┼─────────────────┘
+                                │
+                       Centralized Docker
+                          Management
 ```
 
-> [!NOTE]
-> The environment separates general self-hosted applications, monitoring, and media services across dedicated Debian virtual machines. This provides workload isolation and allows each service host to be maintained independently.
->
-> Uptime Kuma is operational on the dedicated monitoring host. The broader Prometheus, Grafana, Loki, Alertmanager, and Grafana Alloy stack has been deployed and tested as part of the monitoring environment, with permanent deployment and continued integration still being refined.
->
-> Jellyfin has been migrated from its previous host-based deployment to a dedicated `media-lab` virtual machine and now runs as a Docker Compose workload with network-mounted NAS media storage.
+Workloads are separated by operational role:
+
+- `docker-lab-01` hosts general self-hosted applications and centralized Docker management.
+- `monitor-lab-01` hosts monitoring and observability services.
+- `media-lab-01` hosts containerized media services.
+
+Each Docker VM resides on a separate Proxmox node, providing workload separation and allowing the environments to be maintained independently.
 
 ## Core Components
 
 | Component | Role |
-|-----------|------|
-| Edge Router | Internet gateway, perimeter routing, firewalling, wireless networking, and WireGuard remote access |
-| Managed Switch | Managed switching for internal infrastructure |
-| Proxmox VE Cluster | Three-node virtualization platform hosting service VMs |
-| `docker-lab` | Debian VM hosting general self-hosted applications |
-| `monitor-lab` | Debian VM hosting monitoring and observability services |
-| `media-lab` | Dedicated Debian VM hosting containerized media services |
+|---|---|
+| Proxmox VE Cluster | Three-node virtualization platform hosting Docker service VMs |
+| `docker-lab-01` | General self-hosted applications and Portainer CE Server |
+| `monitor-lab-01` | Monitoring and observability services |
+| `media-lab-01` | Containerized media services |
 | `nas-lab` | Shared storage, backup, and media repository |
-| Nginx Proxy Manager | Reverse proxy and centralized HTTPS management (planned) |
-| Portainer | Container management UI |
-| Homepage | Service dashboard |
-| Bitwarden Lite | Self-hosted password management (planned) |
-| Uptime Kuma | Availability and service monitoring |
+| Portainer CE | Centralized Docker management |
+| Portainer Agent | Remote Docker Engine management |
+| Homepage | Internal service dashboard |
+| Uptime Kuma | Availability and synthetic service monitoring |
 | Prometheus | Metrics collection |
 | Grafana | Metrics and log visualization |
 | Loki | Centralized log aggregation |
-| Alertmanager | Monitoring alert management |
+| Alertmanager | Prometheus alert management |
 | Grafana Alloy | Telemetry and log collection |
 | Jellyfin | Containerized media streaming platform |
+| Nginx Proxy Manager | Reverse proxy and centralized HTTPS management (planned) |
+| Bitwarden Lite | Self-hosted password management (planned) |
 
-## Service Relationships
+## Container Management
 
-### Docker Service Hosts
-
-```text
-docker-lab                         monitor-lab                       media-lab
-(Debian VM)                        (Debian VM)                       (Debian VM)
-    │                                  │                                │
-    │ General Applications             │ Monitoring / Observability     │ Media Services
-    │                                  │                                │
-    ├── Portainer                      ├── Uptime Kuma                  └── Jellyfin
-    ├── Homepage                       ├── Prometheus                        │
-    ├── Nginx Proxy Manager            ├── Grafana                           ▼
-    │   (planned)                      ├── Loki                           nas-lab
-    └── Bitwarden Lite                 ├── Alertmanager
-        (planned)                      └── Grafana Alloy
-```
-
-General self-hosted applications, monitoring services, and media services are separated by operational role.
-
-This provides fault isolation between application workloads, observability infrastructure, and persistent household services. It also allows maintenance or testing on one service host without unnecessarily affecting unrelated workloads.
-
-### Reverse Proxy
-
-Planned architecture:
+Portainer Community Edition provides centralized Docker management across all three permanent Docker environments.
 
 ```text
-Internal DNS
-     │
-     ▼
-Nginx Proxy Manager
-     │
-     ├── Homepage
-     ├── Bitwarden Lite
-     └── Other Web Services
+                       docker-lab-01
+                      Portainer CE Server
+                              │
+                ┌─────────────┼─────────────┐
+                │             │             │
+                ▼             ▼             ▼
+         docker-lab-01  monitor-lab-01  media-lab-01
+             Local        Agent 9001      Agent 9001
+                │             │             │
+                ▼             ▼             ▼
+          Docker Engine  Docker Engine  Docker Engine
 ```
 
-Internal DNS will resolve selected service hostnames to the reverse proxy. Nginx Proxy Manager will then route requests to the appropriate backend service and provide centralized HTTPS/TLS management.
+`docker-lab-01` is connected to Portainer as the local Docker environment.
 
-The initial reverse proxy deployment will remain internal to the lab and will not require Internet-facing router port forwarding.
+`monitor-lab-01` and `media-lab-01` run Portainer Agent, allowing their Docker Engines to be managed remotely through the central Portainer interface.
 
-### Monitoring and Observability
+Portainer manages the Docker layer only. Proxmox VE remains responsible for VM lifecycle, virtual hardware, and the underlying virtualization platform.
+
+Docker Compose remains the source of truth for important service configuration, while Portainer provides centralized visibility and routine administration.
+
+See [portainer.md](portainer.md) for the detailed Portainer architecture and deployment design.
+
+## Application Services
+
+General self-hosted applications run on `docker-lab-01`.
 
 ```text
-                    monitor-lab
-                         │
-        ┌────────────────┴────────────────┐
-        │                                 │
-        ▼                                 ▼
-   Uptime Kuma                    Observability Stack
-        │                                 │
-        │                       ┌─────────┼─────────┐
-        │                       ▼         ▼         ▼
-        │                  Prometheus   Loki     Grafana
-        │                       │         ▲
-        │                       ▼         │
-        │                  Alertmanager   │
-        │                                 │
-        │                          Grafana Alloy
-        │
-        └────────────────┬────────────────┘
-                         ▼
-                Monitored Environment
-                         │
-             ┌───────────┼───────────┐
-             ▼           ▼           ▼
-        Network       Proxmox      Service Hosts
-      Infrastructure   Hosts
-                                      │
-                                  ┌───┴───┐
-                                  ▼       ▼
-                             docker-lab media-lab
+docker-lab-01
+      │
+      ├── Portainer CE
+      ├── Homepage
+      ├── Nginx Proxy Manager  (planned)
+      └── Bitwarden Lite       (planned)
 ```
 
-`monitor-lab` provides dedicated monitoring and observability capabilities for the environment.
+This host provides the primary environment for general-purpose containerized applications that do not require dedicated workload isolation.
 
-Uptime Kuma provides availability and basic synthetic service monitoring. Prometheus provides metrics collection, Grafana provides visualization, Loki provides centralized log aggregation, Grafana Alloy supports telemetry and log collection, and Alertmanager provides alert handling for Prometheus-based monitoring.
+Nginx Proxy Manager is planned to provide centralized hostname-based routing and HTTPS/TLS management for internal web services.
 
-Separating monitoring from the primary application host reduces dependency on `docker-lab` and provides better fault isolation.
+The initial reverse proxy deployment will remain internal to the lab without requiring Internet-facing router port forwarding.
 
-### Media Services
+## Monitoring and Observability
+
+`monitor-lab-01` provides the dedicated monitoring and observability environment.
+
+```text
+                       monitor-lab-01
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+     Uptime Kuma          Prometheus             Loki
+          │                   │                   ▲
+          │                   │                   │
+          │                   ▼                   │
+          │                Grafana ◄──────────────┤
+          │                   │                   │
+          │                   │              Grafana Alloy
+          │                   │
+          │                   ▼
+          │              Alertmanager
+          │
+          └──────────────► Availability
+                            Monitoring
+```
+
+The monitoring stack provides several complementary capabilities:
+
+- **Uptime Kuma** provides availability and basic synthetic service monitoring.
+- **Prometheus** provides infrastructure and service metrics collection.
+- **Grafana** provides metrics and log visualization.
+- **Loki** provides centralized log aggregation.
+- **Grafana Alloy** provides telemetry and log collection.
+- **Alertmanager** provides alert handling for Prometheus-based monitoring.
+
+Monitoring targets include infrastructure systems, virtualization hosts, Docker hosts, containers, network services, and application endpoints.
+
+The metrics architecture supports additional exporters as monitoring coverage expands.
+
+```text
+Node Exporter ──────┐
+cAdvisor ───────────┤
+SNMP Exporter ──────┼──► Prometheus ───► Grafana
+Blackbox Exporter ──┘          │
+                               └──► Alertmanager
+
+Servers / Containers ─► Grafana Alloy ─► Loki ─► Grafana
+
+Services / Endpoints ─► Uptime Kuma
+```
+
+Keeping the monitoring stack on a dedicated Docker VM separates observability workloads from the primary application and media environments.
+
+A future enhancement may introduce an additional Uptime Kuma instance on infrastructure outside `monitor-lab-01`, providing availability-monitoring redundancy if the primary monitoring VM or its Proxmox host becomes unavailable.
+
+## Media and Storage
+
+Jellyfin runs as a containerized workload on the dedicated `media-lab-01` VM.
 
 ```text
 Proxmox VE Cluster
        │
        ▼
-media-lab (Debian VM)
+  media-lab-01
        │
        ▼
-Docker Compose
+ Docker Compose
        │
        ▼
     Jellyfin
@@ -183,32 +195,52 @@ Docker Compose
   Media Storage
 ```
 
-Jellyfin runs as a containerized workload on a dedicated `media-lab` virtual machine rather than on the general-purpose `docker-lab` host.
+Jellyfin was migrated from a host-based installation to Docker Compose to improve portability and simplify service recreation, migration, and backup workflows.
 
-Media content is accessed from network-mounted NAS storage, while persistent Jellyfin application data and configuration use bind-mounted storage where appropriate.
+Media content is accessed from network-mounted NAS storage, while persistent Jellyfin application data and configuration are maintained outside the disposable container filesystem using bind mounts where appropriate.
 
-This separation keeps the media service independent from the general self-hosted application environment. Changes, testing, container deployments, or outages affecting `docker-lab` do not directly affect Jellyfin.
+Separating media storage from the application container allows Jellyfin to be recreated or migrated without relocating the underlying media library.
 
-Because the media platform is used as a persistent household service, `media-lab` is treated as a stable service VM with its own lifecycle, resource allocation, backup considerations, and maintenance schedule.
+Because Jellyfin is used as a persistent household service, `media-lab-01` maintains its own lifecycle, resource allocation, backup considerations, and maintenance schedule.
+
+## Storage Integration
+
+The NAS provides centralized network storage for media, backups, and other shared data.
+
+```text
+                      nas-lab
+                         │
+             ┌───────────┼───────────┐
+             ▼           ▼           ▼
+          Backups      Media     Shared Data
+                         │
+                         ▼
+                    media-lab-01
+                         │
+                         ▼
+                      Jellyfin
+```
+
+This separation keeps persistent data independent from the lifecycle of individual application containers and service VMs.
 
 ## Deployment Model
 
-Containers are deployed using Docker Compose, with services organized under `/opt/docker` on the relevant host.
+Containers are deployed using Docker Compose, with service configuration and persistent data organized under `/opt/docker` on the appropriate host.
 
-**`docker-lab`** (self-hosted applications):
+### `docker-lab-01`
 
 ```text
-/opt/docker
+/opt/docker/
 ├── portainer/
 ├── homepage/
 ├── nginx-proxy-manager/  (planned)
 └── bitwarden-lite/       (planned)
 ```
 
-**`monitor-lab`** (monitoring and observability):
+### `monitor-lab-01`
 
 ```text
-/opt/docker
+/opt/docker/
 ├── uptime-kuma/
 ├── prometheus/
 ├── grafana/
@@ -217,135 +249,80 @@ Containers are deployed using Docker Compose, with services organized under `/op
 └── grafana-alloy/
 ```
 
-**`media-lab`** (media services):
+### `media-lab-01`
 
 ```text
-/opt/docker
+/opt/docker/
 └── jellyfin/
 ```
 
-Each service is deployed independently with its own configuration and persistent data requirements.
+Each service is deployed independently with its own configuration and persistence requirements.
 
-Docker Compose files provide reproducible service definitions, while bind mounts and Docker-managed storage are selected according to the persistence, visibility, backup, and migration requirements of each workload.
+Docker Compose provides reproducible service definitions, while bind mounts and Docker-managed storage are selected according to the persistence, visibility, backup, and migration requirements of each workload.
 
 Repository-managed configuration is maintained separately from runtime secrets and environment-specific data.
 
-## Observability Architecture
-
-```text
-Infrastructure
-    │
-    ├── Host Metrics
-    ├── Network Metrics
-    ├── Container Metrics
-    └── Service Metrics
-          │
-          ▼
-      Prometheus
-          │
-          ├──────────────► Alertmanager
-          │
-          ▼
-       Grafana
-
-
-Logs
-    │
-    ▼
-Grafana Alloy
-    │
-    ▼
-Loki
-    │
-    ▼
-Grafana
-
-
-Services / Endpoints
-    │
-    ▼
-Uptime Kuma
-    │
-    ▼
-Availability Monitoring
-```
-
-Roles:
-
-- **Uptime Kuma** → Availability and basic synthetic service monitoring
-- **Prometheus** → Metrics collection
-- **Grafana** → Metrics and log visualization
-- **Loki** → Centralized log aggregation
-- **Alertmanager** → Prometheus alert management
-- **Grafana Alloy** → Telemetry and log collection
-- **Node Exporter** → Linux host metrics
-- **SNMP Exporter** → Network device metrics
-- **cAdvisor** → Container metrics
-
-Exporter coverage will continue to expand as additional infrastructure is integrated into the monitoring environment.
-
-## Storage Integration
-
-```text
-                   nas-lab
-                      │
-          ┌───────────┼───────────┐
-          ▼           ▼           ▼
-       Backups     Media       Shared Data
-                      │
-                      ▼
-                  media-lab
-                      │
-                      ▼
-                   Jellyfin
-```
-
-The NAS provides centralized network storage for persistent data, backups, and media content.
-
-Media storage remains separate from the Jellyfin application container, allowing the service to be recreated or migrated without relocating the underlying media library.
-
-This separation supports easier service recovery, host migration, and lifecycle management.
+Example Compose configurations are maintained under the repository `configs/` directory, including configurations for Portainer CE Server and Portainer Agent deployments.
 
 ## Current Deployment State
 
 | Capability | Status |
-|------------|--------|
+|---|---|
 | Docker platform | 🟢 Operational |
-| Portainer | 🟢 Operational |
+| Multi-host Portainer management | 🟢 Operational |
+| Portainer CE Server | 🟢 Operational |
+| Portainer Agents | 🟢 Operational |
 | Homepage | 🟢 Operational |
 | Uptime Kuma | 🟢 Operational |
+| Prometheus | 🟢 Operational |
+| Grafana | 🟢 Operational |
+| Loki | 🟢 Operational |
+| Grafana Alloy | 🟢 Operational |
+| Alertmanager | 🟢 Operational |
 | Jellyfin Docker deployment | 🟢 Operational |
 | NAS media integration | 🟢 Operational |
-| Prometheus / Grafana / Loki stack | 🟡 Deployed / Being Refined |
-| Grafana Alloy | 🟡 Deployed / Being Refined |
-| Alertmanager | 🟡 Deployed / Being Refined |
 | Nginx Proxy Manager | ⚪ Planned |
 | Bitwarden Lite | ⚪ Planned |
-| Expanded exporter coverage | ⚪ Planned |
+| Expanded exporter coverage | 🟡 In Progress |
+| Secondary availability monitoring | ⚪ Future Enhancement |
 
 ## Design Decisions
 
-### Separate Application, Monitoring, and Media Hosts
+### Workload Separation
 
-Workloads are separated according to operational role rather than placing every container on a single Docker host.
+General applications, monitoring, and media services are separated across dedicated Docker VMs rather than placing every container on a single host.
 
-This improves fault isolation and allows each environment to have its own maintenance lifecycle and resource allocation.
+Each Docker VM is distributed across a different Proxmox node, providing operational separation and independent resource allocation.
 
 ### Dedicated Monitoring Host
 
-Monitoring infrastructure is kept separate from the primary application host so an outage affecting `docker-lab` does not automatically remove the primary mechanism used to detect that outage.
+Monitoring and observability services are consolidated on `monitor-lab-01`.
+
+This keeps metrics, logging, visualization, alerting, and availability monitoring separate from the primary application and media environments.
+
+### Centralized Docker Management
+
+Portainer CE provides a single management interface across the three Docker environments.
+
+The central Portainer Server runs on `docker-lab-01`, while Portainer Agent provides remote management of `monitor-lab-01` and `media-lab-01`.
+
+Portainer remains a management layer rather than a runtime dependency for deployed containers.
 
 ### Dedicated Media Host
 
-Jellyfin is isolated from general-purpose application workloads because it is a persistent household service with different availability and resource requirements.
+Jellyfin is isolated from general-purpose application workloads because it is a persistent service with different storage, availability, and resource requirements.
 
 ### Network-Based Media Storage
 
-Media content remains on centralized NAS storage rather than inside the Jellyfin VM. This separates application lifecycle from media-data lifecycle and simplifies migration and recovery.
+Media content remains on centralized NAS storage rather than inside the Jellyfin VM.
+
+This separates the application lifecycle from the media-data lifecycle and simplifies migration and recovery.
 
 ### Docker Compose
 
 Docker Compose provides declarative and reproducible service definitions while remaining appropriate for the scale of the current environment.
+
+Compose configuration remains independent of Portainer so the Docker environment can be administered and recovered without relying exclusively on the Portainer management database.
 
 ## Future Enhancements
 
@@ -356,16 +333,18 @@ Docker Compose provides declarative and reproducible service definitions while r
 - Expand Prometheus metrics coverage
 - Expand centralized log collection
 - Expand network-device monitoring
-- Complete and validate alerting workflows
+- Complete additional alerting workflows
 - Expand automated backup procedures
 - Implement UPS-backed graceful shutdown
+- Evaluate a secondary Uptime Kuma deployment for monitoring redundancy
 - Add additional self-hosted services
 - Continue configuration standardization and automation
 
 ## Related Documentation
 
 | Document | Purpose |
-|----------|---------|
+|---|---|
+| [portainer-deployment.md](portainer-deployment.md) | Portainer CE and multi-host Agent architecture |
 | [reverse-proxy.md](reverse-proxy.md) | Reverse proxy deployment and design |
 | [docker-installation.md](../../docs/reference/docker/docker-installation.md) | Docker installation procedure |
 | [docker-container-deployment.md](../../docs/reference/docker/docker-container-deployment.md) | Container deployment standard |
