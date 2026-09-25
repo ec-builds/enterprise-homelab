@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1330 800" width="1330" height="800" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<defs><marker id="av" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker><marker id="me" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker><marker id="lg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker><marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker><marker id="cl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0284c7"/></marker>
+<style>
+.halo{stroke:#ffffff;stroke-width:8;fill:none}
+.cap{font-size:13px;font-weight:800;letter-spacing:1.2px;fill:#334155}
+.pt{font-size:12px;font-weight:700;fill:#475569}
+</style></defs>
+<rect width="1330" height="800" rx="16" fill="#ffffff"/>
+<path d="M396 104 H620 V56 Q620 40 636 40 H1054 Q1070 40 1070 56 V724 Q1070 740 1054 740 H396 Q380 740 380 724 V120 Q380 104 396 104 Z" fill="#f8fbff" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="9 6"/>
+<text x="400" y="728" class="cap" fill="#1d4ed8">MONITORING PLATFORM</text>
+<rect x="392" y="38" width="222" height="60" rx="12" fill="#f0fdf4" stroke="#86efac" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="400" y="30" class="cap" fill="#15803d">INDEPENDENT HOST</text>
+<path d="M282 214 H340" stroke="#7c3aed" stroke-width="2.2" fill="none"/>
+<path d="M282 308 H340" stroke="#7c3aed" stroke-width="2.2" fill="none"/>
+<path d="M340 214 V420 H625 V590 H643" stroke="#7c3aed" stroke-width="2.2" fill="none" marker-end="url(#lg)"/>
+<rect x="434.0" y="403" width="92" height="17" rx="4" fill="#fff"/><text x="480" y="416" class="pt" text-anchor="middle" fill="#6d28d9">Alloy agents</text>
+<path d="M282 404 H310" stroke="#7c3aed" stroke-width="2.2" fill="none"/>
+<path d="M282 498 H310" stroke="#7c3aed" stroke-width="2.2" fill="none"/>
+<path d="M282 592 H310" stroke="#7c3aed" stroke-width="2.2" fill="none"/>
+<path d="M310 404 V592" stroke="#7c3aed" stroke-width="2.2" fill="none"/>
+<path d="M310 585 H403" stroke="#7c3aed" stroke-width="2.2" fill="none" marker-end="url(#lg)"/>
+<rect x="331.5" y="568" width="51" height="17" rx="4" fill="#fff"/><text x="357" y="581" class="pt" text-anchor="middle" fill="#6d28d9">syslog</text>
+<path d="M505 596 V628" stroke="#7c3aed" stroke-width="2.2" fill="none" marker-end="url(#lg)"/>
+<path d="M605 658 H643" stroke="#7c3aed" stroke-width="2.2" fill="none" marker-end="url(#lg)"/>
+<path d="M835 600 H852 V452 H868" stroke="#7c3aed" stroke-width="2.2" fill="none" marker-end="url(#lg)"/>
+<path d="M405 68 H284" stroke="#16a34a" stroke-width="2.2" fill="none" marker-end="url(#av)"/>
+<path d="M405 128 H284" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M282 186 H643" class="halo"/>
+<path d="M282 186 H643" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M282 280 H643" class="halo"/>
+<path d="M282 280 H643" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M282 374 H643" class="halo"/>
+<path d="M282 374 H643" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<rect x="454.5" y="169" width="51" height="17" rx="4" fill="#fff"/><text x="480" y="182" class="pt" text-anchor="middle" fill="#475569">scrape</text>
+<path d="M605 128 H720 V148" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M405 468 H284" class="halo"/>
+<path d="M405 468 H284" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M405 484 H360 V562 H284" class="halo"/>
+<path d="M405 484 H360 V562 H284" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M605 468 H720 V412" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M835 380 H868" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<path d="M835 186 H868" stroke="#dc2626" stroke-width="2.2" fill="none" marker-end="url(#al)"/>
+<path d="M1050 186 H1098" stroke="#dc2626" stroke-width="2.2" fill="none" marker-end="url(#al)"/>
+<path d="M614 68 H1098" stroke="#dc2626" stroke-width="2.2" fill="none" marker-end="url(#al)"/>
+<path d="M1205 350 V368" stroke="#0284c7" stroke-width="2.2" fill="none" marker-end="url(#cl)"/>
+<path d="M1100 400 H1052" stroke="#0284c7" stroke-width="2.2" fill="none" marker-end="url(#cl)"/>
+<path d="M1100 498 H1076 V450 H1052" stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#me)"/>
+<text x="20" y="30" class="cap">MONITORED INFRASTRUCTURE</text>
+<g transform="translate(20,50)"><rect width="262" height="84" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.3"/>
+<text x="16" y="25" font-size="16" font-weight="700" fill="#0f172a">Services &amp; Endpoints</text><text x="16" y="43" font-size="13.5" fill="#334155">Web services · DNS · apps</text>
+<rect x="16" y="52" width="189" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="110.5" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">HTTP · TCP · ICMP · DNS</text>
+</g>
+<g transform="translate(20,144)"><rect width="262" height="84" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.3"/>
+<text x="16" y="25" font-size="16" font-weight="700" fill="#0f172a">Linux Hosts &amp; VMs</text><text x="16" y="43" font-size="13.5" fill="#334155">Linux servers · VMs</text>
+<rect x="16" y="52" width="116" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="74.0" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">Node Exporter</text>
+<rect x="140" y="52" width="102" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="191.0" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">Alloy agent</text>
+</g>
+<g transform="translate(20,238)"><rect width="262" height="84" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.3"/>
+<text x="16" y="25" font-size="16" font-weight="700" fill="#0f172a">Docker Hosts</text><text x="16" y="43" font-size="13.5" fill="#334155">Containerized services</text>
+<rect x="16" y="52" width="80" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="56.0" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">cAdvisor</text>
+<rect x="104" y="52" width="102" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="155.0" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">Alloy agent</text>
+</g>
+<g transform="translate(20,332)"><rect width="262" height="84" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.3"/>
+<text x="16" y="25" font-size="16" font-weight="700" fill="#0f172a">Proxmox Hosts</text><text x="16" y="43" font-size="13.5" fill="#334155">Hypervisors</text>
+<rect x="16" y="52" width="116" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="74.0" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">Node Exporter</text>
+<rect x="140" y="52" width="65" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="172.5" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">Syslog</text>
+</g>
+<g transform="translate(20,426)"><rect width="262" height="84" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.3"/>
+<text x="16" y="25" font-size="16" font-weight="700" fill="#0f172a">Network Devices</text><text x="16" y="43" font-size="13.5" fill="#334155">Cisco switch · firewall</text>
+<rect x="16" y="52" width="51" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="41.5" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">SNMP</text>
+<rect x="75" y="52" width="65" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="107.5" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">Syslog</text>
+</g>
+<g transform="translate(20,520)"><rect width="262" height="84" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.3"/>
+<text x="16" y="25" font-size="16" font-weight="700" fill="#0f172a">NAS / Storage</text><text x="16" y="43" font-size="13.5" fill="#334155">Synology</text>
+<rect x="16" y="52" width="51" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="41.5" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">SNMP</text>
+<rect x="75" y="52" width="65" height="24" rx="12" fill="#fff" stroke="#64748b"/><text x="107.5" y="68.5" font-size="13" font-weight="600" text-anchor="middle" fill="#1e293b">Syslog</text>
+</g>
+<g transform="translate(405,44)"><rect width="200" height="48" rx="10" fill="#fff" stroke="#16a34a" stroke-width="1.6"/><rect width="6" height="48" rx="3" fill="#16a34a"/>
+<text x="18" y="20" font-size="15.5" font-weight="700" fill="#0f172a">Uptime Kuma</text>
+<text x="18" y="39" font-size="13.5" fill="#334155">Availability checks</text>
+</g>
+<g transform="translate(405,110)"><rect width="200" height="40" rx="10" fill="#fff" stroke="#ea580c" stroke-width="1.6"/><rect width="6" height="40" rx="3" fill="#ea580c"/>
+<text x="18" y="26" font-size="15.5" font-weight="700" fill="#0f172a">Blackbox Exporter</text>
+</g>
+<g transform="translate(405,444)"><rect width="200" height="48" rx="10" fill="#fff" stroke="#ea580c" stroke-width="1.6"/><rect width="6" height="48" rx="3" fill="#ea580c"/>
+<text x="18" y="20" font-size="15.5" font-weight="700" fill="#0f172a">SNMP Exporter</text>
+<text x="18" y="39" font-size="13.5" fill="#334155">Devices · NAS</text>
+</g>
+<g transform="translate(405,540)"><rect width="200" height="56" rx="10" fill="#fff" stroke="#7c3aed" stroke-width="1.6"/><rect width="6" height="56" rx="3" fill="#7c3aed"/>
+<text x="18" y="24" font-size="15.5" font-weight="700" fill="#0f172a">Syslog Receiver</text>
+<text x="18" y="43" font-size="13.5" fill="#334155">TCP / UDP ingestion</text>
+</g>
+<g transform="translate(405,630)"><rect width="200" height="56" rx="10" fill="#fff" stroke="#7c3aed" stroke-width="1.6"/><rect width="6" height="56" rx="3" fill="#7c3aed"/>
+<text x="18" y="24" font-size="15.5" font-weight="700" fill="#0f172a">Grafana Alloy</text>
+<text x="18" y="43" font-size="13.5" fill="#334155">Collect · forward</text>
+</g>
+<g transform="translate(645,148)"><rect width="190" height="264" rx="10" fill="#fff" stroke="#ea580c" stroke-width="1.6"/><rect width="6" height="264" rx="3" fill="#ea580c"/>
+<text x="18" y="30" font-size="17" font-weight="700" fill="#0f172a">Prometheus</text>
+<text x="18" y="60" font-size="13.5" fill="#334155">Scrapes exporters (pull)</text>
+<text x="18" y="81" font-size="13.5" fill="#334155">Time-series storage</text>
+<text x="18" y="102" font-size="13.5" fill="#334155">Evaluates alert rules</text>
+</g>
+<g transform="translate(645,560)"><rect width="190" height="120" rx="10" fill="#fff" stroke="#7c3aed" stroke-width="1.6"/><rect width="6" height="120" rx="3" fill="#7c3aed"/>
+<text x="18" y="30" font-size="17" font-weight="700" fill="#0f172a">Loki</text>
+<text x="18" y="60" font-size="13.5" fill="#334155">Log storage</text>
+<text x="18" y="81" font-size="13.5" fill="#334155">Label-indexed queries</text>
+</g>
+<g transform="translate(870,150)"><rect width="180" height="72" rx="10" fill="#fff" stroke="#dc2626" stroke-width="1.6"/><rect width="6" height="72" rx="3" fill="#dc2626"/>
+<text x="18" y="32" font-size="17" font-weight="700" fill="#0f172a">Alertmanager</text>
+<text x="18" y="51" font-size="13.5" fill="#334155">Routing · grouping</text>
+</g>
+<g transform="translate(870,340)"><rect width="180" height="130" rx="10" fill="#fff" stroke="#2563eb" stroke-width="1.6"/><rect width="6" height="130" rx="3" fill="#2563eb"/>
+<text x="18" y="30" font-size="17" font-weight="700" fill="#0f172a">Grafana</text>
+<text x="18" y="60" font-size="13.5" fill="#334155">Dashboards</text>
+<text x="18" y="81" font-size="13.5" fill="#334155">Visualization</text>
+<text x="18" y="102" font-size="13.5" fill="#334155">Correlation</text>
+</g>
+<text x="1100" y="30" class="cap">NOTIFICATIONS</text>
+<g transform="translate(1100,40)"><rect width="210" height="56" rx="10" fill="#fff" stroke="#5865f2" stroke-width="1.6"/><rect width="6" height="56" rx="3" fill="#5865f2"/>
+<text x="18" y="24" font-size="15.5" font-weight="700" fill="#0f172a">Discord</text>
+<text x="18" y="43" font-size="13.5" fill="#334155">Availability alerts</text>
+</g>
+<g transform="translate(1100,150)"><rect width="210" height="76" rx="10" fill="#fff" stroke="#dc2626" stroke-width="1.6"/><rect width="6" height="76" rx="3" fill="#dc2626"/>
+<text x="18" y="34" font-size="15.5" font-weight="700" fill="#0f172a">ntfy · Email · Webhooks</text>
+<text x="18" y="53" font-size="13.5" fill="#334155">Metric alerts</text>
+</g>
+<text x="1100" y="286" class="cap">CLOUD &amp; USERS</text>
+<g transform="translate(1100,296)"><rect width="210" height="54" rx="10" fill="#fff" stroke="#0284c7" stroke-width="1.6"/><rect width="6" height="54" rx="3" fill="#0284c7"/>
+<text x="18" y="33" font-size="15.5" font-weight="700" fill="#0f172a">Azure Resources</text>
+</g>
+<g transform="translate(1100,370)"><rect width="210" height="60" rx="10" fill="#fff" stroke="#0284c7" stroke-width="1.6"/><rect width="6" height="60" rx="3" fill="#0284c7"/>
+<text x="18" y="26" font-size="15.5" font-weight="700" fill="#0f172a">Azure Monitor</text>
+<text x="18" y="45" font-size="13.5" fill="#334155">Cloud telemetry</text>
+</g>
+<g transform="translate(1100,470)"><rect width="210" height="56" rx="10" fill="#fff" stroke="#334155" stroke-width="1.6"/><rect width="6" height="56" rx="3" fill="#334155"/>
+<text x="18" y="24" font-size="15.5" font-weight="700" fill="#0f172a">Users</text>
+<text x="18" y="43" font-size="13.5" fill="#334155">Dashboards · status</text>
+</g>
+<g transform="translate(20,764)" font-size="13.5" fill="#334155"><line x1="0" y1="10" x2="30" y2="10" stroke="#16a34a" stroke-width="2.4"/><text x="38" y="15">Availability</text><line x1="152" y1="10" x2="182" y2="10" stroke="#475569" stroke-width="2.4"/><text x="190" y="15">Metrics &amp; queries</text><line x1="341" y1="10" x2="371" y2="10" stroke="#7c3aed" stroke-width="2.4"/><text x="379" y="15">Logs &amp; events</text><line x1="501" y1="10" x2="531" y2="10" stroke="#dc2626" stroke-width="2.4"/><text x="539" y="15">Alerts</text><line x1="609" y1="10" x2="639" y2="10" stroke="#0284c7" stroke-width="2.4"/><text x="647" y="15">Cloud telemetry</text><text x="1290" y="15" text-anchor="end" fill="#64748b">Target architecture · current status in the Monitoring Stack table</text></g>
+</svg>
