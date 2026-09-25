@@ -1,0 +1,22 @@
+# source: https://hub.docker.com/r/rsyslog/rsyslog
+
+services:
+  rsyslog:
+    image: rsyslog/rsyslog:2026-04
+    container_name: rsyslog
+    restart: unless-stopped
+
+    ports:
+      - "514:514/udp"
+      - "514:514/tcp"
+
+    volumes:
+      - ./config/rsyslog.conf:/etc/rsyslog.conf:ro
+      - ./logs:/var/log/remote
+
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    external: true
