@@ -14,6 +14,7 @@ The monitoring environment follows a layered observability model:
 The environment began with Uptime Kuma for basic availability monitoring and has expanded into a Prometheus- and Grafana-based observability stack. Metrics collection for Linux hosts, containers, endpoints, and network devices is operational. Centralized logging, expanded alerting, and cloud monitoring remain part of the planned architecture.
 
 
+
 ## Monitoring Architecture
 
 <img src="./diagrams/monitoring-architecture.png" alt="Infrastructure Monitoring Architecture" width="100%">
@@ -29,8 +30,11 @@ Observability is separated into four layers, each answering a different operatio
 | **Events & Logs** | Loki (via Syslog / Alloy) | What happened? | Centralizes system, network, application, and infrastructure events |
 | **Visualization & Correlation** | Grafana | How does it all relate? | Provides dashboards and correlates metrics and logs across the environment |
 
+> **Alerting:** Alerting operates across the observability stack rather than as a separate telemetry layer. Uptime Kuma sends availability notifications directly through a Discord webhook, while Prometheus alert rules are routed through Alertmanager. Grafana-based alerting may be added as the environment evolves.
 
-> **Alerting:** Alerting operates across the observability stack rather than as a separate telemetry layer. Prometheus alert rules are routed through Alertmanager, with additional Grafana-based alerting available as the environment evolves.
+Data flows, component placement, ports, and failure domains are documented in the architecture document.
+
+
 
 ## Objectives
 
@@ -59,7 +63,9 @@ Observability is separated into four layers, each answering a different operatio
 | Blackbox Exporter | Availability / Metrics | HTTP, TCP, ICMP, and endpoint probing | 🟢 |
 | SNMP Exporter | Metrics | Network device metrics through SNMP | 🟢 |
 | Grafana | Visualization | Dashboards, visualization, and telemetry correlation | 🟢 |
-| Alertmanager | Alerting | Alert routing, grouping, and notifications | 🟡 |
+| Discord Webhook | Notifications | Availability and recovery notifications from Uptime Kuma | 🟢 |
+| Alertmanager | Alerting | Alert routing, grouping, silencing, and notifications | 🟡 |
+| ntfy / Webhooks | Notifications | Notification delivery for Alertmanager alerts | ⚪ |
 | Loki | Events & Logs | Centralized log and event storage | ⚪ |
 | Grafana Alloy | Events & Logs | Collection and forwarding of logs and telemetry | ⚪ |
 | Syslog | Events & Logs | Infrastructure and network device event forwarding | ⚪ |
@@ -112,6 +118,7 @@ Remaining work beyond the components listed in the Monitoring Stack:
 - ⚪ Correlate metrics and logs within Grafana
 - ⚪ Define log and metrics retention policies
 - ⚪ Integrate Azure Monitor for cloud resources
+- ⚪ Separate Uptime Kuma from the primary monitoring host
 
 
 
@@ -120,7 +127,10 @@ Remaining work beyond the components listed in the Monitoring Stack:
 ```text
 infrastructure-monitoring/
 ├── diagrams/
+│   ├── monitoring-architecture.png
+│   └── monitoring-architecture-02.svg
 ├── README.md
+├── architecture.md
 ├── grafana.md
 ├── implementation-roadmap.md
 ├── lessons-learned.md
