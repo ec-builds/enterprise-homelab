@@ -29,7 +29,8 @@ Observability is separated into four layers, each answering a different operatio
 | **Events & Logs** | Loki (via Syslog / Alloy) | What happened? | Centralizes system, network, application, and infrastructure events |
 | **Visualization & Correlation** | Grafana | How does it all relate? | Provides dashboards and correlates metrics and logs across the environment |
 
->Alerting operates across the observability stack rather than as a separate telemetry layer. Prometheus alert rules are routed through Alertmanager, with additional Grafana-based alerting available as the environment evolves.
+
+> **Alerting:** Alerting operates across the observability stack rather than as a separate telemetry layer. Prometheus alert rules are routed through Alertmanager, with additional Grafana-based alerting available as the environment evolves.
 
 ## Objectives
 
