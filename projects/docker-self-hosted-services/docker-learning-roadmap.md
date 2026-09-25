@@ -6,14 +6,14 @@ Tracks Docker concepts learned during the project and identifies future areas fo
 
 | Concept | Status |
 |----------|--------|
-| Images | ✅ Learned |
-| Containers | ✅ Learned |
-| Volumes | ✅ Learned |
-| Docker Compose | ✅ Basic Understanding |
-| Container Recreation | ✅ Learned |
-| Container Naming | ✅ Learned |
-| Port Mapping | ✅ Learned |
-| Bind Mounts | ✅ Learned |
+| Images | 🟢 Learned |
+| Containers | 🟢 Learned |
+| Volumes | 🟢 Learned |
+| Docker Compose | 🟢 Basic Understanding |
+| Container Recreation | 🟢 Learned |
+| Container Naming | 🟢 Learned |
+| Port Mapping | 🟢 Learned |
+| Bind Mounts | 🟢 Learned |
 | Networking | 🟡 Started |
 | Health Checks | 🟡 Started |
 | Logs | 🟡 Basic Understanding |
@@ -34,7 +34,7 @@ Tracks Docker concepts learned during the project and identifies future areas fo
 
 | Status | Meaning |
 |--------|---------|
-| ✅ Learned | Concept has been studied and applied in the homelab. |
+| 🟢 Learned | Concept has been studied and applied in the homelab. |
 | 🟡 Started | Concept has been encountered or partially applied but requires deeper understanding. |
 | 📋 Planned | Concept has not yet been fully explored and is planned for future study. |
 
