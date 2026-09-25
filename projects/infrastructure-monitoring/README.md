@@ -8,10 +8,10 @@ The monitoring environment follows a layered observability model:
 
 > **Uptime Kuma** = Availability  
 > **Prometheus / SNMP** = Metrics  
-> **Loki / Syslog** = Events & Logs  
+> **rsyslog / Alloy / Loki** = Events & Logs  
 > **Grafana** = Visualization & Correlation
 
-The environment began with Uptime Kuma for basic availability monitoring and has expanded into a Prometheus- and Grafana-based observability stack. Metrics collection for Linux hosts, containers, endpoints, and network devices is operational. Centralized logging, expanded alerting, and cloud monitoring remain part of the planned architecture.
+The environment began with Uptime Kuma for basic availability monitoring and has expanded into a Prometheus- and Grafana-based observability stack. Metrics collection for Linux hosts, containers, endpoints, and network devices is operational. Centralized syslog collection is operational, while expanded centralized logging, alerting, and cloud monitoring remain part of the planned architecture.
 
 
 
@@ -27,7 +27,7 @@ Observability is separated into four layers, each answering a different operatio
 |-------|----------|----------|---------|
 | **Availability** | Uptime Kuma | Is it up? | Determines whether infrastructure and services are reachable and operational |
 | **Metrics** | Prometheus + exporters | How is it running? | Collects performance, utilization, and infrastructure health data |
-| **Events & Logs** | Loki (via Syslog / Alloy) | What happened? | Centralizes system, network, application, and infrastructure events |
+| **Events & Logs** | rsyslog / Alloy / Loki | What happened? | Centralizes system, network, application, and infrastructure events |
 | **Visualization & Correlation** | Grafana | How does it all relate? | Provides dashboards and correlates metrics and logs across the environment |
 
 > **Alerting:** Alerting operates across the observability stack rather than as a separate telemetry layer. Uptime Kuma sends availability notifications directly through a Discord webhook, while Prometheus alert rules are routed through Alertmanager. Grafana-based alerting may be added as the environment evolves.
@@ -42,7 +42,7 @@ Data flows, component placement, ports, and failure domains are documented in th
 - Collect performance and health metrics from hosts, containers, and network devices
 - Monitor network infrastructure through SNMP
 - Centralize infrastructure, system, and application logs
-- Collect syslog events from hypervisors, network devices, and firewalls
+- Collect syslog events from hypervisors, network devices, and firewalls through a central rsyslog collector
 - Visualize infrastructure health through Grafana dashboards
 - Correlate availability events, metrics, and logs during troubleshooting
 - Generate alerts for actionable infrastructure conditions
@@ -68,7 +68,7 @@ Data flows, component placement, ports, and failure domains are documented in th
 | ntfy / Webhooks | Notifications | Notification delivery for Alertmanager alerts | ⚪ |
 | Loki | Events & Logs | Centralized log and event storage | ⚪ |
 | Grafana Alloy | Events & Logs | Collection and forwarding of logs and telemetry | ⚪ |
-| Syslog | Events & Logs | Infrastructure and network device event forwarding | ⚪ |
+| rsyslog | Events & Logs | Central syslog collection for infrastructure and network devices | 🟢 |
 | Azure Monitor | Cloud | Monitoring and telemetry for Azure resources | ⚪ |
 
 
@@ -79,17 +79,17 @@ Telemetry is collected from each infrastructure layer as follows:
 
 | Infrastructure | Availability | Metrics | Logs / Events |
 |----------------|--------------|---------|---------------|
-| Proxmox Hosts | Uptime Kuma | Node Exporter | Syslog → Loki |
+| Proxmox Hosts | Uptime Kuma | Node Exporter | Syslog → rsyslog → Alloy → Loki |
 | Linux VMs | Uptime Kuma | Node Exporter | Alloy → Loki |
 | Docker Hosts | Uptime Kuma | Node Exporter / cAdvisor | Alloy → Loki |
 | Containers | Uptime Kuma / Blackbox | cAdvisor | Alloy → Loki |
-| Cisco Network Devices | Uptime Kuma | SNMP Exporter | Syslog → Loki |
-| Firewalls | Uptime Kuma | SNMP Exporter | Syslog → Loki |
-| NAS / Storage | Uptime Kuma | SNMP Exporter | Syslog → Loki (where supported) |
+| Cisco Network Devices | Uptime Kuma | SNMP Exporter | Syslog → rsyslog → Alloy → Loki |
+| Firewalls | Uptime Kuma | SNMP Exporter | Syslog → rsyslog → Alloy → Loki |
+| NAS / Storage | Uptime Kuma | SNMP Exporter | Syslog → rsyslog → Alloy → Loki (where supported) |
 | Web Services | Uptime Kuma / Blackbox | Blackbox Exporter | Application logs → Loki |
 | Azure Resources | Uptime Kuma (where applicable) | Azure Monitor | Azure Monitor |
 
-> **Note:** The Logs / Events column reflects the planned design. Loki, Alloy, and syslog forwarding are not yet deployed, and Azure Monitor integration is planned.
+> **Note:** The Logs / Events column reflects the planned design. Centralized syslog collection through rsyslog is operational, while Loki and Alloy integration and expanded syslog forwarding remain planned. Azure Monitor integration is also planned.
 
 
 
@@ -99,7 +99,7 @@ Availability, metrics, and logs are designed to complement rather than duplicate
 
 | Signal | Source | What It Shows |
 |--------|--------|---------------|
-| Interface DOWN event | Syslog → Loki *(planned)* | What changed |
+| Interface DOWN event | Syslog → rsyslog → Alloy → Loki *(planned)* | What changed |
 | Host metrics stop arriving | Prometheus | What infrastructure is affected |
 | Host and dependent services unreachable | Uptime Kuma | Impact on availability |
 | Correlated timeline across all three | Grafana | Context for identifying the root cause |
@@ -112,9 +112,9 @@ Remaining work beyond the components listed in the Monitoring Stack:
 
 - 🟡 Configure Alertmanager notification routing
 - ⚪ Deploy Loki and Grafana Alloy for centralized logging
-- ⚪ Forward Proxmox system events through syslog
-- ⚪ Forward Cisco network events through syslog
-- ⚪ Integrate firewall logging into Loki
+- ⚪ Forward Proxmox system events to the central rsyslog collector
+- ⚪ Forward Cisco network events to the central rsyslog collector
+- ⚪ Integrate firewall logging through rsyslog into Loki
 - ⚪ Correlate metrics and logs within Grafana
 - ⚪ Define log and metrics retention policies
 - ⚪ Integrate Azure Monitor for cloud resources
