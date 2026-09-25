@@ -2,7 +2,7 @@
 
 **Status:** 🟢 Operational · logging and cloud monitoring planned
 
-Centralized monitoring and observability for the Enterprise Homelab, providing visibility into infrastructure availability, performance, metrics, events, and logs.
+Centralized monitoring and observability for the Enterprise Homelab, providing visibility into infrastructure availability, health, performance, events, and logs.
 
 The monitoring environment follows a layered observability model:
 
