@@ -6,10 +6,10 @@ Centralized monitoring and observability for the Enterprise Homelab, providing v
 
 The monitoring environment follows a layered observability model:
 
-Uptime Kuma = Availability
-Prometheus / SNMP = Metrics
-Loki / Syslog = Events & Logs
-Grafana = Visualization & Correlation
+> **Uptime Kuma** = Availability  
+> **Prometheus / SNMP** = Metrics  
+> **Loki / Syslog** = Events & Logs  
+> **Grafana** = Visualization & Correlation
 
 The environment began with Uptime Kuma for basic availability monitoring and has expanded into a Prometheus- and Grafana-based observability stack. Metrics collection for Linux hosts, containers, endpoints, and network devices is operational. Centralized logging, expanded alerting, and cloud monitoring remain part of the planned architecture.
 
