@@ -461,7 +461,8 @@ With queueing configured, rsyslog can retain pending events while the forwarding
 
 ## Security Considerations
 
-Standard syslog over TCP/514 is not encrypted or authenticated.
+> [!note]
+> The configuration in this guide uses plain syslog over TCP/514. TCP provides reliable transport but does not encrypt or authenticate syslog messages. UDP/514 is also unencrypted and unauthenticated and may be used for devices that do not support TCP.
 
 For trusted internal networks:
 
