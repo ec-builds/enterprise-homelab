@@ -6,7 +6,7 @@ This document describes how the observability layers defined in the README are i
 
 ## Architecture Overview
 
-<img src="./diagrams/monitoring-architecture.svg" alt="Infrastructure Monitoring Architecture" width="100%">
+<img src="./diagrams/monitoring-architecture-target.svg" alt="Infrastructure Monitoring Architecture" width="100%">
 
 *Figure 1. Detailed monitoring architecture showing availability, metrics, events and logs, visualization, cloud telemetry, and alerting flows.*
 
