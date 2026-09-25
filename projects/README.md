@@ -19,7 +19,7 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [Azure Administration Lab](./azure-administration-lab/) | Azure infrastructure, RBAC, governance | ⚪ Planned |
 | [Backup & Disaster Recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
 | [CI/CD Pipelines](./ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
-| [Docker & Self-Hosted Services](./docker-self-hosted-services/) | Containerized self-hosted applications | 🟡 In Progress |
+| [Docker & Self-Hosted Services](./docker-self-hosted-services/) | Containerized self-hosted applications | 🟢 Operational |
 | [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, IaC, configuration management  | ⚪ Planned |
 | [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Kubernetes Lab](./kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
