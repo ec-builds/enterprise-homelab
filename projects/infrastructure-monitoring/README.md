@@ -1,6 +1,6 @@
 # 📊 Infrastructure Monitoring
 
-**Status:** 🟢 Operational · logging and cloud monitoring planned
+**Status: 🟢 Operational**
 
 Centralized monitoring and observability for the Enterprise Homelab, providing visibility into infrastructure availability, health, performance, events, and logs.
 
