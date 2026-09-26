@@ -1,6 +1,5 @@
 # source: https://hub.docker.com/r/grafana/grafana
 # source: https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker
-# Port 3002 used because Homepage uses port 3000.
 #
 # networks assumes there is an existing docker network "monitoring"
 
@@ -11,16 +10,13 @@ services:
     restart: unless-stopped
 
     networks:
-     - monitoring
+      - monitoring
 
     ports:
-      - "3002:3000"
+      - "3000:3000"
 
     volumes:
-      - grafana-data:/var/lib/grafana
-
-volumes:
-  grafana-data:
+      - ./data:/var/lib/grafana
 
 networks:
   monitoring:
