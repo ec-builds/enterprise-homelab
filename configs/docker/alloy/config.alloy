@@ -1,8 +1,8 @@
-# Sources:
-# https://grafana.com/docs/alloy/latest/set-up/install/docker/
-# https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/
-# https://grafana.com/docs/alloy/latest/reference/components/local/local.file_match/
-# https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/
+// Sources:
+// https://grafana.com/docs/alloy/latest/set-up/install/docker/
+// https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/
+// https://grafana.com/docs/alloy/latest/reference/components/local/local.file_match/
+// https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/
 
 logging {
   level  = "info"
