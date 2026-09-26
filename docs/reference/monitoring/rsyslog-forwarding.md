@@ -101,7 +101,7 @@ This indicates that rsyslog is receiving messages through the local system loggi
 Create a forwarding configuration:
 
 ```bash
-sudo vim /etc/rsyslog.d/90-forward.conf
+sudo vi /etc/rsyslog.d/90-forward.conf
 ```
 
 `90-forward.conf` is a descriptive filename rather than a required name. Files ending in `.conf` under `/etc/rsyslog.d/` are loaded by rsyslog when that directory is included by the main configuration.
