@@ -1,19 +1,36 @@
+# Loki Configuration
+#
+# Sources:
+# https://github.com/grafana/loki/blob/main/cmd/loki/loki-docker-config.yaml
+# https://grafana.com/docs/loki/latest/configure/
+# https://grafana.com/docs/loki/latest/configure/examples/configuration-examples/
+#
+# Retention:
+# https://grafana.com/docs/loki/latest/operations/storage/retention/
+#
+# Single-node Loki deployment using TSDB, schema v13, and local filesystem
+# storage. Loki data is persisted outside the container through a bind mount.
+
 auth_enabled: false
 
 server:
   http_listen_port: 3100
 
 common:
+  instance_addr: 127.0.0.1
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
   ring:
-    instance_addr: 127.0.0.1
     kvstore:
       store: inmemory
-  replication_factor: 1
-  path_prefix: /loki
 
 schema_config:
   configs:
-    - from: 2020-05-15
+    - from: 2020-10-24
       store: tsdb
       object_store: filesystem
       schema: v13
@@ -21,6 +38,20 @@ schema_config:
         prefix: index_
         period: 24h
 
-storage_config:
-  filesystem:
-    directory: /loki/chunks
+limits_config:
+  retention_period: 30d
+
+compactor:
+  working_directory: /loki/compactor
+  retention_enabled: true
+  delete_request_store: filesystem
+
+# By default, Loki sends anonymous but uniquely identifiable usage and
+# configuration analytics to Grafana Labs.
+#
+# See:
+# https://github.com/grafana/loki/blob/main/pkg/analytics/stats.go
+#
+# Disable usage reporting for this deployment.
+analytics:
+  reporting_enabled: false
