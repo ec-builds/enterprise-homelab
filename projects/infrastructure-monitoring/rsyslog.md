@@ -29,7 +29,7 @@ Firewalls ────────────┼──> rsyslog ──> Alloy �
 NAS / Storage ────────┘       🟢          ⚪        ⚪        🟢
 ```
 
-The pipeline is designed so syslog collection and local storage operate before Alloy and Loki are deployed.
+The pipeline is designed so syslog collection and local storage operate independently of Alloy and Loki.
 
 ## Deployment
 
@@ -58,19 +58,35 @@ Received logs are written to a mounted volume so they persist across container r
 | Item | Value |
 |------|-------|
 | Storage path | `/opt/docker/rsyslog/logs` |
-| Layout | One directory per source host |
-| Rotation | TBD |
-| Retention | TBD — see retention policy |
+| Layout | Separate log file per configured source/device |
+| Rotation | Daily |
+| Retention | 90 rotated logs |
+| Compression | Enabled |
 
-Logs share a disk with Prometheus and other monitoring services. Rotation and retention should be defined early so syslog volume cannot fill the monitoring host.
+Log rotation is managed by the Docker host using `logrotate`. Logs rotate daily, retain up to 90 rotated files, and are compressed. `copytruncate` is used so the rsyslog container can continue writing to the active log files without requiring a container restart or reload.
+See [`docs/reference/logs`](../../docs/reference/logs/) for the log rotation configuration and operational reference.
+
+Example layout:
+
+```text
+logs/
+├── cisco.log
+├── nas.log
+├── prox01.log
+├── prox02.log
+├── prox03.log
+└── ...
+```
+
+Logs share a disk with Prometheus and other monitoring services. Daily rotation and retention limits prevent unbounded growth of the centralized syslog files.
 
 ## Data Sources
 
 | Infrastructure | Collection Path | Status |
 |----------------|-----------------|:------:|
 | NAS / Storage | Syslog → rsyslog | 🟢 |
-| Proxmox Hosts | Syslog → rsyslog | ⚪ |
-| Cisco Network Devices | Syslog → rsyslog | ⚪ |
+| Proxmox Hosts | Syslog → rsyslog | 🟢 |
+| Cisco Network Devices | Syslog → rsyslog | 🟢 |
 | Firewalls | Syslog → rsyslog | ⚪ |
 
 ## Ports & Protocols
@@ -79,23 +95,36 @@ Logs share a disk with Prometheus and other monitoring services. Rotation and re
 |--------|-------------|-----------------|---------|:------:|
 | Infrastructure hosts / devices | rsyslog | 514/TCP | Syslog forwarding (preferred) | 🟢 |
 | Infrastructure hosts / devices | rsyslog | 514/UDP | Syslog forwarding where TCP is unsupported | 🟢 |
-| rsyslog | Alloy | TBD | Handoff to logging pipeline | ⚪ |
+| rsyslog files | Alloy | Local file access | Log collection | ⚪ |
 | Alloy | Loki | 3100/TCP | Log push | ⚪ |
 
 The current TCP/UDP 514 syslog transport is unauthenticated and unencrypted. Port 514 should be restricted to known source addresses. TLS syslog (6514/TCP) is a possible future improvement.
 
 ## Alloy Handoff (Planned)
 
-The rsyslog → Alloy method will be selected when Alloy is deployed. Two options are under consideration:
+Alloy will collect the persisted log files written by rsyslog and forward them to Loki.
 
-| Option | How It Works | Trade-off |
-|--------|--------------|-----------|
-| **Forward** | rsyslog forwards messages over TCP to an Alloy syslog listener | Near real-time; rsyslog can convert messages to RFC 5424, which Alloy's listener expects |
-| **File tail** | Alloy reads the log files rsyslog writes to disk | Simple; Alloy catches up from files after an outage |
+```text
+Infrastructure
+      │
+      ▼
+   rsyslog
+      │
+      ▼
+Persistent Log Files
+      │
+      ▼
+     Alloy
+      │
+      ▼
+      Loki
+```
 
-This section will be updated with the chosen method, port, and configuration once implemented.
+File-based collection keeps syslog reception independent of the downstream logging pipeline. rsyslog can continue receiving and persisting events if Alloy or Loki is unavailable, and Alloy can resume reading persisted logs when service is restored.
 
-## Proxmox Forwarding (Planned)
+The Alloy configuration and source labels will be documented when the integration is deployed.
+
+## Proxmox Forwarding
 
 Each Proxmox node forwards system events to the central collector using its local rsyslog service as the forwarding client. A separate rsyslog container is not required on each node.
 
@@ -109,7 +138,9 @@ Proxmox VE relies heavily on systemd-journald, and rsyslog may not be installed 
 dpkg -l rsyslog || apt install rsyslog
 ```
 
-Forwarding configuration is placed under `/etc/rsyslog.d/`. A disk-assisted queue buffers events locally if the collector is unreachable, so they are delivered when the connection returns rather than lost:
+Forwarding configuration is placed under `/etc/rsyslog.d/`.
+
+Example:
 
 ```text
 # /etc/rsyslog.d/90-forward.conf
@@ -118,7 +149,36 @@ Forwarding configuration is placed under `/etc/rsyslog.d/`. A disk-assisted queu
            queue.saveOnShutdown="on" action.resumeRetryCount="-1")
 ```
 
-Validate on one node end-to-end before deploying to the remaining cluster nodes.
+The forwarding action uses a queue and automatic retry behavior so temporary collector interruptions do not immediately interrupt local logging.
+
+All Proxmox nodes have been validated end-to-end against the central collector.
+
+## Cisco Forwarding
+
+Cisco IOS devices use native remote syslog functionality and do not require an additional logging agent.
+
+```text
+Cisco IOS ──UDP/514──> Central rsyslog
+```
+
+The switch forwards informational and higher-severity events to the collector.
+
+Example:
+
+```text
+logging host <collector-ip>
+logging trap informational
+logging on
+```
+
+Local timestamps are configured so Cisco-generated event timestamps use the switch's configured local timezone:
+
+```text
+service timestamps debug datetime msec localtime
+service timestamps log datetime msec localtime
+```
+
+See the Cisco remote syslog forwarding reference for configuration and validation procedures.
 
 ## Validation
 
@@ -136,13 +196,13 @@ ss -lnup | grep ':514'     # UDP
 docker port rsyslog
 ```
 
-**3. Test TCP reachability from the source:**
+**3. Test TCP reachability from applicable sources:**
 
 ```bash
 nc -vz <collector-ip> 514
 ```
 
-**4. Send a test message directly to the collector:**
+**4. Send a test message directly to the collector from a Linux source:**
 
 ```bash
 logger -n <collector-ip> -P 514 -T "SYSLOG TEST from $(hostname)"
@@ -153,15 +213,25 @@ Omitting `-n` tests the full path through the source's local rsyslog forwarder i
 **5. Confirm arrival at the collector:**
 
 ```bash
-tail -f /opt/docker/rsyslog/logs/<source-host>/*.log
+tail -f /opt/docker/rsyslog/logs/<source>.log
 ```
+
+**6. Confirm network delivery when troubleshooting:**
+
+```bash
+sudo tcpdump -ni any port 514
+```
+
+When Docker networking is involved, `-i any` may display the same packet at multiple stages as it traverses the host, Docker bridge, and container interface.
+
+For source-specific validation, filter by the physical interface and source address where appropriate.
 
 ## Troubleshooting
 
 Verify the path in order:
 
 ```text
-Source logging ──> Local forwarder ──> Network ──> Docker host :514 ──> rsyslog container ──> /opt/docker/rsyslog/logs
+Source logging ──> Local forwarder / native syslog ──> Network ──> Docker host :514 ──> rsyslog container ──> persisted log file
 ```
 
 Packet capture confirms whether events reach the monitoring host:
@@ -173,25 +243,25 @@ sudo tcpdump -ni any port 514 -A     # message contents
 
 **Source identity:** The network source address and the hostname contained within a syslog message are separate values and may differ. If sources are misidentified, verify the container networking configuration and whether logs are organized by sender address or message hostname.
 
-**Timestamps:** Correlating events across systems requires all sources to be time-synchronized with NTP.
+**Timestamps:** Correlating events across systems requires all sources to be time-synchronized with NTP. Some devices may require separate configuration to render syslog timestamps using the configured local timezone.
 
 ## Failure Behavior
 
 | Failure | Impact |
 |---------|--------|
 | Source rsyslog service down | Events from that source are not forwarded |
-| Network path unavailable | Events queue on sources with disk-assisted queues; otherwise lost |
-| rsyslog container down | Central ingestion stops; queued sources resend on recovery |
-| Docker Monitoring Host down | Central ingestion stops |
-| Alloy down *(planned)* | Collection continues; forwarding gaps depend on the handoff method |
-| Loki down *(planned)* | Collection and local storage continue; logs unavailable in Grafana |
+| Network path unavailable | Delivery depends on source forwarding and queue behavior |
+| rsyslog container down | Central ingestion stops; queued sources may resend on recovery |
+| Docker Monitoring Host down | Central ingestion and local log storage stop |
+| Alloy down *(planned)* | rsyslog continues collecting and persisting infrastructure logs |
+| Loki down *(planned)* | rsyslog continues collecting; centralized queries remain unavailable until Loki recovers |
 
 ## Design Principles
 
 - Use rsyslog as the central collector for infrastructure that supports standard syslog.
-- Prefer TCP; use UDP only where required.
+- Prefer TCP; use UDP where required or appropriate for the source platform.
 - Persist logs outside the container and define retention early.
-- Buffer on the source so collector outages do not lose events.
+- Buffer on supported sources to improve resilience during collector outages.
 - Restrict syslog ports to known sources.
 - Keep collection independent of storage and visualization.
 - Preserve source identity and synchronized time for correlation.
@@ -203,13 +273,15 @@ sudo tcpdump -ni any port 514 -A     # message contents
 
 - 🟢 Deploy centralized rsyslog collector
 - 🟢 Validate NAS syslog forwarding
+- 🟢 Configure and validate Proxmox syslog forwarding
+- 🟢 Configure and validate Cisco syslog forwarding
 
 **Remaining**
 
-- ⚪ Define log rotation and retention
+- 🟢 Configure log rotation and retention
 - ⚪ Restrict port 514 to known sources
-- ⚪ Configure Proxmox syslog forwarding
-- ⚪ Configure Cisco syslog forwarding
 - ⚪ Configure firewall syslog forwarding
-- ⚪ Select and implement the Alloy handoff method
-- ⚪ Validate log queries in Grafana after Loki deployment
+- ⚪ Deploy Loki
+- ⚪ Deploy Alloy
+- ⚪ Configure Alloy file collection for rsyslog logs
+- ⚪ Validate log ingestion and queries in Grafana
