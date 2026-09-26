@@ -18,13 +18,10 @@ services:
 
     volumes:
       - ./loki-config.yaml:/mnt/config/loki-config.yaml:ro
-      - loki-data:/loki
+      - ./data:/loki
 
     command:
       - "-config.file=/mnt/config/loki-config.yaml"
-
-volumes:
-  loki-data:
 
 networks:
   monitoring:
