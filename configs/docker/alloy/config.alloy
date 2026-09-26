@@ -1,7 +1,30 @@
-# source: https://grafana.com/docs/alloy/latest/set-up/install/docker/
-# save in the same /opt/docker/alloy directory
+# Sources:
+# https://grafana.com/docs/alloy/latest/set-up/install/docker/
+# https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.file/
+# https://grafana.com/docs/alloy/latest/reference/components/local/local.file_match/
+# https://grafana.com/docs/alloy/latest/reference/components/loki/loki.write/
 
 logging {
   level  = "info"
   format = "logfmt"
+}
+
+local.file_match "rsyslog" {
+  path_targets = [
+    {
+      "__path__" = "/var/log/rsyslog/*.log",
+      "job"      = "rsyslog",
+    },
+  ]
+}
+
+loki.source.file "rsyslog" {
+  targets    = local.file_match.rsyslog.targets
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
 }
