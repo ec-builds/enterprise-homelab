@@ -16,7 +16,7 @@ This document defines the monitoring objectives, guiding principles, and success
 | **Availability** | Ensure services and infrastructure remain online. |
 | **Performance** | Monitor resource utilization and response times. |
 | **Capacity** | Identify resource trends before they become bottlenecks. |
-| **Security** | Detect abnormal activity and infrastructure issues. |
+| **Security** | Improve visibility into authentication, configuration, and anomalous infrastructure events. |
 | **Observability** | Correlate metrics, logs, and alerts for faster troubleshooting. |
 
 ## Success Metrics
