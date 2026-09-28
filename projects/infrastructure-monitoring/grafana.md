@@ -2,16 +2,45 @@
 
 <img src="./diagrams/grafana-welcome.png" alt="Grafana welcome" width="350">
 
-A containerized monitoring and observability stack providing centralized visibility into the homelab, with **Grafana as the primary visualization and investigation interface**.
+Grafana provides the primary visualization and investigation interface for the homelab monitoring environment.
 
-The monitoring environment collects host, container, network, availability, and log telemetry and brings those data sources together through Grafana dashboards.
+The containerized deployment brings together metrics from **Prometheus** and logs from **Loki**, allowing infrastructure health and system events to be investigated through a common interface.
 
-Detailed information about the individual monitoring technologies is maintained separately at `docs/reference/docker/docker-monitoring-services-reference.md`
+Two primary dashboards are maintained:
 
+| Dashboard | Purpose | Primary Data Source |
+|---|---|---|
+| **Metrics Overview** | Infrastructure health, performance, availability, and network telemetry | Prometheus |
+| **Logs Overview** | Centralized log activity, severity, source analysis, and event investigation | Loki |
 
-## Grafana Dashboard
+This document provides a broad overview of the Grafana deployment and its role within the Docker Lab. Detailed monitoring architecture, telemetry pipelines, queries, and operational procedures are maintained separately in the `infrastructure-monitoring` lab.
 
-The Grafana dashboard provides a centralized view of infrastructure health and availability across the homelab.
+## Grafana Dashboards
+
+Grafana separates metrics monitoring and log monitoring into two primary dashboards.
+
+```text
+                         Grafana
+                            │
+                ┌───────────┴───────────┐
+                │                       │
+                ▼                       ▼
+        Metrics Overview          Logs Overview
+                │                       │
+                ▼                       ▼
+           Prometheus                  Loki
+                │                       │
+                ▼                       ▼
+       Metrics Monitoring         Log Monitoring
+```
+
+This separation keeps each dashboard focused while still allowing metrics and logs to be correlated during troubleshooting.
+
+## Metrics Overview
+
+The **Metrics Overview** dashboard provides the primary view of infrastructure health, performance, network telemetry, and service availability.
+
+Prometheus is the primary data source for this dashboard.
 
 Current monitoring includes:
 
@@ -24,97 +53,114 @@ Current monitoring includes:
 - network interface status
 - network RX/TX traffic
 
-Additional panels, telemetry sources, and monitored systems can be added as the environment expands.
-
 ### Dashboard Preview
 
 ![Grafana Monitoring Dashboard](./diagrams/grafana-dashboard.png)
 
-*Centralized Grafana dashboard displaying host resource utilization, container status, endpoint availability, response times, and network interface telemetry.*
+*Grafana Metrics Overview displaying host resource utilization, container status, endpoint availability, response times, and network telemetry.*
 
-### Dashboard Configuration Reference
+### Metrics Sources
 
-The following panels provide the core monitoring views used by the Grafana dashboard.
+Several monitoring services provide telemetry that ultimately becomes available through Prometheus.
 
-| Panel | Visualization | PromQL | Legend | Key Settings |
-|---|---|---|---|---|
-| **Docker VM CPU Usage** | Time series | `100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)` | `Docker VM` | Unit: Percent |
-| **Docker VM Memory Usage** | Time series | `100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))` | `Docker VM` | Unit: Percent |
-| **Docker VM Disk Usage** | Gauge | `100 * (1 - (node_filesystem_avail_bytes{mountpoint="/",fstype!~"tmpfs\|overlay"} / node_filesystem_size_bytes{mountpoint="/",fstype!~"tmpfs\|overlay"}))` | — | Unit: Percent; utilization thresholds |
-| **Running Containers** | Stat | `count(container_last_seen{name!=""})` | `Containers` | Stat with sparkline/background |
-| **HTTP Probe Status** | Stat | `probe_success{job="blackbox-http",name!=""}` | `{{name}}` | Instant query; status value mappings |
-| **HTTP Response Time** | Time series | `probe_duration_seconds{job="blackbox-http",name!=""}` | `{{name}}` | Range query; Unit: seconds |
-| **Switch Port Status** | Table | `ifOperStatus{job="snmp",ifName=~"Gi.*"}` | `{{ifName}}` | Instant query; status mappings; sorted by `ifIndex` |
-| **Switch RX/TX Traffic** | Time series | RX: `rate(ifHCInOctets{job="snmp",ifName=~"Gi.*"}[5m]) * 8`<br>TX: `rate(ifHCOutOctets{job="snmp",ifName=~"Gi.*"}[5m]) * 8` | `{{ifName}} RX`<br>`{{ifName}} TX` | Range query; Unit: bits/sec (SI) |
+| Source | Purpose |
+|---|---|
+| **Node Exporter** | Linux host metrics |
+| **cAdvisor** | Docker container metrics |
+| **SNMP Exporter** | Network device metrics |
+| **Blackbox Exporter** | Endpoint availability and response metrics |
 
-#### Switch Port Status Mappings
-
-The SNMP `ifOperStatus` values are mapped to human-readable interface states:
-
-| Value | Status |
-|---:|---|
-| `1` | Up |
-| `2` | Down |
-| `3` | Testing |
-| `4` | Unknown |
-| `5` | Dormant |
-| `6` | Not Present |
-| `7` | Lower Layer Down |
-
-The table is sorted by `ifIndex` in ascending order. The displayed fields are simplified to:
+The general metrics flow is:
 
 ```text
-ifName  → Port
-Value   → Status
+Monitored Systems
+       │
+       ▼
+    Exporters
+       │
+       ▼
+   Prometheus
+       │
+       ▼
+    Grafana
+       │
+       ▼
+Metrics Overview
 ```
 
-Other Prometheus metadata fields are hidden from the dashboard table to keep the visualization focused on interface state.
+The Infrastructure Monitoring Lab contains the detailed exporter configuration, Prometheus targets, queries, and monitoring architecture.
 
-## Architecture Overview
+## Logs Overview
+
+The **Logs Overview** dashboard provides the primary interface for centralized log monitoring and event investigation.
+
+Loki is the primary data source for this dashboard.
+
+The dashboard provides visibility into:
+
+- overall log activity
+- errors and critical events
+- warnings
+- log volume over time
+- events by source
+- recent errors and warnings
+- live and recent logs
+
+Logs can be filtered by source, allowing the same dashboard to provide an environment-wide view or focus on an individual monitored system.
+
+The general log visualization flow is:
 
 ```text
-                              MONITORED SYSTEMS
-                   Servers / VMs / Docker / Network / Apps
-                                      │
-             ┌────────────────────────┼────────────────────────┐
-             │                        │                        │
-             ▼                        ▼                        ▼
-        Availability                Metrics                   Logs
-             │                        │                        │
-       ┌─────┴─────┐        ┌─────────┼──────────┐             │
-       │           │        │         │          │             │
-       ▼           ▼        ▼         ▼          ▼             ▼
-  Uptime Kuma   Blackbox   Node     cAdvisor    SNMP          Alloy
-                Exporter   Exporter   │         Exporter       │
-                    │       │         │          │             ▼
-                    └───────┴────┬────┴──────────┘            Loki
-                                 │                             │
-                                 ▼                             │
-                             Prometheus                        │
-                                 │                             │
-                         ┌───────┴────────┐                    │
-                         │                │                    │
-                         ▼                ▼                    │
-                    Alertmanager      Grafana ◄────────────────┘
-                         │                │
-                         ▼                ▼
-                Email / Notifications  Dashboards
-                                      Exploration
+Log Sources
+     │
+     ▼
+Collection / Processing
+     │
+     ▼
+    Loki
+     │
+     ▼
+  Grafana
+     │
+     ▼
+Logs Overview
 ```
 
-> This diagram represents the high-level monitoring architecture. Individual integrations may evolve as the environment expands.
+Grafana is the visualization layer in this pipeline. Log collection, rsyslog processing, Grafana Alloy processing, severity handling, Loki ingestion, LogQL queries, retention, and validation are documented in the Infrastructure Monitoring Lab.
 
-Grafana uses **Prometheus** as its metrics data source and **Loki** as its log data source. Uptime Kuma operates alongside the Grafana stack as an independent availability-monitoring service.
+## Data Sources
 
+Grafana currently uses two primary monitoring data sources.
 
-## Monitoring Stack
+| Data Source | Telemetry | Used For |
+|---|---|---|
+| **Prometheus** | Metrics | Metrics Overview |
+| **Loki** | Logs | Logs Overview |
+
+This creates a simple separation between the two primary telemetry types:
+
+```text
+Metrics ───► Prometheus ───► Grafana
+                                │
+                                ├──► Metrics Overview
+                                │
+Logs ──────► Loki ──────────────┤
+                                │
+                                └──► Logs Overview
+```
+
+Grafana does not perform the underlying collection or long-term processing of these telemetry sources. It provides the interface used to query, visualize, and investigate the data maintained by the monitoring backends.
+
+## Role in the Monitoring Stack
+
+Grafana is one component of the broader monitoring environment.
 
 | Service | Role |
 |---|---|
 | **Grafana** | Dashboards, visualization, and investigation |
 | **Prometheus** | Metrics collection and storage |
 | **Loki** | Log storage and querying |
-| **Grafana Alloy** | Log collection and forwarding |
+| **Grafana Alloy** | Log collection and processing |
 | **Alertmanager** | Alert routing and notifications |
 | **Node Exporter** | Linux host metrics |
 | **cAdvisor** | Docker container metrics |
@@ -122,86 +168,129 @@ Grafana uses **Prometheus** as its metrics data source and **Loki** as its log d
 | **Blackbox Exporter** | Endpoint availability metrics |
 | **Uptime Kuma** | Independent availability monitoring |
 
-Applicable containers share a dedicated Docker monitoring network, allowing services to communicate using container DNS names.
+Applicable monitoring containers share a dedicated Docker network, allowing services to communicate using container DNS names.
 
-## Monitoring Coverage
+Grafana primarily consumes telemetry that has already been collected and processed by these supporting services.
 
-The stack observes the homelab from several complementary layers:
-
-| Layer | Example Question | Source |
-|---|---|---|
-| **Host** | Is the server running out of CPU, memory, or disk space? | Node Exporter |
-| **Container** | Which containers are consuming resources? | cAdvisor |
-| **Network** | Are network interfaces up and how much traffic are they carrying? | SNMP Exporter |
-| **Availability** | Can an application or endpoint actually be reached? | Blackbox Exporter / Uptime Kuma |
-| **Logs** | What happened inside a service when a problem occurred? | Alloy + Loki |
-
-These layers provide different perspectives on the same environment. A host can appear healthy while an application is unavailable, or an availability failure can be correlated with resource utilization, network activity, or application logs in Grafana.
-
-## Data Flow
-
-Prometheus collects metrics from the monitoring exporters and provides the metrics data source used by Grafana.
+## Architecture Overview
 
 ```text
-Exporters ───► Prometheus ───► Grafana
+                         MONITORED SYSTEMS
+                  Hosts / Containers / Network / Apps
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                           │
+                 ▼                           ▼
+              Metrics                       Logs
+                 │                           │
+                 ▼                           ▼
+             Exporters              Collection / Processing
+                 │                           │
+                 ▼                           ▼
+            Prometheus                      Loki
+                 │                           │
+                 └─────────────┬─────────────┘
+                               │
+                               ▼
+                            Grafana
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                           │
+                 ▼                           ▼
+         Metrics Overview              Logs Overview
 ```
 
-Container logs follow a separate telemetry path through Grafana Alloy and Loki.
+> This diagram represents Grafana's high-level role within the monitoring environment. Detailed telemetry collection and processing architecture is maintained in the Infrastructure Monitoring Lab.
 
-```text
-Docker ───► Grafana Alloy ───► Loki ───► Grafana
-```
-
-Alerting operates alongside the visualization layer:
-
-```text
-Prometheus ───► Alertmanager ───► Notifications
-```
-
-Together, these pipelines allow Grafana to provide a centralized interface for monitoring infrastructure metrics, service availability, network activity, and logs.
-
-## Design Approach
-
-The monitoring environment is designed around several principles:
-
-- **Centralized visibility** — infrastructure health is accessible through a common Grafana interface.
-- **Separation of responsibilities** — exporters collect specialized telemetry while Prometheus and Loki provide the primary metrics and log backends.
-- **Secure monitoring** — authenticated and encrypted protocols are used where supported, and credentials are kept outside public configuration.
-- **Containerized deployment** — monitoring components are isolated into individual services and connected through a dedicated Docker network.
-- **Scalability** — additional hosts, network devices, applications, and telemetry sources can be added without redesigning the overall monitoring architecture.
+Uptime Kuma operates alongside this architecture as an independent availability-monitoring service, while Alertmanager provides alert routing for Prometheus-based monitoring.
 
 ## Monitoring Workflow
 
-The different telemetry sources can be used together when investigating an issue.
+Metrics and logs provide complementary views of infrastructure behavior.
 
 ```text
-Grafana
-   │
-   ├── Availability ──► Is the service reachable?
-   │
-   ├── Host Metrics ──► Is the underlying system healthy?
-   │
-   ├── Container ─────► Is the application consuming unusual resources?
-   │
-   ├── Network ───────► Is connectivity or interface activity abnormal?
-   │
-   └── Logs ──────────► What happened when the issue occurred?
+                 Grafana
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+        ▼                       ▼
+ Metrics Overview          Logs Overview
+        │                       │
+        ▼                       ▼
+What is happening?        Why did it happen?
+        │                       │
+        └───────────┬───────────┘
+                    ▼
+              Investigation
 ```
 
-For example, an availability check may indicate that an application has become unreachable. Host and container metrics can then be reviewed for abnormal resource utilization, network telemetry can help identify connectivity issues, and centralized logs can provide additional context around the time of the failure.
+The Metrics Overview dashboard can identify resource utilization, availability, or network behavior that appears abnormal.
 
-This allows the monitoring environment to move beyond simply displaying system statistics and provides a structured path for troubleshooting infrastructure and application issues.
+The Logs Overview dashboard can then provide event-level context around the same time period.
+
+For example, an availability or performance issue identified through metrics can be investigated alongside centralized logs to determine whether configuration changes, service events, authentication activity, warnings, or errors occurred around the same time.
+
+This allows Grafana to function as a common investigation interface without combining every telemetry type into a single dashboard.
+
+## Design Approach
+
+The Grafana deployment follows several principles:
+
+- **Separate metrics and logs** — dedicated dashboards keep different telemetry types focused and readable.
+- **Centralized visualization** — Prometheus metrics and Loki logs are accessible through a common interface.
+- **Separation of responsibilities** — Grafana visualizes telemetry while collection and storage remain the responsibility of dedicated monitoring services.
+- **Containerized deployment** — Grafana runs as an independent Docker service connected to the monitoring environment.
+- **Secure configuration** — credentials, authentication information, and other sensitive values are kept outside public configuration.
+- **Scalability** — additional dashboards, data sources, systems, and telemetry can be added as the environment expands.
 
 ## Security
 
-SNMPv3 provides authenticated and encrypted monitoring of supported network infrastructure.
+Monitoring credentials, authentication information, notification secrets, and other sensitive values are supplied externally and are not stored in the repository.
 
-Credentials, authentication information, notification secrets, and other sensitive values are supplied externally and are not stored in the repository.
+Grafana is deployed as part of the internal monitoring environment and communicates with supported monitoring services through the dedicated Docker monitoring network.
+
+Security configuration for individual monitoring technologies is documented with the applicable service or within the Infrastructure Monitoring Lab.
+
+## Documentation Scope
+
+This document describes the **Grafana Docker deployment at a high level**, including:
+
+- Grafana's role in the monitoring stack
+- the Metrics Overview dashboard
+- the Logs Overview dashboard
+- primary Grafana data sources
+- how Grafana fits into the containerized monitoring environment
+
+Detailed monitoring implementation is intentionally maintained outside this document.
+
+The `infrastructure-monitoring` lab contains the detailed documentation for areas such as:
+
+- monitoring architecture
+- metrics collection
+- Prometheus configuration and queries
+- centralized log collection
+- rsyslog integration
+- Grafana Alloy processing
+- Loki ingestion and querying
+- log severity processing
+- dashboard design
+- alerting
+- validation and troubleshooting
 
 ## Purpose
 
-This monitoring stack provides a centralized observability platform for the homelab and is designed to expand alongside the infrastructure.
+The Grafana deployment provides a centralized interface for observing and investigating the homelab.
 
-Grafana serves as the primary monitoring interface, while Prometheus, Loki, Alloy, and the monitoring exporters provide the underlying metrics and log pipelines required to observe hosts, containers, applications, endpoints, and network devices.
+Two primary dashboards divide the environment into complementary monitoring views:
 
-The result is a monitoring architecture that provides multiple perspectives on infrastructure health while maintaining clear separation between telemetry collection, storage, visualization, and alerting.
+```text
+Metrics Overview
+└── Infrastructure health and performance
+
+Logs Overview
+└── Centralized events and investigation
+```
+
+Prometheus provides the metrics backend, while Loki provides the log backend. Grafana brings both telemetry types together through a common visualization platform without assuming responsibility for their underlying collection and processing.
+
+This keeps the Docker deployment focused on providing the Grafana service while the Infrastructure Monitoring Lab documents how the broader monitoring system is designed, implemented, and operated.
