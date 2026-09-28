@@ -1,4 +1,4 @@
-# Uptime Kuma Monitoring
+# Availability Monitoring With Uptime Kuma
 
 **Status:** 🟢 Operational
 
