@@ -4,6 +4,8 @@ Availability and service monitoring platform deployed as part of the Docker Lab.
 
 **Status: 🟢 Operational**
 
+![Uptime Kuma Status Page](./diagrams/uptime-kuma-status-page.png)
+
 Uptime Kuma provides independent availability monitoring for infrastructure, network services, and applications across the homelab.
 
 This document describes the **Uptime Kuma container and its deployment**. Monitor design, dependency layers, notification strategy, monitoring coverage, and operational use are documented separately in the `infrastructure-monitoring` lab.
