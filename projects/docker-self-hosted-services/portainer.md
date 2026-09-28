@@ -65,6 +65,8 @@ Portainer manages Docker inside these virtual machines. The underlying Proxmox h
 
 ## Deployment
 
+![Poratiner Containers](./diagrams/portainer-containers.png)
+
 ### Portainer Server
 
 Portainer CE Server is deployed as a container on `docker-lab-01`.
