@@ -16,6 +16,7 @@ The deployment intentionally functions as a centralized bookmark page rather tha
 | Repository Configuration | `/configs/homepage` |
 | Primary Purpose | Homelab navigation dashboard |
 | Integrations | None |
+| Docker API Access | None |
 | DNS | Internal CNAME |
 
 Homepage runs as a Docker container using the standard deployment location:
@@ -73,13 +74,16 @@ The current and potential controls are:
 | Internal-only access | Current |
 | Internal DNS | Current |
 | No credentials or secrets stored in bookmarks | Current |
+| No Docker socket or Docker API access | Current |
 | Management VLAN restriction | Planned |
 | Firewall-based administrator restriction | Planned |
 | HTTPS | Planned |
 | Authenticated access layer | Future / Optional |
 
+Homepage does not require access to the Docker API for its current role. Docker socket access and the previously considered socket proxy are therefore omitted from the deployment. This follows the principle of least privilege by avoiding an unnecessary connection between the dashboard and the Docker daemon.
+
 The current deployment is intended to remain accessible only from trusted internal systems. As network segmentation is introduced, Homepage can be restricted to a dedicated management network using firewall policy.
 
 For a more controlled environment, Homepage could also be placed behind an authenticated reverse proxy or identity-aware access layer. Each linked administrative service should continue enforcing its own authentication and authorization rather than relying on the dashboard as a security boundary.
 
-The goal is to retain the convenience of a shared administrative landing page without exposing infrastructure information unnecessarily.
+The goal is to retain the convenience of a shared administrative landing page without exposing infrastructure information or granting the dashboard unnecessary privileges.
