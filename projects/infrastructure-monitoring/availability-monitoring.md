@@ -348,7 +348,7 @@ Uptime Kuma serves as the dedicated availability and synthetic monitoring layer 
      │                │                │
      └────────────────┼────────────────┘
                       │
-            How is it performing?
+             How is it running?
 
 
                 Loki / Grafana
