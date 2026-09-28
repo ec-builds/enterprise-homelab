@@ -2,6 +2,8 @@
 
 **Status:** 🟢 Operational
 
+![Portainer Dashboard](./diagrams/portainer-dashboard.png)
+
 ## Overview
 
 Portainer Community Edition (CE) is deployed as the centralized Docker management interface for the homelab.
