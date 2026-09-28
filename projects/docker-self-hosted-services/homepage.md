@@ -1,10 +1,8 @@
 # Homepage
 
-Homepage provides a simple web dashboard for navigating servers, infrastructure, and services throughout the homelab.
+Homepage provides a lightweight web dashboard for navigating servers, infrastructure, and services throughout the homelab.
 
-The deployment intentionally functions primarily as a centralized bookmark page rather than a monitoring or service-integration platform. Simplicity was the primary design goal.
-
-![Homepage Dashboard](./diagrams/homepage-dashboard.jpeg)
+The deployment intentionally functions as a centralized bookmark page rather than a monitoring or service-integration platform. Simplicity was the primary design goal.
 
 ## Deployment Overview
 
@@ -37,11 +35,11 @@ Homepage provides a single location for quickly accessing commonly used resource
 ```text
 Homepage
    │
-   ├── Servers
    ├── Infrastructure
+   ├── Network
    ├── Monitoring
-   ├── Management
-   └── Applications
+   ├── Applications
+   └── External Resources
 ```
 
 No application integrations, API connections, or monitoring widgets are currently configured. Monitoring and observability are handled separately by the dedicated monitoring stack.
@@ -58,45 +56,28 @@ This allows the dashboard to be accessed by name rather than IP address and foll
 
 ## Design Approach
 
-Homepage is intentionally kept lightweight. It is not intended to replace monitoring, observability, or infrastructure-management platforms.
+Homepage is intentionally kept lightweight. It is not intended to replace monitoring, observability, or infrastructure-management platforms. Its role is to provide a convenient entry point for navigating the homelab with minimal configuration and maintenance.
 
-Its role is simply to provide a convenient entry point for navigating the homelab faster while requiring minimal configuration and maintenance.
-
-A similar dashboard could also be useful in an enterprise environment as a shared administrative landing page. Infrastructure administrators could use a common internal page to access approved management consoles, monitoring platforms, documentation, and other operational tools without maintaining individual bookmark collections.
+A similar dashboard could be useful in an enterprise environment as a shared administrative landing page. Administrators could use a common internal page to access approved management consoles, monitoring platforms, documentation, and other operational resources without maintaining separate bookmark collections.
 
 ## Security Considerations
 
-A centralized administrative dashboard can also expose useful information about the environment, including the names and locations of management interfaces. Access should therefore be limited to the administrators who need it.
+Because an administrative dashboard can reveal information about available infrastructure and management services, access should be limited to authorized administrators.
 
-In the current lab, the dashboard is intended to remain an **internal-only administrative resource**. A stronger implementation would use several layers of protection:
+The current and potential controls are:
 
-```text
-Administrator
-     │
-     ▼
-Trusted / Management Network
-     │
-     ▼
-Access Control
-     │
-     ▼
-Homepage
-     │
-     ▼
-Administrative Services
-```
+| Control | Status |
+|---|:---:|
+| Internal-only access | Current |
+| Internal DNS | Current |
+| No credentials or secrets stored in bookmarks | Current |
+| Management VLAN restriction | Planned |
+| Firewall-based administrator restriction | Planned |
+| HTTPS | Planned |
+| Authenticated access layer | Future / Optional |
 
-Recommended controls include:
+The current deployment is intended to remain accessible only from trusted internal systems. As network segmentation is introduced, Homepage can be restricted to a dedicated management network using firewall policy.
 
-- Keep Homepage accessible only from the internal network rather than exposing it directly to the Internet.
-- Restrict access to a trusted or management VLAN when network segmentation is implemented.
-- Use firewall rules to permit access only from authorized administrative networks or hosts.
-- Keep the internal DNS record available only through internal DNS.
-- Use HTTPS for the dashboard and other management interfaces.
-- If authentication is required, place Homepage behind an authenticated reverse proxy or another identity-aware access layer.
-- Avoid storing credentials, API tokens, secrets, or other sensitive information directly in bookmark configuration.
-- Continue treating authentication and authorization on each linked administrative service as the primary security boundary.
+For a more controlled environment, Homepage could also be placed behind an authenticated reverse proxy or identity-aware access layer. Each linked administrative service should continue enforcing its own authentication and authorization rather than relying on the dashboard as a security boundary.
 
-For the current homelab, the practical goal is to keep Homepage reachable only from trusted internal systems. As the network matures, access can be further restricted to a dedicated management network and protected through firewall policy and authenticated access.
-
-The dashboard should provide convenient navigation without becoming a way to bypass the security controls of the systems it links to.
+The goal is to retain the convenience of a shared administrative landing page without exposing infrastructure information unnecessarily.
