@@ -65,7 +65,6 @@ Portainer manages Docker inside these virtual machines. The underlying Proxmox h
 
 ## Deployment
 
-![Poratiner Containers](./diagrams/portainer-containers.png)
 
 ### Portainer Server
 
@@ -111,6 +110,8 @@ Portainer Agent is deployed on the two remote Docker hosts:
 This provides centralized management while preserving workload separation between general applications, monitoring, and media services.
 
 ## Configuration Model
+
+![Poratiner Containers](./diagrams/portainer-containers.png)
 
 Docker Compose remains the source of truth for the Portainer deployment and other important containerized services.
 
