@@ -1,5 +1,7 @@
 # Homepage
 
+![Homepage Dashboard](./diagrams/homepage-dashboard.jpeg)
+
 Homepage provides a lightweight web dashboard for navigating servers, infrastructure, and services throughout the homelab.
 
 The deployment intentionally functions as a centralized bookmark page rather than a monitoring or service-integration platform. Simplicity was the primary design goal.
