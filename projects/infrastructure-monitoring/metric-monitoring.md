@@ -1,4 +1,4 @@
-# Metrics Monitoring
+# Metric Monitoring
 
 This document will describe the centralized metrics monitoring architecture used in the homelab, including how infrastructure metrics are collected, stored, queried, visualized, and eventually used for alerting.
 
