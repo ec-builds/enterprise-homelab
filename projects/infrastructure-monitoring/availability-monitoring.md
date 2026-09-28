@@ -6,12 +6,13 @@ Uptime Kuma provides independent availability and service monitoring for infrast
 
 The monitoring strategy is organized around infrastructure dependencies so failures can be quickly isolated to the local network, Internet connection, DNS infrastructure, core systems, platform services, or applications.
 
+Uptime Kuma is the platform used to implement the availability monitoring layer. Container deployment and configuration details are documented separately in the `Docker Lab`.
+
 #### Uptime Kuma Dashboard
 
 ![Uptime Kuma dashboard](./diagrams/uptime-kuma-status-page.png)
 
 *Uptime Kuma dashboard monitoring the availability and health of infrastructure and services across the Enterprise Homelab.*
-
 
 ## Objectives
 
@@ -24,27 +25,13 @@ The monitoring strategy is organized around infrastructure dependencies so failu
 - Organize monitoring around infrastructure dependencies to simplify troubleshooting
 - Provide remote outage notifications when monitored infrastructure becomes unavailable
 
-
-## Deployment
-
-| Component | Value |
-|---|---|
-| Platform | Debian |
-| Deployment | Docker Compose |
-| Image | `louislam/uptime-kuma:2` |
-| Database | SQLite |
-| Interface | Port 3001 |
-| Storage | Docker Volume at `/opt/docker/uptime-kuma` |
-
-
 ## Monitoring Strategy
 
 Uptime Kuma answers:
 
 > **Is the service available and functioning?**
 
-Performance metrics, resource utilization, historical telemetry, and deeper infrastructure analysis are handled separately by Prometheus and Grafana.
-
+Performance metrics and resource utilization are collected separately through Prometheus and visualized in Grafana. Centralized logs are collected through the logging pipeline and queried through Grafana.
 
 ### Six-Layer Monitoring
 
@@ -117,7 +104,6 @@ Application Available
 
 This dependency model helps distinguish an application failure from a failure in the infrastructure supporting it.
 
-
 ## Layer 1 - LAN
 
 The first monitoring layer validates basic connectivity between the monitoring system and the network gateway.
@@ -127,7 +113,6 @@ The first monitoring layer validates basic connectivity between the monitoring s
 | Gateway | Ping | Validate local network and gateway reachability |
 
 A gateway failure may indicate a local network, routing, or gateway problem and can explain failures across multiple higher monitoring layers.
-
 
 ## Layer 2 - Internet
 
@@ -140,7 +125,6 @@ External IP addresses are monitored independently of DNS.
 | External HTTPS | Public HTTPS endpoint | HTTP(s) | Validate outbound DNS, TCP, TLS, and HTTP connectivity |
 
 Multiple external targets help distinguish an Internet connection failure from an individual external service becoming unavailable.
-
 
 ## Layer 3 - DNS
 
@@ -169,7 +153,6 @@ Server Unreachable
       └── DNS Unavailable
 ```
 
-
 ## Layer 4 - Core Infrastructure
 
 Core infrastructure systems are monitored independently from the services they provide.
@@ -194,7 +177,6 @@ Critical domain controller services are also monitored independently:
 
 These checks provide basic service availability monitoring. Detailed Active Directory health and replication validation are handled separately from Uptime Kuma.
 
-
 ## Layer 5 - Platform Services
 
 Platform services provide functionality used by applications or other infrastructure components.
@@ -207,7 +189,6 @@ Platform services provide functionality used by applications or other infrastruc
 | Nginx Proxy Manager | HTTP(s) | Reverse proxy availability |
 
 Platform monitoring helps distinguish application failures from failures of their supporting services.
-
 
 ## Layer 6 - Applications
 
@@ -223,7 +204,6 @@ Application monitors validate that user-facing services are responding.
 | Additional Web Applications | HTTP(s) |
 
 Where an application provides a dedicated health or readiness endpoint, that endpoint is preferred over simply monitoring the root web page.
-
 
 ## Dependency-Based Troubleshooting
 
@@ -277,7 +257,6 @@ Jellyfin         DOWN
 → Investigate Jellyfin rather than network or storage
 ```
 
-
 ## Default Monitor Settings
 
 Baseline settings for most monitors:
@@ -294,7 +273,6 @@ Baseline settings for most monitors:
 | IP Family | Auto Select |
 
 These settings provide relatively fast outage detection while allowing brief transient failures to be retried before a monitor is marked down.
-
 
 ## Notifications
 
@@ -326,7 +304,6 @@ Notifications provide:
 
 The Discord webhook URL is treated as a secret and is never stored in repository documentation or committed to source control.
 
-
 ## Current Monitoring Coverage
 
 Monitoring is currently deployed across the primary infrastructure dependency layers, including:
@@ -341,21 +318,6 @@ Monitoring is currently deployed across the primary infrastructure dependency la
 - User-facing applications
 
 Additional monitors are added as new infrastructure and services are deployed.
-
-
-## Monitor Types
-
-Uptime Kuma provides several monitor types used throughout the environment.
-
-| Monitor Type | Primary Use |
-|---|---|
-| HTTP(s) | Web applications, APIs, and management interfaces |
-| Ping | Hosts, gateways, and external IP connectivity |
-| TCP Port | Specific network services |
-| DNS | Internal and external name resolution |
-
-Monitor type is selected based on what needs to be validated rather than using ICMP availability for every system.
-
 
 ## Role in Monitoring Architecture
 
@@ -387,38 +349,41 @@ Uptime Kuma serves as the dedicated availability and synthetic monitoring layer 
      └────────────────┼────────────────┘
                       │
             How is it performing?
+
+
+                Loki / Grafana
+                      │
+                Centralized Logs
+                      │
+     ┌────────────────┼────────────────┐
+     │                │                │
+   Events          Severity         Sources
+     │                │                │
+     └────────────────┼────────────────┘
+                      │
+              What happened?
 ```
 
-Prometheus and its exporters collect infrastructure and application metrics, while Grafana provides centralized visualization and analysis.
+The three monitoring capabilities provide complementary visibility:
+
+```text
+Availability → Is it working?
+Metrics      → How is it performing?
+Logs         → What happened?
+```
 
 Uptime Kuma remains focused on availability, reachability, synthetic testing, outage detection, and remote notification.
 
-
-## Monitoring Scope
-
-Uptime Kuma is primarily responsible for:
-
-- Availability monitoring
-- Service reachability
-- DNS resolution testing
-- TCP port availability
-- HTTP/HTTPS availability
-- External connectivity testing
-- Basic synthetic service checks
-- Outage notifications
-- Remote Discord alerts
-
-
 ## Related Documentation
 
-- Infrastructure Monitoring
-- Monitoring Architecture
-- Prometheus
-- Grafana
-
+- `monitoring-strategy.md` — monitoring objectives and guiding principles
+- `monitoring-architecture.md` — overall monitoring architecture and component relationships
+- `metric-monitoring.md` — Prometheus-based metrics collection and Grafana visualization
+- `logs-monitoring.md` — centralized logging through rsyslog, Alloy, Loki, and Grafana
+- Docker Lab `uptime-kuma.md` — Uptime Kuma container deployment and configuration
 
 ## Security Note
 
-Hostnames, addresses, endpoints, and other environment-specific identifiers should be sanitized before public release.
+Environment-specific identifiers should be sanitized before public release.
 
 Never include credentials, API tokens, webhook URLs, public IP addresses, notification secrets, or other sensitive configuration data in repository documentation.
