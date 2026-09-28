@@ -1,6 +1,6 @@
 # Homepage
 
-![Homepage Dashboard](./diagrams/homepage-dashboard.jpeg)
+![Homepage Dashboard](./diagrams/homepage-dashboard.png)
 
 Homepage provides a lightweight web dashboard for navigating servers, infrastructure, and services throughout the homelab.
 
