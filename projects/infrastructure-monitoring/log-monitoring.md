@@ -2,6 +2,9 @@
 
 This document describes the centralized log monitoring architecture used in the homelab, including how logs are collected, normalized, forwarded, stored, queried, and visualized.
 
+![Grafana Logs Dashboard](./diagrams/grafana-logs-overview.png)
+
+
 The logging stack is designed around four primary components:
 
 | Component | Role |
