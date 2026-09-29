@@ -21,10 +21,7 @@ services:
     volumes:
       # Relative to this Compose file: /opt/docker/prometheus/prometheus.yml
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml:ro
-      - prometheus-data:/prometheus
-
-volumes:
-  prometheus-data:
+      - ./data:/prometheus
 
 networks:
   monitoring:
