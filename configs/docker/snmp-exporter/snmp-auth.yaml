@@ -19,20 +19,19 @@
 # in the Prometheus SNMP scrape configuration.
 
 auths:
-  # Update this field with the desired SNMP authentication profile name
   <snmp-auth-profile>:
     version: 3
 
     # SNMPv3 username configured on the monitored network device
-    username: <snmp-username>
-
+    username: ${SNMP_USERNAME}
+    
     # authPriv provides authentication and encrypted SNMP communication
     security_level: authPriv
 
-    # Authentication uses SHA with the password supplied through .env
+    # Authentication protocol and password
     password: ${SNMP_AUTH_PASSWORD}
-    auth_protocol: SHA
 
-    # Privacy uses AES encryption with a separate password supplied through .env
+    auth_protocol: SHA
+    # Privacy protocol and separate encryption password
     priv_protocol: AES
     priv_password: ${SNMP_PRIV_PASSWORD}
