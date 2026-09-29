@@ -16,16 +16,16 @@ services:
     restart: unless-stopped
 
     command:
-      - "--config.file=/etc/snmp_exporter/snmp.yaml"
+      - "--config.file=/etc/snmp_exporter/snmp.yml"
       - "--config.file=/etc/snmp_exporter/snmp-auth.yaml"
       - "--config.expand-environment-variables"
 
     environment:
+      SNMP_USERNAME: ${SNMP_USERNAME}
       SNMP_AUTH_PASSWORD: ${SNMP_AUTH_PASSWORD}
       SNMP_PRIV_PASSWORD: ${SNMP_PRIV_PASSWORD}
 
     volumes:
-      - ./snmp.yaml:/etc/snmp_exporter/snmp.yml:ro
       - ./snmp-auth.yaml:/etc/snmp_exporter/snmp-auth.yaml:ro
 
     networks:
