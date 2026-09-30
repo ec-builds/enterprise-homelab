@@ -97,6 +97,7 @@ intune-lab/
 ├── 05-apps-updates/
 ├── 06-automation-reporting/
 ├── 07-troubleshooting/
+├── 08-lessons-learned/
 ├── procedures/              # Repeatable runbooks
 ├── scripts/                 # PowerShell and Graph automation
 └── diagrams/
