@@ -43,6 +43,8 @@ Some Intune capabilities, such as Conditional Access, depend on license tier. Re
 | 05 | [Applications & Updates](05-apps-updates/) | Delivering software and keeping Windows current | ⚪ |
 | 06 | [Automation & Reporting](06-automation-reporting/) | Working with the tenant through Microsoft Graph and PowerShell | ⚪ |
 | 07 | [Troubleshooting](07-troubleshooting/) | Realistic failures and how they were diagnosed and resolved | ⚪ |
+| 08 | [Lessons Learned](08-lessons-learned.md/) | Lessons learned through the course of the lab | ⚪ |
+
 
 ### 01 · Identity & Access
 
@@ -71,6 +73,10 @@ Using Microsoft Graph and PowerShell to manage and report on the tenant, treatin
 ### 07 · Troubleshooting
 
 Case studies built from deliberately broken scenarios, each written up as an investigation: symptoms, evidence, root cause, and resolution.
+
+### 08 · Lessons Learned
+
+A recorded list of any lessons learned, useful for reference
 
 ## How It Fits Together
 
