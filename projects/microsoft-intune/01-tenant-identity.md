@@ -1,105 +1,99 @@
-# 01 · Tenant & Identity
+# 01 · Identity & Access
 
-## Intune Trial and Tenant Setup
+**Status: 🟡 In Progress**
 
-I used Microsoft's **30-day Microsoft Intune Plan 1 trial** to create a dedicated Microsoft Entra tenant and Intune environment for the lab. For the most part, I followed Microsoft's documented **Sign up for a free trial** process, and the initial tenant setup was straightforward.
+Establishes the Microsoft Entra and Intune foundation used throughout the lab: the tenant, licensing, administrative access, and the identity baseline that later supports compliance-based access control.
 
-![Intune Sign Up](./diagrams/trial-sign-up-01.png)
+## Tenant Setup
 
-### Setup Process
+I created a dedicated Microsoft Entra tenant and Intune environment through Microsoft's **30-day Microsoft Intune Plan 1 trial**. The signup process was straightforward and followed Microsoft's documented trial setup.
 
-The trial signup created the Microsoft Entra tenant and Intune subscription used throughout the lab. The initial setup consisted of:
+![Intune trial sign-up](./diagrams/trial-sign-up-01.png)
 
-1. Starting the Microsoft Intune Plan 1 trial.
-2. Creating a new organizational account.
-3. Providing the required organization and verification information.
-4. Selecting the initial `.onmicrosoft.com` tenant domain and administrator username.
-5. Completing account verification and trial activation.
-6. Signing in to the Microsoft Intune admin center with the newly created tenant account.
+<!-- TODO: Confirm screenshots are sanitized (tenant domain, admin UPN, email, phone). -->
 
-![Intune Sign Up](./diagrams/trial-sign-up-02.png)
+## Licensing
 
-The account used to create the subscription was automatically assigned the **Microsoft Entra Global Administrator** role. Because this role provides significantly more access than required for routine Intune administration, I separated privileged tenant administration from day-to-day Intune management.
+The Intune trial also provisions a trial **Enterprise Mobility + Security (EMS)** subscription, which includes Microsoft Entra ID Premium capabilities alongside Intune.
 
-### Trial Licensing
-
-The Intune free trial also provisions a trial **Enterprise Mobility + Security (EMS)** subscription, which includes Microsoft Intune and Microsoft Entra ID Premium capabilities.
-
-This distinction is important because some capabilities used with Intune depend on Microsoft Entra licensing rather than Intune Plan 1 alone. For example, **automatic MDM enrollment** requires Microsoft Entra ID P1 or P2, and Entra Premium also enables identity capabilities such as Conditional Access.
-
-Understanding this licensing relationship is important when translating the lab configuration to a production environment, where Intune and Microsoft Entra licensing may be purchased or bundled differently.
+This matters because several capabilities used with Intune depend on Entra licensing rather than Intune Plan 1 alone. **Automatic MDM enrollment** requires Microsoft Entra ID P1 or P2, and Entra Premium is also what enables **Conditional Access**. In production, Intune and Entra licensing may be purchased separately or bundled, so it's worth confirming which license actually provides each capability.
 
 ## Administrative Access
 
-The original administrative account retains the **Global Administrator** role and is reserved for tenant-level tasks that require elevated permissions.
+The account that created the subscription was automatically assigned **Global Administrator**. Because that role carries far more access than routine endpoint management needs, I separated the two:
 
-For routine lab administration, I use a dedicated account with the Microsoft Entra **Intune Administrator** role. This provides the access required to configure and validate the full endpoint management lifecycle while keeping the time-limited lab focused on hands-on Intune administration.
+| Account | Role | Used for |
+|---|---|---|
+| Original tenant account | Global Administrator | Tenant-level tasks that require elevated permissions |
+| Lab administrator | Intune Administrator | Day-to-day Intune configuration and validation |
+| Emergency access | Global Administrator | Break-glass recovery, excluded from Conditional Access |
 
-In a production environment, Microsoft recommends applying **least privilege** by delegating routine responsibilities through narrower Microsoft Entra and Intune RBAC roles rather than relying on highly privileged administrative accounts.
+<!-- TODO: Create the emergency access account before building Conditional Access policies. -->
+
+In production, least privilege would go further, delegating narrower responsibilities through Entra and Intune RBAC roles rather than a single broad administrative role.
 
 ### Entra RBAC vs. Intune RBAC
 
-During setup, I initially looked for the **Application Manager** role among Microsoft Entra directory roles. When it wasn't available there, I identified an important distinction between the two administrative permission systems:
+While setting up delegated administration, I looked for the **Application Manager** role among Microsoft Entra directory roles and didn't find it. That led to an important distinction between Intune's two permission systems:
 
-| RBAC System | Scope | Examples |
+| RBAC system | Scope | Examples |
 |---|---|---|
-| **Microsoft Entra RBAC** | Directory and tenant-level administration | Global Administrator, Intune Administrator, User Administrator |
-| **Microsoft Intune RBAC** | Granular Intune administration | Application Manager, Intune Role Administrator, Policy and Profile Manager |
+| **Microsoft Entra RBAC** | Directory and service-level administration | Global Administrator, Intune Administrator, User Administrator |
+| **Microsoft Intune RBAC** | Granular endpoint-management delegation | Application Manager, Policy and Profile Manager, Help Desk Operator |
 
-Microsoft Entra roles provide broader directory or service-level administrative privileges, while Intune RBAC can delegate specific endpoint-management responsibilities and limit where those permissions apply.
+Entra roles grant broad directory or service-wide access. Intune RBAC delegates specific responsibilities and limits *where* they apply through scope groups and scope tags.
 
-To validate this model, I configured an **Application Manager** role assignment with dedicated administrative and resource scope groups:
+### Validating Delegated Access
 
-- **Admin Group:** `Intune-App-Admins`
-- **Scope Groups:** `Intune-Lab-Users`, `Intune-Lab-Devices`
-- **Scope Tags:** `None`
+To test the model, I assigned the Intune **Application Manager** role:
 
-![Intune Application Manager RBAC Assignment](./diagrams/intune-rbac-application-manager.png)
+| Setting | Value |
+|---|---|
+| Admin group | `Intune-App-Admins` |
+| Scope groups | `Intune-Lab-Users`, `Intune-Lab-Devices` |
+| Scope tags | `Default` |
 
-This demonstrated how Intune can delegate a specific administrative function without granting full Intune administrative access. For the remainder of the initial lab, I use the broader Intune Administrator role rather than creating separate administrative identities for every Intune function.
+![Intune Application Manager RBAC assignment](./diagrams/intune-rbac-application-manager.png)
 
-Additional delegated roles, scopes, and administrative separation can be implemented later as an expansion of the IAM/RBAC portion of the lab.
+I then signed in as a member of `Intune-App-Admins` to confirm the boundary:
 
-> For a deeper breakdown of Intune role assignments, Admin Groups, Scope Groups, Scope Tags, and delegated administration, see [Intune RBAC Role Assignments](../../docs/reference/intune/intune-rbac-role-assignments.md)
+| Test | Expected | Result |
+|---|---|---|
+| Create and assign an application | Allowed | <!-- TODO --> |
+| Edit a compliance policy | Denied | <!-- TODO --> |
 
-## Multifactor Authentication
+<!-- TODO: Add screenshot of the denied action. -->
 
-During initial administrative sign-in, Microsoft's mandatory MFA requirement was enforced and required the administrative account to register an additional authentication method.
+For the rest of the initial lab, I use the broader Intune Administrator role. Finer-grained delegation can be expanded later.
 
-I registered **Microsoft Authenticator** and verified successful MFA-protected access to the Microsoft Intune and Entra administrative portals.
+> For a deeper breakdown of role assignments, admin groups, scope groups, and scope tags, see [Intune RBAC Role Assignments](../../docs/reference/intune/intune-rbac-role-assignments.md).
 
-This was a platform-enforced requirement rather than an MFA policy I created within the lab. Conditional Access and additional identity security controls are outside the initial tenant setup and can be explored separately.
+## Multifactor Authentication & Security Defaults
+
+On first administrative sign-in, I was required to register an additional authentication method. I registered **Microsoft Authenticator** and confirmed MFA-protected access to the Intune and Entra admin centers.
+
+New tenants typically have **Security Defaults** enabled. Security Defaults and Conditional Access can't be used together, so Security Defaults will be disabled — after the emergency access account is in place — before Conditional Access policies are created in this area.
 
 ## MDM Authority
 
-After activating the trial, I verified the tenant's **Mobile Device Management (MDM) authority** in the Intune admin center.
+The trial set **Microsoft Intune** as the tenant's MDM authority automatically; I confirmed it under **Tenant administration → Tenant details**.
 
-```text
-Tenant administration
-└── Tenant details
-    └── MDM authority: Microsoft Intune
-```
+![Intune dashboard](./diagrams/intune-dashboard.png)
 
-![Intune Dashboard](./diagrams/intune-dashboard.png)
+## Compliance-Based Access
 
-The trial configured Microsoft Intune as the MDM authority automatically, so no additional configuration was required.
+*Planned:* connect device compliance to access decisions with Conditional Access so that only compliant, managed devices can reach company resources — and verify the result from both a compliant and a noncompliant device.
 
 ## Results
 
-At the end of the tenant and identity setup:
-
-- Microsoft Entra tenant created and Intune trial activated.
-- Trial licensing and the relationship between Intune and Microsoft Entra Premium capabilities identified.
-- Privileged Global Administrator access separated from routine Intune administration.
-- Dedicated Intune Administrator account established for the initial lab.
-- Entra and Intune RBAC models explored, including an Application Manager assignment scoped to dedicated lab user and device groups.
-- Microsoft's mandatory administrative MFA requirement satisfied using Microsoft Authenticator.
-- MDM authority confirmed as Microsoft Intune.
-- Tenant prepared for users, groups, licensing, and endpoint enrollment.
+- Tenant and licensing in place, with the Intune–Entra licensing dependency identified.
+- Privileged and routine administration separated.
+- Delegated administration configured and tested through Intune RBAC.
+- Identity baseline prepared for Conditional Access.
 
 ## References
 
-- [Microsoft Learn — Sign up for a free trial and configure a Microsoft Intune tenant](https://learn.microsoft.com/en-us/intune/fundamentals/free-trial-sign-up)
-- [Microsoft Learn — Microsoft Intune licensing](https://learn.microsoft.com/en-us/intune/fundamentals/licensing)
-- [Microsoft Learn — Set up automatic enrollment for Windows devices](https://learn.microsoft.com/en-us/mem/intune/enrollment/quickstart-setup-auto-enrollment)
-- [Microsoft Learn — Assign Microsoft Intune roles for role-based access control](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/role-based-access-control/assign-role)
+- [Sign up for a free trial and configure a Microsoft Intune tenant](https://learn.microsoft.com/en-us/intune/fundamentals/free-trial-sign-up)
+- [Microsoft Intune licensing](https://learn.microsoft.com/en-us/intune/fundamentals/licensing)
+- [Set up automatic enrollment for Windows devices](https://learn.microsoft.com/en-us/mem/intune/enrollment/quickstart-setup-auto-enrollment)
+- [Assign Microsoft Intune roles for role-based access control](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/role-based-access-control/assign-role)
