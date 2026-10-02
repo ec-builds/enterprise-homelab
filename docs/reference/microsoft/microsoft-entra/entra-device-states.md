@@ -13,7 +13,7 @@ Quick reference for understanding device identity and management states in Micro
 
 These states can overlap. For example, an **Entra Joined** device can also be **Intune Managed**.
 
----
+
 
 ## Microsoft Entra Registered
 
@@ -43,7 +43,7 @@ WorkplaceJoined: YES
 
 The user can continue signing into Windows with their existing local or Microsoft account.
 
----
+
 
 ## Microsoft Entra Joined
 
@@ -66,7 +66,7 @@ Users can sign into Windows using their organizational Entra identity.
 
 Common for modern cloud-managed corporate Windows devices.
 
----
+
 
 ## Hybrid Entra Joined
 
@@ -89,7 +89,7 @@ DomainJoined  : YES
 
 Common in organizations transitioning from traditional Active Directory to cloud management.
 
----
+
 
 ## Intune Managed
 
@@ -116,7 +116,7 @@ Intune can provide:
 
 A device appearing in Entra does **not** automatically mean it is managed by Intune.
 
----
+
 
 ## Common Combinations
 
@@ -137,7 +137,7 @@ Hybrid Entra Joined
 └── Intune Managed        ← Common hybrid enterprise deployment
 ```
 
----
+
 
 ## Quick Diagnostic
 
@@ -158,7 +158,7 @@ Key fields:
 
 For Intune management status, also verify the device in the **Microsoft Intune admin center**.
 
----
+
 
 ## Simple Mental Model
 
