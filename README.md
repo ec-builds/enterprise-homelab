@@ -85,7 +85,7 @@ Functionally, the environment is organized into several infrastructure domains:
 | Infrastructure Monitoring | Availability monitoring, metrics, logging, visualization, and alerting |
 | Containerized Services | Docker Compose, application hosting, and service management |
 | Media Services | Containerized media services, Linux administration, and network storage integration |
-| Automation & DevOps | Infrastructure as code, configuration management, and CI/CD |
+| Automation & DevOps | Infrastructure as code and configuration management |
 
 ## Project Portfolio
 
@@ -104,13 +104,10 @@ Functionally, the environment is organized into several infrastructure domains:
 | Project | Focus Area | Status |
 |----------|------------|--------|
 | [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 Operational |
-| [Azure Administration Lab](projects/azure-administration-lab/) | Azure infrastructure, RBAC, governance | ⚪ Planned |
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
-| [CI/CD Pipelines](projects/ci-cd-pipelines/) | GitHub Actions, automated build & deploy | ⚪ Planned |
 | [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 🟢 Operational |
-| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management  | ⚪ Planned |
+| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ Planned |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
-| [Kubernetes Lab](projects/kubernetes-lab/) | k3s, container orchestration, AKS | ⚪ Planned |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | ⚪ Planned |
 | [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟡 In Progress |
@@ -120,9 +117,6 @@ Functionally, the environment is organized into several infrastructure domains:
 | [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 
 The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
-
-
-
 
 ➡️ **[Browse All Projects](./projects/README.md)**
 
