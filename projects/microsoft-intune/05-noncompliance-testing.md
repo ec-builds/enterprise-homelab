@@ -4,9 +4,11 @@ The baseline Windows compliance policy was applied to corporate Windows endpoint
 
 Initial evaluation successfully identified noncompliant devices and exposed the individual requirements responsible for the compliance state.
 
+![Noncompliant Devices Overview](./diagrams/win11-noncompliant-devices.png)
+
 ## Compliance Evaluation
 
-The following baseline policy was evaluated:
+The following baseline policy was evaluated (For details on the baseline policy, see the `Compliance Policy` doc):
 
 | Component | Configuration |
 |---|---|
@@ -19,13 +21,12 @@ The following baseline policy was evaluated:
 
 After policy evaluation, devices that failed one or more requirements were reported as **Noncompliant** in the Windows device inventory.
 
-**Screenshot Placeholder**
+![Noncompliant Devices](./diagrams/win11-client-noncompliance-overview.png)
 
-`[IMAGE: Corporate Windows devices reported as noncompliant]`
 
 ## Device Compliance Results
 
-`WIN11-CLIENT-02` was evaluated against the baseline policy. Most configured security requirements successfully reported a compliant state.
+![Noncompliance Report For Client 02](./diagrams/win11-client-noncompliance-report.png)
 
 The following requirements did not pass the initial evaluation:
 
@@ -37,9 +38,7 @@ The following requirements did not pass the initial evaluation:
 
 Other evaluated controls, including Firewall, Antivirus, Antispyware, Secure Boot, TPM, Code Integrity, Microsoft Defender Antimalware, real-time protection, password requirements, and Defender security intelligence, successfully reported **Compliant**.
 
-**Screenshot Placeholder**
 
-`[IMAGE: WIN11-CLIENT-02 per-setting compliance results]`
 
 ## Noncompliance Validation
 
@@ -57,11 +56,7 @@ The initial evaluation demonstrates that Intune evaluates individual requirement
           ↓
     Device = Noncompliant
 
-The endpoint remains managed by Intune and classified as a corporate device while its compliance state is reported separately as **Noncompliant**.
 
-**Screenshot Placeholder**
-
-`[IMAGE: WIN11-CLIENT-02 corporate ownership and noncompliant status]`
 
 ## Remediation
 
