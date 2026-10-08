@@ -1,6 +1,6 @@
 # Microsoft Intune Noncompliance Remediation
 
-<img src="./diagrams/win11-client-compliance-review.png" alt="Client Compliance Review" width="800">
+<img src="./diagrams/win11-client-initial-noncompliance.png" alt="Initial Client Compliance Review" width="800">
 
 Initial compliance testing identified configuration issues on `WIN11-CLIENT-02` that caused the device to be reported as **Noncompliant** by Microsoft Intune.
 
@@ -67,6 +67,10 @@ The device transitioned from:
 `WIN11-CLIENT-02` now reports **Compliant** while remaining Intune-managed and classified as a corporate device.
 
 ![Remediated device reporting compliant](./diagrams/win11-client-remediated-compliant.png)
+
+
+<img src="./diagrams/win11-client-compliance-review.png" alt="Client Compliance Review" width="800">
+
 
 ## Result
 
