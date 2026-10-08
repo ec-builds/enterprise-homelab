@@ -1,5 +1,7 @@
 # Microsoft Intune Noncompliance Remediation
 
+![Windows Client Compliance Review](./diagrams/win11-client-compliance-review.png)
+
 Initial compliance testing identified configuration issues on `WIN11-CLIENT-02` that caused the device to be reported as **Noncompliant** by Microsoft Intune.
 
 The failed requirements were investigated and remediated without removing the device from management or weakening the intended compliance baseline.
@@ -23,7 +25,7 @@ BitLocker was enabled on the operating system drive and the drive was encrypted.
 The BitLocker recovery information was backed up to Microsoft Entra ID so that the recovery key can be retrieved through the managed device record when required.
 
 
-![BitLocker enabled](./diagrams/win11-client-bitlocker-enabled.png)
+<img src="./diagrams/win11-client-bitlocker-enable.png" alt="BitLocker enabled" width="600">
 
 
 After encryption was completed and the device reported its updated state to Intune, the BitLocker and storage-encryption requirements could be reevaluated against the compliance baseline.
