@@ -2,123 +2,124 @@
 
 **Status: 🟡 In Progress**
 
-A hands-on lab for managing Windows endpoints with Microsoft Intune and Microsoft Entra ID, built around the tasks an enterprise endpoint team handles day to day.
+A hands-on lab for managing Windows endpoints with Microsoft Intune and Microsoft Entra ID, focused on cloud-native device identity, enrollment, compliance, security, and troubleshooting.
 
 ## Overview
 
-My background is in hybrid Microsoft environments: on-premises Active Directory synchronized with Microsoft Entra ID, Group Policy, and Windows endpoint administration. This lab extends that experience into cloud-native endpoint management.
-
-The lab follows a device through its working life — from identity and provisioning, through configuration, security, and access control, to troubleshooting — and focuses on how those pieces depend on each other rather than touring Intune feature by feature.
-
-Each area has its own folder with implementation notes, validation, and lessons learned. This page is the map.
+The current implementation follows Windows endpoints from Microsoft Entra join through Intune enrollment, ownership classification, compliance evaluation, troubleshooting, and remediation.
 
 ## Design Choice: Cloud-Native
 
-The lab is intentionally **cloud-only**. Identities live in Microsoft Entra ID, and devices are **Microsoft Entra joined** rather than hybrid joined.
+The lab is intentionally **cloud-only**. Identities live in Microsoft Entra ID, and Windows endpoints are **Microsoft Entra joined** rather than hybrid joined.
 
-This reflects Microsoft's recommended approach for new Windows deployments and keeps the lab focused on modern endpoint management instead of the additional infrastructure that hybrid join requires. On-premises experience still plays a role: existing Group Policy is used as the starting point for building equivalent cloud-based configuration.
+Microsoft Entra ID provides device identity while Microsoft Intune provides endpoint management. Device join state, Intune management state, and Intune ownership classification are treated as separate properties throughout the lab.
 
 ## Lab Environment
 
 | Component | Platform |
 |---|---|
-| Endpoint management | Microsoft Intune |
-| Identity | Microsoft Entra ID (cloud-only) |
-| Device join | Microsoft Entra join |
-| Endpoints | Windows 11 (Hyper-V VMs and a physical Dell OptiPlex) |
-| Automation | PowerShell and Microsoft Graph |
+| Endpoint Management | Microsoft Intune |
+| Identity | Microsoft Entra ID |
+| Device Join | Microsoft Entra Join |
+| Endpoints | Windows 11 |
+| Administration & Automation | PowerShell and Microsoft Graph |
 
-Some Intune capabilities, such as Conditional Access, depend on license tier. Requirements are noted in each area where they apply.
+## Current Implementation
 
-## Lab Areas
+**Legend:** 🟢 Implemented · 🟡 In Progress · ⚪ Planned
 
-**Legend:** 🟢 Complete · 🟡 In Progress · ⚪ Planned
+| Area | Focus | Status |
+|---|---|:---:|
+| Tenant & Identity | Tenant foundation, users, groups, and administration | 🟢 |
+| Microsoft Entra Device Join | Cloud-based Windows device identity | 🟢 |
+| Intune Device Enrollment | MDM enrollment, restrictions, and ownership | 🟢 |
+| Compliance Policy | Corporate Windows security baseline | 🟢 |
+| Noncompliance Testing | Validation of failed compliance requirements | 🟢 |
+| Compliance Remediation | Endpoint remediation and compliance re-evaluation | 🟢 |
+| Troubleshooting | Enrollment and management troubleshooting cases | 🟡 |
+| Lessons Learned | Findings recorded throughout the lab | 🟡 |
+| Conditional Access | Require compliant devices for cloud access | ⚪ |
+| Windows Autopilot | Automated corporate device provisioning | ⚪ |
+| Configuration Profiles | Cloud-based Windows configuration management | ⚪ |
+| Applications & Updates | Application deployment and Windows servicing | ⚪ |
 
-| # | Area | Focus | Status |
-|---|---|---|:---:|
-| 01 | [Identity & Access](01-identity-access/) | Tenant foundation, administration, and access based on device compliance | 🟡 |
-| 02 | [Provisioning & Enrollment](02-provisioning-enrollment/) | Getting a new device from first boot to managed with Windows Autopilot | ⚪ |
-| 03 | [Group Policy to Intune](03-gpo-to-intune/) | Translating representative Group Policy settings into Intune configuration | ⚪ |
-| 04 | [Endpoint Security](04-endpoint-security/) | Core protections expected on a corporate device | ⚪ |
-| 05 | [Applications & Updates](05-apps-updates/) | Delivering software and keeping Windows current | ⚪ |
-| 06 | [Automation & Reporting](06-automation-reporting/) | Working with the tenant through Microsoft Graph and PowerShell | ⚪ |
-| 07 | [Troubleshooting](07-troubleshooting/) | Realistic failures and how they were diagnosed and resolved | ⚪ |
-| 08 | [Lessons Learned](08-lessons-learned.md/) | Lessons learned through the course of the lab | ⚪ |
+## Device Management Workflow
 
-
-### 01 · Identity & Access
-
-Everything in Intune starts with identity. This area sets up the tenant, groups, and least-privilege administration, then connects device health to access decisions so that only compliant devices reach company resources.
-
-### 02 · Provisioning & Enrollment
-
-How a new device goes from first boot to managed with minimal hands-on effort, using a user-driven Windows Autopilot deployment with Microsoft Entra join.
-
-### 03 · Group Policy to Intune
-
-Most organizations move to Intune from Group Policy rather than starting fresh. Using policy backups from an on-premises domain, this area assesses what translates to Intune and rebuilds a representative set of settings as cloud-based configuration.
-
-### 04 · Endpoint Security
-
-Applying and verifying the protections expected on a managed device, including antivirus, disk encryption, and local administrator account management.
-
-### 05 · Applications & Updates
-
-Packaging and delivering an application, and keeping Windows current through a staged rollout that limits the impact of a problematic update.
-
-### 06 · Automation & Reporting
-
-Using Microsoft Graph and PowerShell to manage and report on the tenant, treating configuration as something that can be exported, versioned, and reviewed.
-
-### 07 · Troubleshooting
-
-Case studies built from deliberately broken scenarios, each written up as an investigation: symptoms, evidence, root cause, and resolution.
-
-### 08 · Lessons Learned
-
-A recorded list of any lessons learned, useful for reference
-
-## How It Fits Together
-
-Once the individual areas are in place, they come together in a single device lifecycle:
+The currently validated device lifecycle is:
 
 ```text
-New user & device → Autopilot → Configuration & security → Apps & updates
-      → Compliance & access → Monitoring & troubleshooting → Retire
+Microsoft Entra ID
+        ↓
+Microsoft Entra Join
+        ↓
+Windows 11 Endpoint
+        ↓
+Intune MDM Enrollment
+        ↓
+Corporate Ownership Validation
+        ↓
+Compliance Policy
+        ↓
+Compliance Evaluation
+        ↓
+  ┌─────┴─────┐
+  │           │
+  ▼           ▼
+Compliant  Noncompliant
+                ↓
+          Troubleshoot
+                ↓
+            Remediate
+                ↓
+           Intune Sync
+                ↓
+           Re-evaluate
 ```
 
-The goal is to show identity, endpoint management, security, and automation working as one system rather than as isolated features.
+This lifecycle has been tested through successful enrollment, deliberate compliance failures, remediation, and confirmation that an affected endpoint returned to a Compliant state.
+
+## Implemented Security Baseline
+
+Corporate Windows endpoints are assigned to the `Intune-corporate-devices` security group and evaluated by the `Windows Corporate Device Compliance` policy.
+
+The baseline evaluates endpoint security requirements including BitLocker, Secure Boot, TPM, firewall, Microsoft Defender protections, device encryption, password requirements, and minimum Windows version.
+
+Devices that fail required controls are marked Noncompliant for investigation and remediation.
+
 
 ## Repository Structure
 
 ```text
-intune-lab/
+microsoft-intune/
 ├── README.md
-├── architecture.md          # How Entra ID, Intune, and endpoints connect
-├── lab-build.md             # Tenant and environment setup
-├── 01-identity-access/
-├── 02-provisioning-enrollment/
-├── 03-gpo-to-intune/
-├── 04-endpoint-security/
-├── 05-apps-updates/
-├── 06-automation-reporting/
-├── 07-troubleshooting/
-├── 08-lessons-learned/
-├── procedures/              # Repeatable runbooks
-├── scripts/                 # PowerShell and Graph automation
+├── architecture.md
+├── 01-tenant-identity.md
+├── 02-entra-device-join.md
+├── 03-intune-device-enrollment.md
+├── 04-compliance-policy.md
+├── 05-noncompliance-testing.md
+├── 06-noncompliance-remediation.md
+├── 07-troubleshooting.md
+├── 08-lessons-learned.md
 └── diagrams/
 ```
 
-Tenant details, user identities, and device identifiers are sanitized or excluded from public documentation.
+Tenant identifiers, device identifiers, credentials, recovery keys, and other sensitive information are sanitized or excluded from public documentation.
+
+## Next Steps
+
+The next stage will extend the existing compliance architecture into identity-based access control and additional endpoint-management capabilities:
+
+1. Microsoft Entra Conditional Access requiring a compliant device
+2. Windows configuration profiles
+3. Application deployment
+4. Windows update management
+5. Windows Autopilot provisioning
+6. PowerShell and Microsoft Graph automation
 
 ## Future Expansion
 
-- Hybrid identity and hybrid join scenarios
+- Hybrid identity and Microsoft Entra hybrid join scenarios
 - Endpoint Privilege Management
 - Advanced Conditional Access scenarios
 - Mobile device and application management
-
-## Resources
-
-- [Microsoft Intune documentation](https://learn.microsoft.com/en-us/intune/)
-- [Microsoft Intune free trial](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/free-trial-sign-up)
