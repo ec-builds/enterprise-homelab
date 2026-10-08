@@ -139,7 +139,7 @@ The device can also be verified in the Microsoft Entra admin center with a **Joi
 Microsoft Entra joined
 ```
 
-![Microsoft Entra joined device in the Entra admin center](./diagrams/entra-joined-dashboard.png)
+![Microsoft Entra joined device in the Entra admin center](./diagrams/entra-joined.png)
 
 *The Microsoft Entra admin center confirms that the endpoint is enabled, owned by the authorized organizational user, and has a Join type of Microsoft Entra joined.*
 
