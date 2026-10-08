@@ -1,6 +1,6 @@
 # Microsoft Intune Windows Enrollment
 
-![Device Entra and Intune Connected](./diagrams/entra-and-intune-dashboard.png)
+![Device Entra and Intune Connected](./diagrams/intune-corporate-ownership.png)
 
 Microsoft Intune was configured to provide cloud-based management for Windows endpoints in the EC-Builds lab.
 
