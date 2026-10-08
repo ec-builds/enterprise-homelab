@@ -1,5 +1,7 @@
 # Microsoft Intune Windows Enrollment
 
+![Device Entra And Intune Connected - Personal](./diagrams/entra-and-intune-dashboard.png)
+
 Microsoft Intune was configured to provide cloud-based management for Windows endpoints in the EC-Builds lab.
 
 The current deployment demonstrates manual MDM enrollment, Windows enrollment restrictions, device ownership classification, policy synchronization, and the separation between Microsoft Entra device identity and Microsoft Intune device management.
