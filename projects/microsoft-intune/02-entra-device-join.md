@@ -129,7 +129,7 @@ EnterpriseJoined : NO
 DomainJoined : NO
 ```
 
-![Microsoft Entra join verification using dsregcmd](./diagrams/dsregcmd-status.jpeg)
+![Microsoft Entra join verification using dsregcmd](./diagrams/dsregcmd-status.png)
 
 *The `dsregcmd /status` output verifies that the Windows endpoint is Microsoft Entra joined, is not joined to an on-premises Active Directory domain, uses TPM-protected device credentials, and successfully authenticates its device identity.*
 
