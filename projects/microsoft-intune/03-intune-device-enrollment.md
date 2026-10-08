@@ -156,15 +156,17 @@ Devices
           → Ownership
 ```
 
-![Intune device ownership selection](./diagrams/intune-manually-change-owner-2.png)
-
-*The Intune device properties editor provides Corporate and Personal ownership classifications.*
-
 The ownership property was changed from **Personal** to **Corporate**.
 
 ![Intune device ownership properties](./diagrams/intune-manually-change-owner.png)
 
-*The device ownership property can be administratively corrected after enrollment when the actual ownership of the endpoint is known.*
+*Image shows ownership change via Intune admin dashboard*
+
+Entra Dashboard:
+
+![Intune device ownership selection](./diagrams/intune-manually-change-owner-via-entra.png)
+
+*The Intune device properties can be modified via Entra as well*
 
 The resulting workflow was:
 
@@ -211,13 +213,10 @@ Other platforms          Block
 
 The current manual workflow successfully provides Intune management but initially identifies enrolled devices as Personal. For the current lab, known organization-owned endpoints can be manually changed to Corporate after enrollment.
 
-For additional information about corporate and personally owned device classification, see the [Microsoft Intune Reference Guide](/docs/reference).
+For additional information about corporate and personally owned device classification, see the [Microsoft Intune Reference Guide](/docs/reference/microsoft/intune).
 
 A future phase of the lab will evaluate **Microsoft Entra Connect Sync** between the existing on-premises Active Directory environment and Microsoft Entra ID.
 
-This will allow testing of **Microsoft Entra hybrid joined devices** with Intune. When combined with an appropriate corporate enrollment method, such as Group Policy-based automatic MDM enrollment, the goal is for organization-owned domain devices to enroll into Intune with Corporate ownership without requiring the manual ownership correction used in the current deployment.
-
-The future deployment will validate this behavior while maintaining the restriction against personally owned Windows enrollment.
 
 For Microsoft's documented ownership classifications and supported corporate enrollment methods, see:
 
