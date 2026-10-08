@@ -1,6 +1,6 @@
 # Microsoft Intune Noncompliance Remediation
 
-<img src="./diagrams/win11-client-initial-noncompliance.png" alt="Initial Client Compliance Review" width="800">
+<img src="./diagrams/win11-client-initial-noncompliance.png" alt="Initial Client Compliance Review" width="600">
 
 Initial compliance testing identified configuration issues on `WIN11-CLIENT-02` that caused the device to be reported as **Noncompliant** by Microsoft Intune.
 
