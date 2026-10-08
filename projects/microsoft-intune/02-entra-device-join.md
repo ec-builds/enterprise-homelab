@@ -31,9 +31,9 @@ GRP-Entra-Device-Join-Users
 
 Users who are authorized to provision company devices are added to this group.
 
-**Screenshot Placeholder**
+![Microsoft Entra device join security group](./images/GRP-Entra-Device-Join-Users.png)
 
-`[IMAGE: GRP-Entra-Device-Join-Users membership]`
+*The `GRP-Entra-Device-Join-Users` security group is selected as the group authorized to join company devices to Microsoft Entra ID.*
 
 Microsoft Entra device settings were then configured so that only members of the selected group are permitted to join devices.
 
@@ -51,9 +51,9 @@ Maximum devices per user:
     10
 ```
 
-**Screenshot Placeholder**
+![Microsoft Entra device join settings](./images/entra-join-settings.png)
 
-`[IMAGE: Microsoft Entra device join settings]`
+*Microsoft Entra device settings restrict device joining to the authorized security group, require MFA during device registration or join, and limit each user to 10 devices.*
 
 This prevents general tenant users from joining devices unless they have been explicitly granted permission.
 
@@ -70,15 +70,17 @@ During initial testing, a Windows VM was connected using a work or school accoun
 
 Registration would be appropriate for a BYOD scenario where a user needs access to company applications and data from a personal computer.
 
-Because this lab is designed around company-owned endpoints, the registered connection was removed and the device was instead Microsoft Entra joined.
+The initial test device appeared in Microsoft Entra with a **Join type** of **Microsoft Entra registered** and no MDM management.
 
-**Screenshot Placeholder**
+![Microsoft Entra registered test device](./images/entra-registered.png)
 
-`[IMAGE: Test device shown as Microsoft Entra registered]`
+*The initial test connection created a Microsoft Entra registered device rather than a Microsoft Entra joined device, demonstrating the identity state typically associated with a work or school account connected to an existing local Windows profile.*
 
-**Screenshot Placeholder**
+Because this lab is designed around company-owned endpoints, the registered connection was removed.
 
-`[IMAGE: Removing the registered work or school account]`
+![Removing the Microsoft Entra registered work or school account](./images/entra-registered-disconnect.png)
+
+*The registered work or school account was disconnected from Windows before the device was reconfigured using Microsoft Entra Join.*
 
 ## Device Join
 
@@ -105,6 +107,12 @@ MFA
 Microsoft Entra Joined Device
 ```
 
+After authentication and MFA, Windows confirms that the device has been connected to the organization and that the organizational account can be used to sign in.
+
+![Successful Microsoft Entra device join](./images/entra-join-success.png)
+
+*Windows confirms the successful Microsoft Entra Join and identifies the organizational account that can subsequently be used to sign in to the device.*
+
 ## Verification
 
 Device join status can be verified from Windows with:
@@ -121,15 +129,19 @@ EnterpriseJoined : NO
 DomainJoined : NO
 ```
 
+![Microsoft Entra join verification using dsregcmd](./images/dsregcmd-status-client2.jpeg)
+
+*The `dsregcmd /status` output verifies that the Windows endpoint is Microsoft Entra joined, is not joined to an on-premises Active Directory domain, uses TPM-protected device credentials, and successfully authenticates its device identity.*
+
 The device can also be verified in the Microsoft Entra admin center with a **Join type** of:
 
 ```text
 Microsoft Entra joined
 ```
 
-**Screenshot Placeholder**
+![Microsoft Entra joined device in the Entra admin center](./images/entra-joined-dashboard.png)
 
-`[IMAGE: Microsoft Entra joined device verification]`
+*The Microsoft Entra admin center confirms that the endpoint is enabled, owned by the authorized organizational user, and has a Join type of Microsoft Entra joined.*
 
 ## Intune Enrollment
 
@@ -137,9 +149,9 @@ Microsoft Entra device identity and Intune device management are treated as sepa
 
 Automatic MDM enrollment is unavailable with the licensing currently used in the lab.
 
-**Screenshot Placeholder**
+![Automatic MDM enrollment licensing requirement](./images/automatic-enrollment-not-allowed.png)
 
-`[IMAGE: Automatic MDM enrollment requiring Microsoft Entra ID Premium]`
+*The Microsoft Intune admin center indicates that automatic MDM enrollment requires Microsoft Entra ID Premium, so automatic enrollment is not used in the current lab configuration.*
 
 Entra-joined Windows devices are therefore enrolled into Intune manually.
 
