@@ -1,6 +1,6 @@
 # Microsoft Intune Windows Compliance Policy
 
-[!Windows Corporate Device Policy - Intune](./diagrams/win11-compliance-policy-corp.png)
+![Windows Corporate Device Policy - Intune](./diagrams/win11-compliance-policy-corp.png)
 
 A baseline Windows compliance policy was deployed in Microsoft Intune to evaluate the security posture of corporate Windows endpoints.
 
@@ -22,7 +22,7 @@ The following compliance policy was deployed:
 
 The policy is assigned only to the corporate Windows device group rather than globally to all managed endpoints.
 
-[!Windows Compliance Policy Assignment](./diagrams/win11-compliance-groups.png)
+![Windows Compliance Policy Assignment](./diagrams/win11-compliance-groups.png)
 
 ## Compliance Requirements
 
@@ -77,7 +77,7 @@ Devices that fail a configured requirement are marked **Noncompliant immediately
 
 At this stage, the policy establishes the baseline and reports compliance state. Devices reported as noncompliant will be investigated and remediated as part of later lab testing.
 
-[!Noncompliance Actions](./diagrams/win11-noncompliance.png)
+![Noncompliance Actions](./diagrams/win11-noncompliance.png)
 
 ## Status
 
