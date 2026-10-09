@@ -1,1 +1,14 @@
+[Unit]
+Description=Start Jellyfin after Intel GPU is available
+Requires=docker.service
+After=docker.service
 
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/docker/jellyfin
+ExecStartPre=/bin/sh -c 'until [ -e /dev/dri/renderD128 ]; do sleep 1; done'
+ExecStart=/usr/bin/docker compose up -d
+TimeoutStartSec=60
+
+[Install]
+WantedBy=multi-user.target
