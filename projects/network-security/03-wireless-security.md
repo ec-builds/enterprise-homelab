@@ -9,7 +9,7 @@ The ASUS RT-AX5400 provides integrated wireless networking for the homelab. The 
 ## Wireless Security Architecture
 
 <p align="left">
-  <img src="./diagrams/wireless_security_architecture.png" alt="Wireless Security Architecture" width="750">
+  <img src="./diagrams/wireless_security_architecture.png" alt="Wireless Security Architecture" width="900">
 </p>
 
 ## Current Configuration
