@@ -133,10 +133,4 @@ Inter-VLAN communication will then be controlled through firewall policy.
 
 Specific VLAN IDs, subnet assignments, trunk configuration, and firewall rules will be documented after implementation.
 
-## Related Documentation
 
-- [`architecture.md`](./architecture.md) — Overall network architecture
-- [`ip-addressing-plan.md`](./ip-addressing-plan.md) — Address allocation strategy
-- [`cisco-switch-deployment.md`](./cisco-switch-deployment.md) — Managed switch deployment and configuration
-- [`wireless-design.md`](./wireless-design.md) — Wireless network architecture
-- [`opnsense-firewall-mac-mini.md`](./opnsense-firewall-mac-mini.md) — Planned dedicated firewall deployment
