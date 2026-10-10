@@ -24,6 +24,21 @@ The target architecture will replace the ASUS router as the primary gateway with
 - Secure remote access through WireGuard VPN
 - Administrative access limited to the LAN or WireGuard VPN
 
+## Validation
+
+The current perimeter configuration was reviewed and tested to verify that the intended security controls are active.
+
+| Validation | Result |
+|---|:---:|
+| Stateful firewall enabled | ✅ |
+| Unsolicited inbound connections blocked | ✅ |
+| WAN administration disabled | ✅ |
+| UPnP disabled | ✅ |
+| WireGuard remote access operational | ✅ |
+| Administrative access limited to trusted LAN or VPN | ✅ |
+
+These checks validate the currently deployed ASUS perimeter configuration. OPNsense, VLAN firewall policies, IDS/IPS, and centralized security logging remain future-state controls.
+
 ## Target Architecture
 
 OPNsense will operate on dedicated hardware outside the Proxmox virtualization cluster. This keeps critical firewall and routing services independent of virtualization host maintenance, reboots, and lab experimentation.
@@ -53,7 +68,7 @@ Dedicated Host
     └── IDS/IPS
           │
           ▼
-     Managed Network
+      Managed Network
 
 Proxmox Cluster
 └── Linux VM

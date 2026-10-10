@@ -1,267 +1,175 @@
-# 🔒 Network Security
+# 🔐 Network Security
 
-**Status:** 🟢 Operational
+**Status: 🟢 Operational**
 
-This project documents the preventive security controls used to protect the homelab network, including perimeter firewalling, secure remote access, DNS filtering, encrypted upstream DNS, wireless isolation, and infrastructure hardening.
+A hands-on network security lab focused on implementing and documenting layered security controls across the enterprise homelab.
 
-The current environment provides an operational security baseline using perimeter firewalling, WireGuard remote access, wireless isolation, redundant DNS infrastructure, and network-wide DNS filtering. Planned enhancements include a dedicated OPNsense firewall, VLAN-based segmentation, inter-VLAN security policies, and IDS/IPS capabilities.
+The current environment uses perimeter firewalling, encrypted remote access, DNS filtering, wireless isolation, managed switching, and hardened administrative access. Additional segmentation and security controls are planned as the environment evolves.
 
-**Scope:** Detection and response workflows are documented separately in [security-operations](../security-operations/). This project focuses on preventive network controls and security architecture.
+## Overview
 
-## Network Security Architecture
+The ASUS RT-AX5400 currently provides the primary Internet security boundary, including stateful firewalling, NAT, WireGuard VPN, and wireless security.
 
-<p align="left">
-  <img src="./diagrams/network-security-architecture.png" alt="Network Security Architecture" width="600">
-</p>
-
-> [!NOTE]
-> The current environment uses the ASUS router as the perimeter firewall and routing platform. OPNsense and full VLAN segmentation are planned enhancements and are not represented as currently deployed controls.
-
-## Current Security Architecture
-
-The current environment uses layered controls across the network edge, remote access, DNS infrastructure, and wireless networks.
+A Cisco managed switch provides centralized wired connectivity. The current wired environment operates as a flat Layer 2 network using VLAN 1, while guest and IoT wireless devices are isolated from trusted internal systems.
 
 ```text
-Internet
-   │
-   ▼
-ASUS Perimeter Router / Firewall
-   │
-   ├── Stateful Firewall / NAT
-   ├── WireGuard Remote Access
-   ├── Trusted Wireless
-   └── Isolated Guest / IoT Wireless
-   │
-   ▼
-Cisco Managed Switch
-   │
-   ▼
-Trusted Internal Network
-   │
-   ├── Active Directory DNS
-   │      │
-   │      ▼
-   │   Redundant AdGuard Home
-   │      │
-   │      ├── DNS Filtering
-   │      └── DNS-over-HTTPS
-   │             │
-   │             ▼
-   │      Public DNS Resolvers
-   │
-   ├── Proxmox VE Cluster
-   ├── Infrastructure Services
-   └── Synology NAS
+                           Internet
+                              │
+                              ▼
+                       ASUS RT-AX5400
+                    Firewall / NAT / VPN
+                              │
+               ┌──────────────┴──────────────┐
+               │                             │
+               ▼                             ▼
+        Trusted Network                Guest / IoT
+               │                        Wireless
+               ▼                             │
+      Cisco Managed Switch                   ▼
+               │                       Internet Access
+               ▼
+             VLAN 1
+               │
+       Trusted Wired Systems
 ```
+
+See [Network Security Architecture](./architecture.md) for the detailed security boundaries, trust model, current limitations, and planned segmented architecture.
 
 ## Current Security Controls
 
-| Security Area | Current Implementation |
-|---|---|
-| Perimeter Security | Stateful firewall and NAT at the network edge |
-| Inbound Protection | Unsolicited inbound connections blocked unless explicitly permitted |
-| Remote Access | WireGuard VPN |
-| DNS Security | Redundant AdGuard Home filtering |
-| Upstream DNS Privacy | DNS-over-HTTPS to public resolvers |
-| Internal DNS | Redundant Active Directory-integrated DNS |
-| Wireless Security | WPA2/WPA3 with separate guest/IoT isolation |
-| Network Switching | Managed Cisco switching |
-| Service Exposure | Internal services kept private unless explicitly required |
-| Infrastructure Resilience | Redundant DNS, DHCP, and DNS filtering services |
+| Security Area | Implementation | Status |
+|---|---|:---:|
+| Perimeter Firewall | ASUS stateful firewall | 🟢 |
+| Network Address Translation | ASUS NAT | 🟢 |
+| Remote Access | WireGuard VPN | 🟢 |
+| DNS Filtering | Redundant AdGuard Home | 🟢 |
+| Upstream DNS Encryption | DNS-over-HTTPS | 🟢 |
+| Guest / IoT Isolation | Isolated wireless environment | 🟢 |
+| Managed Switching | Cisco Catalyst managed switch | 🟢 |
+| SSH Hardening | Key-based access where implemented | 🟡 |
+| Wired Segmentation | Flat VLAN 1 network | 🟡 |
+| Dedicated Firewall | OPNsense | ⚪ Planned |
+| VLAN Security Zones | Management, server, trusted, IoT, and guest | ⚪ Planned |
+| IDS / IPS | Future implementation | ⚪ Planned |
+| Centralized Security Logging | Future implementation | ⚪ Planned |
 
-## Objectives
+## Security Controls
 
-- Maintain a secure network perimeter
-- Minimize externally exposed services
-- Provide encrypted remote administration through WireGuard
-- Filter malicious, advertising, and tracking domains at the DNS layer
-- Encrypt upstream DNS resolution using DoH
-- Isolate guest and IoT wireless devices from trusted systems
-- Introduce VLAN-based security zones
-- Implement least-privilege communication between network segments
-- Deploy IDS/IPS capabilities
-- Centralize security-relevant network logging
+### Perimeter Security
 
-## DNS Security
+The ASUS gateway provides the current security boundary between the Internet and internal network.
 
-Internal clients use Active Directory-integrated DNS rather than querying public resolvers directly.
+Stateful firewalling and NAT protect internal systems from unsolicited inbound connections, while unnecessary direct exposure of internal services is avoided.
 
-External queries are forwarded through two redundant AdGuard Home instances:
+### Remote Access
+
+WireGuard provides encrypted remote access to trusted internal resources.
+
+Remote administration is performed through the VPN rather than exposing individual management interfaces directly to the Internet.
+
+### DNS Security
+
+Active Directory DNS provides internal domain resolution while redundant AdGuard Home instances provide external DNS filtering.
 
 ```text
 Internal Clients
-      │
-      ▼
+      ↓
 Active Directory DNS
-dc-lab-01 / dc-lab-02
-      │
-      ▼
-   AdGuard Home
-adguard-lab-01 / adguard-lab-02
-      │
-      ├── DNS Filtering
-      │
-      └── DNS-over-HTTPS
-             │
-             ▼
-     Cloudflare / Google
+      ↓
+Redundant AdGuard Home
+      ↓
+DNS-over-HTTPS
+      ↓
+Public DNS Resolvers
 ```
 
-AdGuard evaluates DNS filtering rules before forwarding permitted external queries to public resolvers.
+This separates internal DNS authority from external filtering and encrypts upstream DNS traffic.
 
-Both Active Directory DNS servers use both AdGuard instances as forwarders. The AdGuard instances are hosted across separate Proxmox failure domains to reduce the impact of an individual virtualization-host failure.
+Detailed DNS implementation is maintained in the Network Infrastructure project.
 
-Controlled failure testing confirmed that external DNS resolution continues when either AdGuard instance is unavailable.
+### Wireless Security
 
-DNS-over-HTTPS currently protects the connection between AdGuard and public DNS resolvers. DNS communication between internal clients, Active Directory DNS, and AdGuard remains standard DNS within the trusted network.
+Trusted wireless devices connect to the internal network.
 
-Detailed implementation documentation is maintained in the [Network Infrastructure](../network-infrastructure/) project.
+Guest and IoT devices use an isolated guest wireless environment that restricts access to trusted internal resources.
 
-## Remote Access Security
+### Wired Network Security
 
-WireGuard provides encrypted remote access to the internal environment without exposing individual management interfaces directly to the Internet.
+The current wired network operates as a flat Layer 2 environment using VLAN 1.
 
-The current deployment follows several basic security principles:
+Servers, hypervisors, storage, infrastructure management systems, and other trusted wired devices currently share this network.
 
-- VPN access instead of direct administrative service exposure
-- Key-based WireGuard authentication
-- Minimal externally exposed services
-- Router administration restricted from the WAN
-- Remote management performed through the trusted VPN path
+This is a known security limitation. VLAN-based segmentation is planned to establish separate security zones and allow firewall policy to control communication between them.
 
-Additional implementation details are documented in [`wireguard-vpn.md`](./wireguard-vpn.md) and [`wireguard-security.md`](./wireguard-security.md).
+### Administrative Access
 
-## Wireless Isolation
+SSH key-based authentication is used where implemented to reduce reliance on password-based administrative access.
 
-Trusted systems use the primary wireless network.
+Broader SSH hardening remains in progress and is not represented as universally deployed across the environment.
 
-Guest and IoT devices use isolated guest wireless connectivity provided by the current router platform. These devices are separated from the trusted internal environment.
+## Security Design Goals
 
-This provides basic trust separation before the deployment of full VLAN-based segmentation.
+The network security environment is designed around:
 
-## Design Principles
+- Minimizing direct Internet exposure
+- Using encrypted VPN access for remote administration
+- Filtering external DNS requests
+- Encrypting upstream DNS traffic
+- Isolating guest and IoT wireless devices
+- Hardening administrative access
+- Documenting known security limitations
+- Validating security controls before considering them operational
+- Moving toward explicit network trust zones and least-privilege communication
 
-- Least privilege
-- Defense in depth
-- Secure by default
-- Minimize exposed services
-- Use VPN access for remote administration
-- Separate trusted and untrusted devices
-- Avoid unnecessary single points of failure
-- Keep critical routing and firewall infrastructure independent of general-purpose virtualization where practical
-- Document security architecture and configuration decisions
-- Validate redundancy through controlled failure testing
+## Documentation
+
+| Document | Focus |
+|---|---|
+| [Architecture](./architecture.md) | Security boundaries, trust model, current limitations, and target architecture |
+| [Perimeter Firewall](./firewall.md) | Internet-facing firewall and exposure controls |
+| [WireGuard VPN](./wireguard-vpn.md) | Encrypted remote-access implementation |
+| [Wireless Security](./wireless-security.md) | Trusted and guest/IoT wireless controls |
+| [SSH Hardening](./ssh-hardening.md) | Administrative-access hardening |
+| [Lessons Learned](./lessons-learned.md) | Security implementation and troubleshooting findings |
 
 ## Current Limitations
 
-The current security architecture provides a functional baseline but does not yet provide full internal network segmentation.
+The current environment intentionally documents several security gaps that will be addressed during later implementation phases:
 
-The trusted wired and wireless environment currently operates as a single internal network. Guest and IoT wireless devices are isolated separately through the router.
+- Wired infrastructure remains on VLAN 1.
+- Management systems are not isolated on a dedicated management network.
+- Servers and trusted endpoints do not yet have separate security zones.
+- Inter-network traffic is not governed by dedicated zone-based firewall policies.
+- OPNsense has not yet replaced the current gateway.
+- IDS/IPS has not yet been deployed.
+- Centralized network-security logging remains planned.
+- SSH hardening is not yet universally deployed.
 
-The following capabilities are not yet deployed:
+## Planned Improvements
 
-- Dedicated OPNsense firewall
-- VLAN-based infrastructure segmentation
-- Least-privilege inter-VLAN firewall policies
-- Suricata IDS/IPS
-- Centralized firewall and IDS logging
+The next major security phase will introduce a dedicated OPNsense firewall and VLAN-based network segmentation.
 
-These capabilities are planned as future enhancements to the current security architecture.
+Planned improvements include:
 
-## Target Architecture
+1. Deploy OPNsense as the primary gateway and firewall
+2. Create management, server, trusted, IoT, and guest security zones
+3. Configure VLAN trunking through the managed switch
+4. Apply controlled inter-VLAN firewall policies
+5. Isolate infrastructure management interfaces
+6. Migrate remote-access VPN services to the dedicated firewall
+7. Expand centralized security logging
+8. Evaluate IDS/IPS capabilities
 
-The target architecture introduces OPNsense on dedicated hardware as the primary routing and firewall platform.
-
-```text
-Internet
-   │
-   ▼
-OPNsense
-   │
-   ▼
-Cisco Managed Switch
-   │
-   ├── Management Zone
-   ├── Trusted Zone
-   ├── Server / Services Zone
-   ├── IoT Zone
-   └── Guest Zone
-```
-
-The dedicated firewall will remain outside the Proxmox virtualization cluster. This keeps routing and firewall availability independent of virtualization-host maintenance, reboots, and lab experimentation.
-
-OPNsense will provide the foundation for VLAN routing, stateful inter-VLAN firewall policies, centralized security policy, and additional network-security controls.
-
-## Current Status
-
-### Completed
-
-- [x] Deploy perimeter firewall and NAT
-- [x] Update router firmware
-- [x] Disable UPnP
-- [x] Restrict router administration from the WAN
-- [x] Deploy WireGuard VPN
-- [x] Enable secure remote administration through VPN
-- [x] Implement guest and IoT wireless isolation
-- [x] Deploy redundant Active Directory DNS
-- [x] Deploy redundant AdGuard Home instances
-- [x] Configure network-wide DNS filtering
-- [x] Configure encrypted upstream DNS using DoH
-- [x] Configure both DNS servers to use both AdGuard instances
-- [x] Separate AdGuard instances across virtualization failure domains
-- [x] Validate AdGuard failover in both directions
-- [x] Select OPNsense as the target firewall platform
-- [x] Design dedicated firewall deployment outside the virtualization cluster
-- [x] Document current network security architecture
-
-### Planned
-
-- [ ] Deploy OPNsense on dedicated hardware
-- [ ] Configure WAN and LAN interfaces
-- [ ] Implement VLAN segmentation
-- [ ] Configure VLAN trunks
-- [ ] Implement least-privilege inter-VLAN firewall rules
-- [ ] Map wireless networks to security zones
-- [ ] Migrate secure remote access to the target firewall architecture
-- [ ] Enable Suricata IDS/IPS
-- [ ] Centralize firewall and IDS logs
-- [ ] Evaluate encrypted DNS closer to client endpoints
-
-## Folder Structure
-
-```text
-network-security/
-│
-├── diagrams/
-├── README.md
-├── firewall.md
-├── wireguard-vpn.md
-├── wireguard-security.md
-├── network-segmentation.md (Planned)
-├── dns-filtering.md (Planned)
-├── ids-ips.md (Planned)
-└── security-policies.md (Planned)
-```
-
-| Document | Primary Question |
-|---|---|
-| `firewall.md` | How are perimeter firewall controls implemented and how will OPNsense extend them? |
-| `wireguard-vpn.md` | How is secure remote access provided? |
-| `wireguard-security.md` | How is the WireGuard deployment hardened? |
-| `network-segmentation.md` | How will the network be divided into security zones? |
-| `dns-filtering.md` | How is DNS filtering and upstream encryption implemented? |
-| `ids-ips.md` | How will network threats be detected and prevented? |
-| `security-policies.md` | What security principles guide the environment? |
+These controls remain planned and will be documented as operational only after implementation and validation.
 
 ## Related Projects
 
-- [network-infrastructure](../network-infrastructure/) — Routing, switching, DHCP, DNS, and network architecture
-- [active-directory-lab](../active-directory-lab/) — Identity services and Active Directory-integrated DNS
-- [security-operations](../security-operations/) — Detection, investigation, and response
-- [infrastructure-monitoring](../infrastructure-monitoring/) — Infrastructure availability and observability
+Network security controls build on and protect the broader enterprise homelab environment, including:
 
-## Security Note
-
-Public documentation intentionally omits or generalizes sensitive implementation details.
-
-Never commit public IP addresses, VPN private keys, certificates, passwords, API credentials, administrative usernames, internal addressing details, or other secrets to the repository.
+- Network infrastructure
+- Proxmox virtualization
+- Active Directory
+- Microsoft Entra ID and Intune
+- Infrastructure monitoring
+- Docker and self-hosted services
+- Backup and disaster recovery

@@ -17,7 +17,7 @@ The ASUS RT-AX5400 provides integrated wireless networking for the homelab. The 
 ### Wireless Networks
 
 | Network | Purpose | Security |
-|----------|---------|----------|
+|---|---|---|
 | Main Wi-Fi | Trusted devices | WPA2/WPA3-Personal |
 | Guest Wi-Fi | Guests and IoT devices | WPA2/WPA3-Personal (Guest Network) |
 
@@ -38,22 +38,40 @@ The ASUS RT-AX5400 provides integrated wireless networking for the homelab. The 
 - Administrative access limited to the LAN or WireGuard VPN
 - Router firmware kept current
 
+## Validation
+
+The wireless configuration was reviewed and tested to confirm the intended security controls and isolation boundaries.
+
+| Validation | Result |
+|---|:---:|
+| Trusted wireless clients can access the internal network | ✅ |
+| Guest / IoT wireless clients can access the Internet | ✅ |
+| Guest / IoT wireless clients are isolated from trusted internal resources | ✅ |
+| WPA2/WPA3 security enabled | ✅ |
+| WPS disabled | ✅ |
+| HTTPS router management enabled | ✅ |
+| WAN administration disabled | ✅ |
+| Router administration accessible from trusted LAN or WireGuard VPN | ✅ |
+
+The current validation applies to the ASUS wireless environment. VLAN-backed SSIDs, WPA3-Enterprise, RADIUS authentication, and centralized wireless management remain future-state capabilities.
+
 ## Security Principles
 
-- Encrypt all wireless communications
+- Encrypt wireless communications
 - Separate trusted and untrusted devices
 - Restrict administrative access
 - Minimize exposed management services
-- Keep firmware up to date
+- Keep network infrastructure firmware current
+- Validate isolation boundaries before considering them operational
 
 ## Roadmap
 
-- Deploy dedicated wireless access points
-- Implement WPA3-Enterprise
-- Integrate RADIUS authentication
-- Separate SSIDs by VLAN
-- Deploy multiple enterprise access points for roaming
-- Enable centralized wireless management
+- [ ] Deploy dedicated wireless access points
+- [ ] Implement WPA3-Enterprise
+- [ ] Integrate RADIUS authentication
+- [ ] Separate SSIDs by VLAN
+- [ ] Deploy multiple enterprise access points for roaming
+- [ ] Enable centralized wireless management
 
 ## Security Note
 
