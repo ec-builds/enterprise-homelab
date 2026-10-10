@@ -25,7 +25,7 @@ The Cisco managed switch provides centralized wired connectivity for the infrast
 
 The switch currently operates as a flat Layer 2 network using VLAN 1 for connected infrastructure.
 
-Gi1 is shown accurately as the router uplink. Gi2–Gi9 below are illustrative assignments representing the devices currently connected to the switch; exact port assignments are maintained in private documentation.
+Gi1–Gi9 below are illustrative assignments representing the devices currently connected to the switch; exact port assignments are maintained in private documentation.
 
 | Port | Example Connected Device | VLAN | Status |
 |---|---|---:|---|
@@ -40,8 +40,7 @@ Gi1 is shown accurately as the router uplink. Gi2–Gi9 below are illustrative a
 | Gi9 | Wired Infrastructure | 1 | Active |
 | Remaining | Available / Future Expansion | 1 | Available |
 
-> [!IMPORTANT]
-> Gi2–Gi9 are intentionally presented as example assignments for the public repository. Exact device-to-port mappings are recorded in private infrastructure documentation.
+
 
 ## Current VLAN Configuration
 
