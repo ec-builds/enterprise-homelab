@@ -1,4 +1,4 @@
-# Proxmox Node Upgrade Testing
+# Proxmox Node Upgrades & Maintenance
 
 This document records the testing performed while upgrading Proxmox nodes in the homelab cluster.
 
