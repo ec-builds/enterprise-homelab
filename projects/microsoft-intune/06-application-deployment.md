@@ -69,7 +69,7 @@ The Win32 application was configured for silent, machine-wide installation.
 
 Using the **System** installation context allows Intune to install the application without depending on the signed-in user's local administrative privileges.
 
-![Win32 application configuration](./diagrams/intune-app-summary(1).png)
+![Win32 application configuration](./diagrams/intune-app-summary.png)
 
 ## 3. Detection Rule
 
