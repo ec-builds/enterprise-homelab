@@ -164,6 +164,9 @@ Intune subsequently reported both managed endpoints as **Not installed**, confir
 
 ![Successful 7-Zip removal reported by Intune](./diagrams/intune-app-uninstall-success.png)
 
+![Successful 7-Zip removal reported by Intune Dashboard](./diagrams/intune-app-uninstall-dashboard.png)
+
+
 The managed application lifecycle was therefore validated in both directions:
 
 ```text
