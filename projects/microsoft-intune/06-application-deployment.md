@@ -4,7 +4,7 @@
 
 This document covers Windows application deployment through Microsoft Intune.
 
-The lab uses **7-Zip 26.04 (x64)** to validate the Win32 application deployment lifecycle from application packaging through assignment, endpoint installation, detection, and Intune reporting.
+The lab uses **7-Zip 26.04 (x64)** to validate the complete Win32 application lifecycle from packaging and Required deployment through detection, reporting, and managed removal.
 
 ## Deployment Workflow
 
@@ -33,7 +33,13 @@ Silent Application Installation
         ↓
 Detection Rule Evaluation
         ↓
-Intune Deployment Reporting
+Intune Reports Installed
+        ↓
+Change Assignment to Uninstall
+        ↓
+Managed Application Removal
+        ↓
+Intune Reports Not Installed
 ```
 
 ## 1. Application Packaging
@@ -142,14 +148,54 @@ This provided management-plane confirmation in addition to the endpoint-side ver
 
 ![Successful Intune application deployment](./diagrams/intune-app-deploy-success.png)
 
+## 8. Managed Uninstall
+
+After successful installation and reporting were validated, the application lifecycle was tested in the opposite direction.
+
+The `Intune-corporate-devices` group was removed from the **Required** assignment and assigned to **Uninstall** instead.
+
+This changed the desired application state for the managed endpoints from installed to not installed.
+
+![7-Zip uninstall assignment targeting the corporate device group](./diagrams/intune-app-uninstall-by-group.png)
+
+After the endpoints synchronized with Intune, the configured silent uninstall command was processed and 7-Zip was removed from both devices.
+
+Intune subsequently reported both managed endpoints as **Not installed**, confirming successful application removal.
+
+![Successful 7-Zip removal reported by Intune](./diagrams/intune-app-uninstall-success.png)
+
+The managed application lifecycle was therefore validated in both directions:
+
+```text
+Package
+   ↓
+Configure
+   ↓
+Required Assignment
+   ↓
+Install
+   ↓
+Detect
+   ↓
+Report Installed
+   ↓
+Change Desired State
+   ↓
+Uninstall Assignment
+   ↓
+Remove Application
+   ↓
+Report Not Installed
+```
+
 ## Validation
 
 **Status: 🟢 Passed**
 
-The following deployment behaviors were successfully validated:
+The following application-management behaviors were successfully validated:
 
 - Win32 application packaged as `.intunewin`
-- Silent installation configured
+- Silent installation and uninstall commands configured
 - Application installed in System context
 - Windows architecture and OS requirements applied
 - File-based detection configured
@@ -159,8 +205,11 @@ The following deployment behaviors were successfully validated:
 - Intune reported successful installation
 - Both targeted corporate endpoints reported version 26.04 as Installed
 - Endpoint that was offline during assignment received the application after being powered on and reconnecting to Intune
+- Required assignment removed and corporate device group reassigned to Uninstall
+- Intune successfully removed the application from both managed endpoints
+- Both endpoints subsequently reported the application as Not installed
 
-The combined endpoint and Intune reporting evidence confirms the complete deployment path:
+The combined endpoint and Intune reporting evidence validates the complete managed application lifecycle:
 
 ```text
 Package
@@ -175,33 +224,11 @@ Install
    ↓
 Detect
    ↓
-Report
+Report Installed
+   ↓
+Reassign
+   ↓
+Uninstall
+   ↓
+Report Not Installed
 ```
-
-## Lessons Learned
-
-### Required assignments persist for offline devices
-
-A managed endpoint does not need to be online when a Required application is initially assigned.
-
-`WIN11-CLIENT-03` was powered off during the original deployment. After the endpoint was powered on and reconnected, it checked in with Intune and received the outstanding application assignment.
-
-This demonstrated the asynchronous nature of cloud endpoint management: configuration can be assigned centrally while devices are unavailable and applied when those devices subsequently reconnect.
-
-### Detection is separate from installation
-
-Running an installer successfully is only part of the Win32 application lifecycle.
-
-Intune uses the configured detection rule to determine whether the expected application state exists on the endpoint. Detection therefore needs to accurately represent the installed application.
-
-### System context supports centralized software deployment
-
-Installing the application in **System** context allowed the deployment to occur independently of the privileges of the interactive user.
-
-This better represents centrally managed enterprise software deployment than requiring users to install applications manually.
-
-### Reporting may lag behind endpoint state
-
-The application was visible on the Windows endpoint before the Intune portal reflected the final installation status.
-
-Endpoint state and cloud reporting should therefore both be considered during deployment troubleshooting rather than assuming an application failed because the administrative portal has not yet updated.
