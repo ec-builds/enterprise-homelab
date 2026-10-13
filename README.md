@@ -1,12 +1,12 @@
 # EC-Builds | Enterprise Homelab
 
-<img src="./diagrams/enterprise-homelab-banner.png" alt="Enterprise Homelab Banner" width="700">
+<img src="./diagrams/enterprise-homelab-banner.png" alt="Enterprise Homelab Banner" width="1000">
 
 Welcome to my Homelab!
 
 This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure and identity, Linux, automation, virtualization, and cloud technologies.
 
----
+
 
 ## Navigation
 
