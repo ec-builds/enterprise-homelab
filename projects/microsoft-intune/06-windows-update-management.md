@@ -220,7 +220,7 @@ Version 26H2
 OS Build 26300.9457
 ```
 
-![Windows 11 26H2 version verified after upgrade](./diagrams/intune-update-ring-version.jpeg)
+![Windows 11 26H2 version verified after upgrade](./diagrams/intune-update-ring-version.png)
 
 The endpoint successfully restarted and remained operational after the feature upgrade.
 
