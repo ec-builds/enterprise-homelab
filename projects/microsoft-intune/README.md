@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**
 
-<img src="./diagrams/Intune-banner.png" alt="Microsoft Intune Lab Banner" width="700">
+<img src="./diagrams/intune-banner.png" alt="Microsoft Intune Lab Banner" width="700">
 
 A hands-on lab for managing Windows endpoints with Microsoft Intune and Microsoft Entra ID, focused on cloud-native device identity, enrollment, compliance, configuration management, application deployment, Windows servicing, PowerShell automation, and troubleshooting.
 
