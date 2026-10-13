@@ -1,8 +1,9 @@
 # 🧊 Virtualization Lab
 
-<img src="./diagrams/virtualization-banner.png" alt="Virtualization Banner" width="900">
-
 **Status: 🟢 Operational**
+
+<img src="./diagrams/virtualization-banner.png" alt="Virtualization Banner" width="700">
+
 
 Bare-metal virtualization environment built with **Proxmox VE** and repurposed hardware.
 
