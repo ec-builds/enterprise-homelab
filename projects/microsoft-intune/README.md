@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**
 
-A hands-on Microsoft Intune lab for managing Windows endpoints with Microsoft Entra ID, focused on cloud-native device identity, enrollment, compliance, configuration management, application deployment, Windows servicing, PowerShell automation, and troubleshooting.
+A hands-on lab for managing Windows endpoints with Microsoft Intune and Microsoft Entra ID, focused on cloud-native device identity, enrollment, compliance, configuration management, application deployment, Windows servicing, PowerShell automation, and troubleshooting.
 
 ## Overview
 
