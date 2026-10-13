@@ -1,6 +1,6 @@
-# Virtualization Lab
+# 🧊 Virtualization Lab
 
-![Virtualization Banner](./diagrams/virtualization-banner.png)
+<img src="./diagrams/virtualization-banner.png" alt="Virtualization Banner" width="900">
 
 **Status: 🟢 Operational**
 
@@ -142,7 +142,7 @@ underlying storage devices remain local to their respective hosts.
 
 Detailed storage architecture is documented separately:
 
-➡️ [Proxmox Storage](./proxmox-storage.md)
+➡️ [Proxmox Storage](./storage-configuration.md)
 
 
 
@@ -163,7 +163,7 @@ as a single shared resource pool.
 
 Detailed host capacity and workload allocation are documented separately:
 
-➡️ [Proxmox Resource Allocation](./proxmox-resource-allocation.md)
+➡️ [Proxmox Resource Allocation](./resource-allocation.md)
 
 
 
@@ -222,10 +222,10 @@ recovery testing.
 ## Documentation
 
 - [Proxmox Cluster](./proxmox-cluster.md)
-- [Proxmox Storage](./proxmox-storage.md)
-- [Proxmox Resource Allocation](./proxmox-resource-allocation.md)
+- [Proxmox Storage](./storage-configuration.md)
+- [Proxmox Resource Allocation](./resource-allocation.md)
 - [Proxmox Host Baseline Build](../../docs/reference/proxmox/proxmox-debian-vm-template.md)
-- [Proxmox VM Deployment Baseline](./proxmox-vm-deployment.md)
+- [Proxmox VM Deployment Baseline](./vm-deployment.md)
 - [Troubleshooting](./troubleshooting.md)
 - [Lessons Learned](./lessons-learned.md)
 
@@ -241,23 +241,6 @@ This virtualization environment provides infrastructure for:
 - [Infrastructure Monitoring](../infrastructure-monitoring/)
 - [Security Operations Lab](../security-operations/)
 - [Infrastructure Automation](../infrastructure-automation/)
-
-
-
-## Folder Structure
-
-```text
-virtualization-lab/
-├── README.md
-├── proxmox-cluster.md
-├── proxmox-host-build.md
-├── proxmox-resource-allocation.md
-├── proxmox-storage.md
-├── proxmox-vm-deployment.md
-├── lessons-learned.md
-├── troubleshooting.md
-└── diagrams/
-```
 
 
 

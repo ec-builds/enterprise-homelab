@@ -45,7 +45,7 @@ maintain quorum with two available nodes.
 
 Detailed host capacity and workload allocation are documented in the resource allocation doc:
 
-➡️ [Proxmox Resource Allocation](proxmox-resource-allocation.md)
+➡️ [Proxmox Resource Allocation](resource-allocation.md)
 
 
 ## Cluster Nodes

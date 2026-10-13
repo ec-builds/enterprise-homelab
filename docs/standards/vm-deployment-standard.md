@@ -27,7 +27,7 @@ CPU, memory, and storage should be sized according to workload requirements whil
 
 For resource planning guidance, see:
 
-- [Proxmox Resource Allocation](../reference/proxmox/proxmox-resource-allocation.md)
+- [Proxmox Resource Allocation](../reference/proxmox/resource-allocation.md)
 
 ## Operating System Baselines
 
