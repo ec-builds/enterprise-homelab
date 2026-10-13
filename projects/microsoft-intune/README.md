@@ -1,6 +1,6 @@
 # 💻 Microsoft Intune Lab
 
-![Intune Banner](./diagrams/intune-banner)
+<img src="./diagrams/intune-banner.png" alt="Intune Banner" width="500">
 
 **Status: 🟢 Operational**
 
