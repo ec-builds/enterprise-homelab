@@ -1,4 +1,4 @@
-# 🟧 Proxmox Virtualization Lab
+# Virtualization Lab
 
 ![Virtualization Banner](./diagrams/virtualization-banner.png)
 
