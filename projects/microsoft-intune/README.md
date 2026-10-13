@@ -1,6 +1,6 @@
 # 💻 Microsoft Intune Lab
 
-<img src="./diagrams/intune-banner.png" alt="Intune Banner" width="500">
+<img src="./diagrams/intune-banner.png" alt="Intune Banner" width="400">
 
 **Status: 🟢 Operational**
 
