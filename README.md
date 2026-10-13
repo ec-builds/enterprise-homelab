@@ -157,3 +157,10 @@ The technologies used throughout the homelab are documented in the Tool Catalog,
 This repository is part of the **EC-Builds** project, where I document technical projects, infrastructure builds, and lessons learned while continuing to develop skills in enterprise IT and systems administration.
 
 Follow along as the lab continues to grow.
+
+
+## Connect
+
+[![Website](https://img.shields.io/badge/Website-emmanuelcasillas.com-0078D4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://emmanuelcasillas.com)
+[![Website](https://img.shields.io/badge/Website-ec--builds.com-0078D4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://ec-builds.com)
+
