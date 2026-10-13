@@ -2,6 +2,8 @@
 
 **Status: 🟢 Operational**
 
+<img src="./diagrams/containerization-banner.png" alt="Containerization Lab Banner" width="700">
+
 Containerized self-hosted applications running across dedicated Debian Docker hosts. Services are deployed using version-controlled Docker Compose configuration and centrally managed through Portainer Community Edition.
 
 ## Overview

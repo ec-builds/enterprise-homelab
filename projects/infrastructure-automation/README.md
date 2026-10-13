@@ -2,6 +2,8 @@
 
 **Status: ⚪ Planned**
 
+<img src="./diagrams/infrastructure-automation-banner.png" alt="Infrastructure & Automation Lab Banner" width="700">
+
 Infrastructure automation for the homelab with the long-term goal:
 
 > **"I can rebuild my entire lab from this Git repository."**

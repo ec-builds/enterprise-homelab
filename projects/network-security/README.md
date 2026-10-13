@@ -2,6 +2,8 @@
 
 **Status: 🟢 Operational**
 
+<img src="./diagrams/network-security-banner.png" alt="Network Security Lab Banner" width="700">
+
 A hands-on network security lab focused on implementing and documenting layered security controls across the enterprise homelab.
 
 The current environment uses perimeter firewalling, encrypted remote access, DNS filtering, wireless isolation, managed switching, and hardened administrative access. Additional segmentation and security controls are planned as the environment evolves.

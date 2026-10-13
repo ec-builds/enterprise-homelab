@@ -2,6 +2,8 @@
 
 **Status: 🟢 Operational**
 
+<img src="./diagrams/AD-banner.png" alt="Active Directory Banner" width="700">
+
 Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the Proxmox virtualization lab.
 
 The environment provides redundant directory, DNS, and DHCP services and serves as the on-premises identity foundation for future Microsoft Entra ID and endpoint management labs.

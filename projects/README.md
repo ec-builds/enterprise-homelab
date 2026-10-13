@@ -16,7 +16,7 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 |---|---|---|
 | [Active Directory Lab](./active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 Operational |
 | [Backup & Disaster Recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
-| [Docker & Self-Hosted Services](./docker-self-hosted-services/) | Containerized self-hosted applications | 🟢 Operational |
+| [Containerization-Lab](./containerization-lab/) | Containerized self-hosted applications, Docker | 🟢 Operational |
 | [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ Planned |
 | [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Media Services Platform](./media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |

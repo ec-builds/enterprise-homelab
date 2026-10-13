@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**
 
-<img src="./diagrams/virtualization-banner.png" alt="Virtualization Banner" width="700">
+<img src="./diagrams/virtualization-lab-banner.png" alt="Virtualization Banner" width="700">
 
 
 Bare-metal virtualization environment built with **Proxmox VE** and repurposed hardware.
@@ -237,7 +237,7 @@ recovery testing.
 This virtualization environment provides infrastructure for:
 
 - [Active Directory Lab](../active-directory-lab/)
-- [Docker / Self-Hosted Services](../docker-self-hosted-services/)
+- [Containerization Lab](../containerization-lab/)
 - [Kubernetes Lab](../kubernetes-lab/)
 - [Infrastructure Monitoring](../infrastructure-monitoring/)
 - [Security Operations Lab](../security-operations/)

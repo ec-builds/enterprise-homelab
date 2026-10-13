@@ -1,6 +1,8 @@
 # EC-Builds | Enterprise Homelab
 
-Welcome to my Homelab.
+<img src="./diagrams/enterprise-homelab-banner.png" alt="Enterprise Homelab Banner" width="700">
+
+Welcome to my Homelab!
 
 This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure and identity, Linux, automation, virtualization, and cloud technologies.
 
@@ -105,7 +107,7 @@ Functionally, the environment is organized into several infrastructure domains:
 |----------|------------|--------|
 | [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 Operational |
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
-| [Docker & Self-Hosted Services](projects/docker-self-hosted-services/) | Containerized self-hosted applications | 🟢 Operational |
+| [Containerization-Lab](projects/containerization-lab/) | Containerized self-hosted applications, Docker | 🟢 Operational |
 | [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ Planned |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
