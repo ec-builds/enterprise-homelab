@@ -1,6 +1,6 @@
 # 🗂️ Projects
 
-<img src="../diagrams/projects-banner.png" alt="Projects Banner" width="800">
+<img src="../diagrams/projects-banner.png" alt="Projects Banner" width="1000">
 
 Hands-on projects that make up the **enterprise-homelab** environment. Each project contains its own documentation, configurations, scripts, and lessons learned.
 
