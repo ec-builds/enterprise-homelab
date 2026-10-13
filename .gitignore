@@ -1,1 +1,48 @@
+# macOS
 .DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Private keys and certificates
+*.key
+*.pem
+*.pfx
+*.p12
+*.ppk
+
+# Python
+__pycache__/
+.venv/
+
+# Node.js
+node_modules/
+
+# Archives
+*.zip
+*.tar.gz
+*.7z
+
+# Virtual machine images
+*.iso
+*.qcow2
+*.vmdk
+*.vdi
+*.ova
