@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**
 
-<img src="./diagrams/network-infrastructure-banner.png" alt="Network Infrastructure Banner" width="700">
+<img src="./diagrams/network-infrastructure-banner.png" alt="Network Infrastructure Banner" width="1000">
 
 
 A hands-on network infrastructure lab focused on building and documenting reliable core network services for the enterprise homelab.

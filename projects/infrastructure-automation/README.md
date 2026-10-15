@@ -2,7 +2,7 @@
 
 **Status: ⚪ Planned**
 
-<img src="./diagrams/infrastructure-automation-banner.png" alt="Infrastructure & Automation Lab Banner" width="700">
+<img src="./diagrams/infrastructure-automation-banner.png" alt="Infrastructure & Automation Lab Banner" width="1000">
 
 Infrastructure automation for the homelab with the long-term goal:
 

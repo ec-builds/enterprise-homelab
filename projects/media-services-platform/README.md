@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational** — first completed project in the lab, subsequently modernized through virtualization and containerization.
 
-<img src="./diagrams/media-services-platform-banner.png" alt="Media Services Platform Banner" width="700">
+<img src="./diagrams/media-services-platform-banner.png" alt="Media Services Platform Banner" width="1000">
 
 Self-hosted media platform built on Debian and Jellyfin, focused on Linux administration, storage integration, service deployment, permissions, containerization, virtualization, and infrastructure lifecycle management.
 

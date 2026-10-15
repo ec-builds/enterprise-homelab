@@ -2,7 +2,7 @@
 
 **Status: ⚪ Planned**
 
-<img src="./diagrams/backup-dr-banner.png" alt="Backup & Disaster Recovery Lab Banner" width="700">
+<img src="./diagrams/backup-dr-banner.png" alt="Backup & Disaster Recovery Lab Banner" width="1000">
 
 Designing, implementing, and **testing** data protection for the entire lab — *a backup that hasn't been restored is not a backup*.
 

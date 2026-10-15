@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**
 
-<img src="./diagrams/AD-banner.png" alt="Active Directory Banner" width="700">
+<img src="./diagrams/AD-banner.png" alt="Active Directory Banner" width="1000">
 
 Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the Proxmox virtualization lab.
 

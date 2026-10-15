@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**
 
-<img src="./diagrams/infrastructure-monitoring-banner.png" alt="Infrastructure Monitoring Banner" width="700">
+<img src="./diagrams/infrastructure-monitoring-banner.png" alt="Infrastructure Monitoring Banner" width="1000">
 
 Centralized monitoring and observability for the Enterprise Homelab, providing visibility into infrastructure availability, performance, events, and logs.
 

@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**
 
-<img src="./diagrams/network-security-banner.png" alt="Network Security Lab Banner" width="700">
+<img src="./diagrams/network-security-banner.png" alt="Network Security Lab Banner" width="1000">
 
 A hands-on network security lab focused on implementing and documenting layered security controls across the enterprise homelab.
 
