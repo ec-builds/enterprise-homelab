@@ -1,10 +1,15 @@
 # Web Platform & Secure Delivery
 
+**Status: 🟢 Operational**
+
+<img src="./diagrams/web-platform-banner.png" alt="Web Platform Lab Banner" width="1000">
+
 Git-driven delivery of my portfolio site to Cloudflare's edge.
+
+Hosted on Cloudflare Workers (Static Assets). The site repository is private; this folder documents the platform with sanitized configuration.
 
 **[emmanuelcasillas.com](https://emmanuelcasillas.com)**
 
-Hosted on Cloudflare Workers (Static Assets). The site repository is private; this folder documents the platform with sanitized configuration.
 
 ## How this was built
 
