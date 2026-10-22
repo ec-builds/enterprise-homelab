@@ -10,9 +10,6 @@ Git-driven CI/CD deployment of a personal portfolio website to **Cloudflare Work
 
 The application source repository is private. This project documents the infrastructure, deployment workflow, and security configuration using sanitized examples.
 
-### Website Home Page
-
-<img src="./diagrams/site-homepage.png" alt="Portfolio Website Homepage" width="900">
 
 ## How this was built
 
@@ -25,6 +22,11 @@ The website was developed with AI assistance, while I focused on platform archit
 | Headless-browser test runs (axe, CSP) | GitHub and Cloudflare administration, DNS, TLS, zone security settings, deployment, production validation |
 
 ## CI/CD pipeline
+
+### Website Home Page
+
+<img src="./diagrams/site-homepage.png" alt="Portfolio Website Homepage" width="800">
+
 
 Deployment is continuous and triggered by Git, not run by hand. Cloudflare Workers Builds is connected to the repository, so a push to `main` builds and deploys automatically. The CI stage is currently the build itself; automated tests in the pipeline are the next step (see Known limits).
 
