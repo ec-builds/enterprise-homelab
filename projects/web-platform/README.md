@@ -2,7 +2,7 @@
 
 **Status: 🟢 Operational**  
 
-<img src="./diagrams/web-platform-banner-v3.png" alt="Web Platform Banner" width="1000">
+<img src="./diagrams/web-platform-banner.png" alt="Web Platform Banner" width="1000">
 
 **Live Site: [emmanuelcasillas.com](https://emmanuelcasillas.com)**
 
