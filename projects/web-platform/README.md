@@ -40,9 +40,10 @@ Local working copy
 - **Zone settings live in Cloudflare, not the repo.** That covers DNS, TLS, Bot Fight Mode, Page Shield, Web Analytics and the injected-script features below.
 - **Production is checked after every meaningful deploy:** headers, TLS and the CSP console.
 
-### Website Home Page
 
 <img src="./diagrams/site-homepage.png" alt="Portfolio Website Homepage" width="800">
+
+*Production homepage served from Cloudflare Workers.*
 
 
 ## Security controls
