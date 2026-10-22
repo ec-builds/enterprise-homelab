@@ -6,7 +6,7 @@
 
 **Live Site: [emmanuelcasillas.com](https://emmanuelcasillas.com)**
 
-Git-driven deployment of a personal portfolio website to **Cloudflare Workers (Static Assets)**, with a focus on cloud infrastructure, secure delivery, and production validation.
+Git-driven CI/CD deployment of a personal portfolio website to **Cloudflare Workers (Static Assets)**, with a focus on cloud infrastructure, secure delivery, and production validation.
 
 The application source repository is private. This project documents the infrastructure, deployment workflow, and security configuration using sanitized examples.
 
@@ -16,7 +16,7 @@ The application source repository is private. This project documents the infrast
 
 ## How this was built
 
-The website was developed with AI assistance, while I focused on infrastructure architecture, cloud deployment, configuration, security hardening, troubleshooting, and production validation.
+The website was developed with AI assistance, while I focused on platform architecture, cloud deployment, configuration, security hardening, troubleshooting, and production validation.
 
 | AI-assisted | Owned by me |
 | --- | --- |
@@ -24,9 +24,9 @@ The website was developed with AI assistance, while I focused on infrastructure 
 | First drafts of documentation | Review of every change; mobile and desktop testing |
 | Headless-browser test runs (axe, CSP) | GitHub and Cloudflare administration, DNS, TLS, zone security settings, deployment, production validation |
 
-## Delivery pipeline
+## CI/CD pipeline
 
-Deployment is triggered by Git, not run by hand. Cloudflare Workers Builds is connected to the repository, so a push to `main` builds and deploys automatically.
+Deployment is continuous and triggered by Git, not run by hand. Cloudflare Workers Builds is connected to the repository, so a push to `main` builds and deploys automatically. The CI stage is currently the build itself; automated tests in the pipeline are the next step (see Known limits).
 
 ```text
 Local working copy
@@ -92,7 +92,7 @@ Local working copy
 
 **Stale DNS blocked the custom domain.** Workers rejected the custom domain because leftover A/CNAME records and forwarding rules from an earlier redirect still occupied the apex. Removing them fixed the conflict. A cached `301` briefly hid the result, so the cutover was confirmed in a private browser session.
 
-**The build machine isn't my machine.** Dependencies installed on macOS didn't include the Linux bundler binary that the Cloudflare build environment needs. Reinstalling fixed the build but also changed platform-specific lockfile entries, which I reverted. Dependencies have to be validated in the environment that actually builds production.
+**The build machine isn't my machine.** Dependencies installed on macOS didn't include the Linux bundler binding needed when building in a Linux environment. Reinstalling there fixed the build but also stripped the macOS entries from `package-lock.json`, which I reverted before committing so the lockfile stayed valid for both macOS and Cloudflare's Linux builds. Lockfile changes are now checked before every push.
 
 ## Validation
 
