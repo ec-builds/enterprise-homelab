@@ -1,15 +1,18 @@
 # Web Platform & Secure Delivery
 
-**Status: 🟢 Operational**
+**Status:** 🟢 Operational  
 
-<img src="./diagrams/web-platform-banner.png" alt="Web Platform Lab Banner" width="1000">
+<img src="./diagrams/web-platform-banner.png" alt="Web Platform Banner" width="1000">
 
-Git-driven delivery of my portfolio site to Cloudflare's edge.
+**Live Site:** [emmanuelcasillas.com](https://emmanuelcasillas.com)
 
-Hosted on Cloudflare Workers (Static Assets). The site repository is private; this folder documents the platform with sanitized configuration.
+Git-driven deployment of a personal portfolio website to **Cloudflare Workers (Static Assets)**, with a focus on cloud infrastructure, secure delivery, and production validation.
 
-**[emmanuelcasillas.com](https://emmanuelcasillas.com)**
+The application source repository is private. This project documents the infrastructure, deployment workflow, and security configuration using sanitized examples.
 
+### Live Website
+
+<img src="./diagrams/site-homepage.png" alt="Portfolio Website Homepage" width="900">
 
 ## How this was built
 
