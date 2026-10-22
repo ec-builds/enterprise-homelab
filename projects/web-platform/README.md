@@ -23,11 +23,6 @@ The website was developed with AI assistance, while I focused on platform archit
 
 ## CI/CD pipeline
 
-### Website Home Page
-
-<img src="./diagrams/site-homepage.png" alt="Portfolio Website Homepage" width="800">
-
-
 Deployment is continuous and triggered by Git, not run by hand. Cloudflare Workers Builds is connected to the repository, so a push to `main` builds and deploys automatically. The CI stage is currently the build itself; automated tests in the pipeline are the next step (see Known limits).
 
 ```text
@@ -44,6 +39,11 @@ Local working copy
 - **Assets only.** The Worker has no script; it serves the static build. Security headers come from `_headers`; requests for paths that don't exist get the custom 404 page.
 - **Zone settings live in Cloudflare, not the repo.** That covers DNS, TLS, Bot Fight Mode, Page Shield, Web Analytics and the injected-script features below.
 - **Production is checked after every meaningful deploy:** headers, TLS and the CSP console.
+
+### Website Home Page
+
+<img src="./diagrams/site-homepage.png" alt="Portfolio Website Homepage" width="800">
+
 
 ## Security controls
 
