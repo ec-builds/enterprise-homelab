@@ -149,11 +149,13 @@ This lab is built on repurposed and affordable hardware to practice enterprise I
 I use AI to help draft and review documentation, speed up research, and pressure-test design decisions. The builds, configurations, and troubleshooting are my own.
 
 
+
 ## Technology Stack
 
-The technologies used throughout the homelab are documented in the Tool Catalog, organized by infrastructure layer. It serves as a quick reference for the technologies used throughout the environment.
+Technologies used in the lab, organized by infrastructure layer. 
 
 ➡️ **[See Tool Catalog](docs/tool-catalog.md)**
+
 
 ## Core Documents
 
