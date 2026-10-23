@@ -47,15 +47,10 @@ Proxmox Virtualization
    └── Network Infrastructure
          ├── Network Security
          ├── Active Directory
-         │     └── Microsoft 365 & Entra ID
-         │           └── Microsoft Intune
-         └── Docker & Self-Hosted Services
-               ├── Infrastructure Monitoring
-               │     └── Security Operations
-               └── Media Services Platform
+         │     └── Entra ID → Intune
+         └── Docker Services
+               ├── Monitoring → Security Operations
+               └── Media Services
+```
 
-Web Platform & Secure Delivery runs independently on Cloudflare.
-
-Infrastructure Automation and Backup & Disaster Recovery
-support and mature the environment across each infrastructure domain.
-``` keys, public IPs, or license information.
+Backup & DR and Infrastructure Automation apply across all of the above. Web Platform runs separately on Cloudflare.
