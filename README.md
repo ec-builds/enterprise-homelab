@@ -77,8 +77,7 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 
 - **Containers & monitoring** — a Docker host for self-hosted apps and a dedicated monitoring host
 - **Storage** — Synology NAS for centralized file storage and Active Backup for Business
-- **Media services** — A dedicated Debian VM and how this lab started
-
+- **Media services** — Jellyfin on a dedicated Debian VM, where this lab started
 
 <details>
 <summary><b>View by infrastructure domain</b></summary>
