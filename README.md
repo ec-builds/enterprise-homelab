@@ -63,7 +63,7 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 
 A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, hosting Active Directory, network services, Docker workloads, and a full monitoring stack. Next up: an OPNsense firewall, VLAN segmentation, a reverse proxy, IDS/IPS, and proper backups. There's still a lot to do.
 
-### Core network services:
+### Core network services
 
 - **Routing & firewall** — ASUS RT-AX5400 (stateful firewall, NAT)
 - **Switching** — Cisco Catalyst 3560CG managed switch
@@ -73,16 +73,19 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 - **Wireless isolation** — guest and IoT devices separated from the trusted network
 
 
-### Hosted services:
+### Hosted services
 
 - **Containers & monitoring** — a Docker host for self-hosted apps and a dedicated monitoring host
 - **Storage** — Synology NAS for centralized file storage and Active Backup for Business
 - **Media services** — Jellyfin on a dedicated Debian VM, where this lab started
 
-<details>
-<summary><b>View by infrastructure domain</b></summary>
 
 The same environment, viewed by function:
+
+<details>
+  
+<summary><b>View by infrastructure domain</b></summary>
+
 
 | Domain | Scope | Status |
 |--------|-------|--------|
