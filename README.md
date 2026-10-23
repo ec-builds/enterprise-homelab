@@ -19,14 +19,13 @@ Have a look around. I'm regularly updating projects as I build out this repo. If
 | [Current Infrastructure](#current-infrastructure) | Current and planned infrastructure components |
 | [Architecture Overview](#architecture-overview) | Logical topology and infrastructure domains |
 | [Project Portfolio](#project-portfolio) | Hands-on infrastructure projects and their status |
-| [Documentation Scope](#documentation-scope) | Types of technical documentation maintained in the repository |
-| [Learning Philosophy](#learning-philosophy) | Approach to hands-on learning and documentation |
+| [Approach](#approach) | Build approach and documentation workflow |
 | [Technology Stack](#technology-stack) | Technologies and platforms used throughout the lab |
 | [Core Documents](#core-documents) | Architecture, standards, references, and supporting documentation |
 
 ## Roadmap
 
-The roadmap outlines the planned evolution of the homelab, highlighting current priorities and future infrastructure projects.
+Roadmaps are great! I refer back to this when I find myself lost and wondering what the next step is. This roadmap outlines the planned evolution of the homelab, highlighting current priorities and future infrastructure projects.
 
 ![Homelab Roadmap](./diagrams/roadmap.png)
 
@@ -34,7 +33,7 @@ The roadmap outlines the planned evolution of the homelab, highlighting current 
 
 ## Equipment
 
-The homelab is built on repurposed hardware, managed networking equipment, and dedicated storage platforms. Take a look at the equipment inventory below for more information. 
+The homelab is built on repurposed hardware, managed networking equipment, and dedicated storage platforms. Take a look at the equipment inventory below for more info. My focus is on compact hardware where possible. Space is hard to come by in LA. 
 
 <p align="left">
   <img src="./diagrams/optiplex-fleet-02.jpeg"
@@ -62,27 +61,50 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 
 ![Homelab Architecture](diagrams/homelab-architecture-simple.png)
 
-The homelab is built around a three-node Proxmox VE cluster connected through managed network infrastructure, with dedicated storage and services distributed by operational role.
+The homelab is built around a three-node Proxmox VE cluster connected through a managed switch, with dedicated storage and services distributed by the role they play in the broader picture.
 
-Core network services include redundant Windows Server DHCP and Active Directory-integrated DNS. External DNS queries are forwarded through redundant AdGuard Home instances for network-wide filtering and DNS-over-HTTPS upstream resolution. WireGuard provides secure remote access, while guest and IoT wireless devices are isolated from the trusted network.
+### Core network services:
 
-Containerized applications, monitoring services, and media workloads run across dedicated Debian virtual machines. A Synology NAS provides centralized storage and backup services.
+- **Routing & firewall** — ASUS RT-AX5400 (stateful firewall, NAT)
+- **Switching** — Cisco Catalyst 3560CG managed switch
+- **DHCP** — redundant Windows Server failover pair
+- **DNS** — Active Directory-integrated, forwarding to redundant AdGuard Home instances for filtering and DNS-over-HTTPS
+- **Remote access** — WireGuard VPN
+- **Wireless isolation** — guest and IoT devices separated from the trusted network
 
-The current architecture provides a functional foundation for continued development, including planned OPNsense deployment, VLAN segmentation, additional security controls, and cloud and identity integration.
+> [!NOTE]
+> The wired network is currently flat (single VLAN). VLAN segmentation — management, server, trusted, IoT, and guest zones — is planned alongside the move to an OPNsense firewall.
 
-Functionally, the environment is organized into several infrastructure domains:
 
-| Domain | Scope |
-|--------|-------|
-| Network Infrastructure | Routing, managed switching, DHCP, DNS, DNS filtering, and remote access |
-| Virtualization | Three-node Proxmox VE cluster, VM lifecycle, storage, and virtual networking |
-| Identity & Access Management | Active Directory, Group Policy, and planned Entra ID integration |
-| Network Security | Perimeter firewalling, WireGuard, DNS security, wireless isolation, and planned segmentation |
-| Security Operations | Detection engineering, centralized security monitoring, and incident response |
-| Infrastructure Monitoring | Availability monitoring, metrics, logging, visualization, and alerting |
-| Containerized Services | Docker Compose, application hosting, and service management |
-| Media Services | Containerized media services, Linux administration, and network storage integration |
-| Automation & DevOps | Infrastructure as code and configuration management |
+### Hosted services:
+
+- **Containers & monitoring** — Multiple Docker host VM's running self-hosted apps and the monitoring stack
+- **Storage** — Synology NAS for centralized file storage and Active Backup for Business
+
+
+> [!NOTE]
+> A full backup and disaster-recovery strategy (Proxmox Backup Server, offsite replication, restore testing) is planned.
+
+
+<details>
+<summary><b>View by infrastructure domain</b></summary>
+
+The same environment, viewed by function:
+
+| Domain | Scope | Status |
+|--------|-------|--------|
+| Network Infrastructure | Routing, switching, DHCP, DNS, DNS filtering | 🟢 |
+| Network Security | Firewall, WireGuard, DNS security, wireless isolation | 🟢 |
+| Virtualization | Proxmox cluster, VM lifecycle, storage, virtual networking | 🟢 |
+| Identity & Access | Active Directory, Group Policy | 🟢 |
+| Infrastructure Monitoring | Availability, metrics, logs, dashboards, alerting | 🟢 |
+| Containerized Services | Docker Compose, app hosting | 🟢 |
+| Media Services | Media apps, Linux admin, NAS integration | 🟢 |
+| Security Operations | Detection, security monitoring, incident response | ⚪ |
+| Automation & DevOps | Infrastructure as code, configuration management | ⚪ |
+
+</details>
+
 
 ## Project Portfolio
 
@@ -119,23 +141,11 @@ The homelab is organized into independent project areas. Each project contains i
 ➡️ **[Browse All Projects](./projects/README.md)**
 
 
-## Documentation Scope
+## Approach
 
-This repository is used to document:
+This lab is built on repurposed and affordable hardware to practice enterprise IT the way it's run at work: plan it, build it, document it, and keep it maintained.
 
-- Project Objectives
-- Architecture Diagrams
-- Build Notes
-- Configuration Examples
-- Lessons Learned
-- Troubleshooting Procedures
-- Future Enhancements
-
-## Learning Philosophy
-
-The primary goal of this homelab is to demonstrate that enterprise IT skills can be developed using affordable hardware, thoughtful design, and consistent documentation.
-
-Rather than focusing solely on deploying software, this repository emphasizes understanding how systems are planned, implemented, documented, and maintained. I use AI as part of my workflow to draft and review documentation, accelerate research, and pressure-test architectural decisions.
+I use AI to help draft and review documentation, speed up research, and pressure-test design decisions. The builds, configurations, and troubleshooting are my own.
 
 
 ## Technology Stack
