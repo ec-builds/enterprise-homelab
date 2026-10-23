@@ -80,6 +80,7 @@ The homelab is built around a three-node Proxmox VE cluster connected through a 
 
 - **Containers & monitoring** — Multiple Docker host VM's running self-hosted apps and the monitoring stack
 - **Storage** — Synology NAS for centralized file storage and Active Backup for Business
+- **Media services** — A dedicated Debian VM and how this lab started
 
 
 > [!NOTE]
