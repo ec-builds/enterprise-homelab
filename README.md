@@ -81,28 +81,6 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 
 
 
-<details>
-  
-<summary><b>View by infrastructure domain</b></summary>
-
-The same environment, viewed by function:
-
-
-| Domain | Scope | Status |
-|--------|-------|--------|
-| Network Infrastructure | Routing, switching, DHCP, DNS, DNS filtering | 🟢 |
-| Network Security | Firewall, WireGuard, DNS security, wireless isolation | 🟢 |
-| Virtualization | Proxmox cluster, VM lifecycle, storage, virtual networking | 🟢 |
-| Identity & Access | Active Directory, Group Policy | 🟢 |
-| Infrastructure Monitoring | Availability, metrics, logs, dashboards, alerting | 🟢 |
-| Containerized Services | Docker Compose, app hosting | 🟢 |
-| Media Services | Media apps, Linux admin, NAS integration | 🟢 |
-| Security Operations | Detection, security monitoring, incident response | ⚪ |
-| Automation & DevOps | Infrastructure as code, configuration management | ⚪ |
-
-</details>
-
-
 ## Project Portfolio
 
 ### Project Status Legend
