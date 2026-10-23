@@ -4,7 +4,9 @@
 
 Welcome to my Homelab!
 
-This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure and identity, Linux, automation, virtualization, and cloud technologies. Have a look around. I'm constantly updating projects as I build out this repo. If you find this information useful please consider following along. 
+This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure and identity, Linux, automation, virtualization, and cloud technologies. 
+
+Have a look around. I'm regularly updating projects as I build out this repo. If you find this information useful, consider following along. 
 
 
 
