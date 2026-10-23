@@ -106,8 +106,6 @@ Local working copy
 
 ## Known limits and next steps
 
-- **One accepted CSP residual.** For some sessions, Cloudflare injects a dynamic inline challenge script. It can't be hash-allowed, so the CSP blocks it, producing one console error with no effect on the site. Adding `'unsafe-inline'` or a nonce to silence it was rejected.
-- **`style-src` permits inline styles;** scripts are strict.
 - **No automated test gate.** The axe and CSP checks run on demand. Next: run them in the build so a regression fails the deploy.
 - **No preview environment.** Next: per-branch preview deployments before merging to `main`.
 - **Rollback not rehearsed.** Workers keeps deployment versions, but I haven't practiced a rollback. Next: a deliberate rollback drill, documented.
