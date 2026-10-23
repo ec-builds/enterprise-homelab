@@ -95,7 +95,7 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 | Project | Focus Area | Status |
 |----------|------------|--------|
 | [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 Operational |
-| [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | ⚪ Planned |
+| [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 🟡 In Progress |
 | [Containerization-Lab](projects/containerization-lab/) | Containerized self-hosted applications, Docker | 🟢 Operational |
 | [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ Planned |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
