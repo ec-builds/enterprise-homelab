@@ -80,11 +80,12 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 - **Media services** — Jellyfin on a dedicated Debian VM, where this lab started
 
 
-The same environment, viewed by function:
 
 <details>
   
 <summary><b>View by infrastructure domain</b></summary>
+
+The same environment, viewed by function:
 
 
 | Domain | Scope | Status |
