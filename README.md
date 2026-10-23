@@ -91,9 +91,6 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 | 🟡 **In Progress** | Currently being built, configured, or tested |
 | ⚪ **Planned** | Defined and included in the project roadmap |
 
-> [!NOTE]
-> Projects are documented independently and may progress at different rates depending on current learning objectives and infrastructure priorities.
-
 
 | Project | Focus Area | Status |
 |----------|------------|--------|
@@ -111,7 +108,8 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 | [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 | [Web Platform & Secure Delivery](projects/web-platform/) | Astro, Cloudflare Workers, CI/CD, web security, DNS | 🟢 Operational |
 
-The homelab is organized into independent project areas. Each project contains its own documentation, architecture, objectives, and lessons learned.
+
+Take a look at all the projects here:
 
 ➡️ **[Browse All Projects](./projects/README.md)**
 
