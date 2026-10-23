@@ -61,7 +61,7 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 
 ![Homelab Architecture](diagrams/homelab-architecture-simple.png)
 
-The homelab is built around a three-node Proxmox VE cluster connected through a managed switch, with dedicated storage and services distributed by the role they play in the broader picture.
+A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, hosting Active Directory, network services, Docker workloads, and a full monitoring stack. Next up: an OPNsense firewall, VLAN segmentation, a reverse proxy, IDS/IPS, and proper backups. There's still a lot to do.
 
 ### Core network services:
 
@@ -72,19 +72,12 @@ The homelab is built around a three-node Proxmox VE cluster connected through a 
 - **Remote access** — WireGuard VPN
 - **Wireless isolation** — guest and IoT devices separated from the trusted network
 
-> [!NOTE]
-> The wired network is currently flat (single VLAN). VLAN segmentation — management, server, trusted, IoT, and guest zones — is planned alongside the move to an OPNsense firewall.
-
 
 ### Hosted services:
 
 - **Containers & monitoring** — Multiple Docker host VM's running self-hosted apps and the monitoring stack
 - **Storage** — Synology NAS for centralized file storage and Active Backup for Business
 - **Media services** — A dedicated Debian VM and how this lab started
-
-
-> [!NOTE]
-> A full backup and disaster-recovery strategy (Proxmox Backup Server, offsite replication, restore testing) is planned.
 
 
 <details>
