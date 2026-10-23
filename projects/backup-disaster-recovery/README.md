@@ -1,6 +1,6 @@
 # 💾 Backup & Disaster Recovery
 
-**Status: ⚪ Planned**
+**Status: 🟡 In Progress**
 
 <img src="./diagrams/backup-dr-banner.png" alt="Backup & Disaster Recovery Lab Banner" width="1000">
 
