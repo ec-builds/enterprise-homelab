@@ -2,7 +2,7 @@
 
 <img src="../diagrams/projects-banner.png" alt="Projects Banner" width="1000">
 
-Hands-on projects that make up the **enterprise-homelab** environment. Each project contains its own documentation, configurations, scripts, and lessons learned.
+Welcome to the Projects section. This README gives an overview of the projects, how they connect and grew together, and links to each one.
 
 ## Project Status Legend
 
@@ -30,8 +30,13 @@ Hands-on projects that make up the **enterprise-homelab** environment. Each proj
 | [Security Operations](./security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 | [Web Platform & Secure Delivery](projects/web-platform/) | Astro, Cloudflare Workers, CI/CD, web security, DNS | 🟢 Operational |
 
-> [!NOTE]
-> When making changes to any project, also update the main README located at [homepage README](../README.md).
+
+<!--
+MAINTENANCE: When a project changes, also update the main README (../README.md):
+- Project Portfolio status table
+- Architecture diagram / service lists, if infrastructure changed
+- Current Infrastructure table
+-->
 
 ## Build Order
 
