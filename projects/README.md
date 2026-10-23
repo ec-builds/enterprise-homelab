@@ -38,9 +38,9 @@ MAINTENANCE: When a project changes, also update the main README (../README.md):
 - Current Infrastructure table
 -->
 
-## Build Order
+## How the Projects Connect
 
-The projects build on each other intentionally:
+Each project depends on the ones above it:
 
 ```text
 Proxmox Virtualization
@@ -54,12 +54,8 @@ Proxmox Virtualization
                │     └── Security Operations
                └── Media Services Platform
 
-Infrastructure Automation and Backup & Disaster Recovery
-support and mature the environment across each infrastructure domain.
+Web Platform & Secure Delivery runs independently on Cloudflare.
 
 Infrastructure Automation and Backup & Disaster Recovery
 support and mature the environment across each infrastructure domain.
-```
-
-
-> ⚠️ All configs and screenshots are sanitized before commit — no credentials, keys, public IPs, or license information.
+``` keys, public IPs, or license information.
