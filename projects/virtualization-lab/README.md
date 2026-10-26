@@ -68,7 +68,7 @@ virtual machines**, rather than directly through Proxmox LXC containers.
 Detailed cluster architecture, networking, storage behavior, and quorum are
 documented in the cluster documentation:
 
-➡️ [Proxmox Cluster](./proxmox-cluster.md)
+➡️ [Proxmox Cluster](./06-proxmox-cluster.md)
 
 
 
@@ -143,7 +143,7 @@ underlying storage devices remain local to their respective hosts.
 
 Detailed storage architecture is documented separately:
 
-➡️ [Proxmox Storage](./storage-configuration.md)
+➡️ [Proxmox Storage](./02-storage-configuration.md)
 
 
 
@@ -164,7 +164,7 @@ as a single shared resource pool.
 
 Detailed host capacity and workload allocation are documented separately:
 
-➡️ [Proxmox Resource Allocation](./resource-allocation.md)
+➡️ [Proxmox Resource Allocation](./04-resource-allocation.md)
 
 
 

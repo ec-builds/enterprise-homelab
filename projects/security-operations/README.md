@@ -23,7 +23,7 @@ The *detect and respond* side of homelab security: network intrusion detection, 
 
 | Plan | Scope | Blocked by |
 |---|---|---|
-| [IDS/IPS Deployment](./ids-ips-deployment-plan.md) | Suricata on OPNsense: detection first, inline prevention after tuning | [OPNsense](../network-security/opnsense-deployment-plan.md), [VLANs](../network-security/vlan-implementation-plan.md) |
+| [IDS/IPS Deployment](./TODO-ids-ips-deployment-plan.md) | Suricata on OPNsense: detection first, inline prevention after tuning | [OPNsense](../network-security/TODO-opnsense-deployment-plan.md), [VLANs](../network-security/TODO-vlan-implementation-plan.md) |
 
 ## Technologies
 

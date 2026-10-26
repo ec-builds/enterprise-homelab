@@ -132,7 +132,7 @@ The network infrastructure is designed around:
 | [DNS Filtering with AdGuard Home](./04-dns-filtering-adguard-home.md) | DNS filtering, DoH, redundancy, and failure testing |
 | [Wireless Design](./05-wireless-design.md) | Trusted and guest/IoT wireless architecture |
 | [Port Map](./06-port-map.md) | Physical connections and current VLAN configuration |
-| [OPNsense Firewall](./opnsense-firewall-mac-mini.md) | Planned dedicated firewall deployment |
+| [OPNsense Firewall](./planned/opnsense-firewall-mac-mini.md) | Planned dedicated firewall deployment |
 | [Lessons Learned](./lessons-learned.md) | Implementation findings and troubleshooting lessons |
 
 ## Planned Improvements

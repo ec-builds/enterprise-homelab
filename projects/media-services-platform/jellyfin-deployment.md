@@ -331,7 +331,7 @@ For the current service definition, see [Jellyfin Docker Compose YAML](../../con
 
 - [Architecture](./architecture.md)
 - [SMB Storage Configuration](./smb-storage.md)
-- [Client Testing](./client-testing.md)
+- [Client Testing](./jellyfin-client-testing.md)
 - [Troubleshooting](./troubleshooting.md)
 
 ## Outcome
