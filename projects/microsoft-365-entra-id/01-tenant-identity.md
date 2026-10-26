@@ -66,7 +66,7 @@ I then signed in as a member of `Intune-App-Admins` to confirm the boundary:
 
 For the rest of the initial lab, I use the broader Intune Administrator role. Finer-grained delegation can be expanded later.
 
-> For a deeper breakdown of role assignments, admin groups, scope groups, and scope tags, see [Intune RBAC Role Assignments](../../docs/reference/intune/intune-rbac-role-assignments.md).
+> For a deeper breakdown of role assignments, admin groups, scope groups, and scope tags, see [Intune RBAC Role Assignments](../../docs/reference/microsoft/intune/intune-rbac-role-assignments.md).
 
 ## Multifactor Authentication & Security Defaults
 

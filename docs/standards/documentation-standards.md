@@ -188,5 +188,3 @@ Periodically review repository links, status, and sanitization.
 ## Related Documentation
 
 - [Naming Conventions](./naming-conventions.md)
-- [Repository README](../../README.md)
-- [Documentation Folder](../README.md)

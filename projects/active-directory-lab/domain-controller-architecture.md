@@ -23,7 +23,7 @@ Proxmox VE Cluster
 
 The environment uses two domain controllers distributed across separate Proxmox hosts. This provides directory, DNS, and DHCP redundancy while reducing dependency on a single virtual machine or virtualization host.
 
-For additional information about the virtualization platform, architecture, and resource strategy, see the [Proxmox Virtualization Lab](../proxmox-virtualization-lab/).
+For additional information about the virtualization platform, architecture, and resource strategy, see the [Proxmox Virtualization Lab](../virtualization-lab/).
 
 ## Operating System
 

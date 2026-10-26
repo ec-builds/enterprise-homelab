@@ -59,7 +59,6 @@ Operational Automation
 - [ ] Automate Active Directory administration with PowerShell
 - [ ] Implement secure secrets management
 - [ ] Document the full rebuild procedure
-- [ ] Validate IaC through CI/CD ([ci-cd-pipelines](../ci-cd-pipelines/))
 
 ## Folder Structure
 

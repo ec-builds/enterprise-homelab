@@ -1,4 +1,4 @@
-name: Check links
+name: Check internal links
 
 on: [push, pull_request]
 

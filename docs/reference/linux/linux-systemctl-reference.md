@@ -374,4 +374,3 @@ Useful for servers, virtual machines, and remote administration.
 ## Related Documentation
 
 - [Debian Baseline](../debian/debian-baseline.md)
-- [SSH Hardening](../debian/ssh-hardening.md)

@@ -79,7 +79,7 @@ The following PKI work is planned separately from the operational AD DS, DNS, an
 | [AD CS Deployment](./TODO-ad-cs-deployment-plan.md) | Plan and deploy an internal certificate authority, including CA architecture and certificate services | Active Directory, dedicated CA host, certificate publication and trust design |
 | [PKI Implementation](./TODO-pki-implementation-plan.md) | Define certificate issuance, trust distribution, renewal, revocation, and service integration | AD CS deployment and service-specific certificate requirements |
 
-AD CS will manage certificate issuance; it will not act as a reverse proxy. Nginx Proxy Manager deployment and configuration remain under [Docker and Self-Hosted Services](../docker-self-hosted-services/), with PKI providing certificates where appropriate.
+AD CS will manage certificate issuance; it will not act as a reverse proxy. Nginx Proxy Manager deployment and configuration remain under [Docker and Self-Hosted Services](../containerization-lab/), with PKI providing certificates where appropriate.
 
 ## Technologies
 

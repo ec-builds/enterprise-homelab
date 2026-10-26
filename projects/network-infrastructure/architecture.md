@@ -97,7 +97,7 @@ Client endpoints receive network configuration through redundant Windows Server 
 
 Specific address ranges and device assignments are intentionally excluded from public documentation.
 
-See [`ip-addressing-plan.md`](./ip-addressing-plan.md) for additional addressing design information.
+See [`ip-addressing-plan.md`](./01-ip-addressing-plan.md) for additional addressing design information.
 
 
 
@@ -171,7 +171,7 @@ Controlled failure testing confirmed that external DNS resolution continues when
 
 DNS-over-HTTPS currently protects the upstream connection between AdGuard and public DNS resolvers. DNS traffic inside the trusted network remains standard DNS.
 
-See [`dns-filtering-adguard-home.md`](./dns-filtering-adguard-home.md) for the detailed DNS filtering architecture.
+See [`dns-filtering-adguard-home.md`](./04-dns-filtering-adguard-home.md) for the detailed DNS filtering architecture.
 
 
 

@@ -126,12 +126,12 @@ The network infrastructure is designed around:
 | Document | Focus |
 |---|---|
 | [Architecture](./architecture.md) | Overall logical architecture, service relationships, redundancy, and future design |
-| [IP Addressing Plan](./ip-addressing-plan.md) | Address allocation and infrastructure addressing strategy |
-| [Cisco Switch Deployment](./cisco-switch-deployment.md) | Managed switch deployment and configuration |
-| [DHCP Infrastructure](./dhcp-infrastructure.md) | Windows Server DHCP, failover, DNS integration, and validation |
-| [DNS Filtering with AdGuard Home](./dns-filtering-adguard-home.md) | DNS filtering, DoH, redundancy, and failure testing |
-| [Wireless Design](./wireless-design.md) | Trusted and guest/IoT wireless architecture |
-| [Port Map](./port-map.md) | Physical connections and current VLAN configuration |
+| [IP Addressing Plan](./01-ip-addressing-plan.md) | Address allocation and infrastructure addressing strategy |
+| [Cisco Switch Deployment](./02-cisco-switch-deployment.md) | Managed switch deployment and configuration |
+| [DHCP Infrastructure](./03-dhcp-infrastructure.md) | Windows Server DHCP, failover, DNS integration, and validation |
+| [DNS Filtering with AdGuard Home](./04-dns-filtering-adguard-home.md) | DNS filtering, DoH, redundancy, and failure testing |
+| [Wireless Design](./05-wireless-design.md) | Trusted and guest/IoT wireless architecture |
+| [Port Map](./06-port-map.md) | Physical connections and current VLAN configuration |
 | [OPNsense Firewall](./opnsense-firewall-mac-mini.md) | Planned dedicated firewall deployment |
 | [Lessons Learned](./lessons-learned.md) | Implementation findings and troubleshooting lessons |
 

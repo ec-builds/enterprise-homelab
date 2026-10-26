@@ -213,7 +213,7 @@ Other platforms          Block
 
 The current manual workflow successfully provides Intune management but initially identifies enrolled devices as Personal. For the current lab, known organization-owned endpoints can be manually changed to Corporate after enrollment.
 
-For additional information about corporate and personally owned device classification, see the [Microsoft Intune Reference Guide](/docs/reference/microsoft/intune).
+For additional information about corporate and personally owned device classification, see the [Microsoft Intune Reference Guide](/docs/reference/microsoft/intune/intune-device-ownership-reference.md).
 
 A future phase of the lab will evaluate **Microsoft Entra Connect Sync** between the existing on-premises Active Directory environment and Microsoft Entra ID.
 

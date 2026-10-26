@@ -124,15 +124,6 @@ A clean Jellyfin deployment was selected rather than migrating the database and 
 
 The migration treated the application as replaceable while preserving the more important and significantly larger media storage layer.
 
-## Related Documentation
-
-| Document | Purpose |
-|---|---|
-| [Jellyfin Deployment](./jellyfin-deployment.md) | Jellyfin installation and container deployment |
-| [SMB Storage](./smb-storage.md) | Network storage integration and mount configuration |
-| [Backup Strategy](./backup-strategy.md) | Application and infrastructure backup strategy |
-| [Monitoring](./monitoring.md) | Availability, health, and resource monitoring |
-| [Lessons Learned](./lessons-learned.md) | Technical and architectural lessons from the project |
 
 ## Outcome
 

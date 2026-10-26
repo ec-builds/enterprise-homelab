@@ -1,0 +1,39 @@
+name: Check external links
+
+on:
+  schedule:
+    - cron: "0 14 * * 1"    # Mondays, 14:00 UTC (6 or 7am Pacific)
+  workflow_dispatch:        # Run by hand from the Actions tab
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check external links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --scheme https --scheme http
+            --accept 200..=299,403,429
+            --max-retries 3
+            --timeout 20
+            --exclude-path '__MACOSX'
+            '**/*.md'
+          fail: false
+
+      - name: Open or update issue
+        if: steps.lychee.outputs.exit_code != '0'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Broken external links"
+          content-filepath: ./lychee/out.md
+          labels: documentation, links

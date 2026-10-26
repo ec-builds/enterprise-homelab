@@ -17,7 +17,7 @@ Use this procedure when renaming a server to align with the Naming Conventions s
 > This runbook assumes `sudo` is already installed and configured.
 >
 > If `sudo` is not available, complete the
-> [Configure sudo Access](./configure-sudo.md)
+> [Configure sudo Access](./linux-configure-sudo.md)
 > runbook before proceeding.
 
 ---

@@ -10,7 +10,7 @@ This environment is strictly for **testing and familiarization** and does not re
 
 ## Test Architecture
 
-![Proxmox Dashboard Test Environment](./diagrams/proxmox-dashboard-test.png)
+![Proxmox Dashboard Test Environment](../../../projects/virtualization-lab/diagrams/proxmox-dashboard-test.png)
 _Proxmox VE 9.2.2 running in the temporary VMware Workstation test environment._
 
 ```text

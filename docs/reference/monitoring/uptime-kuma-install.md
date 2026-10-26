@@ -106,7 +106,7 @@ docker compose config
 
 Expected result:
 
-![Docker compose config example](../../screenshots/uptime-kuma/uptime-kuma-compose-config-example.png)
+![Docker compose config example](../../../diagrams/screenshots/uptime-kuma/uptime-kuma-compose-config-example.png)
 
 
 
@@ -118,7 +118,7 @@ Start the container:
 docker compose up -d
 ```
 
-![uptime kuma compose example](../../screenshots/uptime-kuma/uptime-kuma-compose-example.png)
+![uptime kuma compose example](../../../diagrams/screenshots/uptime-kuma/uptime-kuma-compose-example.png)
 
 Docker Compose will:
 
@@ -203,7 +203,7 @@ Recommended first monitors:
 
 
 
-![Example status page Uptime-Kuma](../../screenshots/uptime-kuma/uptime-kuma-status-page-example.png)
+![Example status page Uptime-Kuma](../../../diagrams/screenshots/uptime-kuma/uptime-kuma-status-page-example.png)
 
 *Example Status Page*
 
