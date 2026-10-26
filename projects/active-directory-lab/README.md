@@ -4,7 +4,7 @@
 
 <img src="./diagrams/AD-banner.png" alt="Active Directory Banner" width="1000">
 
-Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the Proxmox virtualization lab.
+Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the virtualization lab.
 
 The environment provides redundant directory, DNS, and DHCP services and serves as the on-premises identity foundation for future Microsoft Entra ID and endpoint management labs.
 
@@ -68,6 +68,18 @@ Separating the domain controllers across Proxmox hosts reduces dependency on an 
 - Apply Active Directory security and auditing controls
 - Develop backup and recovery procedures
 - Establish the on-premises identity foundation for future Microsoft Entra ID integration
+- Plan internal PKI and certificate lifecycle management using Active Directory Certificate Services
+
+## Planned Deployments
+
+The following PKI work is planned separately from the operational AD DS, DNS, and DHCP foundation.
+
+| Plan | Scope | Dependencies |
+|---|---|---|
+| [AD CS Deployment](./TODO-ad-cs-deployment-plan.md) | Plan and deploy an internal certificate authority, including CA architecture and certificate services | Active Directory, dedicated CA host, certificate publication and trust design |
+| [PKI Implementation](./TODO-pki-implementation-plan.md) | Define certificate issuance, trust distribution, renewal, revocation, and service integration | AD CS deployment and service-specific certificate requirements |
+
+AD CS will manage certificate issuance; it will not act as a reverse proxy. Nginx Proxy Manager deployment and configuration remain under [Docker and Self-Hosted Services](../docker-self-hosted-services/), with PKI providing certificates where appropriate.
 
 ## Technologies
 
@@ -189,6 +201,9 @@ This progression builds identity administration and security capabilities on top
 - [ ] Develop Active Directory backup and recovery procedures
 - [ ] Validate directory recovery procedures
 - [ ] Integrate the environment with Microsoft Entra ID
+- [ ] Review AD CS architecture, CA hosting, and certificate publication requirements
+- [ ] Define PKI trust distribution, issuance, renewal, and revocation procedures
+- [ ] Plan TLS certificate integration for internal infrastructure and reverse-proxied services
 
 ## Deployment Progress
 
@@ -210,6 +225,7 @@ Client Management              ░░░░░░░░░░  Planned
 AD Security / Auditing         ░░░░░░░░░░  Planned
 Backup / Recovery              ░░░░░░░░░░  Planned
 Hybrid Identity                ░░░░░░░░░░  Future
+AD CS / Internal PKI           ░░░░░░░░░░  Planned
 ```
 
 The redundant directory-services foundation is complete. Continued development now moves from infrastructure deployment into identity administration, beginning with OU design, users and groups, access assignment, and Group Policy.
@@ -226,6 +242,8 @@ active-directory-lab/
 ├── domain-controller-deployment.md
 ├── active-directory-DNS.md
 ├── active-directory-DHCP.md
+├── TODO-ad-cs-deployment-plan.md
+├── TODO-pki-implementation-plan.md
 │
 ├── organizational-unit-design.md
 ├── users-groups-and-access.md
@@ -236,7 +254,7 @@ active-directory-lab/
 └── active-directory-backup-recovery.md
 ```
 
-Completed lab documents describe the deployed environment and validation results. Planned documents are added as the corresponding capabilities are implemented.
+Completed lab documents describe the deployed environment and validation results. The `TODO-` files track upcoming PKI work; detailed implementation documentation will be added as capabilities are deployed and validated.
 
 ## Future Integration
 
@@ -259,7 +277,7 @@ The goal is to extend the identity concepts implemented on premises into Microso
 
 ## Related Projects
 
-- [Proxmox Virtualization Lab](../proxmox-virtualization-lab/) — virtualization platform hosting the domain controllers and client VMs
+- [Virtualization Lab](../virtualization-lab/) — virtualization platform hosting the domain controllers and client VMs
 - [Network Infrastructure](../network-infrastructure/) — DHCP, DNS, DNS filtering, switching, and supporting network services
 - [Microsoft 365 & Entra ID](../microsoft-365-entra-id/) — future hybrid identity and Microsoft cloud integration
 - [Microsoft Intune Lab](../microsoft-intune/) — endpoint enrollment, configuration, compliance, and management

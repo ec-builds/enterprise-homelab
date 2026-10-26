@@ -53,7 +53,7 @@ See [Network Security Architecture](./architecture.md) for the detailed security
 | Dedicated Firewall | OPNsense | ⚪ Planned |
 | VLAN Security Zones | Management, server, trusted, IoT, and guest | ⚪ Planned |
 | IDS / IPS | Future implementation | ⚪ Planned |
-| Centralized Security Logging | Future implementation | ⚪ Planned |
+| Centralized Network-Security Logging | Integration planned | ⚪ Planned |
 
 ## Security Controls
 
@@ -134,6 +134,21 @@ The network security environment is designed around:
 | [SSH Hardening](./ssh-hardening.md) | Administrative-access hardening |
 | [Lessons Learned](./lessons-learned.md) | Security implementation and troubleshooting findings |
 
+## Planned Deployments
+
+The following plans cover upcoming changes. The `TODO-` prefix identifies documents to revisit before implementation.
+
+| Plan | Scope | Key Dependencies |
+|---|---|---|
+| [OPNsense Deployment](./TODO-opnsense-deployment-plan.md) | Introduce a dedicated gateway/firewall, validate routing and security policies, and plan a reversible cutover from ASUS | Compatible firewall hardware and network connectivity; preserve Windows Server DHCP and its failover configuration |
+| [VLAN Implementation](./TODO-vlan-implementation-plan.md) | Segment management, servers, trusted clients, IoT, and guests with controlled inter-VLAN access | OPNsense routing/firewall policies, Cisco switch configuration, and VLAN-aware wireless access where required |
+| [WireGuard VPN Migration](./TODO-wireguard-vpn-deployment-plan.md) | Migrate the existing ASUS-hosted WireGuard service to OPNsense without losing remote administration | Working OPNsense gateway, verified remote connectivity, and rollback access |
+
+> [!NOTE]
+> Windows Server remains the authoritative DHCP service, including existing failover. OPNsense will provide DHCP relay where needed for routed VLANs; the VPN migration is **not** a new WireGuard deployment.
+
+IDS/IPS deployment and alert analysis are tracked in the [Security Operations Lab](../security-operations/TODO-ids-ips-deployment-plan.md). Network Security owns the OPNsense and segmentation dependencies, not the IDS/IPS detection workflow.
+
 ## Current Limitations
 
 The current environment intentionally documents several security gaps that will be addressed during later implementation phases:
@@ -160,7 +175,7 @@ Planned improvements include:
 5. Isolate infrastructure management interfaces
 6. Migrate remote-access VPN services to the dedicated firewall
 7. Expand centralized security logging
-8. Evaluate IDS/IPS capabilities
+8. Coordinate OPNsense traffic visibility and firewall telemetry with the Security Operations IDS/IPS project
 
 These controls remain planned and will be documented as operational only after implementation and validation.
 
