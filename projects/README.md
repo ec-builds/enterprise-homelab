@@ -28,7 +28,7 @@ Welcome to the Projects section. This README gives an overview of the projects, 
 | [Network Security](./network-security/) | Firewalls, segmentation, VPN, access security, system hardening | 🟢 Operational |
 | [Virtualization Lab](./virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟢 Operational |
 | [Security Operations](./security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
-| [Web Platform & Secure Delivery](projects/web-platform/) | Astro, Cloudflare Workers, CI/CD, web security, DNS | 🟢 Operational |
+| [Web Platform & Secure Delivery](./web-platform/) | Astro, Cloudflare Workers, CI/CD, web security, DNS | 🟢 Operational |
 
 
 <!--

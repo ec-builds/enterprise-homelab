@@ -128,10 +128,10 @@ The network security environment is designed around:
 | Document | Focus |
 |---|---|
 | [Architecture](./architecture.md) | Security boundaries, trust model, current limitations, and target architecture |
-| [Perimeter Firewall](./firewall.md) | Internet-facing firewall and exposure controls |
-| [WireGuard VPN](./wireguard-vpn.md) | Encrypted remote-access implementation |
-| [Wireless Security](./wireless-security.md) | Trusted and guest/IoT wireless controls |
-| [SSH Hardening](./ssh-hardening.md) | Administrative-access hardening |
+| [Perimeter Firewall](./01-perimeter-security.md) | Internet-facing firewall and exposure controls |
+| [WireGuard VPN](./02-wireguard-vpn.md) | Encrypted remote-access implementation |
+| [Wireless Security](./03-wireless-security.md) | Trusted and guest/IoT wireless controls |
+| [SSH Hardening](./04-ssh-hardening.md) | Administrative-access hardening |
 | [Lessons Learned](./lessons-learned.md) | Security implementation and troubleshooting findings |
 
 ## Planned Deployments
