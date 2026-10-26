@@ -96,4 +96,4 @@ The trial set **Microsoft Intune** as the tenant's MDM authority automatically; 
 - [Sign up for a free trial and configure a Microsoft Intune tenant](https://learn.microsoft.com/en-us/intune/fundamentals/free-trial-sign-up)
 - [Microsoft Intune licensing](https://learn.microsoft.com/en-us/intune/fundamentals/licensing)
 - [Set up automatic enrollment for Windows devices](https://learn.microsoft.com/en-us/mem/intune/enrollment/quickstart-setup-auto-enrollment)
-- [Assign Microsoft Intune roles for role-based access control](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/role-based-access-control/assign-role)
+- [Assign Microsoft Intune roles for role-based access control](https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/role-based-access-control)
