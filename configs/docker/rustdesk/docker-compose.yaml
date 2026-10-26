@@ -1,5 +1,8 @@
 # RustDesk Server OSS
 # Source: https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/docker/
+#
+# -k _ disables client key verification. Acceptable here because the server is
+# reachable only over the VPN; remove the flag to require the key in data/id_ed25519.pub.
 
 services:
   hbbs:
