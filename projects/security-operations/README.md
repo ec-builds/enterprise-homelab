@@ -12,7 +12,7 @@ The *detect and respond* side of homelab security: network intrusion detection, 
 ## Objectives
 
 - Deploy network intrusion detection, then graduate to inline prevention once rules are tuned
-- Implement security baselines (OPNsense, windows server, windows group policy, etc.) - [Windows Security Baselines](https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/windows-security-configuration-framework/windows-security-baselines)
+- Implement security baselines (OPNsense, windows server, windows group policy, etc.) - [Windows Security Baselines](https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/windows-security-configuration-framework/windows-security-baselines), [Microsoft Security Compliance Toolkit 1.0](https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/windows-security-configuration-framework/security-compliance-toolkit-10)
 - Centralize security-relevant logs across the homelab
 - Collect Windows events and Linux security logs
 - Deploy and operate a SIEM
