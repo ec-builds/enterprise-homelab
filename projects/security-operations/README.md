@@ -12,6 +12,7 @@ The *detect and respond* side of homelab security: network intrusion detection, 
 ## Objectives
 
 - Deploy network intrusion detection, then graduate to inline prevention once rules are tuned
+- Implement security baselines (OPNsense, windows server, windows group policy, etc.)
 - Centralize security-relevant logs across the homelab
 - Collect Windows events and Linux security logs
 - Deploy and operate a SIEM
