@@ -3,6 +3,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ec-builds",
   "compatibility_date": "2026-10-01",
+  // Served only at ec-builds.com (custom domain set in the Cloudflare dashboard):
+  // no ec-builds.<account>.workers.dev address and no per-version preview URLs.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
