@@ -58,7 +58,6 @@ const next = card(pagination.next);
 
 <style>
   .ec-pager {
-    container-type: inline-size;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
     gap: 0.75rem;
@@ -85,17 +84,6 @@ const next = card(pagination.next);
   }
   .ec-pager-card svg {
     flex: none;
-  }
-  /* When the cards stack (phones, and tablets with the sidebar open), left-align Next like Previous,
-     indented to line up with Previous's text, with the arrow on the right. */
-  @container (width < 32.75rem) {
-    .ec-pager-card.next {
-      justify-content: space-between;
-      text-align: start;
-    }
-    .ec-pager-card.next > span {
-      margin-inline-start: calc(18px + 0.75rem);
-    }
   }
   .lbl {
     display: block;
