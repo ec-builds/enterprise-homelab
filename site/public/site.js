@@ -1,5 +1,5 @@
 // External links open in a new tab, wide tables get keyboard focus, task checkboxes get labels,
-// back-to-top (footer link, plus a floating button on phones past halfway down the page),
+// back-to-top (footer link, plus a floating button on phones after 1.5 screens of scrolling),
 // and the tried address on the 404 page.
 
 (() => {
@@ -65,11 +65,11 @@
   btn.addEventListener('click', toTop);
   document.body.append(btn);
 
-  // Shown once past halfway, hidden again while the footer (which has its own link) is on screen.
+  // Shown after 1.5 screens of scrolling (the same on short and long pages), hidden again while
+  // the footer (which has its own link) is on screen.
   let footerVisible = false;
   const update = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    const show = max > 0 && scrollY >= max / 2 && !footerVisible;
+    const show = scrollY >= innerHeight * 1.5 && !footerVisible;
     btn.classList.toggle('show', show);
   };
   const footer = document.querySelector('.ec-site-footer');
