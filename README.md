@@ -93,7 +93,7 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 
 
 | Project | Focus Area | Status |
-|----------|------------|--------|
+|----------|------------|:------:|
 | [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 |
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 🟡 |
 | [Containerization-Lab](projects/containerization-lab/) | Containerized self-hosted applications, Docker | 🟢 |
