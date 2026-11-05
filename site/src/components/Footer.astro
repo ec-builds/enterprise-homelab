@@ -9,11 +9,17 @@ const year = new Date().getFullYear();
 <Default />
 
 <footer class="ec-site-footer">
-  <a class="brand" href="/">
-    <Image src={logo} alt="" width={32} height={32} densities={[1, 2]} />
-    <span class="word">EC-<span>BUILDS</span></span>
-    <span class="tag">Enterprise Infrastructure Homelab</span>
-  </a>
+  <div class="top">
+    <a class="brand" href="/">
+      <Image src={logo} alt="" width={32} height={32} densities={[1, 2]} />
+      <span class="word">EC-<span>BUILDS</span></span>
+      <span class="tag">Enterprise Infrastructure Homelab</span>
+    </a>
+    <a class="to-top" href="#_top" data-to-top>
+      Back to top
+      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+    </a>
+  </div>
   <div class="bottom">
     <span class="left">
       <span>© {year} Emmanuel Casillas</span>
@@ -37,6 +43,27 @@ const year = new Date().getFullYear();
   }
   :global(:root:not([data-theme='light'])) .ec-site-footer {
     background: #1b2230;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+  }
+  .to-top {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sl-color-text-accent);
+    text-decoration: none;
+  }
+  .to-top:hover {
+    background: var(--sl-color-accent-low);
   }
   .brand {
     display: flex;

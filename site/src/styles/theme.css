@@ -223,3 +223,144 @@ h1#_top {
 :root:not([data-theme='light']) .hero .hero-html img {
   filter: brightness(0.85) drop-shadow(0 0 32px rgba(59, 130, 246, 0.55));
 }
+
+/* Floating back-to-top button (phones only; created by site.js) */
+.ec-to-top {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ec-blue);
+  color: #fff;
+  box-shadow: 0 6px 18px rgb(11 95 224 / 0.35);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.75rem);
+  transition: opacity 200ms, transform 200ms, visibility 0s 200ms;
+}
+.ec-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 200ms, transform 200ms;
+}
+.ec-to-top:focus-visible {
+  outline: 2px solid var(--sl-color-white);
+  outline-offset: 2px;
+}
+@media (min-width: 50rem) {
+  .ec-to-top {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ec-to-top {
+    transition: none;
+  }
+}
+
+/* Home page on phones: Starlight puts the theme switch in the sidebar menu, which the home page
+   doesn't have. Show the switch in the header there; the social icons stay in the footer. */
+@media (max-width: 49.99rem) {
+  :root:has(.ec-home) header .right-group {
+    display: flex;
+  }
+  :root:has(.ec-home) header .right-group .social-icons {
+    display: none;
+  }
+}
+/* Very narrow phones (under 360px): icon-only switch so the full wordmark fits. */
+@media (max-width: 22.4rem) {
+  :root:has(.ec-home) header starlight-theme-select select {
+    width: 3.5rem;
+    color: transparent;
+  }
+}
+
+/* 404 page: the 0 is a network node that's down (src/pages/404.astro) */
+html:root .hero > .hero-html:has(.ec-404) {
+  width: min(100%, 28rem);
+  min-width: 0;
+}
+.ec-404 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  container-type: inline-size;
+}
+.ec-404-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.06em;
+  font-family: var(--ec-font-display);
+  font-weight: 800;
+  font-size: clamp(4.5rem, 44cqi, 11rem); /* sized to its column, so it always fits */
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--sl-color-accent);
+}
+.ec-404-node svg {
+  width: 0.78em;
+  height: 0.78em;
+  overflow: visible;
+}
+.ec-404-node .core { fill: currentColor; opacity: 0.12; }
+.ec-404-node .ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 7;
+  stroke-dasharray: 18 12;
+  transform-origin: 50px 50px;
+  animation: ec-spin 12s linear infinite;
+}
+.ec-404-node .pulse {
+  fill: none;
+  stroke: #e5534b;
+  stroke-width: 3;
+  transform-origin: 50px 50px;
+  animation: ec-pulse 2s ease-out infinite;
+}
+.ec-404-node .dot { fill: #e5534b; }
+.ec-404-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: min(100%, 22rem); /* long addresses get "…" instead of widening the column */
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 999px;
+  font-family: var(--sl-font-mono);
+  font-size: 0.8rem;
+  color: var(--sl-color-gray-2);
+}
+.ec-404-status .path {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ec-404-status b { flex: none; color: #e5534b; }
+.ec-404-status .led {
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #e5534b;
+  animation: ec-led 2s ease-out infinite;
+}
+@keyframes ec-spin { to { transform: rotate(360deg); } }
+@keyframes ec-pulse { from { transform: scale(0.3); opacity: 0.9; } to { transform: scale(1.6); opacity: 0; } }
+@keyframes ec-led { from { box-shadow: 0 0 0 0 rgb(229 83 75 / 0.6); } to { box-shadow: 0 0 0 0.6rem rgb(229 83 75 / 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .ec-404-node .ring, .ec-404-node .pulse, .ec-404-status .led { animation: none; }
+  .ec-404-node .pulse { display: none; }
+}

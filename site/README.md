@@ -105,7 +105,7 @@ site/
 ├── public/
 │   ├── _headers            security and cache headers (CSP, HSTS, etc.)
 │   ├── .well-known/security.txt   how to report a vulnerability (RFC 9116)
-│   ├── site.js             new-tab external links, keyboard-scrollable tables, checkbox labels
+│   ├── site.js             new-tab links, keyboard-scrollable tables, checkbox labels, back to top, 404 address
 │   ├── og-image.png         social preview (1200×630) for LinkedIn, Slack, iMessage, etc.
 │   ├── favicon.ico, favicon-32.png        browser tab icon (simplified EC mark)
 │   ├── apple-touch-icon.png               iPhone home screen
@@ -113,6 +113,7 @@ site/
 │   └── site.webmanifest     app name, colors and icons
 └── src/
     ├── pages/index.astro             home page
+    ├── pages/404.astro               "page not found" (Starlight's own 404 is turned off in astro.config.mjs)
     ├── components/SiteTitle.astro    logo + EC-BUILDS wordmark
     ├── components/Footer.astro       slim site footer (logo, name, © line with Portfolio · GitHub · LinkedIn)
     ├── components/Pagination.astro   Previous/Next cards with project name and Planned pill

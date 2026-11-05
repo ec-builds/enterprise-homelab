@@ -28,6 +28,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'EC-Builds',
+      disable404Route: true, // custom page in src/pages/404.astro
       description: 'Enterprise Infrastructure Homelab, built and documented like an enterprise IT environment.',
       logo: { src: './src/assets/ec-logo.png', alt: 'EC-Builds' },
       // Starlight adds the other og:/twitter: tags itself.

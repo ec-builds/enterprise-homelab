@@ -1,0 +1,33 @@
+---
+// Custom 404 (Starlight's own 404 route is turned off in astro.config.mjs).
+// The 0 is a network node that's down; site.js fills in the address the visitor tried.
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+const node = `
+<div class="ec-404">
+  <div class="ec-404-node" role="img" aria-label="404">4<svg viewBox="0 0 100 100" aria-hidden="true"><circle class="core" cx="50" cy="50" r="44"/><circle class="ring" cx="50" cy="50" r="44"/><circle class="pulse" cx="50" cy="50" r="22"/><circle class="dot" cx="50" cy="50" r="9"/></svg>4</div>
+  <div class="ec-404-status" aria-hidden="true"><span class="led"></span><span class="path" data-404-path>/</span><b>DOWN</b></div>
+</div>`;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Page not found',
+    template: 'splash',
+    editUrl: false,
+    pagefind: false,
+    prev: false,
+    next: false,
+    hero: {
+      title: 'Page not found',
+      tagline:
+        'This page may have moved or been renamed. Project pages are built from the docs on GitHub, so when a doc is renamed, its address changes too. Try the search at the top, or start from one of these.',
+      image: { html: node },
+      actions: [
+        { text: 'Browse projects', link: '/projects/', icon: 'right-arrow' },
+        { text: 'Home', link: '/', variant: 'secondary' },
+        { text: 'Find it on GitHub', link: 'https://github.com/ec-builds/enterprise-homelab', icon: 'github', variant: 'minimal' },
+      ],
+    },
+  }}
+/>
