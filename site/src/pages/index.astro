@@ -1,0 +1,274 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { Icon } from '@astrojs/starlight/components';
+import { getImage } from 'astro:assets';
+import logo from '../assets/ec-logo.png';
+import projects from '../data/projects.json';
+
+const icons = {
+  'active-directory-lab': 'server',
+  'backup-disaster-recovery': 'cloud-download',
+  'containerization-lab': 'seti:docker',
+  'infrastructure-automation': 'rocket',
+  'infrastructure-monitoring': 'analytics',
+  'media-services-platform': 'seti:video',
+  'microsoft-365-entra-id': 'seti:windows',
+  'microsoft-intune': 'laptop',
+  'network-infrastructure': 'random',
+  'network-security': 'padlock',
+  'virtualization-lab': 'desktop',
+  'security-operations': 'magnifier',
+  'web-platform': 'astro',
+};
+
+const order = { Operational: 0, 'In progress': 1, Planned: 2 };
+const sorted = [...projects].sort((a, b) => order[a.status] - order[b.status] || a.name.localeCompare(b.name));
+const count = (s) => projects.filter((p) => p.status === s).length;
+
+// Starlight's hero image is 1x only; this serves a 2x copy for Retina screens.
+const hero = await getImage({ src: logo, width: 400, densities: [1, 2], format: 'webp' });
+const heroImg = `<img src="${hero.src}" srcset="${hero.srcSet.attribute}" width="400" height="400" alt="EC-Builds logo" fetchpriority="high" decoding="async">`;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Enterprise Infrastructure Homelab',
+    description: 'Hands-on enterprise homelab featuring Windows, Linux, Proxmox, Active Directory, networking, automation, monitoring, and cybersecurity.',
+    template: 'splash',
+    editUrl: false,
+    prev: false,
+    next: false,
+    hero: {
+      title: 'EC-<span class="ec-blue">BUILDS</span>',
+      tagline: '<strong>Enterprise Infrastructure Homelab</strong><span class="ec-bar"></span>Hands-on enterprise homelab featuring Windows, Linux, Proxmox, Active Directory, networking, automation, monitoring, and cybersecurity, built and documented like an enterprise IT environment.',
+      image: { html: heroImg },
+      actions: [
+        { text: 'Browse projects', link: '#projects', icon: 'down-arrow' },
+        { text: 'View on GitHub', link: 'https://github.com/ec-builds/enterprise-homelab', icon: 'github', variant: 'minimal' },
+      ],
+    },
+  }}
+>
+  <div class="not-content ec-home">
+    <section class="stats" aria-label="Lab at a glance">
+      <div><strong>{projects.length}</strong><span>projects</span></div>
+      <div><strong>{count('Operational')}</strong><span>operational</span></div>
+      <div><strong>{count('In progress')}</strong><span>in progress</span></div>
+      <div><strong>{count('Planned')}</strong><span>planned</span></div>
+    </section>
+
+    <section id="projects">
+      <h2 class="ec-h2">Projects</h2>
+      <p class="lede">Status is pulled from the repo on every build.</p>
+      <div class="grid">
+        {sorted.map((p) => (
+          <a class="card" href={p.href}>
+            <div class="card-top">
+              <span class="icon"><Icon name={icons[p.dir] ?? 'document'} size="1.4rem" /></span>
+              <span class:list={['pill', p.status === 'Operational' ? 'ok' : p.status === 'In progress' ? 'wip' : 'plan']}>{p.status}</span>
+            </div>
+            <h3>{p.name}</h3>
+            <p>{p.focus}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section id="architecture">
+      <h2 class="ec-h2">How it fits together</h2>
+      <p class="lede">A three-node Proxmox cluster behind a managed Cisco switch, with segmented Wi-Fi, WireGuard remote access, and a Synology NAS for storage and backups.</p>
+      <figure class="diagram">
+        <img src="/repo-assets/diagrams/homelab-architecture-simple.png" alt="Homelab architecture: Internet, ASUS router and firewall, WireGuard VPN, Cisco switch, a three-host Proxmox cluster running domain controllers, Docker, monitoring, media and AdGuard, plus trusted and guest Wi-Fi and a Synology NAS." width="1200" height="850" loading="lazy" />
+      </figure>
+    </section>
+
+    <section id="why" class="why">
+      <div>
+        <h2 class="ec-h2">Why EC-Builds?</h2>
+        <p>Most of my production work can't be shared publicly. This lab is where I rebuild the same patterns (Active Directory, Intune, segmented networks, monitoring) and document them the way I would for the team that has to run them after me.</p>
+        <p>The docs cover design, build steps, troubleshooting, and lessons learned, including what broke.</p>
+      </div>
+      <div class="how">
+        <h3>How this site works</h3>
+        <p>Every project page is built from the docs in the <a href="https://github.com/ec-builds/enterprise-homelab">enterprise-homelab</a> repo.</p>
+        <p>When I update the repo, the site rebuilds and publishes the change automatically. Each page links back to its source on GitHub.</p>
+      </div>
+    </section>
+  </div>
+</StarlightPage>
+
+<style is:global>
+  /* Wider layout on the home page only */
+  :root:has(.ec-home) {
+    --sl-content-width: 72rem;
+  }
+  .hero h1 {
+    font-family: var(--ec-font-display);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 .ec-blue {
+    color: var(--sl-color-accent);
+  }
+  .hero .tagline strong {
+    display: block;
+    font-family: var(--ec-font-display);
+    font-weight: 700;
+    color: var(--sl-color-white);
+    font-size: 1.3em;
+  }
+  .hero .tagline .ec-bar {
+    display: block;
+    width: 4.5rem;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--sl-color-accent);
+    margin: 0.75rem 0 1rem;
+  }
+  .hero img {
+    filter: drop-shadow(0 10px 24px rgb(11 95 224 / 0.18));
+  }
+  :root[data-theme='light'] .page:has(.ec-home) {
+    background: linear-gradient(180deg, #ffffff 0%, #f1f6fe 40rem, #ffffff 80rem);
+  }
+</style>
+
+<style>
+  .ec-home {
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem;
+    margin-bottom: 3rem;
+  }
+  .ec-h2 {
+    font-family: var(--ec-font-display);
+    font-weight: 800;
+    font-size: var(--sl-text-3xl);
+    color: var(--sl-color-white);
+    margin: 0;
+  }
+  .ec-h2::after {
+    content: '';
+    display: block;
+    width: 3rem;
+    height: 4px;
+    margin-top: 0.6rem;
+    border-radius: 2px;
+    background: var(--sl-color-accent);
+  }
+  .lede {
+    margin: 1rem 0 1.75rem;
+    color: var(--sl-color-gray-3);
+    max-width: 44rem;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1rem;
+  }
+  .stats div {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    background: var(--sl-color-black);
+  }
+  .stats strong {
+    display: block;
+    font-family: var(--ec-font-display);
+    font-size: 2rem;
+    color: var(--sl-color-accent);
+  }
+  .stats span {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.25rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 12px;
+    background: var(--sl-color-black);
+    text-decoration: none;
+    color: var(--sl-color-gray-2);
+    transition: border-color 150ms, transform 150ms, box-shadow 150ms;
+  }
+  .card:hover {
+    border-color: var(--sl-color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--sl-shadow-md);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: var(--sl-color-accent-low);
+    color: var(--sl-color-accent);
+  }
+  .card h3 {
+    margin: 0.25rem 0 0;
+    font-size: var(--sl-text-lg);
+    color: var(--sl-color-white);
+  }
+  .card p {
+    margin: 0;
+    font-size: var(--sl-text-sm);
+    flex: 1;
+  }
+  .pill {
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.1rem 0.65rem;
+  }
+  .pill.ok { background: #e3f6ec; color: #146c43; }
+  .pill.wip { background: #fff3db; color: #8a5200; }
+  .pill.plan { background: var(--sl-color-gray-6); color: var(--sl-color-gray-3); }
+
+  .diagram {
+    margin: 0;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 14px;
+    padding: 1rem;
+    background: #ffffff;
+  }
+  .diagram img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .why {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 2.5rem;
+  }
+  .why p {
+    margin: 1rem 0 0;
+  }
+  .how {
+    border: 1px solid var(--sl-color-gray-5);
+    background: var(--sl-color-accent-low);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .how h3 {
+    margin: 0;
+    color: var(--sl-color-white);
+  }
+</style>

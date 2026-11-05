@@ -1,0 +1,110 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+import { Image } from 'astro:assets';
+import logo from '../assets/ec-logo.png';
+
+const year = new Date().getFullYear();
+---
+
+<Default />
+
+<footer class="ec-site-footer">
+  <a class="brand" href="/">
+    <Image src={logo} alt="" width={32} height={32} densities={[1, 2]} />
+    <span class="word">EC-<span>BUILDS</span></span>
+    <span class="tag">Enterprise Infrastructure Homelab</span>
+  </a>
+  <div class="bottom">
+    <span class="left">
+      <span>© {year} Emmanuel Casillas</span>
+      <span class="links">
+        <a href="https://emmanuelcasillas.com" rel="me">Portfolio</a>
+        <a href="https://github.com/ec-builds/enterprise-homelab">GitHub</a>
+        <a href="https://www.linkedin.com/in/casillasemmanuel" rel="me">LinkedIn</a>
+      </span>
+    </span>
+    <span>Pages synced from GitHub · Built with Astro + Starlight</span>
+  </div>
+</footer>
+
+<style>
+  .ec-site-footer {
+    margin-top: 2rem;
+    padding: 0.85rem 1.25rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 12px;
+    background: #f6f9fe;
+  }
+  :global(:root:not([data-theme='light'])) .ec-site-footer {
+    background: #1b2230;
+  }
+  .brand {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.6rem;
+    text-decoration: none;
+  }
+  .brand img {
+    flex: none;
+  }
+  .word {
+    font-family: var(--ec-font-display);
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--sl-color-white);
+  }
+  /* 4.33:1 in dark mode, which axe flags. Accepted: WCAG 1.4.3 exempts logo/brand text. */
+  .word span {
+    color: var(--sl-color-accent);
+  }
+  .tag {
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+  }
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-top: 0.6rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid var(--sl-color-gray-5);
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+  }
+  .left {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+  }
+  .links {
+    display: flex;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+  .links > * + *::before,
+  .links::before {
+    content: '·';
+    margin-inline-end: 0.5rem;
+    color: var(--sl-color-gray-4);
+  }
+  .links::before {
+    margin-inline-end: 0;
+  }
+  @media (max-width: 40rem) {
+    .left {
+      flex-direction: column;
+    }
+    .links::before {
+      content: none;
+    }
+  }
+  .links a {
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+  }
+  .links a:hover {
+    color: var(--sl-color-accent);
+  }
+</style>

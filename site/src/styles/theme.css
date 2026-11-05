@@ -1,0 +1,225 @@
+/* Only Starlight's public CSS variables are overridden, so upgrades stay safe. */
+
+:root {
+  --sl-font: 'Inter', var(--sl-font-system);
+  --sl-font-mono: 'JetBrains Mono', var(--sl-font-system-mono);
+  --ec-font-display: 'Montserrat', var(--sl-font);
+
+  --ec-blue: #0b5fe0;
+  --ec-blue-dark: #0a4fc0;
+  --ec-blue-tint: #e8f0fe;
+  --ec-navy: #151b26;
+
+  /* Dark mode: navy, not gray */
+  --sl-color-accent-low: #0f2a55;
+  --sl-color-accent: #3b82f6;
+  --sl-color-accent-high: #9cc2ff;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #e8edf5;
+  --sl-color-gray-2: #c7d0dc;
+  --sl-color-gray-3: #95a1b2;
+  --sl-color-gray-4: #5d6878;
+  --sl-color-gray-5: #2e3746;
+  --sl-color-gray-6: #1b2230;
+  --sl-color-black: #11161f;
+
+  /* Notes use the brand blue instead of Starlight's periwinkle */
+  --sl-color-blue-low: #0f2a55;
+  --sl-color-blue: #3b82f6;
+  --sl-color-blue-high: #9cc2ff;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e8f0fe;
+  --sl-color-accent: #0b5fe0;
+  --sl-color-accent-high: #0a4fc0;
+  --sl-color-white: #151b26;
+  --sl-color-gray-1: #1d2533;
+  --sl-color-gray-2: #2a3240;
+  --sl-color-gray-3: #4f5969;
+  --sl-color-gray-4: #7c8797;
+  --sl-color-gray-5: #c9d3e0;
+  --sl-color-gray-6: #e6ecf4;
+  --sl-color-gray-7: #f6f9fe;
+  --sl-color-black: #ffffff;
+  --sl-color-bg-sidebar: #f6f9fe;
+  --sl-color-blue-low: #e8f0fe;
+  --sl-color-blue: #0b5fe0;
+  --sl-color-blue-high: #0a4fc0;
+}
+
+/* Starlight default is 45rem */
+:root {
+  --sl-content-width: 50rem;
+}
+
+.sl-markdown-content :is(h1, h2, h3),
+h1#_top {
+  font-family: var(--ec-font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.sl-markdown-content :is(h2) {
+  font-size: var(--sl-text-2xl);
+}
+
+.content-panel h1#_top::after {
+  content: '';
+  display: block;
+  width: 3.5rem;
+  height: 4px;
+  margin-top: 0.75rem;
+  border-radius: 2px;
+  background: var(--sl-color-accent);
+}
+.hero h1#_top::after {
+  display: none;
+}
+
+:root[data-theme='light'] .sidebar-content a[aria-current='page'] {
+  background: var(--ec-blue);
+  color: #ffffff;
+}
+
+.sl-markdown-content .ec-synced-wrap {
+  margin: 0 0 1.25rem;
+}
+.sl-markdown-content .ec-synced {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--sl-color-accent) 35%, transparent);
+  border-radius: 999px;
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high);
+  font-size: var(--sl-text-xs);
+  font-weight: 600;
+  line-height: 1.6;
+  text-decoration: none;
+}
+.sl-markdown-content .ec-synced:hover {
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-accent);
+}
+.sl-markdown-content .ec-synced svg {
+  flex: none;
+}
+
+/* Planned: slate, matching ⚪ in the docs */
+.sl-badge.ec-planned {
+  background: #e6ecf4;
+  color: #3d4757;
+  border-color: #c9d3e0;
+}
+:root:not([data-theme='light']) .sl-badge.ec-planned {
+  background: #2e3746;
+  color: #c7d0dc;
+  border-color: #5d6878;
+}
+.sl-banner {
+  background: #eef2f7;
+  color: #2a3240;
+  font-weight: 600;
+  border-bottom: 1px solid #c9d3e0;
+}
+:root:not([data-theme='light']) .sl-banner {
+  background: #2e3746;
+  color: #e8edf5;
+  border-bottom-color: #5d6878;
+}
+
+.sl-markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* .ec-table-wrap (added by the sync script) scrolls wide tables, so the table can fill the column */
+.sl-markdown-content .ec-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 10px;
+}
+.sl-markdown-content .ec-table-wrap table {
+  display: table;
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: var(--sl-text-sm);
+}
+.sl-markdown-content .ec-table-wrap :is(th, td) {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--sl-color-gray-5);
+  text-align: start;
+}
+.sl-markdown-content .ec-table-wrap th {
+  background: #eef3fb;
+  color: var(--sl-color-white);
+  font-weight: 600;
+  border-bottom-color: #c9d3e0;
+}
+.sl-markdown-content .ec-table-wrap tbody tr:nth-child(even) td {
+  background: #f8fafd;
+}
+.sl-markdown-content .ec-table-wrap tbody tr:hover td {
+  background: var(--sl-color-accent-low);
+}
+.sl-markdown-content .ec-table-wrap tbody tr:last-child td {
+  border-bottom: 0;
+}
+.sl-markdown-content .ec-table-wrap td:first-child {
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+/* Dividers only on tables with 3+ columns */
+.sl-markdown-content .ec-table-wrap table:has(th:nth-child(3)) :is(th, td):not(:last-child) {
+  border-right: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 60%, transparent);
+}
+
+.sl-markdown-content .ec-pill {
+  display: inline-block;
+  padding: 0.05rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.sl-markdown-content .ec-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  vertical-align: 0.05em;
+  margin-inline-end: 0.15rem;
+}
+.sl-markdown-content .ec-pill.ok { background: #e3f6ec; color: #146c43; }
+.sl-markdown-content .ec-pill.wip { background: #fff3db; color: #8a5200; }
+.sl-markdown-content .ec-pill.plan { background: #e6ecf4; color: #3d4757; }
+.sl-markdown-content .ec-dot.ok { background: #22a06b; }
+.sl-markdown-content .ec-dot.wip { background: #e0a100; }
+.sl-markdown-content .ec-dot.plan { background: #9aa6b6; }
+:root:not([data-theme='light']) .sl-markdown-content .ec-pill.ok { background: #12392a; color: #8fe0b5; }
+:root:not([data-theme='light']) .sl-markdown-content .ec-pill.wip { background: #3d2e0d; color: #f5cf7a; }
+:root:not([data-theme='light']) .sl-markdown-content .ec-pill.plan { background: #2e3746; color: #c7d0dc; }
+:root:not([data-theme='light']) .sl-markdown-content .ec-table-wrap th {
+  background: #1b2230;
+  border-bottom-color: #3a4454;
+}
+:root:not([data-theme='light']) .sl-markdown-content .ec-table-wrap tbody tr:nth-child(even) td {
+  background: #151b25;
+}
+
+/* Hero logo is raw HTML (for the 2x copy), so size it here */
+.hero-html img {
+  width: 100%;
+  height: auto;
+}
+
+/* Dark mode: dim the white badge. Glow on the hero only; at 32-40px it just looks blurry. */
+:root:not([data-theme='light']) :is(.ec-title img, .ec-site-footer .brand img) {
+  filter: brightness(0.85);
+}
+:root:not([data-theme='light']) .hero .hero-html img {
+  filter: brightness(0.85) drop-shadow(0 0 32px rgba(59, 130, 246, 0.55));
+}

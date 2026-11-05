@@ -1,0 +1,121 @@
+---
+// Starlight's prev/next, plus the project name and a Planned pill.
+import type { StarlightRouteData } from '@astrojs/starlight/route-data';
+
+type Entry = StarlightRouteData['sidebar'][number];
+type Link = NonNullable<StarlightRouteData['pagination']['prev']>;
+
+const { pagination, sidebar } = Astro.locals.starlightRoute;
+
+function groupOf(entries: Entry[], href: string, parent?: string): string | undefined {
+  for (const entry of entries) {
+    if (entry.type === 'link' && entry.href === href) return parent;
+    if (entry.type === 'group') {
+      const found = groupOf(entry.entries as Entry[], href, entry.label);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
+const card = (link: Link | undefined) =>
+  link && {
+    href: link.href,
+    title: link.label,
+    project: groupOf(sidebar, link.href),
+    planned: link.badge?.text === 'Planned',
+  };
+const prev = card(pagination.prev);
+const next = card(pagination.next);
+---
+
+{(prev || next) && (
+  <nav class="ec-pager print:hidden" aria-label="Previous and next pages">
+    {prev ? (
+      <a class="ec-pager-card" href={prev.href} rel="prev">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        <span>
+          <span class="lbl">Previous</span>
+          <span class="ttl">{prev.title}</span>
+          {prev.planned && <span class="pill">Planned</span>}
+          {prev.project && <span class="ctx">{prev.project}</span>}
+        </span>
+      </a>
+    ) : <span />}
+    {next && (
+      <a class="ec-pager-card next" href={next.href} rel="next">
+        <span>
+          <span class="lbl">Next</span>
+          <span class="ttl">{next.title}</span>
+          {next.planned && <span class="pill">Planned</span>}
+          {next.project && <span class="ctx">{next.project}</span>}
+        </span>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    )}
+  </nav>
+)}
+
+<style>
+  .ec-pager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: 0.75rem;
+  }
+  .ec-pager-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 10px;
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: border-color 150ms, background-color 150ms;
+  }
+  .ec-pager-card:hover {
+    border-color: var(--sl-color-accent);
+    background: var(--sl-color-accent-low);
+  }
+  .ec-pager-card.next {
+    justify-content: flex-end;
+    text-align: end;
+  }
+  .ec-pager-card svg {
+    flex: none;
+  }
+  .lbl {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sl-color-accent);
+  }
+  .ttl {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--sl-color-white);
+  }
+  .ctx {
+    display: block;
+    font-size: 0.8rem;
+  }
+  .pill {
+    display: inline-block;
+    margin-inline-start: 0.4rem;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    background: #e6ecf4;
+    color: #3d4757;
+    font-size: 0.68rem;
+    font-weight: 600;
+    vertical-align: 0.1em;
+  }
+  :global(:root:not([data-theme='light'])) .pill {
+    background: #2e3746;
+    color: #c7d0dc;
+  }
+</style>

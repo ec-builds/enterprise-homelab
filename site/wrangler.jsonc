@@ -1,0 +1,10 @@
+// Static assets only, no Worker script. Headers are in public/_headers.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ec-builds",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

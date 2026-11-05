@@ -1,0 +1,7 @@
+# Security contact for ec-builds.com (https://securitytxt.org, RFC 9116).
+# Please report vulnerabilities privately through GitHub, not in a public issue.
+
+Contact: https://github.com/ec-builds/enterprise-homelab/security/advisories/new
+Expires: 2027-10-31T23:59:59Z
+Preferred-Languages: en, es
+Canonical: https://ec-builds.com/.well-known/security.txt
