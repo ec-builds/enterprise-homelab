@@ -28,19 +28,49 @@ const count = (s) => projects.filter((p) => p.status === s).length;
 // Starlight's hero image is 1x only; this serves a 2x copy for Retina screens.
 const hero = await getImage({ src: logo, width: 400, densities: [1, 2], format: 'webp' });
 const heroImg = `<img src="${hero.src}" srcset="${hero.srcSet.attribute}" width="400" height="400" alt="EC-Builds logo" fetchpriority="high" decoding="async">`;
+
+// Structured data: tells search engines who runs the site and links it to his other profiles.
+const person = {
+  '@type': 'Person',
+  '@id': 'https://emmanuelcasillas.com/#person', // same ID as the portfolio, so both sites describe one person
+  name: 'Emmanuel Casillas',
+  jobTitle: 'Systems Administrator · Security & Identity',
+  url: 'https://emmanuelcasillas.com',
+  sameAs: [
+    'https://www.linkedin.com/in/casillasemmanuel',
+    'https://github.com/ec-builds',
+  ],
+};
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    person,
+    {
+      '@type': 'WebSite',
+      '@id': 'https://ec-builds.com/#website',
+      name: 'EC-Builds',
+      alternateName: 'EC-Builds Enterprise Infrastructure Homelab',
+      url: 'https://ec-builds.com/',
+      description: 'Hands-on enterprise homelab by Emmanuel Casillas featuring Windows, Linux, Proxmox, Active Directory, networking, automation, monitoring, and cybersecurity.',
+      author: { '@id': person['@id'] },
+      publisher: { '@id': person['@id'] },
+    },
+  ],
+});
 ---
 
 <StarlightPage
   frontmatter={{
-    title: 'Enterprise Infrastructure Homelab',
-    description: 'Hands-on enterprise homelab featuring Windows, Linux, Proxmox, Active Directory, networking, automation, monitoring, and cybersecurity.',
+    title: 'Emmanuel Casillas’s Enterprise Homelab',
+    description: 'Emmanuel Casillas’s hands-on enterprise homelab: Windows, Linux, Proxmox, Active Directory, networking, automation, monitoring, and cybersecurity.',
     template: 'splash',
+    head: [{ tag: 'script', attrs: { type: 'application/ld+json' }, content: jsonLd }],
     editUrl: false,
     prev: false,
     next: false,
     hero: {
       title: 'EC-<span class="ec-blue">BUILDS</span>',
-      tagline: '<strong>Enterprise Infrastructure Homelab</strong><span class="ec-bar"></span>Hands-on enterprise homelab featuring Windows, Linux, Proxmox, Active Directory, networking, automation, monitoring, and cybersecurity, built and documented like an enterprise IT environment.',
+      tagline: '<strong>Enterprise Infrastructure Homelab</strong><span class="ec-bar"></span>Hands-on enterprise homelab featuring Windows, Linux, Proxmox, Active Directory, networking, automation, monitoring, and cybersecurity, built and documented like an enterprise IT environment.<span class="ec-byline">Built by <a href="https://emmanuelcasillas.com" rel="author">Emmanuel Casillas</a> · Systems Administrator, Security &amp; Identity</span>',
       image: { html: heroImg },
       actions: [
         { text: 'Browse projects', link: '#projects', icon: 'down-arrow' },
@@ -85,7 +115,7 @@ const heroImg = `<img src="${hero.src}" srcset="${hero.srcSet.attribute}" width=
     <section id="why" class="why">
       <div>
         <h2 class="ec-h2">Why EC-Builds?</h2>
-        <p>Most of my production work can't be shared publicly. This lab is where I rebuild the same patterns (Active Directory, Intune, segmented networks, monitoring) and document them the way I would for the team that has to run them after me.</p>
+        <p>I’m <a href="https://emmanuelcasillas.com">Emmanuel Casillas</a>, a systems administrator in the Los Angeles area. Most of my production work can't be shared publicly. This lab is where I rebuild the same patterns (Active Directory, Intune, segmented networks, monitoring) and document them the way I would for the team that has to run them after me.</p>
         <p>The docs cover design, build steps, troubleshooting, and lessons learned, including what broke.</p>
       </div>
       <div class="how">
@@ -102,6 +132,18 @@ const heroImg = `<img src="${hero.src}" srcset="${hero.srcSet.attribute}" width=
   :root:has(.ec-home) {
     --sl-content-width: 72rem;
   }
+  .ec-byline {
+    display: block;
+    margin-top: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--sl-color-gray-3);
+  }
+  .ec-byline a {
+    font-weight: 600;
+    color: var(--sl-color-text-accent);
+    text-decoration: none;
+  }
+  .ec-byline a:hover { text-decoration: underline; }
   .hero h1 {
     font-family: var(--ec-font-display);
     font-weight: 800;

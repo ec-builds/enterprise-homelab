@@ -3,6 +3,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { describe, cleanName } from './describe.mjs';
 
 // sharp comes with Astro; without it, images are copied unconverted.
 const sharp = await import('sharp').then((m) => m.default).catch(() => null);
@@ -247,6 +248,22 @@ function prettify(name) {
   return name.replace(/\.md$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+// Project name for a doc (from its project's README H1), used in descriptions and generic titles.
+const projectNames = new Map();
+function projectName(rel) {
+  const dir = toPosix(rel).split('/')[0];
+  if (!dir || dir === toPosix(rel)) return '';
+  if (!projectNames.has(dir)) {
+    const readme = path.join(SRC, dir, 'README.md');
+    const h1 = fs.existsSync(readme) ? fs.readFileSync(readme, 'utf8').match(/^#\s+(.+?)\s*#*\s*$/m) : null;
+    projectNames.set(dir, cleanName(h1 ? h1[1] : prettify(dir)));
+  }
+  return projectNames.get(dir);
+}
+
+// Titles shared by several projects get the project name in the browser tab and search result.
+const GENERIC_TITLE = /^(overview|architecture|troubleshooting|lessons learned|roadmap|deployment)$/i;
+
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const abs = path.join(dir, entry.name);
@@ -259,7 +276,9 @@ function walk(dir) {
     let md = fs.readFileSync(abs, 'utf8').replace(/\r\n/g, '\n');
     if (!md.trim()) { report.skipped.push(`${toPosix(rel)} (empty)`); continue; }
 
-    // Title comes from the first H1.
+    // Title comes from the first H1. A description in the doc's own frontmatter wins over the generated one.
+    const frontmatter = md.match(/^---\n([\s\S]*?)\n---\n/)?.[1] ?? '';
+    const ownDescription = frontmatter.match(/^description:\s*(.+?)\s*$/m)?.[1]?.replace(/^(["'])(.*)\1$/, '$2');
     md = md.replace(/^---\n[\s\S]*?\n---\n/, '');
     const isReadme = /^readme\.md$/i.test(entry.name);
     let title = prettify(isReadme ? path.basename(path.dirname(abs)) : entry.name);
@@ -274,9 +293,22 @@ function walk(dir) {
     const sourcePath = toPosix(path.relative(REPO, abs));
     const editUrl = `${GITHUB}/blob/${BRANCH}/${sourcePath}`;
     const plan = isPlan(rel);
+    const project = projectName(rel);
+    const description = ownDescription || describe(md, title, project);
+    const pageTitle = !isReadme && project && GENERIC_TITLE.test(cleanName(title)) ? `${project} ${cleanName(title)}` : null;
     const front = [
       '---',
       `title: ${JSON.stringify(title)}`,
+      `description: ${JSON.stringify(description)}`,
+      ...(pageTitle ? [
+        'head:',
+        '  - tag: title',
+        `    content: ${JSON.stringify(`${pageTitle} | EC-Builds`)}`,
+        '  - tag: meta',
+        '    attrs:',
+        '      property: og:title',
+        `      content: ${JSON.stringify(pageTitle)}`,
+      ] : []),
       `editUrl: ${JSON.stringify(editUrl)}`,
       'sidebar:',
       `  label: ${JSON.stringify(navLabel)}`,

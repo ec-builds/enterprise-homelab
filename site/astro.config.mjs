@@ -38,6 +38,7 @@ export default defineConfig({
         { tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' } },
         { tag: 'link', attrs: { rel: 'manifest', href: '/site.webmanifest' } },
         { tag: 'meta', attrs: { name: 'theme-color', content: '#f6f9fe' } },
+        { tag: 'meta', attrs: { name: 'author', content: 'Emmanuel Casillas' } },
         { tag: 'meta', attrs: { property: 'og:image', content: 'https://ec-builds.com/og-image.png' } },
         { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
         { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
