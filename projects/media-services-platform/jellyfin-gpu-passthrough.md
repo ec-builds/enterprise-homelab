@@ -4,6 +4,9 @@
 
 ## Overview
 
+> [!NOTE]
+> This document records the original passthrough, performed on the previous `prox-lab-03` hardware: an Intel Core i7-6700T with HD Graphics 530. The node was replaced in October 2026, and passthrough was redone on the new host's Intel UHD Graphics 730. See the [Replacement Record](../virtualization-lab/08-proxmox-node-replacement.md#replacement-record).
+
 Jellyfin originally ran with 2 vCPUs and relied entirely on CPU-based transcoding. This worked well for normal playback, but even relatively simple transcoding tasks, particularly playback involving subtitles, could push both assigned CPU cores close to 100% utilization.
 
 Increasing the VM's CPU allocation would have worked, but resources on the Proxmox host are limited and those additional cores are better left available for other VMs and services.

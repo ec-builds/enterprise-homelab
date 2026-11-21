@@ -9,10 +9,10 @@ virtualization lab.
 |---|---|---:|---:|---|---|
 | `prox-lab-01` | Intel Core i5-9500T | 6 / 6 | 32 GB | ~1 TB NVMe LVM-thin | Active |
 | `prox-lab-02` | Intel Core i7-6700T | 4 / 8 | 16 GB | ~1 TB NVMe LVM-thin | Active |
-| `prox-lab-03` | Intel Core i7-6700T | 4 / 8 | 8 GB | ~337 GB NVMe LVM-thin | Active |
+| `prox-lab-03` | Intel Core i5-12400 | 6 / 12 | 16 GB | ~337 GB NVMe LVM-thin | Active |
 
-The three-node architecture provides a combined **14 physical cores, 22 hardware
-threads, and 56 GB of memory** for virtualization workloads.
+The three-node architecture provides a combined **16 physical cores, 26 hardware
+threads, and 64 GB of memory** for virtualization workloads.
 
 > **Note:** Firewall and routing services are hosted on dedicated hardware and
 > are excluded from Proxmox capacity calculations.
@@ -143,8 +143,8 @@ contributing compute capacity and cluster quorum.
 
 | Resource | Host Capacity | Allocated | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 4 cores / 8 threads | 4 vCPU (8 with planned) | ~0.5:1 vCPU-to-thread (1:1 with planned) |
-| Memory | 8 GB | 6 GB (11 GB with planned) | ~2 GB unallocated (3 GB over with planned) |
+| CPU | 6 cores / 12 threads | 4 vCPU (8 with planned) | ~0.33:1 vCPU-to-thread (~0.67:1 with planned) |
+| Memory | 16 GB | 6 GB (11 GB with planned) | ~10 GB unallocated (~5 GB with planned) |
 | NVMe VM Storage | ~337 GB | Workload dependent | Expand as required |
 
 ### VMs
@@ -165,25 +165,24 @@ contributing compute capacity and cluster quorum.
 
 ### Capacity Notes
 
-The processor provides **4 physical cores and 8 hardware threads**, providing
-compute capability similar to `prox-lab-02`.
+The processor provides **6 physical cores and 12 hardware threads**, the most
+hardware threads of any node in the cluster.
 
 CPU capacity is sufficient for the current and planned workloads, which are
 not expected to sustain maximum utilization simultaneously.
 
-Memory is the primary capacity constraint on this node. The current workloads
-use **6 GB of the node's 8 GB**, leaving about 2 GB for the hypervisor and
-overhead. Adding both planned VMs would bring allocations to **11 GB**, about
-**3 GB more than the node has**, so the planned workloads require a memory
-upgrade or placement on another node before deployment.
+The current workloads use **6 GB of the node's 16 GB**, leaving about 10 GB
+for the hypervisor, overhead, and growth. Adding both planned VMs would bring
+allocations to **11 GB**, leaving about **5 GB** unallocated.
 
-A future memory upgrade would provide additional operating margin and allow
-these workloads to grow without requiring redistribution to another node.
+The node's hardware was replaced in October 2026, doubling its memory from
+8 GB to 16 GB. See the
+[Replacement Record](./08-proxmox-node-replacement.md#replacement-record).
 
 The primary NVMe drive hosts both the Proxmox installation and approximately
 **337 GB of LVM-thin storage** for VM and container disks.
 
-A secondary HDD provides general-purpose storage and is not included in the
+A secondary 1 TB HDD provides general-purpose storage and is not included in the
 VM storage capacity shown above.
 
 
@@ -192,12 +191,12 @@ VM storage capacity shown above.
 
 | Resource | `prox-lab-01` | `prox-lab-02` | `prox-lab-03` | Cluster Total |
 |---|---:|---:|---:|---:|
-| Physical Cores | 6 | 4 | 4 | **14** |
-| Hardware Threads | 6 | 8 | 8 | **22** |
-| Memory | 32 GB | 16 GB | 8 GB | **56 GB** |
+| Physical Cores | 6 | 4 | 6 | **16** |
+| Hardware Threads | 6 | 8 | 12 | **26** |
+| Memory | 32 GB | 16 GB | 16 GB | **64 GB** |
 | Allocated vCPU | 14 | 4 | 4 | **22** |
 | Allocated VM Memory | 25 GB | 4 GB | 6 GB | **35 GB** |
-| Unallocated Memory | ~7 GB | ~12 GB | ~2 GB | **~21 GB** |
+| Unallocated Memory | ~7 GB | ~12 GB | ~10 GB | **~29 GB** |
 | Planned VMs (not deployed) | — | — | 4 vCPU / 5 GB | **4 vCPU / 5 GB** |
 | NVMe VM Storage | ~1 TB | ~1 TB | ~337 GB | **~2.3 TB** |
 
@@ -225,10 +224,8 @@ reserved exclusively for future use. Media services and the secondary AdGuard
 instance run on this node, and security and utility services are planned for
 it, to reduce resource concentration on `prox-lab-02`.
 
-Its current **8 GB memory capacity is the primary limitation** of this
-placement. Increasing memory capacity in the future would provide additional
-headroom for these workloads while maintaining the current distribution
-strategy.
+With 16 GB of memory after its October 2026 hardware replacement, the node has
+capacity for both the current and planned workloads.
 
 
 

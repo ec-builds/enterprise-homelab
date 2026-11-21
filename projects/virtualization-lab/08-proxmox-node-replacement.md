@@ -188,3 +188,18 @@ However, the old installation must not be booted onto the active cluster network
 
 Once the replacement has been validated and normal operation is confirmed, the old installation can be repurposed or removed.
 
+## Replacement Record
+
+`prox-lab-03` was moved to new hardware in October 2026. The node kept its hostname and its role in the cluster.
+
+| Item | Detail |
+|---|---|
+| Node | `prox-lab-03` |
+| Date | October 2026 |
+| Previous hardware | Dell OptiPlex 7040: Intel Core i7-6700T (4C/8T), 8 GB RAM |
+| Replacement hardware | HP Pavilion TP01-3016: Intel Core i5-12400 (6C/12T), 16 GB RAM, 500 GB NVMe SSD, 1 TB HDD |
+| VM storage | ~337 GB NVMe LVM-thin |
+| GPU passthrough | Redone for the Intel UHD Graphics 730 |
+| Previous hardware after replacement | Repurposed as an off-site Proxmox and WireGuard host |
+
+Capacity changes from the replacement are reflected in [Proxmox Resource Allocation](./04-resource-allocation.md).

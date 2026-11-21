@@ -156,9 +156,9 @@ memory, storage capacity, and service dependencies.
 
 The three-node environment provides a combined:
 
-- **14 physical CPU cores**
-- **22 hardware threads**
-- **56 GB of memory**
+- **16 physical CPU cores**
+- **26 hardware threads**
+- **64 GB of memory**
 - **Approximately 2.3 TB of NVMe VM storage**
 
 CPU and memory remain local to each virtualization host rather than operating

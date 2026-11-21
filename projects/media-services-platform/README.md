@@ -55,7 +55,7 @@ For more information about this diagram, see [architecture.md](./architecture.md
 
 ### Current Platform
 
-- Proxmox VE virtualization on a Dell OptiPlex Micro node
+- Proxmox VE virtualization on an HP Pavilion node
 - Debian 13
 - Docker Engine
 - Docker Compose

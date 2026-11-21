@@ -40,8 +40,10 @@ maintain quorum with two available nodes.
 |---|---|---|---:|---|---|---|
 | `prox-lab-01` | Dell OptiPlex 3070 | Intel Core i5-9500T (6C/6T) | 32 GB | ~1 TB SATA SSD | ~1 TB NVMe SSD | Active |
 | `prox-lab-02` | Dell OptiPlex 7040 | Intel Core i7-6700T (4C/8T) | 16 GB | ~1 TB SATA SSD | ~1 TB NVMe SSD | Active |
-| `prox-lab-03` | Dell OptiPlex 7040 | Intel Core i7-6700T (4C/8T) | 8 GB | ~500 GB NVMe SSD | ~337 GB NVMe LVM-Thin | Active |
+| `prox-lab-03` | HP Pavilion TP01-3016 | Intel Core i5-12400 (6C/12T) | 16 GB | ~500 GB NVMe SSD | ~337 GB NVMe LVM-Thin | Active |
 
+`prox-lab-03` was moved to new hardware in October 2026. See the
+[Replacement Record](./08-proxmox-node-replacement.md#replacement-record).
 
 Detailed host capacity and workload allocation are documented in the resource allocation doc:
 
