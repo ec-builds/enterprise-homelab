@@ -100,7 +100,7 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 | [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 |
-| [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | ⚪ |
+| [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | 🟡 |
 | [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟢 |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, DHCP, DNS, and network services | 🟢 |
 | [Network Security](projects/network-security/) | Firewall, DNS security, VPN, network segmentation | 🟢 |

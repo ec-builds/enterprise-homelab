@@ -70,13 +70,13 @@ prox-lab-03.example.internal
 Example management network:
 
 ```text
-Network:    192.0.2.0/24
-Gateway:    192.0.2.1
-Node:       192.0.2.10
-DNS:        192.0.2.53
+Network:    10.0.0.0/24
+Gateway:    10.0.0.1
+Node:       10.0.0.20
+DNS:        10.0.0.53
 ```
 
-`192.0.2.0/24` is used for documentation examples and does not represent the production or lab addressing scheme.
+`10.0.0.0/24` is a documentation placeholder and does not represent the production or lab addressing scheme.
 
 ## 3. Management Networking
 
@@ -118,8 +118,8 @@ iface eno1 inet manual
 
 auto vmbr0
 iface vmbr0 inet static
-        address 192.0.2.10/24
-        gateway 192.0.2.1
+        address 10.0.0.20/24
+        gateway 10.0.0.1
         bridge-ports eno1
         bridge-stp off
         bridge-fd 0
@@ -140,7 +140,7 @@ ip route
 Test the gateway:
 
 ```bash
-ping -c 4 192.0.2.1
+ping -c 4 10.0.0.1
 ```
 
 Test DNS resolution:
@@ -152,7 +152,7 @@ getent hosts example.com
 The Proxmox management interface should then be reachable at:
 
 ```text
-https://192.0.2.10:8006
+https://10.0.0.20:8006
 ```
 
 ## 4. Repository and Updates

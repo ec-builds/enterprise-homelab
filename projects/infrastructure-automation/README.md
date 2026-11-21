@@ -1,6 +1,6 @@
 # ⚙️ Infrastructure Automation (IaC)
 
-**Status: 🟡 In Progress**
+**Status: ⚪ Planned**
 
 <img src="./diagrams/infrastructure-automation-banner.png" alt="Infrastructure & Automation Lab Banner" width="1000">
 

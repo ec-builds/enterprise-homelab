@@ -1,6 +1,6 @@
 # 🪪 Microsoft 365 & Entra ID Lab
 
-**Status: ⚪ Planned**
+**Status: 🟡 In Progress**
 
 <img src="./diagrams/m365-entra-banner.png" alt="Microsoft 365 & Entra ID Lab Banner" width="1000">
 

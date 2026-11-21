@@ -89,7 +89,7 @@ A more structured internal namespace could also be used:
 
 ```text
 pve01.lab.home.arpa
-dc01.lab.home.arpa
+dc-lab-01.lab.home.arpa
 docker01.lab.home.arpa
 ```
 

@@ -100,7 +100,7 @@ This document will be expanded after installation to include:
 
 ## Status
 
-**Status:** Planned / Pending Installation
+**Status: ⚪ Planned**
 
 Hardware validation under Debian is complete.
 

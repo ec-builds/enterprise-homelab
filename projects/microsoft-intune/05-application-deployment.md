@@ -193,7 +193,7 @@ Report Not Installed
 
 ## Validation
 
-**Status: 🟢 Passed**
+**Status: 🟢 Operational**
 
 The following application-management behaviors were successfully validated:
 

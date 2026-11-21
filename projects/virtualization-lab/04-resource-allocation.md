@@ -29,11 +29,11 @@ prox-lab-01
 ├── win11-lab-vm01
 ├── win11-lab-vm02
 ├── docker-lab-vm
-└── dc01-lab-vm
+└── dc-lab-01
 
 prox-lab-02
 ├── monitor-lab-vm
-└── dc02-lab-vm
+└── dc-lab-02
 
 prox-lab-03
 ├── security-lab-vm
@@ -72,7 +72,7 @@ self-hosted applications, and endpoint testing.
 | `win11-lab-vm01` | Domain / Endpoint Testing | 4 | 8 GB |
 | `win11-lab-vm02` | Additional Endpoint Testing | 4 | 8 GB |
 | `docker-lab-vm` | Debian / Docker Host | 2 | 4 GB |
-| `dc01-lab-vm` | AD DS / DNS | 2 | 2 GB |
+| `dc-lab-01` | AD DS / DNS | 2 | 2 GB |
 | **Total** | | **12 vCPU** | **22 GB** |
 
 ### Capacity Notes
@@ -103,7 +103,7 @@ monitoring services.
 | VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
 | `monitor-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
-| `dc02-lab-vm` | Secondary AD DS / DNS | 2 | 2 GB |
+| `dc-lab-02` | Secondary AD DS / DNS | 2 | 2 GB |
 | **Total** | | **4 vCPU** | **4 GB** |
 
 ### Capacity Notes
@@ -121,7 +121,7 @@ metrics and logging workloads may grow as additional systems, containers, and
 network devices are integrated into the monitoring environment.
 
 The secondary domain controller provides directory and DNS redundancy on a
-different physical virtualization node from `dc01-lab-vm`.
+different physical virtualization node from `dc-lab-01`.
 
 
 

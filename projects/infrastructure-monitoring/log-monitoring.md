@@ -114,7 +114,7 @@ A normalized entry follows this general structure:
 Example:
 
 ```text
-Sep 28 14:30:00 192.0.2.10 severity=warning facility=daemon service: Example warning event
+Sep 28 14:30:00 10.0.0.20 severity=warning facility=daemon service: Example warning event
 ```
 
 The standard syslog severity levels are:

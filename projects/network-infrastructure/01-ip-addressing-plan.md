@@ -1,6 +1,6 @@
 # IP Addressing Strategy
 
-**Status: 🟢 Active**
+**Status: 🟢 Operational**
 
 This document describes the addressing principles used to organize the homelab environment. The design emphasizes predictable infrastructure addressing, centralized client configuration, service availability, and capacity for future network segmentation.
 
