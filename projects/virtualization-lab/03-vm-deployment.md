@@ -3,7 +3,7 @@
 This document records the virtual machine deployment baseline implemented
 throughout the Proxmox homelab.
 
-The initial implementation uses `docker-lab-vm`, a Debian 13 virtual machine
+The initial implementation uses `docker-lab-01`, a Debian 13 virtual machine
 serving as the primary Docker host. Other workloads use the same general
 deployment baseline, with virtual hardware and resources adjusted according to
 guest operating system and workload requirements.
@@ -40,7 +40,7 @@ application requirements justify a different configuration.
 
 ## Debian / Docker Implementation
 
-The initial baseline was implemented using `docker-lab-vm`, a Debian 13 virtual
+The initial baseline was implemented using `docker-lab-01`, a Debian 13 virtual
 machine serving as the primary Docker host.
 
 ![Docker VM Config](./diagrams/docker-lab-vm.png)

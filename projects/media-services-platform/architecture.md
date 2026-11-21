@@ -19,7 +19,7 @@ Media is stored independently on centralized network-attached storage and mounte
 | Component | Role | Responsibilities |
 |---|---|---|
 | **Proxmox VE** | Virtualization platform | Hosts the media VM and provides virtual compute, networking, backup, and lifecycle management |
-| **media-lab-vm** | Media services VM | Runs Debian 13, Docker, and the supporting media services environment |
+| **media-lab-01** | Media services VM | Runs Debian 13, Docker, and the supporting media services environment |
 | **Debian 13** | Operating system | Provides package management, networking, storage integration, system administration, and Docker host functionality |
 | **Docker Engine** | Container runtime | Runs and isolates Jellyfin and manages container networking and lifecycle |
 | **Docker Compose** | Service definition | Defines the Jellyfin deployment declaratively and provides repeatable container configuration |
@@ -61,7 +61,7 @@ Keeping persistent application state outside the container allows Jellyfin to be
 | **Persistent Application Data** | Bind mounts under `/opt/docker/jellyfin` | Simplifies inspection, backup, troubleshooting, and future migration |
 | **Storage Separation** | Media remains on centralized network storage | Keeps application and storage lifecycles independent and reduces VM storage requirements |
 | **Read-Only Media Access** | Media is exposed to Jellyfin as read-only | Reduces accidental modification or deletion and reinforces least privilege |
-| **Dedicated Workload VM** | Media services operate within `media-lab-vm` | Separates the media workload from other infrastructure services |
+| **Dedicated Workload VM** | Media services operate within `media-lab-01` | Separates the media workload from other infrastructure services |
 | **Declarative Deployment** | Service configuration maintained in `docker-compose.yaml` | Makes deployment repeatable, reviewable, and easier to document |
 
 ## Architecture Evolution
@@ -85,7 +85,7 @@ Standalone Debian Host
 ```text
 Proxmox VE
     │
-    └── Debian VM (media-lab-vm)
+    └── Debian VM (media-lab-01)
             │
             ├── Docker Engine
             │       │

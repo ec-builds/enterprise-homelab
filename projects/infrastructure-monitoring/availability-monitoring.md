@@ -62,7 +62,7 @@ Layer 4 - Core Infrastructure
 ├── prox-lab-01
 ├── prox-lab-02
 ├── prox-lab-03
-└── nas-lab-01
+└── nas-lab
    │
    ▼
 Layer 5 - Platform Services
@@ -164,7 +164,7 @@ Core infrastructure systems are monitored independently from the services they p
 | `prox-lab-01` | HTTP(s) | Hypervisor management availability |
 | `prox-lab-02` | HTTP(s) | Hypervisor management availability |
 | `prox-lab-03` | HTTP(s) | Hypervisor management availability |
-| `nas-lab-01` | HTTP(s) | NAS management availability |
+| `nas-lab` | HTTP(s) | NAS management availability |
 | NAS SMB | TCP Port | Validate SMB service availability |
 
 Critical domain controller services are also monitored independently:

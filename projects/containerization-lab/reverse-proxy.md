@@ -8,7 +8,7 @@ Currently this is pending DNS deployment
 
 **Service:** Nginx Proxy Manager (NPM)  
 **Platform:** Docker Compose  
-**Host:** `docker-lab`  
+**Host:** `docker-lab-01`  
 **Status: ⚪ Planned**
 
 Nginx Proxy Manager will provide a centralized entry point for Docker-hosted web applications.

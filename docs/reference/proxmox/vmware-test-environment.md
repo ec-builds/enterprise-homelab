@@ -88,9 +88,9 @@ pve-test.home.arpa
 A more structured internal namespace could also be used:
 
 ```text
-pve01.lab.home.arpa
+prox-lab-01.lab.home.arpa
 dc-lab-01.lab.home.arpa
-docker01.lab.home.arpa
+docker-lab-01.lab.home.arpa
 ```
 
 The final hostname and DNS structure will be established as part of the bare-metal network and infrastructure design.

@@ -85,7 +85,7 @@ If the source VM was originally created for another purpose, rename the Debian h
 For example:
 
 ```text
-docker-vm-lab
+docker-lab-01
       ↓
 Rename Source Host
       ↓
@@ -98,7 +98,7 @@ Full Clone
 Assign New Hostname
 ```
 
-In this example, the original `docker-vm-lab` hostname remains available for a future Docker host deployed from the template rather than being retained by the template itself.
+In this example, the original `docker-lab-01` hostname remains available for a future Docker host deployed from the template rather than being retained by the template itself.
 
 Follow:
 

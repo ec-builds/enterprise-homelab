@@ -23,7 +23,7 @@ prox-lab-03
         |
         | PCI Passthrough
         v
-media-lab-vm
+media-lab-01
         |
         | i915
         v
@@ -56,7 +56,7 @@ GPU PCI ID: 8086:1912
 
 ```text
 VM ID: <VMID>
-Hostname: media-lab-vm
+Hostname: media-lab-01
 OS: Debian
 vCPU: 2
 RAM: 4 GB
@@ -65,14 +65,14 @@ BIOS: OVMF
 CPU Type: host
 ```
 
-Jellyfin runs in Docker inside `media-lab-vm`.
+Jellyfin runs in Docker inside `media-lab-01`.
 
 
 ## GPU Passthrough
 
 The first step was making the unused Intel HD Graphics 530 available to the media VM.
 
-Normally, the integrated GPU belongs to the Proxmox host. Because Proxmox does not need the GPU for this deployment, it can instead be dedicated to `media-lab-vm` using PCI passthrough. This gives the VM direct access to the physical GPU rather than emulating one in software.
+Normally, the integrated GPU belongs to the Proxmox host. Because Proxmox does not need the GPU for this deployment, it can instead be dedicated to `media-lab-01` using PCI passthrough. This gives the VM direct access to the physical GPU rather than emulating one in software.
 
 > [!Note]
 > For detailed PCI passthrough configuration, commands, and example output, see the **Proxmox PCI Passthrough** reference document: [Proxmox PCI Passthrough](../../docs/reference/proxmox/proxmox-PCI-device-passthrough.md).
@@ -100,7 +100,7 @@ Guest Driver: i915
 Render Device: /dev/dri/renderD128
 ```
 
-At this point, the physical Intel GPU is available directly inside `media-lab-vm`.
+At this point, the physical Intel GPU is available directly inside `media-lab-01`.
 
 
 ## Docker GPU Access
@@ -295,7 +295,7 @@ The result is a more efficient use of the hardware already available in the syst
 [x] Resource constraint identified
 [x] Unused integrated GPU identified
 [x] GPU isolated for PCI passthrough
-[x] GPU passed through to media-lab-vm
+[x] GPU passed through to media-lab-01
 [x] Intel GPU available inside Debian
 [x] GPU exposed to Jellyfin container
 [x] Intel Quick Sync enabled

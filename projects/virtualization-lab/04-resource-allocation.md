@@ -26,26 +26,32 @@ utilization and reduce the impact of individual host maintenance or failure.
 
 ```text
 prox-lab-01
-├── win11-lab-vm01
-├── win11-lab-vm02
-├── docker-lab-vm
-└── dc-lab-01
+├── dc-lab-01
+├── docker-lab-01
+├── adguard-lab-01
+├── win11-lab-01
+└── win11-lab-02
 
 prox-lab-02
-├── monitor-lab-vm
-└── dc-lab-02
+├── dc-lab-02
+└── monitor-lab-01
 
 prox-lab-03
-├── security-lab-vm
-├── utility-lab-vm
-└── media-lab-vm
+├── media-lab-01
+├── adguard-lab-02
+├── security-lab-01   (planned)
+└── utility-lab-01    (planned)
 ```
 
 Persistent services are intentionally distributed across all three
 virtualization nodes. General Docker services remain on `prox-lab-01`,
 monitoring services and the secondary domain controller are hosted on
-`prox-lab-02`, while security, utility, and media workloads are assigned to
-`prox-lab-03`.
+`prox-lab-02`, and media workloads are assigned to `prox-lab-03`. Security and
+utility workloads are planned for `prox-lab-03`.
+
+The two domain controllers and the two AdGuard Home instances are each split
+across separate nodes, so directory, internal DNS, and DNS filtering remain
+available when any single node is offline.
 
 This distribution reduces workload concentration on `prox-lab-02` while
 making use of the available compute capacity on `prox-lab-03`.
@@ -61,26 +67,28 @@ self-hosted applications, and endpoint testing.
 
 | Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 6 cores / 6 threads | 12 vCPU | ~2:1 vCPU-to-core |
-| Memory | 32 GB | 22 GB | ~10 GB unallocated |
+| CPU | 6 cores / 6 threads | 14 vCPU | ~2.3:1 vCPU-to-core |
+| Memory | 32 GB | 25 GB | ~7 GB unallocated |
 | NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
-### Planned VMs
+### VMs
 
 | VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
-| `win11-lab-vm01` | Domain / Endpoint Testing | 4 | 8 GB |
-| `win11-lab-vm02` | Additional Endpoint Testing | 4 | 8 GB |
-| `docker-lab-vm` | Debian / Docker Host | 2 | 4 GB |
 | `dc-lab-01` | AD DS / DNS | 2 | 2 GB |
-| **Total** | | **12 vCPU** | **22 GB** |
+| `docker-lab-01` | Debian / Docker Host | 2 | 4 GB |
+| `adguard-lab-01` | AdGuard Home DNS Filtering | 2 | 3 GB |
+| `win11-lab-01` | Domain / Endpoint Testing | 4 | 8 GB |
+| `win11-lab-02` | Additional Endpoint Testing | 4 | 8 GB |
+| **Total** | | **14 vCPU** | **25 GB** |
 
 ### Capacity Notes
 
-CPU is intentionally overcommitted at approximately **2:1**. These workloads
-are not expected to sustain maximum CPU utilization simultaneously.
+CPU is intentionally overcommitted at approximately **2.3:1**. These workloads
+are not expected to sustain maximum CPU utilization simultaneously, and the
+Windows endpoint VMs are not always running.
 
-Approximately **10 GB of memory remains unallocated** for the hypervisor,
+Approximately **7 GB of memory remains unallocated** for the hypervisor,
 filesystem caching, virtualization overhead, and temporary workloads.
 
 
@@ -98,12 +106,12 @@ monitoring services.
 | Memory | 16 GB | 4 GB | ~12 GB unallocated |
 | NVMe Storage | ~1 TB | Workload dependent | Expand as required |
 
-### Planned VMs
+### VMs
 
 | VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
-| `monitor-lab-vm` | Monitoring / Metrics / Logging | 2 | 2 GB |
 | `dc-lab-02` | Secondary AD DS / DNS | 2 | 2 GB |
+| `monitor-lab-01` | Monitoring / Metrics / Logging | 2 | 2 GB |
 | **Total** | | **4 vCPU** | **4 GB** |
 
 ### Capacity Notes
@@ -116,7 +124,7 @@ Approximately **12 GB of memory remains unallocated** for the hypervisor,
 filesystem caching, virtualization overhead, monitoring growth, and temporary
 workloads.
 
-`monitor-lab-vm` is intentionally given additional host-level capacity because
+`monitor-lab-01` is intentionally given additional host-level capacity because
 metrics and logging workloads may grow as additional systems, containers, and
 network devices are integrated into the monitoring environment.
 
@@ -127,38 +135,47 @@ different physical virtualization node from `dc-lab-01`.
 
 ## `prox-lab-03`
 
-Third virtualization node providing security, utility, and media workloads
-while also contributing compute capacity and cluster quorum.
+Third virtualization node providing media services and the secondary DNS
+filtering instance, with security and utility workloads planned, while also
+contributing compute capacity and cluster quorum.
 
 ### Capacity
 
-| Resource | Host Capacity | Planned Allocation | Remaining / Ratio |
+| Resource | Host Capacity | Allocated | Remaining / Ratio |
 |---|---:|---:|---:|
-| CPU | 4 cores / 8 threads | 6 vCPU | ~0.75:1 vCPU-to-thread |
-| Memory | 8 GB | 8 GB | No planned memory reserve |
+| CPU | 4 cores / 8 threads | 4 vCPU (8 with planned) | ~0.5:1 vCPU-to-thread (1:1 with planned) |
+| Memory | 8 GB | 6 GB (11 GB with planned) | ~2 GB unallocated (3 GB over with planned) |
 | NVMe VM Storage | ~337 GB | Workload dependent | Expand as required |
+
+### VMs
+
+| VM / Workload | Role | vCPU | RAM |
+|---|---|---:|---:|
+| `media-lab-01` | Docker / Jellyfin Media Services | 2 | 3 GB |
+| `adguard-lab-02` | AdGuard Home DNS Filtering | 2 | 3 GB |
+| **Total** | | **4 vCPU** | **6 GB** |
 
 ### Planned VMs
 
 | VM / Workload | Role | vCPU | RAM |
 |---|---|---:|---:|
-| `security-lab-vm` | Security / SIEM Testing | 2 | 3 GB |
-| `utility-lab-vm` | Linux / Infrastructure Utilities | 2 | 2 GB |
-| `media-lab-vm` | Docker / Jellyfin Media Services | 2 | 3 GB |
-| **Total** | | **6 vCPU** | **8 GB** |
+| `security-lab-01` | Security / SIEM Testing | 2 | 3 GB |
+| `utility-lab-01` | Linux / Infrastructure Utilities | 2 | 2 GB |
+| **Total** | | **4 vCPU** | **5 GB** |
 
 ### Capacity Notes
 
 The processor provides **4 physical cores and 8 hardware threads**, providing
 compute capability similar to `prox-lab-02`.
 
-CPU capacity is sufficient for the planned workloads, which are not expected
-to sustain maximum utilization simultaneously.
+CPU capacity is sufficient for the current and planned workloads, which are
+not expected to sustain maximum utilization simultaneously.
 
-Memory is the primary capacity constraint on this node. The planned
-allocations consume the node's current **8 GB of RAM**, so actual memory
-utilization should be monitored and workloads should not be expected to
-consume their full allocations simultaneously.
+Memory is the primary capacity constraint on this node. The current workloads
+use **6 GB of the node's 8 GB**, leaving about 2 GB for the hypervisor and
+overhead. Adding both planned VMs would bring allocations to **11 GB**, about
+**3 GB more than the node has**, so the planned workloads require a memory
+upgrade or placement on another node before deployment.
 
 A future memory upgrade would provide additional operating margin and allow
 these workloads to grow without requiring redistribution to another node.
@@ -178,9 +195,10 @@ VM storage capacity shown above.
 | Physical Cores | 6 | 4 | 4 | **14** |
 | Hardware Threads | 6 | 8 | 8 | **22** |
 | Memory | 32 GB | 16 GB | 8 GB | **56 GB** |
-| Planned vCPU | 12 | 4 | 6 | **22** |
-| Planned VM Memory | 22 GB | 4 GB | 8 GB | **34 GB** |
-| Unallocated Memory | ~10 GB | ~12 GB | ~0 GB | **~22 GB** |
+| Allocated vCPU | 14 | 4 | 4 | **22** |
+| Allocated VM Memory | 25 GB | 4 GB | 6 GB | **35 GB** |
+| Unallocated Memory | ~7 GB | ~12 GB | ~2 GB | **~21 GB** |
+| Planned VMs (not deployed) | — | — | 4 vCPU / 5 GB | **4 vCPU / 5 GB** |
 | NVMe VM Storage | ~1 TB | ~1 TB | ~337 GB | **~2.3 TB** |
 
 > **Note:** Combined capacity is useful for planning, but CPU and memory remain
@@ -203,8 +221,9 @@ dependencies.
 - Reevaluate workload placement as utilization and hardware availability change
 
 `prox-lab-03` now provides active workload capacity rather than remaining
-reserved exclusively for future use. Security, utility, and media services are
-placed on this node to reduce resource concentration on `prox-lab-02`.
+reserved exclusively for future use. Media services and the secondary AdGuard
+instance run on this node, and security and utility services are planned for
+it, to reduce resource concentration on `prox-lab-02`.
 
 Its current **8 GB memory capacity is the primary limitation** of this
 placement. Increasing memory capacity in the future would provide additional

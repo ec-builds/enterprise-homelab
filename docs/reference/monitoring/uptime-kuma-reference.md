@@ -469,7 +469,7 @@ Docker
 │   ├── Grafana - HTTP
 │   └── Uptime Kuma - HTTP
 │
-└── media-lab-vm - Ping
+└── media-lab-01 - Ping
     └── Jellyfin - HTTP
 ```
 

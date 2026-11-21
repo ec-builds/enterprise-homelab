@@ -15,7 +15,7 @@ sudo hostnamectl set-hostname <new-hostname>
 Example:
 
 ```bash
-sudo hostnamectl set-hostname debian-lab-vm
+sudo hostnamectl set-hostname debian-lab-01
 ```
 
 This updates the persistent hostname stored in:
@@ -57,7 +57,7 @@ Example:
 
 ```text
 127.0.0.1    localhost
-127.0.1.1    debian-lab-vm.lab.example.com    debian-lab-vm
+127.0.1.1    debian-lab-01.lab.example.com    debian-lab-01
 
 # The following lines are desirable for IPv6 capable hosts
 ::1          localhost ip6-localhost ip6-loopback

@@ -238,7 +238,7 @@ win11-template
       ↓
    Full Clone
       ↓
-win11-client-03
+win11-lab-03
       ↓
  Windows OOBE
       ↓

@@ -13,7 +13,7 @@ The workload was originally hosted directly on a Late 2014 Mac mini before being
 |---|---|
 | Virtualization Platform | Proxmox VE |
 | Physical Host | `prox-lab-03` |
-| Virtual Machine | `media-lab-vm` |
+| Virtual Machine | `media-lab-01` |
 | Guest Operating System | Debian GNU/Linux 13 (Trixie) |
 | Application Runtime | Docker Engine |
 | Application | Jellyfin |

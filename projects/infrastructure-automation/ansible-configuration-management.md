@@ -59,8 +59,8 @@ Admin Workstation
       │
       ├────────► prox-lab-01
       ├────────► prox-lab-02
-      ├────────► docker01
-      └────────► monitor01
+      ├────────► docker-lab-01
+      └────────► monitor-lab-01
                    │
                    ▼
               Admin Account
@@ -114,8 +114,8 @@ prox-lab-01
 prox-lab-02
 
 [linux_servers]
-docker01
-monitor01
+docker-lab-01
+monitor-lab-01
 ```
 
 Groups allow configuration to be applied consistently across similar systems while still permitting host-specific settings when required.

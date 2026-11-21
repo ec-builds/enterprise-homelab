@@ -40,9 +40,11 @@ Use the pattern:
 | `dc-lab-01`, `dc-lab-02` | Active Directory domain controllers |
 | `prox-lab-01`, `prox-lab-02` | Proxmox VE hosts |
 | `adguard-lab-01`, `adguard-lab-02` | AdGuard Home DNS filtering |
-| `docker-lab` | Docker host VM |
-| `monitoring-lab` | Monitoring and observability platform |
-| `media-server-lab` | Media services host |
+| `docker-lab-01` | Docker host VM |
+| `monitor-lab-01` | Monitoring and observability platform |
+| `media-lab-01` | Media services VM |
+| `win11-lab-01`, `win11-lab-02` | Windows 11 endpoint test VMs |
+| `security-lab-01`, `utility-lab-01` | Planned security and utility VMs |
 | `nas-lab` | Network-attached storage |
 | `m365-lab` | Microsoft 365 and Entra ID lab |
 | `automation-lab` | Automation and infrastructure tooling |
