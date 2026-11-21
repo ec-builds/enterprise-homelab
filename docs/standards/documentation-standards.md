@@ -43,17 +43,22 @@ Only create documents that provide useful information for the project.
 
 ## Document Structure
 
-### Required
+### Every Document
 
-Every document includes:
+1. **Title:** a single `#` heading. Use `##` for sections and `###` for subsections, and `####` sparingly. Do not use additional `#` headings as section headings.
+2. **Opening:** the first paragraph after the title states what the document covers in a complete sentence or two. It can sit under any heading, such as Overview or Purpose, or under no heading.
+3. **Body:** the content of the document.
 
-1. **Title:** a single `#` heading
-2. **Status:** the status line directly below the title
-3. **Overview:** a `## Overview` section stating what the document covers
-4. **Body:** `##` sections and `###` subsections, using `####` sparingly
+### Project READMEs
+
+A project `README.md` also includes:
+
+- **Status:** the status line directly below the title
+- **Overview:** a `## Overview` section
 
 ### Optional
 
+- **Status in other documents:** a lab document may carry its own status line when it is at a different stage from its project, for example a document that is In Progress inside an Operational project. Reference documents and standards do not need a status.
 - **Outcome:** recommended for project documents that record a build or deployment. Summarize what was accomplished and what was validated.
 - **Related Documentation:** links to closely related documents.
 
@@ -61,7 +66,7 @@ Documents that only record information, such as inventories, catalogs, and refer
 
 ## Status
 
-The status line uses exactly this format, directly below the title:
+Status is required in project READMEs. Wherever a status line is used, it uses exactly this format, directly below the title:
 
 ```markdown
 **Status: 🟢 Operational**
@@ -172,7 +177,7 @@ How documents are converted:
 
 - **URLs:** filenames are lowercased, so `active-directory-DNS.md` becomes `/active-directory-dns/`.
 - **Title:** the `#` heading becomes the page title. A leading emoji is removed from the sidebar label.
-- **Description:** the first prose paragraph after the status line becomes the search and link-preview description, so open the Overview with a complete sentence.
+- **Description:** the first prose paragraph becomes the search and link-preview description. Headings, the status line, images, tables, and lists are skipped, so a document that opens with a table or diagram needs a sentence before it.
 - **Callouts:** GitHub callouts become site callouts.
 - **Status emoji:** status emoji in table cells become status pills.
 
@@ -196,8 +201,7 @@ Keep commit messages concise and descriptive.
 Before publishing:
 
 - [ ] Title is a single `#` heading
-- [ ] Status line matches the standard format and is accurate
-- [ ] Overview opens with a complete sentence
+- [ ] The first paragraph states what the document covers
 - [ ] Filename follows the naming rules
 - [ ] Commands and configuration use code blocks
 - [ ] Content is sanitized per [Naming Conventions](./naming-conventions.md)
@@ -205,6 +209,8 @@ Before publishing:
 
 When applicable:
 
+- [ ] Project READMEs have a status line in the standard format and an Overview
+- [ ] Any status line is accurate and in the standard format
 - [ ] Tense matches the document type
 - [ ] Step-by-step instructions are in a reference document
 - [ ] Project build documents include an Outcome
