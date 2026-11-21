@@ -1,5 +1,7 @@
 # Lessons Learned
 
+Lessons learned while building the network infrastructure, newest first.
+
 | Date | Summary | Context | Takeaway |
 |---|---|---|---|
 | 2026-07-24 | **Plan IP Addressing for Growth and Documentation** | While defining the network addressing plan, address ranges needed to be organized for infrastructure, endpoints, reserved devices, and future expansion. The documentation also needed to remain useful publicly without exposing unnecessary details about the internal network. Structured address ranges were defined instead of assigning addresses ad hoc, with capacity reserved for future infrastructure, endpoints, and network services. | An IP addressing plan should account for future growth before devices and services are deployed. Structured addressing reduces the likelihood of conflicts and future renumbering while making the environment easier to manage and document. Public documentation should communicate the design and reasoning while sanitizing internal addressing details where appropriate. |

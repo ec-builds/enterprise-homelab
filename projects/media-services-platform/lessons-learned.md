@@ -1,5 +1,7 @@
 # Lessons Learned
 
+Lessons learned while building the Media Services Platform.
+
 | Date | Lesson | Key Takeaway |
 |---|---|---|
 | 2026-09-11 | **Keep the Previous Service Available During Cutover** | The original Jellyfin service was stopped but left intact while the replacement was deployed and tested. Keeping the previous environment available for several days provides a practical rollback path if unexpected problems appear. The old service can be retired after the replacement has passed functional testing and demonstrated stable operation. |

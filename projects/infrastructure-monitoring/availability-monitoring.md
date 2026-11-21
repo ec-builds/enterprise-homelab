@@ -1,6 +1,6 @@
 # Availability Monitoring With Uptime Kuma
 
-**Status:** 🟢 Operational
+**Status: 🟢 Operational**
 
 Uptime Kuma provides independent availability and service monitoring for infrastructure and services across the Enterprise Homelab.
 

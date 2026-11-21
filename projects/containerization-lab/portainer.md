@@ -1,6 +1,6 @@
 # Portainer CE Deployment
 
-**Status:** 🟢 Operational
+**Status: 🟢 Operational**
 
 ![Portainer Dashboard](./diagrams/portainer-dashboard.png)
 

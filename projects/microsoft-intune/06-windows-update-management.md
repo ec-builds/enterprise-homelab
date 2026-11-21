@@ -1,6 +1,6 @@
 # Windows Update Management
 
-**Status:** 🟢 Operational
+**Status: 🟢 Operational**
 
 This lab implements centralized Windows Update management through Microsoft Intune. An Update Ring defines servicing behavior for a managed Windows endpoint, while a separate Feature Update policy targets Windows 11, version 26H2.
 

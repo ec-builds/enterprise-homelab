@@ -4,6 +4,8 @@
 
 <img src="./diagrams/sec-ops-banner.png" alt="Security Operations Lab Banner" width="1000">
 
+## Overview
+
 The *detect and respond* side of homelab security: network intrusion detection, centralized logging, SIEM deployment, detection engineering, investigation, and incident response.
 
 > [!NOTE]

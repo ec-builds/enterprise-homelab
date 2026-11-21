@@ -4,6 +4,8 @@
 
 <img src="./diagrams/infrastructure-automation-banner.png" alt="Infrastructure & Automation Lab Banner" width="1000">
 
+## Overview
+
 Infrastructure automation for the homelab, combining declarative provisioning, configuration management, operational scripting, and CI/CD workflows.
 
 The long-term goal:

@@ -4,6 +4,8 @@
 
 <img src="./diagrams/infrastructure-monitoring-banner.png" alt="Infrastructure Monitoring Banner" width="1000">
 
+## Overview
+
 Centralized monitoring and observability for the Enterprise Homelab, providing visibility into infrastructure availability, performance, events, and logs.
 
 The lab is organized around three complementary monitoring capabilities:

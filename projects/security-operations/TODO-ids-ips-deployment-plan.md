@@ -1,6 +1,6 @@
 # Intrusion Detection & Prevention System (IDS/IPS) Deployment Plan
 
-**Status:** Planned  
+**Status: ⚪ Planned**  
 **Type:** Implementation plan / placeholder  
 **Lab:** Security Operations
 

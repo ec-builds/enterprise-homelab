@@ -1,5 +1,7 @@
 # Monitoring Lessons Learned
 
+Lessons learned while building the monitoring stack, newest first.
+
 | Date | Lesson | Context | Result |
 |---|---|---|---|
 | 2026-09-10 | Observability Is Incremental | Monitoring expanded from Uptime Kuma into Prometheus and Grafana rather than deploying the full stack at once. | Built monitoring in stages, with logging and advanced alerting as future additions. |

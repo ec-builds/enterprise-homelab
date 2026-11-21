@@ -2,7 +2,7 @@
 
 Prometheus is the metrics collection and time-series storage platform deployed as part of Docker Lab.
 
-**Status:** 🟢 Operational
+**Status: 🟢 Operational**
 
 Prometheus collects metrics from infrastructure targets and exporters and makes those metrics available to Grafana for visualization and analysis.
 

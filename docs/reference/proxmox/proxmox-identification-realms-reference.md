@@ -1,12 +1,12 @@
 # 🔐 Proxmox Authentication Realms Reference
 
-> Examples use generic usernames, domains, and realm names. Values do not
-> represent the internal configuration of the documented environment.
-
 ## Overview
 
 An authentication **realm** defines where Proxmox VE verifies a user's
 identity.
+
+> Examples use generic usernames, domains, and realm names. Values do not
+> represent the internal configuration of the documented environment.
 
 A Proxmox username therefore consists of both a user and a realm:
 

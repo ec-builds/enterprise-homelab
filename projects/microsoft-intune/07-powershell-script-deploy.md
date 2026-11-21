@@ -1,6 +1,6 @@
 # PowerShell Script Deployment
 
-**Status:** 🟢 Operational
+**Status: 🟢 Operational**
 
 This lab demonstrates centralized PowerShell script deployment to managed Windows endpoints through Microsoft Intune.
 

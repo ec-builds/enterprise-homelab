@@ -1,6 +1,6 @@
 # Reverse Proxy Deployment Plan
 
-**Status:** Planned  
+**Status: ⚪ Planned**  
 **Type:** Implementation plan / placeholder  
 **Lab:** Containerization / Docker Self-Hosted Services
 

@@ -1,6 +1,6 @@
 # WireGuard VPN Migration to OPNsense Plan
 
-**Status:** Planned  
+**Status: ⚪ Planned**  
 **Type:** Implementation plan / placeholder  
 **Lab:** Network Security
 

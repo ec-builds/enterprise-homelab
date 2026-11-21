@@ -1,5 +1,6 @@
 # Lessons Learned
 
+Lessons learned while building the Network Security Lab.
 
 | Date | Summary | Context | Takeaway |
 |---|---|---|---|

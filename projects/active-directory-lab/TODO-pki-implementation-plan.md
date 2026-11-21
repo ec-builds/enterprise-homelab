@@ -1,6 +1,6 @@
 # PKI Implementation Plan
 
-**Status:** Planned  
+**Status: ⚪ Planned**  
 **Type:** Implementation plan / placeholder  
 **Lab:** Active Directory Lab
 

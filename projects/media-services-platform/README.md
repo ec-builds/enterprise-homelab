@@ -1,10 +1,14 @@
 # Media Services Platform (Debian, Docker & Jellyfin)
 
-**Status: 🟢 Operational** — first completed project in the lab, subsequently modernized through virtualization and containerization.
+**Status: 🟢 Operational**
 
 <img src="./diagrams/media-services-platform-banner.png" alt="Media Services Platform Banner" width="1000">
 
+## Overview
+
 Self-hosted media platform built on Debian and Jellyfin, focused on Linux administration, storage integration, service deployment, permissions, containerization, virtualization, and infrastructure lifecycle management.
+
+This was the first completed project in the lab, and it was later modernized through virtualization and containerization.
 
 The platform was originally deployed as a standalone Debian server running Jellyfin as a native systemd service. After the homelab adopted Proxmox VE and a standardized Docker Compose deployment model, Jellyfin was rebuilt as a containerized service running inside a dedicated Debian virtual machine.
 

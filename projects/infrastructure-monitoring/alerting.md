@@ -1,6 +1,6 @@
 # Alerting
 
-**Status:** 🟡 In Progress
+**Status: 🟡 In Progress**
 
 Alerting provides notification of infrastructure and service conditions that require investigation or intervention.
 

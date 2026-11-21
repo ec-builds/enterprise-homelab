@@ -4,6 +4,8 @@
 
 <img src="./diagrams/m365-entra-banner.png" alt="Microsoft 365 & Entra ID Lab Banner" width="1000">
 
+## Overview
+
 A hands-on Microsoft 365 and Microsoft Entra ID lab focused on cloud identity, access management, and tenant administration, including hybrid identity integration with the on-premises Active Directory lab.
 
 **Scope note:** This project covers the Microsoft 365 and identity control plane — users, groups, licensing, authentication, Conditional Access, and Microsoft 365 services. Endpoint management is covered in the dedicated [Microsoft Intune Lab](../microsoft-intune/).

@@ -1,5 +1,7 @@
 # Template - Lessons Learned
 
+Lessons learned while building the [project name], newest first.
+
 ### YYYY-MM-DD — Lesson Title
 
 #### Context

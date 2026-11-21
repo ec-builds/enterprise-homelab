@@ -1,5 +1,7 @@
 # Lessons Learned
 
+Lessons learned while building the Microsoft Intune lab, newest first.
+
 | Date | Summary | Context | Takeaway |
 |---|---|---|---|
 | 2026-10-12 | **User-Scoped MDM Policies Depend on the Windows Account Associated with Enrollment** | A user-scoped Control Panel restriction reported unexpected applicability and enforcement behavior after the Entra-joined endpoint was manually enrolled through **Enroll only in device management**. MDM event logs and the enrollment registry showed that the enrollment authenticated as `user1` but was associated with the local administrator's Windows SID. As a result, the user-scoped policy was processed in the local administrator context instead of the Entra user's profile. After removing the MDM enrollment and re-enrolling from the actual Entra `user1` Windows session, the enrollment SID matched the Entra user, Intune reported the policy as Succeeded, and `NoControlPanel = 1` was verified in the intended user's registry context. | For user-scoped Intune policies, validate both the cloud enrollment identity and the Windows security context associated with the MDM enrollment. Intune reporting alone does not prove that a user-scoped setting was applied to the intended Windows profile; correlate portal status with endpoint state, MDM event logs, and enrollment identity when troubleshooting. |

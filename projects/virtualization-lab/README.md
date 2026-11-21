@@ -5,6 +5,8 @@
 <img src="./diagrams/virtualization-lab-banner.png" alt="Virtualization Banner" width="1000">
 
 
+## Overview
+
 Bare-metal virtualization environment built with **Proxmox VE** and repurposed hardware.
 
 This lab provides the virtualization foundation for the broader infrastructure

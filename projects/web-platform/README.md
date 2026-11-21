@@ -4,6 +4,8 @@
 
 <img src="./diagrams/web-platform-banner.png" alt="Web Platform Banner" width="1000">
 
+## Overview
+
 **Live Site: [emmanuelcasillas.com](https://emmanuelcasillas.com)**
 
 Git-driven CI/CD deployment of a personal portfolio website to **Cloudflare Workers (Static Assets)**, with a focus on cloud infrastructure, secure delivery, and production validation.

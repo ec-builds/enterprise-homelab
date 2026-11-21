@@ -1,6 +1,6 @@
 # Windows Configuration Profiles
 
-**Status:** 🟢 Operational  
+**Status: 🟢 Operational**  
 **Platform:** Windows 11  
 **Management:** Microsoft Intune  
 **Profile Type:** Settings Catalog

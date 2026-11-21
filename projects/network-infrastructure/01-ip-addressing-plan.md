@@ -2,9 +2,9 @@
 
 **Status: 🟢 Active**
 
-> **Note:** Network addresses, allocation ranges, VLAN identifiers, and implementation-specific details have been intentionally omitted or generalized for public documentation.
-
 This document describes the addressing principles used to organize the homelab environment. The design emphasizes predictable infrastructure addressing, centralized client configuration, service availability, and capacity for future network segmentation.
+
+> **Note:** Network addresses, allocation ranges, VLAN identifiers, and implementation-specific details have been intentionally omitted or generalized for public documentation.
 
 ## Addressing Model
 

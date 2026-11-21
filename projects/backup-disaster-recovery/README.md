@@ -4,6 +4,8 @@
 
 <img src="./diagrams/backup-dr-banner.png" alt="Backup & Disaster Recovery Lab Banner" width="1000">
 
+## Overview
+
 A backup that hasn't been restored isn't a backup. Right now the lab has storage, not a real backup strategy, and this project fixes that. The goal is 3-2-1 protection using hardware I already have, then proving it works by actually restoring things.
 
 ## Plan
