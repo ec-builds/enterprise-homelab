@@ -1,4 +1,4 @@
-## Template - Lessons Learned
+# Template - Lessons Learned
 
 ### YYYY-MM-DD — Lesson Title
 
