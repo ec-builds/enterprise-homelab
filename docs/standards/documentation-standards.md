@@ -58,7 +58,7 @@ A project `README.md` also includes:
 
 ### Optional
 
-- **Status in other documents:** a lab document may carry its own status line when it is at a different stage from its project, for example a document that is In Progress inside an Operational project. Reference documents and standards do not need a status.
+- **Status in other documents:** a lab document may include a status line where it adds information, such as a document for a service or component that is tracked on its own within the project, or a document at a different stage from its project, for example a document that is In Progress inside an Operational project. Reference documents and standards do not need a status.
 - **Outcome:** recommended for project documents that record a build or deployment. Summarize what was accomplished and what was validated.
 - **Related Documentation:** links to closely related documents.
 
