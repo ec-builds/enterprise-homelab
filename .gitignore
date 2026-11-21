@@ -46,3 +46,5 @@ node_modules/
 *.vmdk
 *.vdi
 *.ova
+# Claude working output
+Claude outputs/

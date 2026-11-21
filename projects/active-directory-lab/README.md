@@ -4,9 +4,11 @@
 
 <img src="./diagrams/AD-banner.png" alt="Active Directory Banner" width="1000">
 
-Enterprise identity and access management environment built with Windows Server and Active Directory Domain Services, hosted across the virtualization lab.
+## Overview
 
-The environment provides redundant directory, DNS, and DHCP services and serves as the on-premises identity foundation for future Microsoft Entra ID and endpoint management labs.
+This lab built a redundant Windows Server Active Directory environment on the Proxmox cluster. Two domain controllers on separate Proxmox hosts provide Active Directory Domain Services, AD-integrated DNS, and Windows DHCP failover for the network.
+
+The environment is the on-premises identity foundation for the Microsoft Entra ID and Intune labs.
 
 <p align="left">
   <img src="./diagrams/dc-lab-01-desktop.png" alt="Windows Server 2025 domain controller running Active Directory Domain Services" width="1000">
@@ -14,251 +16,128 @@ The environment provides redundant directory, DNS, and DHCP services and serves 
 
 *Windows Server 2025 domain controller with Active Directory Domain Services deployed.*
 
+> [!NOTE]
+> Hostnames, IP addresses, and domain names in this lab's documentation have been sanitized for public release.
+
 ## Architecture
 
-The Active Directory environment uses two domain controllers distributed across separate Proxmox hosts.
-
 ```text
-Proxmox Cluster
-│
-├── prox-lab-01
-│   └── dc-lab-01
-│       ├── Active Directory Domain Services
-│       ├── DNS
-│       ├── DHCP
-│       └── Global Catalog
-│
-└── prox-lab-02
-    └── dc-lab-02
-        ├── Active Directory Domain Services
-        ├── DNS
-        ├── DHCP
-        └── Global Catalog
-
-dc-lab-01 ◄──── AD / DNS Replication ────► dc-lab-02
-     │                                         │
-     └──────────── DHCP Failover ──────────────┘
-                         │
-                         ▼
-                Redundant AdGuard Home
-                         │
-                         ▼
-                 Public DNS Resolvers
+              lab.example.com
+                     │
+      ┌──────────────┴──────────────┐
+      │                             │
+  prox-lab-01                   prox-lab-02
+  └── dc-lab-01                 └── dc-lab-02
+      AD DS · DNS · DHCP · GC       AD DS · DNS · DHCP · GC
+      │                             │
+      ├──── AD / DNS replication ───┤
+      └──── DHCP failover (50/50) ──┘
+                     │
+                     ▼
+     adguard-lab-01 / adguard-lab-02
+       (filtering, DoH upstream)
+                     │
+                     ▼
+            Public DNS resolvers
 ```
 
-Both domain controllers provide Active Directory-integrated DNS and participate in a 50/50 load-balanced DHCP failover relationship.
+Both domain controllers are writable, replicate with each other, and serve clients at the same time. Losing either domain controller or either Proxmox host was tested and did not interrupt directory, DNS, or DHCP service.
 
-External DNS queries are forwarded through redundant AdGuard Home instances for network-wide DNS filtering and DNS-over-HTTPS upstream resolution.
-
-Separating the domain controllers across Proxmox hosts reduces dependency on an individual domain controller or virtualization host for directory, DNS, and DHCP services.
-
-## Objectives
-
-- Deploy a multi-domain-controller Active Directory environment
-- Distribute domain controllers across separate Proxmox hosts
-- Configure and validate Active Directory replication
-- Deploy redundant AD-integrated DNS
-- Deploy redundant Windows DHCP using load-balanced failover
-- Design an OU structure modeling a real business
-- Implement users, groups, and role-based access using AGDLP principles
-- Implement Group Policy for security baselines and configuration management
-- Manage users, groups, and computers at scale with PowerShell
-- Deploy and manage Windows domain clients
-- Implement service account management
-- Apply Active Directory security and auditing controls
-- Develop backup and recovery procedures
-- Establish the on-premises identity foundation for future Microsoft Entra ID integration
-- Plan internal PKI and certificate lifecycle management using Active Directory Certificate Services
-
-## Planned Deployments
-
-The following PKI work is planned separately from the operational AD DS, DNS, and DHCP foundation.
-
-| Plan | Scope | Dependencies |
-|---|---|---|
-| [AD CS Deployment](./TODO-ad-cs-deployment-plan.md) | Plan and deploy an internal certificate authority, including CA architecture and certificate services | Active Directory, dedicated CA host, certificate publication and trust design |
-| [PKI Implementation](./TODO-pki-implementation-plan.md) | Define certificate issuance, trust distribution, renewal, revocation, and service integration | AD CS deployment and service-specific certificate requirements |
-
-AD CS will manage certificate issuance; it will not act as a reverse proxy. Nginx Proxy Manager deployment and configuration remain under [Docker and Self-Hosted Services](../containerization-lab/), with PKI providing certificates where appropriate.
-
-## Technologies
-
-- Proxmox VE
-- Windows Server 2025
-- Active Directory Domain Services
-- Active Directory-integrated DNS
-- Windows Server DHCP
-- DHCP Failover
-- Group Policy Management Console
-- Active Directory Sites and Services
-- PowerShell
-- Windows 10/11 domain-joined clients
+Design decisions are recorded in [Domain Controller Architecture](./domain-controller-architecture.md).
 
 ## Domain Controllers
 
 | Server | Proxmox Host | Roles | Status |
 |---|---|---|---|
-| `dc-lab-01` | `prox-lab-01` | AD DS, DNS, DHCP, Global Catalog | ✅ Active |
-| `dc-lab-02` | `prox-lab-02` | AD DS, DNS, DHCP, Global Catalog | ✅ Active |
+| `dc-lab-01` | `prox-lab-01` | AD DS, DNS, DHCP, Global Catalog | 🟢 Operational |
+| `dc-lab-02` | `prox-lab-02` | AD DS, DNS, DHCP, Global Catalog | 🟢 Operational |
 
-Both domain controllers provide directory and DNS services. DHCP is configured using a 50/50 load-balanced failover relationship.
+## Objectives
 
-Active Directory replication, DNS redundancy, DHCP redundancy, and service continuity during controlled failure testing have been validated.
+- Deploy a multi-domain-controller Active Directory environment across separate Proxmox hosts
+- Deploy redundant AD-integrated DNS and Windows DHCP failover
+- Design an OU structure modeling a real business
+- Implement users, groups, and role-based access using AGDLP
+- Implement Group Policy for security baselines and configuration management
+- Manage users, groups, and computers at scale with PowerShell
+- Deploy and manage domain-joined Windows clients
+- Implement service account management, security, and auditing controls
+- Develop and test backup and recovery procedures
+- Plan internal PKI with Active Directory Certificate Services
+- Extend on-premises identity into Microsoft Entra ID
 
-FSMO role placement will be documented as Active Directory administration capabilities continue to be expanded.
+## Technologies
 
-## Identity Management Direction
+- Proxmox VE
+- Windows Server 2025 (Desktop Experience)
+- Active Directory Domain Services
+- Active Directory-integrated DNS
+- Windows Server DHCP with failover
+- AdGuard Home (external DNS forwarding)
+- PowerShell
 
-With the core directory infrastructure operational, continued development focuses on Active Directory administration, access management, policy enforcement, security, and recovery.
-
-```text
-Directory Infrastructure
-        │
-        ├── AD DS
-        ├── DNS
-        ├── DHCP
-        └── Replication
-              │
-              ▼
-        OU Structure
-              │
-              ▼
-       Users and Groups
-              │
-              ▼
-      Access Assignment
-          (AGDLP)
-              │
-              ▼
-        Group Policy
-              │
-              ▼
-    Windows Client Management
-              │
-              ▼
-      Service Accounts
-              │
-              ▼
-     AD Security / Auditing
-              │
-              ▼
-      Backup / Recovery
-              │
-              ▼
-       Hybrid Identity
-              │
-              ▼
-      Microsoft Entra ID
-```
-
-This progression builds identity administration and security capabilities on top of the redundant directory-services foundation before introducing hybrid cloud identity.
-
-## Key Tasks
-
-### Completed
-
-- [x] Deploy `dc-lab-01` Windows Server VM on `prox-lab-01`
-- [x] Configure static network addressing
-- [x] Install Active Directory Domain Services
-- [x] Create the Active Directory forest and domain
-- [x] Promote `dc-lab-01` as the first domain controller
-- [x] Configure and validate AD-integrated DNS
-- [x] Deploy `dc-lab-02` on a separate Proxmox host
-- [x] Promote `dc-lab-02` as an additional domain controller
-- [x] Enable DNS and Global Catalog services on both domain controllers
-- [x] Validate bidirectional Active Directory replication
-- [x] Validate `DomainDnsZones` and `ForestDnsZones` replication
-- [x] Configure redundant DNS client resolution
-- [x] Validate DNS service discovery and external resolution
-- [x] Configure Windows DHCP on both domain controllers
-- [x] Authorize both DHCP servers in Active Directory
-- [x] Configure DHCP scope and client options
-- [x] Configure 50/50 load-balanced DHCP failover
-- [x] Migrate clients from the previous DHCP service
-- [x] Validate DHCP client configuration
-- [x] Perform bidirectional DHCP failure testing
-- [x] Validate client DNS continuity with an individual DNS server unavailable
-- [x] Validate recovery to normal operation following server restoration
-- [x] Integrate redundant AdGuard Home external DNS forwarders
-- [x] Validate AdGuard failover in both directions
-
-### Next Steps
-
-- [ ] Design organizational unit structure
-- [ ] Create users, groups, and administrative structure
-- [ ] Implement AGDLP-based access assignment
-- [ ] Join and organize Windows client systems
-- [ ] Configure and validate Group Policy
-- [ ] Automate user and group administration with PowerShell
-
-### Planned
-
-- [ ] Implement service account management
-- [ ] Configure Active Directory security and auditing controls
-- [ ] Generate identity and group membership audit reports with PowerShell
-- [ ] Document FSMO role placement
-- [ ] Configure and document Active Directory Sites and Services
-- [ ] Develop Active Directory backup and recovery procedures
-- [ ] Validate directory recovery procedures
-- [ ] Integrate the environment with Microsoft Entra ID
-- [ ] Review AD CS architecture, CA hosting, and certificate publication requirements
-- [ ] Define PKI trust distribution, issuance, renewal, and revocation procedures
-- [ ] Plan TLS certificate integration for internal infrastructure and reverse-proxied services
-
-## Deployment Progress
+## Progress
 
 ```text
-dc-lab-01 Deployment           ██████████  Complete
-Forest / Domain Creation       ██████████  Complete
-AD DS Deployment               ██████████  Complete
-dc-lab-02 Deployment           ██████████  Complete
+Domain Controller Deployment   ██████████  Complete
 AD Replication                 ██████████  Complete
-DNS Configuration              ██████████  Complete
-DNS Redundancy Testing         ██████████  Complete
-DHCP Configuration             ██████████  Complete
+AD-Integrated DNS              ██████████  Complete
 DHCP Failover                  ██████████  Complete
-DHCP Failure Testing           ██████████  Complete
+Failure Testing                ██████████  Complete
 OU Design                      ░░░░░░░░░░  Next
 Users / Groups / Access        ░░░░░░░░░░  Planned
 Group Policy                   ░░░░░░░░░░  Planned
 Client Management              ░░░░░░░░░░  Planned
 AD Security / Auditing         ░░░░░░░░░░  Planned
 Backup / Recovery              ░░░░░░░░░░  Planned
-Hybrid Identity                ░░░░░░░░░░  Future
 AD CS / Internal PKI           ░░░░░░░░░░  Planned
+Hybrid Identity                ░░░░░░░░░░  Future
 ```
 
-The redundant directory-services foundation is complete. Continued development now moves from infrastructure deployment into identity administration, beginning with OU design, users and groups, access assignment, and Group Policy.
+## Completed Work
 
-## Lab Documentation
+- **Domain controllers:** `dc-lab-01` and `dc-lab-02` were cloned from the generalized Windows Server template, placed on separate Proxmox hosts, and promoted as domain controllers with DNS and Global Catalog.
+- **Replication:** Bidirectional replication of all naming contexts, including `DomainDnsZones` and `ForestDnsZones`, was validated.
+- **DNS:** AD-integrated zones, LDAP and Kerberos SRV records, secure dynamic updates, manual A/PTR records, and redundant AdGuard forwarders were configured and validated.
+- **DHCP:** Both servers were authorized in Active Directory, the LAN scope was configured, 50/50 load-balanced failover was established, and clients were migrated off the previous DHCP service.
+- **Failure testing:** Each domain controller and each AdGuard instance was taken offline in turn. DNS and DHCP service continued, and normal operation resumed after restoration.
 
-Detailed implementation documentation is maintained separately from this project overview.
+## Next Steps
 
-```text
-active-directory-lab/
-├── diagrams/
-├── README.md
-├── domain-controller-architecture.md
-├── domain-controller-deployment.md
-├── active-directory-DNS.md
-├── active-directory-DHCP.md
-├── TODO-ad-cs-deployment-plan.md
-├── TODO-pki-implementation-plan.md
-│
-├── organizational-unit-design.md
-├── users-groups-and-access.md
-├── group-policy.md
-├── windows-client-management.md
-├── service-accounts.md
-├── active-directory-security.md
-└── active-directory-backup-recovery.md
-```
+- [ ] Design the organizational unit structure
+- [ ] Create users, groups, and administrative structure
+- [ ] Implement AGDLP-based access assignment
+- [ ] Join and organize Windows client systems
+- [ ] Configure and validate Group Policy
+- [ ] Automate user and group administration with PowerShell
 
-Completed lab documents describe the deployed environment and validation results. The `TODO-` files track upcoming PKI work; detailed implementation documentation will be added as capabilities are deployed and validated.
+## Planned
+
+- [ ] Service account management
+- [ ] Active Directory security and auditing controls
+- [ ] PowerShell identity and group membership audit reports
+- [ ] Active Directory Sites and Services documentation
+- [ ] Backup and recovery procedures, with a tested restore
+- [ ] [AD CS deployment](./TODO-ad-cs-deployment-plan.md) on a dedicated CA server
+- [ ] [PKI implementation](./TODO-pki-implementation-plan.md): issuance, trust distribution, renewal, and revocation
+- [ ] Hybrid identity with Microsoft Entra ID
+
+AD CS will issue certificates; it will not act as a reverse proxy. Nginx Proxy Manager remains part of the [Containerization Lab](../containerization-lab/).
+
+## Documentation
+
+| Document | Contents |
+|---|---|
+| [Domain Controller Architecture](./domain-controller-architecture.md) | Design decisions, VM configuration, failure domains, and known limitations |
+| [Domain Controller Deployment](./domain-controller-deployment.md) | Forest creation and `dc-lab-01` promotion |
+| [Active Directory DNS](./active-directory-DNS.md) | AD-integrated zones, resolution path, record management, and DNS testing |
+| [Active Directory DHCP](./active-directory-DHCP.md) | Scope, failover configuration, cutover, and failover testing |
+| [AD CS Deployment Plan](./TODO-ad-cs-deployment-plan.md) | Planned certificate authority deployment |
+| [PKI Implementation Plan](./TODO-pki-implementation-plan.md) | Planned certificate lifecycle management |
+
+Documents for OU design, users and groups, Group Policy, client management, service accounts, security, and backup will be added as each capability is deployed and validated.
 
 ## Future Integration
-
-The Active Directory environment will provide the on-premises identity foundation for the Microsoft cloud labs.
 
 ```text
 Active Directory
@@ -271,14 +150,20 @@ Microsoft Entra ID
       └── Microsoft Intune
 ```
 
-Future deployments will include hybrid identity synchronization, Microsoft Entra authentication, Conditional Access, and endpoint management.
+Hybrid identity will extend the identities and groups built here into Microsoft Entra ID, Conditional Access, and Intune, rather than treating the on-premises and cloud labs as unrelated environments.
 
-The goal is to extend the identity concepts implemented on premises into Microsoft cloud identity rather than treating the environments as unrelated labs.
+## Outcome
 
-## Related Projects
+The lab produced a working two-domain-controller Active Directory environment with redundant directory, DNS, and DHCP services across separate Proxmox hosts. Failure testing confirmed that clients keep authentication, name resolution, and addressing when either domain controller is offline. Work now moves from infrastructure deployment to identity administration, starting with OU design.
 
-- [Virtualization Lab](../virtualization-lab/) — virtualization platform hosting the domain controllers and client VMs
-- [Network Infrastructure](../network-infrastructure/) — DHCP, DNS, DNS filtering, switching, and supporting network services
-- [Microsoft 365 & Entra ID](../microsoft-365-entra-id/) — future hybrid identity and Microsoft cloud integration
-- [Microsoft Intune Lab](../microsoft-intune/) — endpoint enrollment, configuration, compliance, and management
-- [Security Operations Lab](../security-operations/) — future collection and analysis of Active Directory security events
+## Related Documentation
+
+- [Virtualization Lab](../virtualization-lab/): Proxmox platform hosting the domain controllers
+- [Network Infrastructure](../network-infrastructure/): switching, AdGuard Home, and supporting network services
+- [Microsoft 365 & Entra ID](../microsoft-365-entra-id/): future hybrid identity
+- [Microsoft Intune Lab](../microsoft-intune/): endpoint management
+- [Security Operations Lab](../security-operations/): future collection of AD security events
+- [Windows VM Templates](../../docs/reference/proxmox/proxmox-windows-vm-template.md)
+- [Windows Server DNS Validation](../../docs/reference/windows/windows-server-DNS-validation.md)
+- [Additional Domain Controller Validation](../../docs/reference/windows/windows-additional-domain-controller-validation.md)
+- [Windows Server DHCP Deployment and Failover](../../docs/reference/windows/windows-server-DHCP-deployment-and-failover.md)
