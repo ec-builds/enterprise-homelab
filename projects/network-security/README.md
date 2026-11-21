@@ -1,6 +1,6 @@
 # 🔐 Network Security
 
-**Status: 🟢 Operational**
+**Status: 🟡 In Progress**
 
 <img src="./diagrams/network-security-banner.png" alt="Network Security Lab Banner" width="1000">
 

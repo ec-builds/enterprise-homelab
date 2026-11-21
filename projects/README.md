@@ -17,16 +17,16 @@ Welcome to the Projects section. This README gives an overview of the projects, 
 
 | Project | Focus Area | Status |
 |---|---|---|
-| [Active Directory Lab](./active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 Operational |
+| [Active Directory Lab](./active-directory-lab/) | Windows Server, AD DS, DNS, DHCP (Group Policy planned) | 🟢 Operational |
 | [Backup & Disaster Recovery](./backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 🟡 In Progress |
 | [Containerization-Lab](./containerization-lab/) | Containerized self-hosted applications, Docker | 🟢 Operational |
 | [Infrastructure Automation](./infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ Planned |
 | [Infrastructure Monitoring](./infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 Operational |
 | [Media Services Platform](./media-services-platform/) | Linux administration, storage, service deployment | 🟢 Operational |
 | [Microsoft 365 & Entra ID Lab](./microsoft-365-entra-id/) | M365 administration, Entra ID, hybrid identity | 🟡 In Progress |
-| [Microsoft Intune Lab](./microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟢 Operational |
+| [Microsoft Intune Lab](./microsoft-intune/) | Intune, MDM, compliance, app deployment, Windows Update | 🟢 Operational |
 | [Network Infrastructure](./network-infrastructure/) | Routing, switching, VLANs, DNS/DHCP | 🟢 Operational |
-| [Network Security](./network-security/) | Firewalls, segmentation, VPN, access security, system hardening | 🟢 Operational |
+| [Network Security](./network-security/) | Firewalls, VPN, access security, system hardening (segmentation planned) | 🟡 In Progress |
 | [Virtualization Lab](./virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟢 Operational |
 | [Security Operations](./security-operations/) | SIEM, detection engineering, incident response | ⚪ Planned |
 | [Web Platform & Secure Delivery](./web-platform/) | Astro, Cloudflare Workers, CI/CD, web security, DNS | 🟢 Operational |

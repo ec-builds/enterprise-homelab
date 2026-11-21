@@ -33,9 +33,9 @@ Detailed monitoring strategy and capability-specific implementation are document
 | Grafana | Docker Monitoring Host | Docker container | 🟢 |
 | Alertmanager | Docker Monitoring Host | Docker container | 🟡 |
 | SNMP Exporter | Docker Monitoring Host | Docker container | 🟢 |
-| Blackbox Exporter | Docker Monitoring Host | Docker container | 🟢 |
+| Blackbox Exporter | Docker Monitoring Host | Docker container | 🟡 |
 | Node Exporter | Monitored Linux hosts and VMs | Agent / container | 🟢 |
-| cAdvisor | Docker hosts | Docker container | 🟢 |
+| cAdvisor | Docker hosts | Docker container | 🟡 |
 | Loki | Docker Monitoring Host | Docker container | 🟢 |
 | Grafana Alloy | Applicable Linux / Docker hosts | Agent / container | 🟢 |
 | rsyslog | Docker Monitoring Host | Docker container | 🟢 |

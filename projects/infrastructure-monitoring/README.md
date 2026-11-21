@@ -84,9 +84,9 @@ The layers complement rather than replace one another. Availability identifies i
 | Uptime Kuma | Availability | Availability and synthetic monitoring | 🟢 |
 | Prometheus | Metrics | Metrics collection and time-series storage | 🟢 |
 | Node Exporter | Metrics | Linux host metrics | 🟢 |
-| cAdvisor | Metrics | Container metrics | 🟢 |
+| cAdvisor | Metrics | Container metrics | 🟡 |
 | SNMP Exporter | Metrics | Network device metrics | 🟢 |
-| Blackbox Exporter | Metrics / Availability | Endpoint probing | 🟢 |
+| Blackbox Exporter | Metrics / Availability | Endpoint probing | 🟡 |
 | rsyslog | Logs | Central syslog collection | 🟢 |
 | Grafana Alloy | Logs | Log collection and processing | 🟢 |
 | Loki | Logs | Centralized log storage and querying | 🟢 |

@@ -2,34 +2,33 @@
 
 <img src="./diagrams/enterprise-homelab-banner.png" alt="Enterprise Homelab Banner" width="1000">
 
-Welcome to my Homelab!
+I'm Emmanuel Casillas, a systems administrator with eight years in enterprise IT, focused on Windows and Linux infrastructure, identity, and security. This lab is where I build, test, and document the kinds of systems I've supported at work, running on a three-node Proxmox cluster with managed switching and dedicated storage.
 
-This repository showcases my enterprise-focused homelab, where I build and document hands-on projects in systems administration, networking, Microsoft infrastructure and identity, Linux, automation, virtualization, and cloud technologies. 
+Each project is built, tested against failure where it matters, and documented: deployments, validation, upgrades, and lessons learned.
 
-Have a look around. I'm regularly updating projects as I build out this repo. If you find this information useful, consider following along. 
+[LinkedIn](https://www.linkedin.com/in/casillasemmanuel) · [emmanuelcasillas.com](https://emmanuelcasillas.com) · [ec-builds.com](https://ec-builds.com)
 
+## Highlights
 
+- **Redundant Active Directory, DNS, and DHCP.** Two domain controllers on separate Proxmox hosts, with DHCP failover and redundant DNS forwarding, validated by taking each server offline in turn. ➡️ [Active Directory Lab](projects/active-directory-lab/)
+- **Proxmox cluster operations.** A three-node cluster maintained with node-by-node upgrades, VM migration, workload evacuation, and a documented hardware node replacement. ➡️ [Virtualization Lab](projects/virtualization-lab/)
+- **Monitoring and observability.** Prometheus, Grafana, Loki, and Uptime Kuma covering Proxmox hosts, Linux VMs, network devices, and service availability. ➡️ [Infrastructure Monitoring](projects/infrastructure-monitoring/)
+- **Microsoft Intune and Entra ID.** Device enrollment, compliance policies with noncompliance testing and remediation, application deployment, and Windows Update management. ➡️ [Microsoft Intune Lab](projects/microsoft-intune/)
+- **Documented like production.** Standards for naming, sanitization, and documentation, plus architecture decision records and lessons-learned logs. ➡️ [Standards](docs/standards/)
 
 ## Navigation
 
 | README Section | Description |
 |---|---|
-| [Roadmap](#roadmap) | Planned infrastructure projects and future lab development |
+| [Highlights](#highlights) | The strongest work in the lab, with links |
 | [Equipment](#equipment) | Physical compute, networking, and storage hardware |
 | [Current Infrastructure](#current-infrastructure) | Current and planned infrastructure components |
 | [Architecture Overview](#architecture-overview) | Logical topology and infrastructure domains |
 | [Project Portfolio](#project-portfolio) | Hands-on infrastructure projects and their status |
+| [Roadmap](#roadmap) | Planned infrastructure projects and future lab development |
 | [Approach](#approach) | Build approach and documentation workflow |
 | [Technology Stack](#technology-stack) | Technologies and platforms used throughout the lab |
 | [Core Documents](#core-documents) | Architecture, standards, references, and supporting documentation |
-
-## Roadmap
-
-Roadmaps are great! I refer back to this when I find myself lost and wondering what the next step is. This roadmap outlines the planned evolution of the homelab, highlighting current priorities and future infrastructure projects.
-
-![Homelab Roadmap](./diagrams/roadmap.png)
-
-➡️ **[See Roadmap Doc](docs/roadmap.md)**
 
 ## Equipment
 
@@ -53,7 +52,7 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 | Virtualization | Three-Node Proxmox VE Cluster | Continue expanding virtualized services |
 | Identity | Windows Server Active Directory | Additional identity services and hybrid integration |
 | Containers | Docker Self-Hosted Services Platform | Continue expanding containerized services |
-| Monitoring | Prometheus, Grafana, Loki, Alertmanager, Grafana Alloy, Uptime Kuma | Additional exporters, dashboards, and alerting |
+| Monitoring | Prometheus, Grafana, Loki, Grafana Alloy, Uptime Kuma | Alertmanager alerting, additional exporters and dashboards |
 | Networking | Managed Switching, Redundant Windows DHCP, Active Directory-integrated DNS, AdGuard DNS Filtering, DNS-over-HTTPS, WireGuard | VLAN Segmentation, Inter-VLAN Firewall Policies |
 | Documentation | GitHub + Markdown | Continue expanding standards, references, and runbooks |
 
@@ -94,16 +93,16 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 
 | Project | Focus Area | Status |
 |----------|------------|:------:|
-| [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, Group Policy | 🟢 |
+| [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, DNS, DHCP (Group Policy planned) | 🟢 |
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 🟡 |
 | [Containerization-Lab](projects/containerization-lab/) | Containerized self-hosted applications, Docker | 🟢 |
 | [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | 🟡 |
-| [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, Autopilot, MDM, compliance, app deployment | 🟢 |
+| [Microsoft Intune Lab](projects/microsoft-intune/) | Intune, MDM, compliance, app deployment, Windows Update | 🟢 |
 | [Network Infrastructure](projects/network-infrastructure/) | Routing, switching, DHCP, DNS, and network services | 🟢 |
-| [Network Security](projects/network-security/) | Firewall, DNS security, VPN, network segmentation | 🟢 |
+| [Network Security](projects/network-security/) | Firewall, DNS security, VPN (segmentation planned) | 🟡 |
 | [Virtualization Lab](projects/virtualization-lab/) | Proxmox, VM lifecycle, lab foundation | 🟢 |
 | [Security Operations](projects/security-operations/) | SIEM, detection engineering, incident response | ⚪ |
 | [Web Platform & Secure Delivery](projects/web-platform/) | Astro, Cloudflare Workers, CI/CD, web security, DNS | 🟢 |
@@ -113,6 +112,14 @@ Take a look at all the projects here:
 
 ➡️ **[Browse All Projects](./projects/README.md)**
 
+
+## Roadmap
+
+Roadmaps are great! I refer back to this when I find myself lost and wondering what the next step is. This roadmap outlines the planned evolution of the homelab, highlighting current priorities and future infrastructure projects.
+
+![Homelab Roadmap](./diagrams/roadmap.png)
+
+➡️ **[See Roadmap Doc](docs/roadmap.md)**
 
 ## Approach
 
@@ -146,6 +153,7 @@ This repo is part of the **EC-Builds** project, where I document technical proje
 
 ## Connect
 
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-casillasemmanuel-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/casillasemmanuel)
 [![Website](https://img.shields.io/badge/Website-emmanuelcasillas.com-0078D4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://emmanuelcasillas.com)
 [![Website](https://img.shields.io/badge/Website-ec--builds.com-0078D4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://ec-builds.com)
 

@@ -13,9 +13,8 @@ This project deploys and manages self-hosted services using Docker and Docker Co
 Workloads are separated by operational role across the Proxmox VE cluster:
 
 - `docker-lab-01` hosts general applications and centralized Docker management.
-- `monitor-lab-01` provides independent availability monitoring.
+- `monitor-lab-01` hosts the monitoring stack: availability monitoring, metrics, and logging, with alerting in progress.
 - `media-lab-01` hosts containerized media services.
-- `test-docker-lab` provides a temporary environment for monitoring stack validation.
 
 Separating workloads by role provides better fault isolation and allows application, monitoring, and media services to be maintained independently.
 
@@ -40,29 +39,21 @@ Separating workloads by role provides better fault isolation and allows applicat
                        Centralized Docker
                           Management
 
-
-                       test-docker-lab
-                                │
-                    Monitoring Validation
-                                │
-                 Prometheus / Grafana / Loki
-                  Alertmanager / Grafana Alloy
 ```
 
 The three permanent Docker environments are distributed across separate Proxmox nodes.
 
 Portainer CE runs on `docker-lab-01` and provides centralized management of all three environments. `monitor-lab-01` and `media-lab-01` connect to the central Portainer Server through Portainer Agent.
 
-The broader monitoring stack is currently being validated on `test-docker-lab` before permanent deployment.
+`monitor-lab-01` also runs Prometheus, Grafana, Loki, and Grafana Alloy. Alertmanager has a placeholder configuration on `monitor-lab-01` and has not been deployed yet.
 
 ## Docker Hosts
 
 | Host | Role | Current Workloads |
 |---|---|---|
 | `docker-lab-01` | General applications and Docker management | Portainer CE, Homepage |
-| `monitor-lab-01` | Independent availability monitoring | Uptime Kuma, Portainer Agent |
+| `monitor-lab-01` | Monitoring and observability | Uptime Kuma, Prometheus, Grafana, Loki, Grafana Alloy, SNMP Exporter, rsyslog, Portainer Agent (Alertmanager in progress) |
 | `media-lab-01` | Media services | Jellyfin, Portainer Agent |
-| `test-docker-lab` | Temporary monitoring validation | Prometheus, Grafana, Loki, Alertmanager, Grafana Alloy |
 
 ## Services
 
@@ -79,16 +70,16 @@ The broader monitoring stack is currently being validated on `test-docker-lab` b
 
 Uptime Kuma is deployed independently on `monitor-lab-01` for service and infrastructure availability monitoring.
 
-The broader monitoring stack has been deployed and tested on `test-docker-lab`. These services remain in the validation environment pending final deployment to the permanent Docker environment.
+The rest of the monitoring stack was validated on a temporary test host, then deployed to `monitor-lab-01`. Alertmanager has a placeholder configuration there and has not been deployed yet.
 
 | Environment | Category | Service | Status |
 |---|---|---|---|
 | `monitor-lab-01` | Availability Monitoring | Uptime Kuma | 🟢 Deployed |
-| `test-docker-lab` | Metrics | Prometheus | 🟡 Tested / Pending Permanent Deployment |
-| `test-docker-lab` | Visualization | Grafana | 🟡 Tested / Pending Permanent Deployment |
-| `test-docker-lab` | Logging | Loki | 🟡 Tested / Pending Permanent Deployment |
-| `test-docker-lab` | Alerting | Alertmanager | 🟡 Tested / Pending Permanent Deployment |
-| `test-docker-lab` | Log Collection | Grafana Alloy | 🟡 Tested / Pending Permanent Deployment |
+| `monitor-lab-01` | Metrics | Prometheus | 🟢 Deployed |
+| `monitor-lab-01` | Visualization | Grafana | 🟢 Deployed |
+| `monitor-lab-01` | Logging | Loki | 🟢 Deployed |
+| `monitor-lab-01` | Alerting | Alertmanager | 🟡 In Progress |
+| `monitor-lab-01` | Log Collection | Grafana Alloy | 🟢 Deployed |
 
 The target monitoring architecture includes additional exporters as monitoring coverage expands.
 
@@ -180,12 +171,12 @@ See [architecture.md](architecture.md) for the broader Docker environment archit
 - [x] Deploy and test Prometheus
 - [x] Deploy and test Grafana
 - [x] Deploy and test Loki
-- [x] Deploy and test Alertmanager
+- [ ] Deploy and test Alertmanager
 - [x] Deploy and test Grafana Alloy
-- [ ] Deploy validated monitoring stack to permanent Docker environment
-- [ ] Deploy Node Exporter
+- [x] Deploy validated monitoring stack to permanent Docker environment
+- [x] Deploy Node Exporter
 - [ ] Deploy cAdvisor
-- [ ] Deploy SNMP Exporter
+- [x] Deploy SNMP Exporter
 - [ ] Deploy Blackbox Exporter
 - [ ] Create baseline dashboards
 - [ ] Expand infrastructure monitoring targets
