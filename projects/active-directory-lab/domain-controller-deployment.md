@@ -1,703 +1,282 @@
 # 🖥️ Domain Controller Deployment
 
+**Status: 🟢 Operational**
+
 <p align="left">
   <img src="./diagrams/windows-server-install.png" alt="Windows Server 2025 installation edition selection" width="800">
 </p>
 
 *Windows Server 2025 Standard Evaluation (Desktop Experience)*
 
-
 ## Overview
 
-This document covers deployment of the first Windows Server domain controller,
-creation of the Active Directory forest and domain, and installation of
-AD-integrated DNS.
+This document records the deployment of both Active Directory domain controllers. `dc-lab-01` created the forest and domain, and `dc-lab-02` was then added as a second writable domain controller that replicates with it.
 
-The deployment workflow is:
-
-```text
-Windows Server Template
-        │
-        ▼
-     Full Clone
-        │
-        ▼
-Configure Hostname
-        │
-        ▼
-Configure Static IP
-        │
-        ▼
-Validate Networking
-        │
-        ▼
-Install AD DS + DNS
-        │
-        ▼
-Create AD Forest
-        │
-        ▼
-Promote to Domain Controller
-        │
-        ▼
-Basic AD + DNS Validation
-        │
-        ▼
-Deployment Complete
-```
+Step-by-step procedures are in the [Domain Controller Promotion](../../docs/reference/windows/windows-server-domain-controller-promotion.md) reference. Design decisions are in [Domain Controller Architecture](./domain-controller-architecture.md).
 
 > [!NOTE]
-> Hostnames, IP addresses, domain names, and other environment-specific
-> identifiers shown in this document have been sanitized for public release.
+> Hostnames, IP addresses, and domain names have been sanitized for public release.
 
+## Deployment Sequence
 
-## Server Configuration
+```text
+win-server-2025-template (sysprepped, no roles)
+        │
+        ├──────────────────────────────┐
+        ▼                              ▼
+   dc-lab-01                       dc-lab-02
+   prox-lab-01                     prox-lab-02
+        │                              │
+   Hostname + static IP            Hostname + static IP
+        │                              │
+   Network validation              DNS → dc-lab-01
+        │                              │
+   AD DS + DNS installed           AD DS + DNS installed
+        │                              │
+   New forest created ───────────► Added to existing domain
+        │                              │  (replicated from dc-lab-01)
+   Validated                       Validated
+```
 
-The primary domain controller uses the following baseline configuration.
+Both domain controllers were cloned from the same generalized Windows Server template and use identical VM specifications. `dc-lab-02` was built after `dc-lab-01` was operational and validated, because an additional domain controller needs an existing domain to replicate from.
 
-| Component | Configuration |
+## Part 1: `dc-lab-01` and Forest Creation
+
+### Build
+
+| Setting | Configuration |
 |---|---|
-| VM Name | `dc-lab-01` |
-| Hostname | `dc-lab-01` |
-| Operating System | Windows Server 2025 Standard Evaluation |
-| Installation | Desktop Experience |
-| CPU | 2 vCPU |
-| Memory | 2 GB |
-| Storage | 64 GB |
-| Network | Static IPv4 |
+| VM / hostname | `dc-lab-01` |
+| Proxmox host | `prox-lab-01` |
+| Source template | `win-server-2025-template` |
+| Operating system | Windows Server 2025 Standard Evaluation (Desktop Experience) |
+| vCPU / memory / disk | 2 / 2 GB / 64 GB |
+| IPv4 address | `10.0.0.10` (static) |
+| Initial DNS server | `10.0.0.1` (existing network DNS) |
 | Roles | AD DS, DNS |
 
+The VM was cloned from the template, given its permanent hostname, and restarted before any roles were installed. A static IPv4 address was then configured. DNS initially pointed at the existing network DNS server, because the server was not yet providing DNS itself.
 
-## Configure Hostname
+### Network Validation
 
-After deploying the Windows Server VM from the generalized template, assign
-the server its permanent hostname before installing Active Directory roles.
+Connectivity was validated before Active Directory was installed, so that network problems could be separated from problems introduced later by AD DS or DNS.
 
-The primary domain controller uses the sanitized hostname:
+| Test | Result |
+|---|---|
+| Local TCP/IP (`127.0.0.1`) | ✅ |
+| Default gateway | ✅ |
+| External IPv4 routing | ✅ |
+| External DNS resolution | ✅ |
+| Outbound HTTPS (port 443) | ✅ |
 
-```text
-dc-lab-01
-```
+### Role Installation
 
-The hostname can be changed through:
-
-**Server Manager → Local Server → Computer name**
-
-or through Windows Settings.
-
-Restart the server after changing the hostname.
-
-Verify the hostname:
-
-```powershell
-hostname
-```
-
-Expected result:
-
-```text
-dc-lab-01
-```
-
-
-## Configure Static IP Address
-
-Domain controllers provide foundational infrastructure services and should
-use stable network addressing.
-
-Configure the server with a static IPv4 address through:
-
-**Settings → Network & Internet → Ethernet → IP Assignment → Edit**
-
-Change the IP assignment from:
-
-```text
-Automatic (DHCP)
-```
-
-to:
-
-```text
-Manual
-```
-
-Enable IPv4 and configure the appropriate network settings.
-
-Example sanitized configuration:
-
-```text
-IP Address:      10.0.0.10
-Subnet Mask:     255.255.255.0
-Default Gateway: 10.0.0.1
-DNS Server:      10.0.0.1
-```
-
-At this stage, the existing network DNS server remains configured because
-the new domain controller is not yet providing DNS services.
-
-After AD DS and DNS are configured, domain clients will use the domain
-controllers as their DNS servers.
-
-> [!IMPORTANT]
-> The static address assigned to the domain controller also becomes the
-> address used to reach the DNS service hosted by that domain controller.
-
-Verify the configuration:
-
-```powershell
-ipconfig /all
-```
-
-Confirm:
-
-- DHCP is disabled
-- The intended IPv4 address is assigned
-- The subnet mask is correct
-- The default gateway is correct
-- A functioning DNS server is configured
-
-
-## Validate Network Connectivity
-
-Network connectivity should be validated before installing Active Directory.
-
-This separates basic network problems from problems introduced later during
-AD DS or DNS configuration.
-
-
-### Validate Local TCP/IP
-
-Test the local TCP/IP stack:
-
-```powershell
-ping 127.0.0.1
-```
-
-Expected result:
-
-```text
-0% packet loss
-```
-
-
-### Validate Default Gateway
-
-Ping the configured gateway.
-
-Example:
-
-```powershell
-ping 10.0.0.1
-```
-
-A successful response confirms connectivity between the server and the local
-network gateway.
-
-
-### Validate IPv4 Internet Routing
-
-Test connectivity to an external IPv4 address without relying on DNS:
-
-```powershell
-ping 8.8.8.8
-```
-
-A successful response confirms that IPv4 routing through the default gateway
-is functioning.
-
-
-### Validate DNS Resolution
-
-Test external DNS resolution:
-
-```powershell
-nslookup microsoft.com
-```
-
-A successful lookup confirms that the configured DNS infrastructure can
-resolve external names.
-
-
-### Validate HTTPS Connectivity
-
-Test outbound HTTPS connectivity:
-
-```powershell
-Test-NetConnection microsoft.com -Port 443
-```
-
-Verify:
-
-```text
-TcpTestSucceeded : True
-```
-
-Successful completion of these tests establishes the following network path:
-
-```text
-Domain Controller
-      │
-      ├── Local TCP/IP          ✓
-      ├── Local Gateway         ✓
-      ├── IPv4 Routing          ✓
-      ├── DNS Resolution        ✓
-      └── HTTPS Connectivity    ✓
-```
-
-
-## Install Active Directory Domain Services
-
-Active Directory Domain Services and DNS were installed through Windows
-Server Manager.
-
-Open:
-
-**Server Manager → Manage → Add Roles and Features**
-
-Select:
-
-```text
-Role-based or feature-based installation
-```
-
-Select the local Windows Server as the destination server.
-
-
-### Select Server Roles
-
-Under **Server Roles**, enable:
-
-```text
-Active Directory Domain Services
-DNS Server
-```
+Active Directory Domain Services and DNS Server were installed through **Server Manager → Add Roles and Features**, along with the management tools Windows selected automatically: Group Policy Management, the AD DS tools, the Active Directory PowerShell module, and the DNS Server tools.
 
 <p align="left">
   <img src="./diagrams/DC-add-roles-and-features.png" alt="Windows Server Add Roles and Features Wizard with Active Directory Domain Services and DNS Server selected" width="700">
 </p>
 
-When prompted, select:
+*Active Directory Domain Services and DNS Server selected.*
 
-**Add Features**
-
-Windows automatically selects the supporting management components required
-for the roles.
-
-These include:
-
-```text
-Group Policy Management
-
-Remote Server Administration Tools
-└── Role Administration Tools
-    ├── AD DS and AD LDS Tools
-    │   ├── Active Directory module for Windows PowerShell
-    │   ├── AD DS Tools
-    │   ├── Active Directory Administrative Center
-    │   └── AD DS Snap-Ins and Command-Line Tools
-    │
-    └── DNS Server Tools
-```
-
-DHCP Server was intentionally not installed during this stage.
-
-The initial deployment order is:
-
-```text
-AD DS
-  │
-  └── DNS
-       │
-       ▼
-Domain Promotion
-       │
-       ▼
-AD/DNS Validation
-```
-
-
-### Role Installation
+DHCP Server was intentionally left out at this stage. It was added after both domain controllers were operational. See [Active Directory DHCP](./active-directory-DHCP.md).
 
 <p align="left">
   <img src="./diagrams/DC-installation.png" alt="AD DS and DNS role installation" width="700">
 </p>
 
-*Active Directory Domain Services, DNS, and supporting management tools installed through Server Manager.*
-
-After installation completed, Server Manager reported that additional
-configuration was required before the server could function as a domain
-controller.
+*Role installation in progress.*
 
 <p align="left">
   <img src="./diagrams/DC-install-fin-config-req.png" alt="AD DS installation completed with domain controller configuration required" width="700">
 </p>
 
-*AD DS and DNS installation completed successfully and Server Manager reported that domain controller promotion was required.*
+*Installation complete; Server Manager reported that promotion was required.*
 
+### Forest Creation
 
-## Promote Server to Domain Controller
-
-After installing AD DS, Server Manager displayed a post-deployment
-configuration notification.
+The server was promoted from the Server Manager notification using **Add a new forest**.
 
 <p align="left">
   <img src="./diagrams/DC-promote.png" alt="Server Manager domain controller promotion notification" width="700">
 </p>
 
-*Server Manager post-deployment notification indicating that domain controller promotion is required.*
-
-The Active Directory Domain Services Configuration Wizard was launched
-through:
-
-**Server Manager → Notifications → Promote this server to a domain controller**
-
-
-### Create a New Forest
-
-Because this is the first domain controller in the environment, the deployment
-operation was configured as:
-
-```text
-Add a new forest
-```
+*Post-deployment notification to promote the server.*
 
 <p align="left">
   <img src="./diagrams/DC-root-domain-name.png" alt="Active Directory new forest deployment configuration" width="700">
 </p>
 
-*Creation of a new Active Directory forest for the lab environment.*
+*New forest for the lab environment.*
 
-The sanitized Active Directory forest and root domain are represented as:
-
-```text
-lab.example.com
-```
-
-The resulting public documentation namespace is:
-
-```text
-lab.example.com
-        │
-        └── dc-lab-01.lab.example.com
-```
-
-> [!NOTE]
-> The domain namespace shown in this document is a sanitized example and does
-> not represent the internal DNS namespace used by the lab.
-
-
-### Configure Domain Controller Options
-
-The forest and domain functional levels were configured for Windows Server
-2025.
-
-The primary domain controller was also configured as:
-
-```text
-DNS Server:       Enabled
-Global Catalog:   Enabled
-RODC:             Disabled
-```
+| Setting | Configuration |
+|---|---|
+| Deployment operation | Add a new forest |
+| Root domain | `lab.example.com` |
+| NetBIOS domain | `LAB` |
+| Forest / domain functional level | Windows Server 2025 |
+| DNS Server | Enabled |
+| Global Catalog | Enabled |
+| RODC | Disabled |
+| DNS delegation | Not created |
+| Database, logs, SYSVOL | Defaults (`C:\Windows\NTDS`, `C:\Windows\SYSVOL`) |
 
 <p align="left">
   <img src="./diagrams/DC-controller-options.png" alt="Windows Server 2025 domain controller options" width="700">
 </p>
 
-*Windows Server 2025 forest and domain functional levels with DNS and Global Catalog enabled.*
+*Functional levels set to Windows Server 2025, with DNS and Global Catalog enabled.*
 
-A Directory Services Restore Mode (DSRM) password was also configured during
-this stage.
-
-> [!IMPORTANT]
-> The DSRM password is a recovery credential used for Active Directory
-> maintenance and recovery. It should be stored securely and must never be
-> included in repository documentation.
-
-
-### DNS Delegation
-
-The configuration wizard reported that a DNS delegation could not
-automatically be created because an authoritative parent Windows DNS zone
-could not be located.
+A Directory Services Restore Mode (DSRM) password was set during this step and is stored securely outside the repository.
 
 <p align="left">
   <img src="./diagrams/DC-dns-delegation.png" alt="Active Directory DNS delegation configuration" width="700">
 </p>
 
-*DNS delegation was not created for the internal Active Directory namespace.*
+*No DNS delegation was created.*
 
-DNS delegation was left disabled.
-
-For this lab design, the Active Directory DNS namespace is managed internally
-by the domain controllers and does not require a parent DNS delegation.
-
-
-### Configure NetBIOS Domain Name
-
-The sanitized NetBIOS domain name is represented as:
-
-```text
-LAB
-```
+The wizard could not create a DNS delegation because there is no authoritative parent zone. This was expected: the domain controllers manage the internal namespace themselves, so no delegation is needed.
 
 <p align="left">
   <img src="./diagrams/DC-netbios.png" alt="Active Directory NetBIOS domain name configuration" width="700">
 </p>
 
-*NetBIOS domain name configured for the Active Directory lab.*
+*NetBIOS domain name.*
 
-This provides the down-level domain identifier:
-
-```text
-LAB
-```
-
-while the sanitized DNS domain is represented as:
-
-```text
-lab.example.com
-```
-
-Domain accounts can therefore use formats such as:
-
-```text
-LAB\username
-```
-
-or the User Principal Name (UPN) format:
-
-```text
-username@lab.example.com
-```
-
-
-### Configure AD DS Paths
-
-The default Windows Server locations were retained for the Active Directory
-database, log files, and SYSVOL.
-
-```text
-Database:  C:\WINDOWS\NTDS
-Logs:      C:\WINDOWS\NTDS
-SYSVOL:    C:\WINDOWS\SYSVOL
-```
+Domain accounts can sign in as `LAB\username` or `username@lab.example.com`.
 
 <p align="left">
   <img src="./diagrams/DC-paths.png" alt="Active Directory database log and SYSVOL paths" width="700">
 </p>
 
-*Default AD DS database, log, and SYSVOL locations.*
-
-Separate storage was not required for the initial homelab domain controller.
-
-
-### Review Domain Configuration
-
-Before promotion, the configuration was reviewed to confirm the intended
-forest and domain settings.
+*Default database, log, and SYSVOL locations.*
 
 <p align="left">
   <img src="./diagrams/DC-review.png" alt="Active Directory domain controller promotion configuration review" width="700">
 </p>
 
-*Final configuration review before prerequisite validation and domain controller promotion.*
+*Configuration review before the prerequisite check.*
 
-The sanitized configuration is represented as:
-
-| Setting | Configuration |
-|---|---|
-| Forest | `lab.example.com` |
-| Root Domain | `lab.example.com` |
-| NetBIOS Domain | `LAB` |
-| Forest Functional Level | Windows Server 2025 |
-| Domain Functional Level | Windows Server 2025 |
-| DNS Server | Yes |
-| Global Catalog | Yes |
-| Read-Only Domain Controller | No |
-| DNS Delegation | No |
-
-
-### Validate Promotion Prerequisites
-
-The AD DS Configuration Wizard performed prerequisite validation before
-allowing the server to be promoted.
+### Prerequisite Check
 
 <p align="left">
   <img src="./diagrams/DC-prereq-check.png" alt="Active Directory domain controller prerequisite check" width="700">
 </p>
 
-*Active Directory prerequisite checks completed successfully before promotion.*
+*All prerequisite checks passed.*
 
-All prerequisite checks passed successfully.
+All checks passed, with two expected warnings:
 
-Two warnings were reported:
+| Warning | Reason it was accepted |
+|---|---|
+| IPv6 enabled without a static IPv6 address | The server had a static IPv4 address; IPv6 was left enabled |
+| DNS delegation could not be created | No parent zone exists for the internal namespace |
 
-- IPv6 remained enabled without a manually configured static IPv6 address
-- DNS delegation could not be automatically created for the parent namespace
+### Result
 
-The server already had a static IPv4 address configured. IPv6 was left
-enabled, and the DNS delegation warning was expected for the internal
-Active Directory DNS design.
-
-Neither warning prevented promotion.
-
-
-### Complete Domain Controller Promotion
-
-After prerequisite validation, the server was promoted as the first domain
-controller in the new forest.
-
-The sanitized deployment is represented as:
-
-```text
-Active Directory Forest
-└── lab.example.com
-    │
-    └── dc-lab-01
-        ├── Active Directory Domain Services
-        ├── DNS Server
-        ├── Global Catalog
-        └── Initial FSMO Roles
-```
-
-The server restarted as part of the promotion process.
-
-After promotion completed, the AD DS Configuration Wizard confirmed that
-the server was successfully configured as a domain controller.
+The server restarted and came up as the first domain controller in the new forest, holding all five FSMO roles.
 
 <p align="left">
   <img src="./diagrams/DC-results.png" alt="Successful Active Directory domain controller promotion" width="700">
 </p>
 
-*Successful promotion of the primary server as the first domain controller in the new Active Directory forest.*
-
-
-## Post-Promotion Validation
-
-Basic validation was performed after promotion to confirm that the server
-was operating as an Active Directory domain controller and DNS server.
-
-Verify the installed server roles:
-
-```powershell
-Get-WindowsFeature AD-Domain-Services,DNS
-```
-
-Both roles should report:
+*Promotion completed successfully.*
 
 ```text
-Install State: Installed
-```
-
-Verify the Active Directory domain:
-
-```powershell
-Get-ADDomain
-```
-
-Verify the Active Directory forest:
-
-```powershell
-Get-ADForest
-```
-
-Verify domain controller discovery:
-
-```powershell
-Get-ADDomainController
-```
-
-Verify that the DNS Server service is running:
-
-```powershell
-Get-Service DNS
-```
-
-Expected status:
-
-```text
-Running
-```
-
-Verify the AD-integrated DNS zones:
-
-```powershell
-Get-DnsServerZone
-```
-
-The DNS server should contain the Active Directory domain zone and the
-forest-wide `_msdcs` zone.
-
-Sanitized representation:
-
-```text
-_msdcs.lab.example.com
 lab.example.com
+└── dc-lab-01
+    ├── Active Directory Domain Services
+    ├── DNS Server
+    ├── Global Catalog
+    └── FSMO roles (all five)
 ```
 
-Verify domain controller name resolution:
+### Post-Promotion Validation
 
-```powershell
-Resolve-DnsName dc-lab-01.lab.example.com
-```
-
-Expected sanitized IPv4 result:
-
-```text
-10.0.0.10
-```
-
-Verify Active Directory LDAP service records:
-
-```powershell
-Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.lab.example.com
-```
-
-The query should return the domain controller as an LDAP service endpoint.
-
-Detailed AD-integrated DNS testing, record validation, forwarding, dynamic
-updates, and DNS diagnostics are documented separately in the DNS
-configuration and validation documentation.
-
-
-## Deployment Result
-
-The first domain controller and Active Directory forest were successfully
-deployed and validated.
-
-The sanitized environment is represented as:
-
-```text
-Active Directory Forest
-└── lab.example.com
-    │
-    └── dc-lab-01
-        ├── Active Directory Domain Services
-        ├── DNS Server
-        ├── Global Catalog
-        └── FSMO Roles
-```
-
-The completed deployment provides the initial identity and DNS foundation for
-the Active Directory lab.
-
-Additional domain controllers, DNS redundancy, DHCP, organizational unit
-design, Group Policy, and other identity services are deployed and documented
-separately.
-
-
-## Deployment Status
-
-| Stage | Status |
+| Check | Result |
 |---|---|
-| Windows Server Deployment | ✅ Complete |
-| Hostname Configuration | ✅ Complete |
-| Static IP Configuration | ✅ Complete |
-| Network Validation | ✅ Complete |
-| AD DS Installation | ✅ Complete |
-| DNS Server Installation | ✅ Complete |
-| Active Directory Forest Creation | ✅ Complete |
-| Domain Promotion | ✅ Complete |
-| Basic AD Validation | ✅ Complete |
-| Basic DNS Validation | ✅ Complete |
-| Domain Controller Deployment | ✅ Complete |
+| AD DS and DNS roles installed | ✅ |
+| Domain and forest returned by `Get-ADDomain` / `Get-ADForest` | ✅ |
+| Domain controller discovered by `Get-ADDomainController` | ✅ |
+| DNS Server service running | ✅ |
+| `lab.example.com` and `_msdcs.lab.example.com` zones present | ✅ |
+| `dc-lab-01.lab.example.com` resolves to `10.0.0.10` | ✅ |
+| LDAP SRV record returns `dc-lab-01` | ✅ |
+
+## Part 2: `dc-lab-02` as an Additional Domain Controller
+
+### Build
+
+`dc-lab-02` was cloned from the same `win-server-2025-template` and placed on `prox-lab-02`. Because the template was sysprepped and contains no server roles, the clone started as a clean Windows Server installation with its own identity.
+
+| Setting | Configuration |
+|---|---|
+| VM / hostname | `dc-lab-02` |
+| Proxmox host | `prox-lab-02` |
+| Source template | `win-server-2025-template` |
+| VM specifications | Same as `dc-lab-01` |
+| IPv4 address | `10.0.0.11` (static) |
+| Initial DNS server | `10.0.0.10` (`dc-lab-01`) |
+| Roles | AD DS, DNS |
+
+The hostname and static address were configured the same way as on `dc-lab-01`. DNS pointed at `dc-lab-01` so the new server could locate the domain through its SRV records.
+
+### Promotion
+
+AD DS and DNS Server were installed through **Add Roles and Features**, and the server was promoted with **Add a domain controller to an existing domain**.
+
+| Setting | Configuration |
+|---|---|
+| Deployment operation | Add a domain controller to an existing domain |
+| Domain | `lab.example.com` |
+| DNS Server | Enabled |
+| Global Catalog | Enabled |
+| RODC | Disabled |
+| Replicate from | `dc-lab-01` (selected explicitly) |
+| Database, logs, SYSVOL | Defaults |
+
+The source was named explicitly rather than left on "Any domain controller", so the initial replication path is documented.
+
+The directory partitions, SYSVOL, and AD-integrated DNS zones replicated from `dc-lab-01` during promotion. No zones or objects were created manually on `dc-lab-02`.
+
+### Result
+
+```text
+lab.example.com
+├── dc-lab-01   AD DS · DNS · GC · FSMO roles
+└── dc-lab-02   AD DS · DNS · GC
+        ▲
+        └── Multi-master replication ──► dc-lab-01
+```
+
+After promotion, both domain controllers were writable and replicated changes in both directions. Active Directory is multi-master, so either domain controller can authenticate clients and accept changes while the other is offline. All five FSMO roles remained on `dc-lab-01`, which `netdom query fsmo` confirmed from both servers.
+
+After promotion, each domain controller's DNS client was set to use its partner as preferred and its own DNS service as alternate, as described in [Domain Controller Architecture](./domain-controller-architecture.md).
+
+### Validation
+
+| Check | Result |
+|---|---|
+| `repadmin /replsummary` with no failures | ✅ |
+| Inbound and outbound replication with `dc-lab-01` | ✅ |
+| Domain, Configuration, Schema, `DomainDnsZones`, `ForestDnsZones` replicated | ✅ |
+| SYSVOL and NETLOGON shared | ✅ |
+| AD-integrated zones present on `dc-lab-02` | ✅ |
+| LDAP and Kerberos SRV records list both domain controllers | ✅ |
+| `dcdiag` and `dcdiag /test:dns` passed | ✅ |
+
+Commands are in the [Additional Domain Controller Validation](../../docs/reference/windows/windows-additional-domain-controller-validation.md) reference.
+
+## Outcome
+
+Both domain controllers were deployed from the same template onto separate Proxmox hosts. `dc-lab-01` created the `lab.example.com` forest, and `dc-lab-02` joined as a second writable domain controller, replicating from `dc-lab-01` and validated in both directions. This foundation was then extended with DHCP failover and redundant DNS forwarding.
+
+## Related Documentation
+
+- [Active Directory Lab](./README.md)
+- [Domain Controller Architecture](./domain-controller-architecture.md)
+- [Active Directory DNS](./active-directory-DNS.md)
+- [Active Directory DHCP](./active-directory-DHCP.md)
+- [Domain Controller Promotion](../../docs/reference/windows/windows-server-domain-controller-promotion.md)
+- [Additional Domain Controller Validation](../../docs/reference/windows/windows-additional-domain-controller-validation.md)
+- [Windows VM Templates](../../docs/reference/proxmox/proxmox-windows-vm-template.md)

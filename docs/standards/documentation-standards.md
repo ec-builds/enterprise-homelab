@@ -2,46 +2,70 @@
 
 **Status: 🟢 Operational**
 
-This document defines the documentation standards used across the EC-Builds enterprise homelab portfolio.
+## Overview
 
-Documentation should be accurate, reusable, and sanitized. Document systems as they are built rather than reconstructing the process afterward.
+This document defines the documentation standards for the EC-Builds enterprise homelab repository. Documentation should be accurate, reusable, and sanitized. Document systems as they are built rather than reconstructing the process afterward.
+
+Naming and sanitization rules are in [Naming Conventions](./naming-conventions.md).
 
 ## Repository Structure
 
-Organize repository content into these primary areas:
+| Folder | Contents |
+|---|---|
+| `projects/` | One folder per lab; published to the site |
+| `docs/reference/` | Repeatable procedures and command references, grouped by platform |
+| `docs/standards/` | Standards for building and documenting the lab |
+| `docs/templates/` | Templates for projects, decisions, and lessons learned |
+| `docs/` (root) | Repository-wide documents: roadmap, decisions, direction, equipment inventory, tool catalog |
+| `configs/` | Configuration files and Docker Compose definitions, grouped by service |
+| `diagrams/` | Shared banners, architecture diagrams, and screenshots used outside a single project |
+| `scripts/` | Repository scripts |
+| `site/` | Astro + Starlight site that publishes `projects/` |
+| `.github/` | Link-check workflows |
+
+Add new top-level folders only when an existing folder does not fit.
+
+## Project Structure
+
+Each project folder contains:
 
 ```text
-docs/
-projects/
-diagrams/
-assets/
-equipment/
+projects/project-name/
+├── README.md          Project landing page
+├── [topic].md         Lab documents
+├── TODO-[topic].md    Planned work (optional)
+└── diagrams/          Images used by this project
 ```
 
-Add new top-level directories only when necessary.
+The `README.md` is the landing page. It should include status, objectives, technologies, completed work, next steps, and links to the project's documents. Keep implementation detail in the lab documents.
+
+Only create documents that provide useful information for the project.
 
 ## Document Structure
 
-Documents should generally include:
+### Required
 
-1. Title
-2. Status
-3. Overview
-4. Body sections
-5. Related Documentation
+Every document includes:
 
-Project documentation should also include an **Outcome** section summarizing what was accomplished.
+1. **Title:** a single `#` heading
+2. **Status:** the status line directly below the title
+3. **Overview:** a `## Overview` section stating what the document covers
+4. **Body:** `##` sections and `###` subsections, using `####` sparingly
 
-Use:
+### Optional
 
-- `#` for the document title
-- `##` for major sections
-- `###` for subsections
-- `####` sparingly
+- **Outcome:** recommended for project documents that record a build or deployment. Summarize what was accomplished and what was validated.
+- **Related Documentation:** links to closely related documents.
+
+Documents that only record information, such as inventories, catalogs, and reference tables, do not need an Outcome.
 
 ## Status
 
-Use the following status legend across documentation:
+The status line uses exactly this format, directly below the title:
+
+```markdown
+**Status: 🟢 Operational**
+```
 
 | Status | Meaning |
 |---|---|
@@ -49,21 +73,19 @@ Use the following status legend across documentation:
 | 🟡 In Progress | Currently being built, configured, or tested |
 | ⚪ Planned | Defined and included in the project roadmap |
 
-Example:
-
-```markdown
-**Status: 🟢 Operational**
-```
+Status and checklist tables may also use ✅ for a completed stage or a passed check.
 
 ## Writing Style
 
-Use tense based on document type:
+Use the tense that matches the document type:
 
 | Document Type | Tense |
 |---|---|
 | Standards | Present / instructional |
 | Project documentation | Past |
 | Reference | Present |
+
+Step-by-step instructions belong in reference documents. Project documents record what was done and link to the reference document for the steps.
 
 Standards describe what to do:
 
@@ -88,7 +110,7 @@ sudo apt update
 sudo apt upgrade -y
 ```
 
-Use inline code for commands, packages, paths, and configuration values.
+Use inline code for commands, packages, paths, hostnames, and configuration values.
 
 Use tables when they make structured information easier to read.
 
@@ -102,9 +124,13 @@ Use GitHub callouts for important context:
 > Actions that could cause data loss or instability.
 ```
 
-Emoji should primarily be reserved for status indicators rather than decorative body text.
+### Emoji
 
-## Naming and Sanitization
+- Titles may start with one emoji, for example `# 🌐 Active Directory DNS`.
+- Status lines and status tables use the status emoji above.
+- Avoid decorative emoji in body text.
+
+## File Naming
 
 Use lowercase kebab-case for files and folders:
 
@@ -112,47 +138,45 @@ Use lowercase kebab-case for files and folders:
 debian-baseline.md
 ```
 
-Before publishing, remove or sanitize:
+Exceptions:
 
-- Hostnames
-- Usernames
-- IP addresses
-- Domain names
-- API keys and tokens
-- Passwords and credentials
-- VPN endpoints
-- Other environment-specific identifiers
-
-Use role-based names and documentation-safe addressing where examples are required.
-
-See [Naming Conventions](./naming-conventions.md) for detailed naming and sanitization rules.
-
-## Project Documentation
-
-`README.md` serves as the project landing page. Keep detailed implementation information in dedicated documents.
-
-A typical project structure is:
+- `README.md`
+- The `TODO-` prefix for planned work
+- Common acronyms may stay uppercase for readability, for example `DNS`, `DHCP`, `CLI`, `PCI`, and `USB`:
 
 ```text
-projects/project-name/
-├── README.md
-├── architecture.md
-├── hardware.md
-├── diagrams/
-├── lessons-learned.md
-└── [topic].md
+active-directory-DNS.md
+proxmox-PCI-device-passthrough.md
 ```
 
-Project READMEs should include:
+Links are case-sensitive on GitHub. A link must match the filename's case exactly.
 
-- Status
-- Objectives
-- Technologies used
-- Completed work
-- Future enhancements
-- Navigation to project documentation
+## Sanitization
 
-Only create documents that provide useful information for the project.
+Sanitize every document, diagram, and screenshot before publishing. See [Naming Conventions](./naming-conventions.md) for the placeholder names, domains, and addressing to use.
+
+## Publishing to the Site
+
+The site at `ec-builds.com` is generated from the repository at build time by `site/scripts/sync-repo.mjs`. Edit documents in the repository, never the generated copies under `site/`.
+
+| Content | On the site |
+|---|---|
+| `projects/**` | Published as pages |
+| `README.md` | Becomes the project's **Overview** page |
+| `TODO-*.md` | Published with a **Planned** badge; `TODO-` is dropped from the URL |
+| `archive/` and `diagrams/` folders | Not published as pages; images are copied for pages that use them |
+| `docs/` | Not published; links to these files open on GitHub |
+| `projects/README.md` table | Builds the project cards on the home page |
+
+How documents are converted:
+
+- **URLs:** filenames are lowercased, so `active-directory-DNS.md` becomes `/active-directory-dns/`.
+- **Title:** the `#` heading becomes the page title. A leading emoji is removed from the sidebar label.
+- **Description:** the first prose paragraph after the status line becomes the search and link-preview description, so open the Overview with a complete sentence.
+- **Callouts:** GitHub callouts become site callouts.
+- **Status emoji:** status emoji in table cells become status pills.
+
+Use relative links to other repository files and relative paths for images, for example `./diagrams/image.png`. The sync rewrites both for the site.
 
 ## Commit Messages
 
@@ -171,19 +195,19 @@ Keep commit messages concise and descriptive.
 
 Before publishing:
 
-- [ ] Filename uses lowercase kebab-case
-- [ ] Status is accurate
+- [ ] Title is a single `#` heading
+- [ ] Status line matches the standard format and is accurate
+- [ ] Overview opens with a complete sentence
+- [ ] Filename follows the naming rules
 - [ ] Commands and configuration use code blocks
-- [ ] Sensitive or environment-specific information is sanitized
-- [ ] Related Documentation links are included and accurate
+- [ ] Content is sanitized per [Naming Conventions](./naming-conventions.md)
+- [ ] Links resolve, with case matching the filename
 
 When applicable:
 
 - [ ] Tense matches the document type
-- [ ] Project documents include an Outcome
-- [ ] Tables and callouts improve readability
-
-Periodically review repository links, status, and sanitization.
+- [ ] Step-by-step instructions are in a reference document
+- [ ] Project build documents include an Outcome
 
 ## Related Documentation
 

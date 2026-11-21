@@ -129,7 +129,7 @@ AD CS will issue certificates; it will not act as a reverse proxy. Nginx Proxy M
 | Document | Contents |
 |---|---|
 | [Domain Controller Architecture](./domain-controller-architecture.md) | Design decisions, VM configuration, failure domains, and known limitations |
-| [Domain Controller Deployment](./domain-controller-deployment.md) | Forest creation and `dc-lab-01` promotion |
+| [Domain Controller Deployment](./domain-controller-deployment.md) | Forest creation on `dc-lab-01` and `dc-lab-02` as an additional domain controller |
 | [Active Directory DNS](./active-directory-DNS.md) | AD-integrated zones, resolution path, record management, and DNS testing |
 | [Active Directory DHCP](./active-directory-DHCP.md) | Scope, failover configuration, cutover, and failover testing |
 | [AD CS Deployment Plan](./TODO-ad-cs-deployment-plan.md) | Planned certificate authority deployment |
