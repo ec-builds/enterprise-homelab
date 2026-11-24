@@ -43,8 +43,8 @@ The implementation is designed to preserve existing infrastructure IP addresses,
 | Component | Platform | Role |
 |---|---|---|
 | Edge router | ASUS RT-AX5400 | Internet gateway and household wireless access |
-| Firewall appliance | Dedicated x86-64 appliance (to be acquired) | Routing, NAT, firewall and VPN; see [Firewall Hardware](#firewall-hardware) |
-| Network interfaces | Built-in Intel Ethernet | WAN, LAN, and spare ports for a future network or dedicated management |
+| Firewall appliance | Lenovo ThinkCentre M920q Tiny (planned purchase) | Routing, NAT, firewall and VPN; see [Firewall Hardware](#firewall-hardware) |
+| Network interfaces | Built-in Intel I219-LM plus Intel i350-T4 quad-port card | WAN, LAN, and spare ports for a future network or dedicated management |
 | Managed switch | Cisco Catalyst WS-C3560CG-8PC-S | Layer 2 switching and future VLAN segmentation |
 | Virtualization | Proxmox VE | Virtual infrastructure |
 | Identity services | Windows Server Active Directory | Identity, DHCP (failover pair) and internal DNS |
@@ -67,6 +67,30 @@ The Mac mini test showed that driver support and stability matter more than raw 
 | Power recovery | Restarts automatically after power loss | Configurable BIOS power recovery |
 | Power protection | UPS | UPS with monitoring |
 
+### Selected hardware
+
+A used Lenovo ThinkCentre M920q Tiny with an Intel i350-T4 quad-port card meets or exceeds every requirement above.
+
+| Part | Selection | Notes |
+|---|---|---|
+| Base system | Lenovo ThinkCentre M920q Tiny, Intel Core i5-8500T or i5-8600T (6 cores), 8–16 GB DDR4, 256 GB NVMe SSD | Used business mini PC with a built-in Intel I219-LM port; two SO-DIMM slots for a later RAM upgrade |
+| Expansion riser | Lenovo 01AJ940 PCIe riser with back bracket | Converts the M920q's internal expansion connector into a standard PCIe slot; the bracket is cut for an i350-T4 |
+| Network card | Intel i350-T4 quad-port Gigabit, OEM server pull (for example, Cisco UCSC-PCIE-IRJ45) | Supported by the FreeBSD `igb` driver; bought as a server pull to avoid counterfeit cards |
+| Power | Genuine Lenovo power adapter | Wattage confirmed against Lenovo's specification with the PCIe card installed |
+
+The result is five Intel ports with no external adapters: one built-in port and four on the card.
+
+Build checks:
+
+- [ ] Confirm the riser supports the M920q's machine type before ordering.
+- [ ] Check the card on arrival for genuine Intel components (Delta transformers, OEM label, full heatsink) and confirm OPNsense detects four `igb` interfaces.
+- [ ] Remove any 2.5-inch drive; the riser and card don't fit alongside one.
+- [ ] Disable the internal Wi-Fi card in the BIOS.
+- [ ] Set the BIOS to power on automatically after power loss.
+- [ ] If Intel AMT (vPro) is used for remote console access, enable it only on the LAN-side built-in port, set a strong password and keep firmware current; otherwise leave it disabled.
+
+Estimated cost is about $200 for the base system, riser and card.
+
 ### Acceptance criteria
 
 The replacement hardware must pass all of these before cutover:
@@ -83,6 +107,44 @@ The replacement hardware must pass all of these before cutover:
 - [ ] Firewall policy and network isolation validated
 - [ ] Configuration backup and restore tested
 - [ ] Emergency management access procedure documented
+
+## Virtual Test Lab
+
+Before the hardware arrives, OPNsense is tested in a Proxmox VM on an isolated network. The VM is for learning and testing only; the production firewall stays on dedicated hardware outside the Proxmox cluster.
+
+```text
+Homelab LAN (vmbr0) ──► OPNsense VM WAN
+                             │
+                        OPNsense VM LAN
+                             │
+             vmbr1 (isolated bridge, no physical port)
+                             │
+                  Test VM (Windows 11 or Debian)
+```
+
+| Setting | Value |
+|---|---|
+| OPNsense VM | 2 vCPU, 2–4 GB RAM, 16–32 GB disk |
+| Network interfaces | Two VirtIO interfaces: WAN on `vmbr0`, LAN on `vmbr1` |
+| Test client | One VM attached only to `vmbr1`, receiving its address from OPNsense |
+
+Safety rules:
+
+- The VM never uses the homelab's live gateway address on any interface.
+- OPNsense DHCP runs on `vmbr1` only, never on the WAN side, so it can't compete with Windows Server DHCP.
+- "Block private networks" is turned off on the VM's WAN, which sits on a private network.
+- Hardware checksum offload is disabled under Interfaces → Settings for the VirtIO interfaces.
+
+Test plan:
+
+- [ ] Create `vmbr1` and the OPNsense and test VMs.
+- [ ] Build the firewall aliases and rules from the [Firewall Policy](#firewall-policy).
+- [ ] Configure LAN-side DHCP and DNS.
+- [ ] Set up WireGuard and connect from a household device to the VM's WAN.
+- [ ] Run Suricata in IDS mode against test VM traffic and practice rule tuning.
+- [ ] Export the configuration and test restoring it.
+
+The exported configuration is restored onto the M920q at deployment, with interfaces reassigned to the new hardware's port names.
 
 ## Existing Network Architecture
 
@@ -362,8 +424,9 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 ### Phase 2 — Firewall Deployment
 
 - [x] Test OPNsense on a 2014 Mac mini (failed validation; see [Hardware Validation](./opnsense-mac-mini-validation.md)).
-- [ ] Acquire dedicated firewall hardware.
-- [ ] Install OPNsense on the dedicated hardware.
+- [ ] Build and test the [virtual test lab](#virtual-test-lab).
+- [ ] Acquire the [selected hardware](#selected-hardware) and complete the build checks.
+- [ ] Install OPNsense on the M920q and restore the tested configuration.
 - [ ] Pass the [acceptance criteria](#acceptance-criteria).
 - [ ] Validate physical interface assignments.
 - [ ] Configure LAN addressing.
