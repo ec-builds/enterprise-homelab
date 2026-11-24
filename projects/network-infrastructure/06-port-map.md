@@ -2,12 +2,10 @@
 
 ## Overview
 
-This document records the physical Ethernet connections and current switch-port configuration for the network infrastructure.
-
-The public version intentionally generalizes device-to-port assignments. Exact physical port assignments are maintained in private documentation.
+The physical Ethernet connections and current switch-port configuration. Device-to-port assignments here are representative; exact assignments are kept in private documentation.
 
 > [!NOTE]
-> All currently active switch ports operate on **VLAN 1**. VLAN-based network segmentation is planned but has not yet been implemented.
+> Every active switch port is on **VLAN 1**. VLAN segmentation is planned but not yet implemented.
 
 ## ASUS RT-AX5400
 
@@ -17,15 +15,9 @@ The public version intentionally generalizes device-to-port assignments. Exact p
 | LAN | Cisco Managed Switch | Active |
 | Remaining | Direct-connected devices / available | As deployed |
 
-The ASUS RT-AX5400 currently provides Internet gateway, routing, firewall, wireless, and WireGuard services.
-
-The Cisco managed switch provides centralized wired connectivity for the infrastructure.
-
 ## Cisco Managed Switch
 
-The switch currently operates as a flat Layer 2 network using VLAN 1 for connected infrastructure.
-
-Gi1–Gi9 below are illustrative assignments representing the devices currently connected to the switch; exact port assignments are maintained in private documentation.
+Gi1–Gi9 are illustrative assignments for the devices currently connected.
 
 | Port | Example Connected Device | VLAN | Status |
 |---|---|---:|---|
@@ -40,28 +32,6 @@ Gi1–Gi9 below are illustrative assignments representing the devices currently 
 | Gi9 | Wired Infrastructure | 1 | Active |
 | Remaining | Available / Future Expansion | 1 | Available |
 
-
-
-## Current VLAN Configuration
-
-The current implementation uses the switch's default VLAN for all active wired connections.
-
-```text
-VLAN 1
-│
-├── Router Uplink
-├── Proxmox Hosts
-├── Synology NAS
-├── Mac mini
-├── Printer
-├── Scanner
-└── Other Wired Infrastructure
-```
-
-At this stage, VLAN 1 provides connectivity rather than security segmentation.
-
-Logical separation between management systems, servers, trusted endpoints, and other device classes will be introduced during the planned VLAN deployment.
-
 ## Current Physical Layout
 
 ```text
@@ -72,9 +42,7 @@ ISP ONT
 ASUS RT-AX5400
     │
     ├── Wireless Clients
-    │
     ├── Guest / IoT Wireless
-    │
     └── Cisco Managed Switch
             │
             └── VLAN 1
@@ -86,15 +54,17 @@ ASUS RT-AX5400
                  └── Other Wired Infrastructure
 ```
 
+VLAN 1 currently provides connectivity only, with no segmentation between device types.
+
 ## Current Network Roles
 
 | Device | Role |
 |---|---|
 | ISP ONT | ISP handoff |
-| ASUS RT-AX5400 | Gateway, routing, firewall, NAT, wireless, and WireGuard |
-| Cisco Managed Switch | Centralized Layer 2 Ethernet connectivity |
+| ASUS RT-AX5400 | Gateway, routing, firewall, NAT, wireless and WireGuard |
+| Cisco Managed Switch | Layer 2 Ethernet connectivity |
 | Proxmox Hosts | Virtualization infrastructure |
-| Synology NAS | Network storage and backup services |
+| Synology NAS | Network storage and backups |
 | Mac mini | Lab infrastructure |
 | Printer / Scanner | Network peripherals |
 | Wireless Clients | Trusted wireless endpoints |
@@ -102,22 +72,22 @@ ASUS RT-AX5400
 
 ## Cabling Guidelines
 
-- Core infrastructure uses wired Ethernet whenever practical.
-- Wired infrastructure is centralized through the Cisco managed switch.
-- Wireless connectivity is primarily used for mobile, guest, and IoT devices.
-- Exact switch-port assignments are maintained in private documentation.
-- Public documentation uses representative mappings where exact physical details are unnecessary.
-- Port and VLAN assignments will be updated as the segmented network architecture is implemented.
+- Core infrastructure is wired, through the Cisco switch.
+- Wi-Fi is mainly for mobile, guest and IoT devices.
+- Public docs use representative port mappings; exact assignments stay private.
+- Port and VLAN assignments will be updated when segmentation is implemented.
 
 ## Planned VLAN Segmentation
 
-The current flat VLAN 1 network will eventually transition to multiple logical security zones.
+Devices will move off VLAN 1 into zones by function and trust level, with OPNsense controlling traffic between them:
 
 ```text
 Internet
     │
-Dedicated Firewall
+ASUS RT-AX5400
     │
+OPNsense
+    │ 802.1Q trunk
 Cisco Managed Switch
     │
     ├── Management VLAN
@@ -127,10 +97,4 @@ Cisco Managed Switch
     └── Guest VLAN
 ```
 
-The future design will move devices away from the shared VLAN 1 network and assign them to VLANs based on their function and trust level.
-
-Inter-VLAN communication will then be controlled through firewall policy.
-
-Specific VLAN IDs, subnet assignments, trunk configuration, and firewall rules will be documented after implementation.
-
-
+Proposed VLAN IDs are in the [VLAN Implementation](../network-security/TODO-vlan-implementation-plan.md) plan. Final port assignments, trunk configuration and firewall rules will be documented after implementation.

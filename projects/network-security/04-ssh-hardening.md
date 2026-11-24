@@ -1,8 +1,8 @@
 # 🔐 SSH Authentication & Hardening
 
-**Status: 🟡 Operational — Hardening in Progress**
+**Status: 🟡 In Progress**
 
-SSH is currently used for administrative access to Linux systems throughout the homelab.
+SSH is in daily use for administering Linux systems across the homelab; the hardening described here is in progress.
 
 The current environment provides SSH access from trusted networks and through the WireGuard VPN. The next phase will strengthen authentication using **Ed25519 public-key authentication** and progressively restrict which administrative devices are permitted to access specific systems.
 

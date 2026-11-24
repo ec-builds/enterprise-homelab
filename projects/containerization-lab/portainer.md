@@ -6,19 +6,14 @@
 
 ## Overview
 
-Portainer Community Edition (CE) is deployed as the centralized Docker management interface for the homelab.
+Portainer Community Edition (CE) is the homelab's Docker management interface. One Portainer Server manages all three Docker hosts in the Proxmox cluster, and it's used for:
 
-A single Portainer Server manages three Docker environments distributed across the three-node Proxmox VE cluster.
+- Container status and health at a glance
+- Logs and console access
+- Image, network and storage inspection
+- Routine container administration across hosts
 
-Portainer provides:
-
-- Centralized container visibility and health status
-- Log and console access
-- Image, network, and storage inspection
-- Routine container administration
-- Remote management across Docker hosts
-
-Portainer complements the existing Docker management workflow rather than replacing it:
+Portainer adds a central view; it doesn't replace the existing tools:
 
 ```text
 Docker Compose = Service configuration and deployment
@@ -28,77 +23,18 @@ Portainer CE   = Centralized management and visibility
 
 ## Architecture
 
-The Docker environment consists of three Debian virtual machines distributed across separate Proxmox hosts.
-
-```text
-                         Proxmox VE Cluster
-                                │
-              ┌─────────────────┼─────────────────┐
-              │                 │                 │
-              ▼                 ▼                 ▼
-        prox-lab-01       prox-lab-02       prox-lab-03
-              │                 │                 │
-              ▼                 ▼                 ▼
-       docker-lab-01      monitor-lab-01     media-lab-01
-              │                 │                 │
-       Portainer CE       Portainer Agent    Portainer Agent
-          Server             TCP 9001           TCP 9001
-              │                 │                 │
-              └─────────────────┼─────────────────┘
-                                │
-                                ▼
-                      Centralized Docker
-                          Management
-```
-
 | Docker VM | Portainer Role | Connection | Workload |
 |---|---|---|---|
-| `docker-lab-01` | Portainer CE Server | Local | General applications |
+| `docker-lab-01` | Portainer CE Server | Local (Docker socket) | General applications |
 | `monitor-lab-01` | Portainer Agent | TCP 9001 | Monitoring |
 | `media-lab-01` | Portainer Agent | TCP 9001 | Media services |
 
-`docker-lab-01` hosts the Portainer CE Server and connects directly to its local Docker Engine.
-
-`monitor-lab-01` and `media-lab-01` run Portainer Agent, allowing their Docker Engines to be managed remotely from the central Portainer interface.
-
-Portainer manages Docker inside these virtual machines. The underlying Proxmox hosts and VM lifecycle remain managed separately through Proxmox VE.
-
-## Deployment
-
-
-### Portainer Server
-
-Portainer CE Server is deployed as a container on `docker-lab-01`.
-
-```text
-docker-lab-01
-      │
-      ├── Docker Engine
-      │       ▲
-      │       │ docker.sock
-      │       │
-      └── Portainer CE
-```
-
-The Docker socket provides Portainer with administrative access to the local Docker Engine.
-
-Persistent Portainer data is stored outside the ephemeral container filesystem so the Portainer container can be recreated without losing its configuration.
-
-### Portainer Agents
-
-Portainer Agent is deployed on the two remote Docker hosts:
-
-- `monitor-lab-01`
-- `media-lab-01`
-
 ```text
                     Portainer CE
-                    docker-lab-01
+                    docker-lab-01 ──► local Docker Engine (docker.sock)
                          │
                ┌─────────┴─────────┐
-               │                   │
            TCP 9001            TCP 9001
-               │                   │
                ▼                   ▼
         monitor-lab-01       media-lab-01
         Portainer Agent      Portainer Agent
@@ -107,114 +43,55 @@ Portainer Agent is deployed on the two remote Docker hosts:
          Docker Engine         Docker Engine
 ```
 
-This provides centralized management while preserving workload separation between general applications, monitoring, and media services.
+The three VMs and their Proxmox placement are shown in [Architecture](./architecture.md). Portainer manages Docker inside the VMs; the VMs themselves are managed in Proxmox.
+
+## Deployment
+
+**Server.** Portainer CE Server runs as a container on `docker-lab-01` and manages the local Docker Engine through the Docker socket. Its data is stored outside the container, so the container can be recreated without losing configuration.
+
+**Agents.** Portainer Agent runs on `monitor-lab-01` and `media-lab-01`, giving one management view while the workloads stay on separate VMs.
 
 ## Configuration Model
 
-![Poratiner Containers](./diagrams/portainer-containers.png)
+![Portainer Containers](./diagrams/portainer-containers.png)
 
-Docker Compose remains the source of truth for the Portainer deployment and other important containerized services.
-
-Example `docker-compose.yaml` configurations for both Portainer CE Server and Portainer Agent are maintained in the repository under `/configs/docker`.
+Docker Compose is the source of truth for Portainer and the other important services. Example Compose files for the Server and the Agent are in the repository:
 
 ```text
 /configs/docker
 ├── portainer/
 │   └── docker-compose.yaml
-│
 └── portainer-agent/
     └── docker-compose.yaml
 ```
 
-These configurations document the Compose-based deployment used for:
-
-- Portainer CE Server on `docker-lab-01`
-- Portainer Agent on `monitor-lab-01`
-- Portainer Agent on `media-lab-01`
-
-The overall management model is:
-
 ```text
-Repository Configuration
-          │
-          ▼
-     Docker Compose
-          │
-          ▼
-      Docker Engine
-        │       │
-        ▼       ▼
- Docker CLI   Portainer CE
+Repository Configuration ──► Docker Compose ──► Docker Engine ──┬──► Docker CLI
+                                                                └──► Portainer CE
 ```
 
-Docker Compose defines service configuration such as container images, ports, networks, persistent storage, environment configuration, and restart behavior.
-
-Portainer operates as a management and visibility layer over the resulting Docker environments.
-
-This keeps deployments reproducible and prevents important service configuration from existing only inside Portainer.
+Compose defines images, ports, networks, storage, environment and restart behavior. Portainer sits on top as a management and visibility layer, so no important configuration exists only inside Portainer.
 
 ## Security
 
-Portainer is treated as part of the privileged infrastructure management plane.
+Portainer is part of the privileged management plane:
 
-The deployment follows several security principles:
-
-- Portainer is accessible only from trusted networks or through VPN access.
-- Portainer and Agent interfaces are not intentionally exposed to the public Internet.
-- TCP 9001 is treated as a privileged Agent management interface.
-- Docker socket access is limited to components that require Docker Engine administration.
-- Credentials and secrets are excluded from public repository content.
-- Persistent Portainer data is maintained separately from the container lifecycle.
-- Docker Compose configuration is maintained independently of the Portainer database.
-
-Access to the Docker socket effectively provides administrative control over the Docker host, so the Portainer Server and Agents are treated as privileged infrastructure components.
+- Reachable only from trusted networks or over the VPN, never exposed to the internet.
+- TCP 9001 is treated as a privileged Agent management port.
+- Docker socket access is limited to components that need to administer Docker. Socket access is effectively root on the host, so the Server and Agents are treated as privileged.
+- Credentials and secrets are kept out of the public repository.
+- Portainer data is stored apart from the container, and Compose configuration apart from the Portainer database.
 
 ## Failure Behavior
 
-Portainer is a management layer and is not required for deployed containers to continue operating.
-
-```text
-Portainer Unavailable
-        │
-        X
-Central Management
-        │
-        ▼
-Docker Hosts Continue Running
-        │
-        ▼
-Containers Continue Running
-```
-
-If the Portainer Server becomes unavailable, containers across all three Docker hosts continue operating.
-
-Likewise, loss of communication with an individual Portainer Agent affects centralized management of that environment but does not stop its containers.
-
-This prevents a Portainer outage from becoming an application outage.
+Containers don't depend on Portainer. If the Portainer Server goes down, containers on all three hosts keep running. If one Agent loses contact, only central management of that host is affected. A Portainer outage never becomes an application outage.
 
 ## Design Decisions
 
-### Centralized Management
-
-A single Portainer CE Server provides visibility across all three Docker environments instead of deploying independent management interfaces on each host.
-
-### Workload Separation
-
-General applications, monitoring, and media services remain on separate Docker VMs across the Proxmox cluster.
-
-Portainer centralizes management without removing this operational separation.
-
-### Compose as Source of Truth
-
-Important services remain defined through Docker Compose rather than being created exclusively through the Portainer interface.
-
-Example `docker-compose.yaml` configurations for the Portainer Server and Portainer Agent deployments are maintained under `/configs`.
-
-This keeps deployments reproducible, portable, and independently recoverable.
-
-### CLI Remains Available
-
-Portainer provides convenience and centralized visibility, while direct Docker administration remains available for troubleshooting, scripting, detailed inspection, and automation.
+- **One Server for all hosts**, not a separate management interface on each.
+- **Workloads stay separated** across VMs; Portainer centralizes management without merging them.
+- **Compose as the source of truth**, so deployments stay reproducible and recoverable without Portainer.
+- **The CLI stays in use** for troubleshooting, scripting, detailed inspection and automation.
 
 ## Current Deployment State
 

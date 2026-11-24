@@ -2,72 +2,27 @@
 
 **Status: 🟡 In Progress**
 
-Alerting provides notification of infrastructure and service conditions that require investigation or intervention.
+How the homelab decides which conditions need attention and delivers notifications for them.
 
-The alerting strategy is designed to complement the monitoring capabilities of the Enterprise Homelab:
-
-> **Availability** detects service outages.  
-> **Metrics** detect infrastructure health and performance conditions.  
-> **Logs** provide event context for investigation.  
-> **Alerting** determines which conditions require attention and delivers notifications.
-
-The current operational alerting path uses Uptime Kuma with Discord notifications. Prometheus and Alertmanager provide the foundation for metrics-based alerting and are being expanded as monitoring baselines and alert rules are developed.
+Uptime Kuma currently sends availability and recovery alerts to Discord. Metrics-based alerting through Prometheus and Alertmanager is being built as baselines and alert rules are developed.
 
 ## Objectives
 
-- Detect actionable infrastructure and service conditions
-- Notify administrators when critical services become unavailable
-- Provide recovery notifications when services return to normal
-- Develop metrics-based alerts using observed infrastructure baselines
-- Route and group alerts to reduce unnecessary notification noise
-- Avoid duplicate alerts for the same underlying infrastructure failure
-- Validate alert delivery from detection through notification
+- Notify when critical services become unavailable, and again when they recover
+- Build metrics alerts from observed baselines
+- Route and group alerts to cut noise
+- Avoid duplicate alerts for the same underlying failure
+- Test delivery from detection through notification
 
-## Alerting Architecture
-
-Alerting operates across the monitoring capabilities rather than functioning as a separate telemetry layer.
+## Architecture
 
 ```text
-Availability
-     │
-     ▼
- Uptime Kuma
-     │
-     ▼
-Discord Webhook
-     │
-     ▼
-Remote Notification
-     🟢
+Availability ──► Uptime Kuma ──► Discord Webhook ──► Remote Notification       🟢
 
+Metrics ───────► Prometheus Alert Rules ──► Alertmanager ──► Notification Routing   🟡
 
-Metrics
-     │
-     ▼
- Prometheus
-  Alert Rules
-     │
-     ▼
- Alertmanager
-     │
-     ▼
-Notification Routing
-     🟡
-
-
-Logs
-     │
-     ▼
-    Loki
-     │
-     ▼
-Log-Based Alerting
-     ⚪
+Logs ──────────► Loki ──► Log-Based Alerting                                    ⚪
 ```
-
-Availability alerting is currently operational. Metrics-based alerting is being developed through Prometheus and Alertmanager. Log-based alerting may be introduced later for specific actionable conditions.
-
-## Current Alerting Components
 
 **Legend:** 🟢 Operational · 🟡 In Progress · ⚪ Planned
 
@@ -75,321 +30,106 @@ Availability alerting is currently operational. Metrics-based alerting is being 
 |---|---|:---:|
 | Uptime Kuma | Availability detection and alert generation | 🟢 |
 | Discord Webhook | Remote availability and recovery notifications | 🟢 |
-| Prometheus Alert Rules | Metrics-based alert evaluation | 🟡 |
-| Alertmanager | Alert grouping, routing, and silencing | 🟡 |
+| Prometheus Alert Rules | Metrics alert evaluation | 🟡 |
+| Alertmanager | Alert grouping, routing and silencing | 🟡 |
 | ntfy / Webhooks | Alertmanager notification delivery | ⚪ |
 | Email Notifications | Additional notification channel | ⚪ |
-| Log-Based Alerting | Actionable alerts derived from centralized logs | ⚪ |
+| Log-Based Alerting | Alerts on specific log events | ⚪ |
 
 ## Availability Alerting
 
-Uptime Kuma provides the current operational alerting path.
+Uptime Kuma alerts when a monitored service changes state:
 
-```text
-Infrastructure / Service
-          │
-          ▼
-      Uptime Kuma
-          │
-     Down Detected
-          │
-          ▼
-    Discord Webhook
-          │
-          ▼
-   Remote Notification
-```
+- A first notification when a monitor goes down
+- A repeat notification after every 10 consecutive failures while the outage lasts
+- A recovery notification when the service comes back
+- Delivery to a dedicated Discord channel
 
-Availability notifications are generated when monitored infrastructure or services transition between availability states.
-
-Current notification behavior includes:
-
-- Initial notification when a monitor is determined to be down
-- Repeated notification after every 10 consecutive failures while an outage persists
-- Recovery notification when the monitored service becomes available again
-- Remote notification through a dedicated Discord channel
-
-Uptime Kuma monitors infrastructure across dependency layers, allowing alerts to provide context about whether a failure originates from network connectivity, DNS, core infrastructure, platform services, or applications.
-
-Detailed monitor configuration and dependency-based monitoring are documented in `availability-monitoring.md`.
+Monitors are grouped by dependency layer (network, DNS, core infrastructure, platform services, applications), so an alert shows where in the stack the failure is. Monitor configuration is in [Availability Monitoring](./availability-monitoring.md).
 
 ## Metrics Alerting
 
-Prometheus provides the metrics evaluation layer for infrastructure alerting.
-
-The target metrics alerting path is:
-
 ```text
-Infrastructure
-      │
-      ▼
-   Exporters
-      │
-      ▼
-  Prometheus
-      │
-   Alert Rules
-      │
-      ▼
- Alertmanager
-      │
-      ▼
-Notification Channels
+Infrastructure ──► Exporters ──► Prometheus (alert rules) ──► Alertmanager ──► Notification Channels
 ```
 
-Prometheus evaluates alert rules against collected time-series metrics.
+Prometheus evaluates alert rules against collected metrics. Alertmanager groups related alerts, routes them, suppresses duplicates, silences alerts during planned maintenance and delivers them to the configured channels.
 
-Alertmanager is responsible for downstream alert management, including:
+Likely alert conditions:
 
-- grouping related alerts
-- routing alerts
-- suppressing unnecessary duplicate notifications
-- silencing alerts during planned maintenance
-- delivering alerts to configured notification channels
+- Sustained high resource use
+- Low free storage
+- Failed Prometheus scrape targets
+- Host or container availability changes
+- Network interface or device health problems
 
-Metrics-based alerting remains in progress while normal infrastructure behavior and useful thresholds are established.
-
-Potential alert conditions include:
-
-- sustained high resource utilization
-- low available storage
-- failed Prometheus scrape targets
-- container or host availability changes
-- abnormal infrastructure resource conditions
-- network interface or device health conditions
-
-Alert thresholds should be based on observed normal behavior rather than arbitrary values wherever practical.
+Thresholds will be set from observed normal behavior, not picked arbitrarily.
 
 ## Log-Based Alerting
 
-Centralized logging is operational through the logging pipeline:
+Logs are used for investigation today, not as an alert source. Log alerts may be added for specific events that clearly need action, such as:
 
-```text
-Infrastructure
-      │
-      ▼
-   rsyslog
-      │
-      ▼
-Grafana Alloy
-      │
-      ▼
-     Loki
-      │
-      ▼
-   Grafana
-```
+- Repeated authentication failures
+- Critical infrastructure events
+- Significant configuration changes
+- Service failures that metrics don't show
+- Specific security events
 
-Logs currently provide event context and investigation capabilities rather than serving as a primary alert source.
+An error or warning in a log shouldn't trigger a notification unless it needs action.
 
-Log-based alerting may be introduced for specific conditions where an event represents a clear and actionable operational or security condition.
+## Design Rules
 
-Examples may include:
+- **Actionable.** An alert means something needs investigation or a fix.
+- **Impact first.** One "application unavailable" alert is more useful than a separate alert for every dependency that failed in the same outage.
+- **Baseline before threshold.** Collect, observe and set a baseline before defining alert limits.
+- **Limit duplicates.** One host failure can trip Uptime Kuma, a Prometheus scrape failure and every application on the host. Alerts should give context without repeating the same failure several times.
+- **Keep availability alerts independent.** Uptime Kuma notifies directly through Discord, separate from the Prometheus and Alertmanager path, so each has its own route.
 
-- repeated authentication failures
-- critical infrastructure events
-- significant configuration changes
-- service failures not represented by metrics
-- specific security-relevant events
-
-Individual error or warning messages should not automatically generate notifications without determining whether they represent actionable conditions.
-
-## Alert Lifecycle
-
-An alert should move through a predictable lifecycle:
-
-```text
-Condition Detected
-        │
-        ▼
-Alert Evaluated
-        │
-        ▼
-Notification Sent
-        │
-        ▼
-Investigation
-        │
-        ▼
-Condition Resolved
-        │
-        ▼
-Recovery / Resolution
-```
-
-Monitoring telemetry remains available for investigation even when a condition does not warrant an alert.
-
-This distinction prevents alerting from becoming a replacement for dashboards, metrics, or log analysis.
-
-## Alert Design Principles
-
-### Actionable
-
-An alert should identify a condition that requires investigation or intervention.
-
-Avoid notifying simply because telemetry exists or because a single event appears unusual.
-
-### Impact-Oriented
-
-Where possible, alerts should describe operational impact rather than every underlying symptom.
-
-For example:
-
-```text
-Application unavailable
-```
-
-may be more useful than separate notifications for every failed dependency caused by the same infrastructure outage.
-
-### Baseline Before Threshold
-
-Metrics should be observed under normal operating conditions before aggressive thresholds are introduced.
-
-```text
-Collect
-   │
-   ▼
-Observe
-   │
-   ▼
-Establish Baseline
-   │
-   ▼
-Define Threshold
-   │
-   ▼
-Alert
-```
-
-This reduces unnecessary alerts caused by thresholds that do not reflect normal infrastructure behavior.
-
-### Avoid Duplicate Notifications
-
-Multiple monitoring systems may detect the same underlying failure.
-
-```text
-Host Failure
-    │
-    ├── Uptime Kuma detects host down
-    ├── Prometheus detects scrape failure
-    └── Applications become unavailable
-```
-
-Alerting should be designed so these signals provide useful context without creating excessive duplicate notifications.
-
-### Preserve Independent Availability Alerting
-
-Availability notifications should remain independent of the Prometheus and Alertmanager pipeline where practical.
-
-```text
-Uptime Kuma ──────► Discord
-
-Prometheus ───────► Alertmanager ──────► Notifications
-```
-
-This provides separate detection paths for availability and metrics-based conditions.
+Not every condition needs an alert. Dashboards and logs stay available for anything that doesn't.
 
 ## Severity
 
-Alert severity should reflect the operational impact and required response.
-
-A simple model can be used as alerting expands:
-
-| Severity | Purpose | Example |
+| Severity | Meaning | Example |
 |---|---|---|
-| **Critical** | Immediate infrastructure or service impact | Critical infrastructure or multiple dependent services unavailable |
-| **Warning** | Condition requires investigation before impact becomes critical | Sustained resource pressure or low storage |
-| **Informational** | Operational context that may be useful but does not require immediate action | Recovery or state-change notification |
+| **Critical** | Immediate impact on infrastructure or services | Critical infrastructure or several dependent services down |
+| **Warning** | Needs investigation before it becomes critical | Sustained resource pressure or low storage |
+| **Informational** | Useful context, no action needed | Recovery or state-change notice |
 
-Severity should be assigned based on operational impact rather than directly mirroring every severity value found in system logs.
+Severity reflects impact, not the severity label in the source log.
 
 ## Notification Routing
 
-The current notification path is:
+Current path: Uptime Kuma → Discord webhook → a dedicated channel. The webhook URL is treated as a secret and is never committed or published.
+
+Planned path for metrics alerts:
 
 ```text
-Uptime Kuma
-     │
-     ▼
-Discord Webhook
-     │
-     ▼
-Dedicated Notification Channel
+Prometheus ──► Alertmanager ──┬──► ntfy
+                              ├──► Email
+                              └──► Webhooks
 ```
 
-The Discord webhook URL is treated as a secret and is never stored in repository documentation or committed to source control.
-
-The planned Alertmanager path will provide centralized routing for metrics-based alerts:
-
-```text
-Prometheus
-     │
-     ▼
-Alertmanager
-     │
-     ├──► ntfy
-     ├──► Email
-     └──► Webhooks
-```
-
-Notification channels should be selected based on reliability, accessibility, and the importance of the alert.
+Channels will be chosen by reliability, accessibility and how important the alert is.
 
 ## Validation
 
-Alerting should be tested end-to-end rather than assuming that a configured rule or integration will successfully deliver a notification.
-
-Validation should follow the complete path:
+Each alert path is tested end to end, including recovery:
 
 ```text
-Generate Test Condition
-        │
-        ▼
-Monitoring Detects Condition
-        │
-        ▼
-Alert Generated
-        │
-        ▼
-Notification Delivered
-        │
-        ▼
-Condition Recovered
-        │
-        ▼
-Recovery Confirmed
+Test condition ──► Detected ──► Alert generated ──► Notification delivered ──► Recovered ──► Recovery confirmed
 ```
 
-Availability alerting can be validated using controlled service interruptions or dedicated test monitors.
-
-Metrics alerting should be validated with safe test rules before production thresholds are relied upon.
-
-Testing should verify both the initial alert and the recovery path.
+Availability alerts are tested with controlled service interruptions or test monitors. Metrics alerts are tested with safe test rules before real thresholds are relied on.
 
 ## Failure Considerations
 
-Alerting itself is infrastructure and can fail.
+The alerting path can fail like any other system, and a failure anywhere in it can stop a valid alert from arriving. Several monitoring services share the Docker monitoring host, so losing that host affects both detection and notification. Moving critical availability monitoring off that host is a planned improvement. Failure domains are described in [Architecture](./architecture.md).
 
-```text
-Monitoring Condition
-        │
-        ▼
-Alerting Pipeline
-        │
-        ▼
-External Notification
-```
+## Security
 
-A failure anywhere in this path can prevent an otherwise valid alert from reaching the administrator.
-
-The current monitoring architecture also places several monitoring services on the same Docker Monitoring Host. A failure of that host can therefore affect both detection and notification.
-
-Separating critical availability monitoring from the primary monitoring host remains a future resilience improvement.
-
-Detailed monitoring failure domains are documented in `architecture.md`.
+Notification integrations can contain webhook URLs, tokens and other credentials. These are never committed or published, are stored in application or environment configuration, and are rotated if exposed. Public docs show only sanitized architecture and examples.
 
 ## Current State
-
-The current alerting capability is:
 
 ```text
 Availability Detection       🟢
@@ -405,28 +145,13 @@ Email Notifications          ⚪
 Log-Based Alerting           ⚪
 ```
 
-Availability alerting provides the current operational notification capability.
-
-The next stage is to establish useful metrics baselines, implement actionable Prometheus alert rules, and complete Alertmanager notification routing.
+Next: set metrics baselines, write actionable Prometheus alert rules and finish Alertmanager routing.
 
 ## Related Documentation
 
-- `monitoring-strategy.md` — monitoring objectives and guiding principles
-- `architecture.md` — component placement, telemetry flows, and failure domains
-- `availability-monitoring.md` — Uptime Kuma monitoring and availability notifications
-- `metric-monitoring.md` — Prometheus metrics collection and baselines
-- `log-monitoring.md` — centralized logging and event investigation
-- Docker Lab documentation — container-specific deployment and configuration
-
-## Security
-
-Notification integrations may contain credentials, webhook URLs, tokens, or other authentication material.
-
-These values should:
-
-- never be committed to source control
-- never appear in public documentation
-- be stored using appropriate application or environment configuration
-- be rotated if accidentally exposed
-
-Public documentation should contain only sanitized notification architecture and configuration examples.
+- [Monitoring Strategy](./monitoring-strategy.md): goals and working rules
+- [Architecture](./architecture.md): component placement, data flows and failure domains
+- [Availability Monitoring](./availability-monitoring.md): Uptime Kuma checks and notifications
+- [Metric Monitoring](./metric-monitoring.md): Prometheus collection and baselines
+- [Log Monitoring](./log-monitoring.md): centralized logging and investigation
+- Docker lab documentation: container deployment and configuration

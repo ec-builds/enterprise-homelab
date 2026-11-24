@@ -4,16 +4,11 @@
 
 <img src="./diagrams/network-infrastructure-banner.png" alt="Network Infrastructure Banner" width="1000">
 
-
-A hands-on network infrastructure lab focused on building and documenting reliable core network services for the enterprise homelab.
-
-The environment includes managed switching, centralized DHCP, Active Directory-integrated DNS, redundant DNS filtering, wireless networking, remote access, and service redundancy across the Proxmox virtualization environment.
-
 ## Overview
 
-The network provides connectivity and core services for the wider homelab environment.
+The core network services for the homelab: managed switching, Windows Server DHCP, Active Directory-integrated DNS, redundant AdGuard Home filtering, wireless and remote access.
 
-The current design uses an ASUS RT-AX5400 as the Internet gateway, a Cisco managed switch for centralized wired connectivity, Windows Server for DHCP and internal DNS, and redundant AdGuard Home instances for external DNS filtering.
+An ASUS RT-AX5400 is the internet gateway, a Cisco managed switch connects the wired systems, Windows Server handles DHCP and internal DNS, and two AdGuard Home instances filter external DNS.
 
 ```text
                          Internet
@@ -27,18 +22,16 @@ The current design uses an ASUS RT-AX5400 as the Internet gateway, a Cisco manag
                   Cisco Managed Switch
                             │
           ┌─────────────────┼─────────────────┐
-          │                 │                 │
           ▼                 ▼                 ▼
       Proxmox VE        Synology NAS     Wired Systems
        Cluster
           │
           ├─────────────┬─────────────┐
-          │             │             │
           ▼             ▼             ▼
      AD / DNS / DHCP  AdGuard Home  Lab Services
 ```
 
-See [Architecture](./architecture.md) for the detailed network design, service relationships, redundancy, and planned segmentation architecture.
+The full design, service relationships and redundancy are in [Architecture](./architecture.md).
 
 ## Current Environment
 
@@ -46,7 +39,7 @@ See [Architecture](./architecture.md) for the detailed network design, service r
 |---|---|:---:|
 | Internet Gateway | ASUS RT-AX5400 | 🟢 |
 | Managed Switching | Cisco Catalyst managed switch | 🟢 |
-| Wired Network | Flat Layer 2 network using VLAN 1 | 🟢 |
+| Wired Network | Flat Layer 2 network on VLAN 1 | 🟢 |
 | DHCP | Redundant Windows Server DHCP | 🟢 |
 | Internal DNS | Active Directory-integrated DNS | 🟢 |
 | DNS Filtering | Redundant AdGuard Home | 🟢 |
@@ -55,109 +48,46 @@ See [Architecture](./architecture.md) for the detailed network design, service r
 | Remote Access | WireGuard VPN | 🟢 |
 | Network Storage | Synology NAS | 🟢 |
 | Infrastructure Monitoring | Uptime Kuma and monitoring stack | 🟢 |
-| Dedicated Firewall | OPNsense | ⚪ Planned |
-| VLAN Segmentation | Management, server, trusted, IoT, and guest zones | ⚪ Planned |
+| Dedicated Firewall | OPNsense installed; cutover pending | 🟡 |
+| VLAN Segmentation | Management, server, trusted, IoT and guest zones | ⚪ Planned |
 
 ## Core Network Services
 
-### DHCP
+**DHCP.** Two Windows Server DHCP servers run as a failover pair and hand out addresses, the gateway, internal DNS servers and the domain. Failover was tested: leases kept working with either server down.
 
-DHCP is provided by two Windows Server systems configured with a failover relationship.
+**DNS.** Active Directory DNS is authoritative for internal names. External queries go from clients to AD DNS, then to AdGuard Home, then out over DNS-over-HTTPS. The two AdGuard instances run on separate Proxmox hosts, and resolution was tested with each one down.
 
-The servers centrally provide client addressing, gateway configuration, internal DNS configuration, and domain information.
+**Switching.** The Cisco switch connects the physical infrastructure on a flat VLAN 1 network. VLAN segmentation is planned with OPNsense. Real port assignments are kept privately; the public [port map](./06-port-map.md) uses representative devices.
 
-DHCP failover has been tested to confirm that address assignment remains available when either individual DHCP server is unavailable.
+**Wireless.** The ASUS provides Wi-Fi. Trusted devices join the internal network; guest and IoT devices use an isolated guest network with no access to internal resources.
 
-### DNS
+**Remote access.** WireGuard on the ASUS provides encrypted remote access, so management services aren't exposed to the internet.
 
-Active Directory DNS remains authoritative for internal domain resolution and service discovery.
-
-External DNS queries follow this path:
-
-```text
-Clients
-   ↓
-Active Directory DNS
-   ↓
-Redundant AdGuard Home
-   ↓
-DNS-over-HTTPS
-   ↓
-Public DNS Resolvers
-```
-
-The two AdGuard instances are hosted across separate Proxmox failure domains. External DNS resolution has been tested with either individual AdGuard instance unavailable.
-
-### Switching
-
-A Cisco managed switch provides centralized Ethernet connectivity for physical infrastructure.
-
-The current wired environment operates as a flat Layer 2 network using VLAN 1. VLAN-based segmentation has not yet been implemented and is planned as part of the future OPNsense architecture.
-
-Exact physical port assignments are maintained in private infrastructure documentation, while the public port map uses representative device assignments.
-
-### Wireless
-
-The ASUS gateway currently provides wireless connectivity.
-
-Trusted wireless devices connect to the internal network, while guest and IoT devices use an isolated guest wireless environment that prevents access to trusted internal resources.
-
-### Remote Access
-
-WireGuard provides encrypted remote access to the internal network without requiring direct Internet exposure of internal management services.
-
-## Design Goals
-
-The network infrastructure is designed around:
-
-- Reliable core DHCP and DNS services
-- Redundancy for critical network services
-- Predictable infrastructure addressing
-- Centralized managed switching
-- Separation of internal DNS authority and external DNS filtering
-- Distribution of redundant services across virtualization failure domains
-- Isolation of guest and IoT wireless devices
-- Secure remote access
-- Monitoring and documented failure testing
-- A clear migration path toward dedicated firewalling and VLAN segmentation
+Security controls for these services are covered in the [Network Security](../network-security/README.md) project.
 
 ## Documentation
 
 | Document | Focus |
 |---|---|
-| [Architecture](./architecture.md) | Overall logical architecture, service relationships, redundancy, and future design |
-| [IP Addressing Plan](./01-ip-addressing-plan.md) | Address allocation and infrastructure addressing strategy |
+| [Architecture](./architecture.md) | Logical design, service relationships, redundancy and future design |
+| [IP Addressing Plan](./01-ip-addressing-plan.md) | Static and DHCP addressing strategy |
 | [Cisco Switch Deployment](./02-cisco-switch-deployment.md) | Managed switch deployment and configuration |
-| [DHCP Infrastructure](./03-dhcp-infrastructure.md) | Windows Server DHCP, failover, DNS integration, and validation |
-| [DNS Filtering with AdGuard Home](./04-dns-filtering-adguard-home.md) | DNS filtering, DoH, redundancy, and failure testing |
-| [Wireless Design](./05-wireless-design.md) | Trusted and guest/IoT wireless architecture |
+| [DHCP Infrastructure](./03-dhcp-infrastructure.md) | Windows Server DHCP, failover, DNS integration and testing |
+| [DNS Filtering with AdGuard Home](./04-dns-filtering-adguard-home.md) | DNS filtering, DoH, redundancy and failure testing |
+| [Wireless Design](./05-wireless-design.md) | Trusted and guest/IoT wireless |
 | [Port Map](./06-port-map.md) | Physical connections and current VLAN configuration |
-| [OPNsense Firewall](./planned/opnsense-firewall-mac-mini.md) | Planned dedicated firewall deployment |
-| [Lessons Learned](./lessons-learned.md) | Implementation findings and troubleshooting lessons |
+| [Lessons Learned](./lessons-learned.md) | Implementation findings and troubleshooting |
 
 ## Planned Improvements
 
-The next major architecture phase will introduce a dedicated OPNsense firewall and VLAN-based network segmentation.
+OPNsense and VLAN segmentation are next. The plans live in the Network Security project:
 
-Planned improvements include:
+- [OPNsense Firewall Deployment](../network-security/TODO-opnsense-deployment-plan.md): dedicated firewall for the homelab, behind the ASUS
+- [VLAN Implementation](../network-security/TODO-vlan-implementation-plan.md): management, server, trusted, IoT and guest zones over a trunk to the Cisco switch
+- [WireGuard VPN Migration](../network-security/TODO-wireguard-vpn-deployment-plan.md): primary remote access moves to OPNsense
 
-1. Deploy OPNsense as the primary gateway and firewall
-2. Create separate management, server, trusted, IoT, and guest network zones
-3. Configure VLAN trunking through the managed switch
-4. Apply controlled inter-network firewall policies
-5. Migrate remote-access VPN services to the dedicated firewall
-6. Expand network monitoring and security visibility
-
-These capabilities remain planned and are not represented as part of the currently deployed architecture.
+Windows Server stays the DHCP authority, with OPNsense relaying DHCP for each VLAN. None of this is part of the current deployed network.
 
 ## Related Projects
 
-This network provides the foundation for the broader enterprise homelab, including:
-
-- Proxmox virtualization
-- Active Directory
-- Microsoft Entra ID and Intune
-- Infrastructure monitoring
-- Docker and self-hosted services
-- Backup and disaster recovery
-- Network security
+Proxmox virtualization, Active Directory, Microsoft Entra ID and Intune, Infrastructure Monitoring, Docker and self-hosted services, Backup and Disaster Recovery, and Network Security all run on this network.

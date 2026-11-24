@@ -2,143 +2,66 @@
 
 **Status: 🟢 Operational**
 
-This document describes the addressing principles used to organize the homelab environment. The design emphasizes predictable infrastructure addressing, centralized client configuration, service availability, and capacity for future network segmentation.
+How addresses are assigned in the homelab: which systems are static, which use DHCP, and how the plan leaves room for VLAN segmentation.
 
-> **Note:** Network addresses, allocation ranges, VLAN identifiers, and implementation-specific details have been intentionally omitted or generalized for public documentation.
+> **Note:** Real subnets, allocation ranges and VLAN IDs are left out of public documentation. Public docs use the placeholder scheme in [Naming Conventions](../../docs/standards/naming-conventions.md#ip-addressing).
 
 ## Addressing Model
-
-The environment uses a combination of static addressing and DHCP based on system role and infrastructure dependencies.
 
 | System Type | Addressing Method |
 |---|---|
 | Foundational infrastructure | Static |
-| Persistent infrastructure services | Static where appropriate |
+| Persistent infrastructure services | Static where needed |
 | User endpoints | DHCP |
 | IoT and general client devices | DHCP |
 | Temporary lab systems | DHCP |
-| Devices requiring a predictable DHCP address | DHCP Reservation |
+| Devices that need a predictable DHCP address | DHCP reservation |
 
-Foundational systems are configured so that essential network services do not depend on DHCP for their own addressing.
+Systems that other services depend on, such as routing and firewall devices, network management interfaces, directory and DNS servers, DHCP servers, hypervisors, storage and persistent services, are statically addressed so they don't rely on DHCP for their own configuration.
 
-DHCP is used to centrally distribute network configuration to client systems and simplify endpoint management.
-
-## Static Infrastructure
-
-Static addressing is used for systems where predictable addressing or independence from DHCP is operationally important.
-
-Examples may include:
-
-- Routing and firewall infrastructure
-- Network management interfaces
-- Directory and name-resolution services
-- DHCP infrastructure
-- Hypervisors
-- Storage
-- Persistent infrastructure services
-
-Static assignments are documented separately from DHCP lease information to prevent address conflicts and maintain an authoritative inventory.
-
-## DHCP
-
-DHCP provides centralized network configuration for endpoints and temporary systems.
-
-The DHCP environment supports:
-
-- Dynamic address allocation
-- Scope options
-- Default gateway distribution
-- DNS server distribution
-- DNS domain configuration
-- Lease management
-- Reservations
-- DHCP failover
-
-DHCP reservations may be used when a DHCP-managed device requires a predictable address without requiring locally configured static addressing.
-
-## DHCP Availability
-
-DHCP services are deployed redundantly using Windows Server DHCP failover.
-
-This provides continued DHCP availability if an individual DHCP server becomes unavailable and allows DHCP configuration to be maintained across the failover relationship.
-
-Foundational infrastructure remains statically addressed and does not depend on DHCP availability for its own network configuration.
-
-## DNS Integration
-
-Internal name resolution is provided through redundant Active Directory-integrated DNS services.
-
-DHCP clients receive the appropriate internal DNS configuration through DHCP scope options. Statically addressed infrastructure is configured with the appropriate DNS settings directly.
-
-This provides consistent internal name resolution while maintaining redundancy for core DNS services.
-
-## Address Management
-
-DHCP manages only address space delegated for dynamic allocation or reservations.
-
-Static infrastructure is managed separately through the addressing plan and device inventory.
+Static assignments are tracked in the address plan and device inventory, separately from DHCP leases, to avoid conflicts.
 
 ```text
 Private Address Space
-│
-├── Infrastructure
-│   └── Static addressing
-│
+├── Infrastructure ── Static addressing
 ├── Client Address Space
 │   ├── Dynamic DHCP
 │   └── DHCP reservations
-│
-└── Reserved Capacity
-    └── Future expansion
+└── Reserved Capacity ── Future expansion
 ```
 
-A dedicated IP Address Management (IPAM) platform may be introduced as the environment grows to provide centralized visibility into:
+DHCP manages only the ranges set aside for dynamic leases and reservations.
 
-- Subnets
-- Static assignments
-- DHCP-managed address space
-- Reservations
-- VLANs
-- Address utilization
+## DHCP
+
+Two Windows Server DHCP servers run in a failover pair, so leasing continues if either one is down. They hand out addresses, the default gateway, DNS servers and the DNS domain, and manage leases and reservations. Reservations give a DHCP device a fixed address without configuring it locally.
+
+Details are in [DHCP Infrastructure](./03-dhcp-infrastructure.md).
+
+## DNS Integration
+
+Redundant Active Directory-integrated DNS handles internal name resolution. DHCP clients receive the internal DNS servers through scope options; static systems are configured with them directly.
 
 ## Network Segmentation
 
-The current addressing model is designed to support migration toward a segmented network architecture.
+The addressing plan is built to move to VLANs later. Each VLAN will be its own Layer 3 network with its own subnet, a DHCP scope where clients need one, and firewall rules controlling traffic between VLANs. Planned groups include management, trusted endpoints, servers, IoT and guests. Infrastructure that must not depend on DHCP stays static.
 
-Future segmentation will use VLANs to separate systems by function, with dedicated subnets, DHCP scopes where appropriate, and firewall policies controlling inter-VLAN communication.
+The proposed VLAN layout is in the [VLAN Implementation](../network-security/TODO-vlan-implementation-plan.md) plan.
 
-Planned segmentation may separate systems such as:
-
-- Management infrastructure
-- Trusted endpoints
-- Servers and services
-- IoT devices
-- Guest devices
-
-Each VLAN will operate as a separate Layer 3 network with its own subnet. DHCP scopes will be deployed where dynamic addressing is required, while infrastructure requiring DHCP independence may continue to use static addressing.
-
-Inter-VLAN communication will be controlled through firewall policy rather than relying solely on logical address organization for separation.
-
-Specific VLAN identifiers, subnet assignments, and firewall policies are intentionally excluded from public documentation.
+An IPAM tool may be added later to track subnets, static assignments, DHCP ranges, reservations, VLANs and utilization in one place.
 
 ## Change Management
 
-Addressing changes should follow a documented process:
-
-1. Verify that the proposed address is available.
-2. Assign the address using the appropriate static or DHCP method.
+1. Confirm the address is free.
+2. Assign it statically or through DHCP, as appropriate.
 3. Update the device inventory.
-4. Update network documentation where applicable.
-5. Validate DNS and network connectivity.
-6. Include infrastructure configuration in backup procedures where applicable.
+4. Update network documentation if needed.
+5. Test DNS and connectivity.
+6. Include the configuration in backups if relevant.
 
-## Maintenance
-
-Review the addressing strategy when:
+## When to Review
 
 - Infrastructure systems are added or removed
-- DHCP scopes change
-- Reservations are introduced or retired
+- DHCP scopes or reservations change
 - New subnets or VLANs are deployed
 - DNS or DHCP architecture changes
-- Network segmentation is introduced

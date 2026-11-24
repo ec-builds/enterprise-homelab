@@ -1,45 +1,43 @@
 # Monitoring Strategy
 
-This document defines the monitoring objectives, guiding principles, and success criteria for the Enterprise Homelab.
+The goals and working rules behind the homelab's monitoring: what it needs to catch, and how alerts and dashboards are kept useful.
 
-The strategy focuses on building useful operational visibility across infrastructure and services while keeping monitoring actionable, maintainable, and aligned with the needs of the environment.
+## Goals
 
-## Objectives
+- Catch outages and failing services early.
+- Track the health of core systems.
+- Record normal performance and capacity so changes stand out.
+- Keep enough metrics and logs to investigate what happened.
+- Shorten troubleshooting and recovery.
+- Alert only when something needs attention.
 
-- Detect infrastructure and service issues before they cause broader impact.
-- Monitor the availability and health of critical systems.
-- Establish performance and capacity baselines.
-- Provide sufficient telemetry to investigate infrastructure events.
-- Reduce troubleshooting and recovery time.
-- Generate actionable alerts without unnecessary noise.
+## What Is Monitored
 
-## Monitoring Pillars
-
-| Pillar | Purpose |
+| Area | Question it answers |
 |---|---|
-| **Availability** | Determine whether infrastructure and services are reachable and functioning. |
-| **Performance** | Monitor resource utilization, response times, and system behavior. |
-| **Capacity** | Identify resource trends before they become operational constraints. |
-| **Security** | Improve visibility into authentication, configuration, and anomalous infrastructure events. |
-| **Observability** | Correlate availability, metrics, logs, and alerts during investigation and troubleshooting. |
+| **Availability** | Is the system or service reachable and working? |
+| **Performance** | How are resources, response times and system behavior trending? |
+| **Capacity** | Will a resource run out before it becomes a problem? |
+| **Security** | Are there unusual logins, configuration changes or other suspicious events? |
+| **Correlation** | Do availability, metrics, logs and alerts line up during an investigation? |
 
-## Success Criteria
+## Measures of Success
 
-| Metric | Goal |
+| Measure | Goal |
 |---|---|
-| **Availability** | Maintain visibility into the availability of critical infrastructure and services |
-| **MTTR** | Reduce mean time to recovery through faster detection and investigation |
-| **Alert Response** | Surface actionable conditions quickly and with sufficient context |
-| **Monitoring Coverage** | Maintain monitoring coverage across critical infrastructure and services |
-| **Telemetry Coverage** | Collect the metrics and logs necessary to investigate infrastructure health and events |
+| **Availability** | Every critical system and service has an availability check |
+| **MTTR** | Faster detection and investigation shorten recovery time |
+| **Alert response** | Alerts arrive quickly with enough context to act on |
+| **Coverage** | Critical infrastructure and services are monitored |
+| **Telemetry** | The metrics and logs needed to investigate are collected |
 
-## Monitoring Philosophy
+## Working Rules
 
-- **Monitor infrastructure before applications.** Core network, compute, storage, and platform dependencies provide context for application failures.
-- **Use complementary telemetry.** Availability identifies impact, metrics show system behavior, and logs provide event-level context.
-- **Alert only on actionable conditions.** Notifications should identify conditions that warrant investigation or intervention.
-- **Build dashboards for operational use.** Dashboards should support health assessment, troubleshooting, and investigation rather than simply display available data.
-- **Establish baselines before aggressive alerting.** Observe normal behavior before defining thresholds where practical.
-- **Reduce alert fatigue.** Continuously refine thresholds, routing, and notification behavior as operational experience grows.
-- **Keep monitoring maintainable.** Prefer clear, reusable monitoring patterns over unnecessary complexity.
-- **Expand incrementally.** Add monitoring coverage as infrastructure, services, and operational requirements evolve.
+- **Infrastructure first.** Network, compute, storage and platform checks explain most application failures.
+- **Use all three signals.** Availability shows impact, metrics show behavior, logs show events.
+- **Alert on action, not noise.** Each alert should point to something worth investigating.
+- **Dashboards are for troubleshooting.** Show what helps diagnose a problem, not everything that can be graphed.
+- **Baseline before thresholds.** Watch normal behavior before setting alert limits.
+- **Tune over time.** Adjust thresholds, routing and notifications as experience builds.
+- **Keep it simple.** Reuse patterns instead of building one-off monitoring.
+- **Grow with the lab.** Add coverage as new systems and services arrive.

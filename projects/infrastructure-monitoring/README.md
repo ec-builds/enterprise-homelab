@@ -6,15 +6,13 @@
 
 ## Overview
 
-Centralized monitoring and observability for the Enterprise Homelab, providing visibility into infrastructure availability, performance, events, and logs.
-
-The lab is organized around three complementary monitoring capabilities:
+Monitoring for the Enterprise Homelab covers three questions:
 
 > **Availability** → Is it working?  
 > **Metrics** → How is it performing?  
 > **Logs** → What happened?
 
-Grafana provides centralized visualization and investigation across the metrics and logging layers.
+Uptime Kuma answers the first, Prometheus and its exporters the second, and rsyslog, Grafana Alloy and Loki the third. Grafana displays metrics and logs side by side for investigation.
 
 ## Monitoring Architecture
 
@@ -22,58 +20,36 @@ Grafana provides centralized visualization and investigation across the metrics 
 
 *Figure 1. High-level monitoring and observability architecture.*
 
-The monitoring environment separates telemetry by operational purpose:
-
-| Capability | Primary Components | Purpose |
+| Capability | Components | Purpose |
 |---|---|---|
-| **Availability** | Uptime Kuma | Service reachability, synthetic checks, outage detection, and notifications |
-| **Metrics** | Prometheus, Node Exporter, cAdvisor, SNMP Exporter, Blackbox Exporter | Infrastructure health, performance, utilization, and endpoint telemetry |
-| **Logs** | rsyslog, Grafana Alloy, Loki | Centralized collection, processing, storage, and querying of infrastructure and application events |
-| **Visualization** | Grafana | Dashboards and investigation across metrics and logs |
-| **Alerting** | Uptime Kuma, Prometheus, Alertmanager | Detection and notification of actionable infrastructure conditions |
+| **Availability** | Uptime Kuma | Reachability checks, synthetic checks, outage detection and notifications |
+| **Metrics** | Prometheus, Node Exporter, cAdvisor, SNMP Exporter, Blackbox Exporter | Health, performance, utilization and endpoint data |
+| **Logs** | rsyslog, Grafana Alloy, Loki | Collecting, storing and querying infrastructure and application events |
+| **Visualization** | Grafana | Dashboards for metrics and logs |
+| **Alerting** | Uptime Kuma, Prometheus, Alertmanager | Notifications for conditions that need attention |
 
-Detailed component placement, telemetry flows, and failure domains are documented in [`architecture.md`](./architecture.md).
-
-## Monitoring Model
-
-Each monitoring capability answers a different operational question.
+Component placement, data flows and failure domains are in [`architecture.md`](./architecture.md).
 
 ```text
 Infrastructure
       │
-      ├──► Availability ──► Is it working?
-      │       │
-      │       └── Uptime Kuma
+      ├──► Availability ──► Uptime Kuma
       │
-      ├──► Metrics ───────► How is it performing?
-      │       │
-      │       ├── Exporters
-      │       └── Prometheus
-      │
-      └──► Logs ──────────► What happened?
-              │
-              ├── rsyslog
-              ├── Alloy
-              └── Loki
-
-Metrics ──────────────┐
-                      ├──► Grafana
-Logs ─────────────────┘
+      ├──► Metrics ───────► Exporters ──► Prometheus ──┐
+      │                                                ├──► Grafana
+      └──► Logs ──────────► rsyslog ──► Alloy ──► Loki ┘
 ```
-
-The layers complement rather than replace one another. Availability identifies impact, metrics provide performance and health context, and logs provide event-level evidence for investigation.
 
 ## Objectives
 
 - Detect infrastructure and service outages
 - Monitor infrastructure health and performance
-- Collect metrics from hosts, containers, endpoints, and network devices
+- Collect metrics from hosts, containers, endpoints and network devices
 - Centralize infrastructure and application logs
-- Monitor network infrastructure through SNMP
-- Provide dashboards for operational visibility
+- Monitor network devices through SNMP
+- Build dashboards for day-to-day checks and troubleshooting
 - Correlate metrics and logs during troubleshooting
-- Generate actionable notifications and alerts
-- Maintain a monitoring architecture that can expand as the environment grows
+- Send notifications for conditions that need action
 
 ## Monitoring Stack
 
@@ -89,36 +65,24 @@ The layers complement rather than replace one another. Availability identifies i
 | Blackbox Exporter | Metrics / Availability | Endpoint probing | 🟡 |
 | rsyslog | Logs | Central syslog collection | 🟢 |
 | Grafana Alloy | Logs | Log collection and processing | 🟢 |
-| Loki | Logs | Centralized log storage and querying | 🟢 |
+| Loki | Logs | Log storage and querying | 🟢 |
 | Grafana | Visualization | Metrics and log visualization | 🟢 |
 | Discord Webhook | Notifications | Uptime Kuma availability notifications | 🟢 |
 | Alertmanager | Alerting | Metrics alert routing and management | 🟡 |
 | ntfy / Webhooks | Notifications | Alertmanager notification delivery | ⚪ |
 | Azure Monitor | Cloud | Azure monitoring and telemetry | ⚪ |
 
-## Monitoring Capabilities
+## Monitoring Areas
 
-### Availability Monitoring
+### Availability
 
-Uptime Kuma provides independent availability and synthetic monitoring across network dependencies, infrastructure, platform services, and applications.
+Uptime Kuma checks network dependencies, infrastructure, platform services and applications. Checks are grouped by dependency layer, so an application outage can be told apart from a wider infrastructure failure.
 
-Monitoring is organized by dependency layer to help distinguish an application failure from a broader infrastructure problem.
+Details: [`availability-monitoring.md`](./availability-monitoring.md), covering dependency-based monitoring, LAN and internet checks, DNS, infrastructure and service checks, applications, notifications and troubleshooting.
 
-See [`availability-monitoring.md`](./availability-monitoring.md) for:
+### Metrics
 
-- dependency-based monitoring
-- LAN and Internet monitoring
-- DNS monitoring
-- infrastructure and service checks
-- application monitoring
-- notification strategy
-- availability troubleshooting
-
-### Metrics Monitoring
-
-Prometheus provides centralized metrics collection from infrastructure and services.
-
-Metrics are collected through exporters selected for each type of system:
+Prometheus scrapes an exporter matched to each type of system:
 
 ```text
 Linux Hosts ───────► Node Exporter ────┐
@@ -127,114 +91,40 @@ Network Devices ───► SNMP Exporter ────┼──► Prometheus �
 Endpoints ──────────► Blackbox Exporter ┘
 ```
 
-See [`metric-monitoring.md`](./metric-monitoring.md) for:
+Details: [`metric-monitoring.md`](./metric-monitoring.md), covering host, container, network and endpoint metrics, Prometheus collection, the Grafana Metrics Overview and metrics alerting.
 
-- host metrics
-- container metrics
-- network telemetry
-- endpoint probing
-- Prometheus collection
-- Grafana Metrics Overview
-- metrics alerting
-
-### Log Monitoring
-
-Infrastructure and application events are centralized through the logging pipeline.
+### Logs
 
 ```text
-Infrastructure Devices
-        │
-        ▼
-     rsyslog
-        │
-        ▼
-Persistent Logs
-        │
-        ▼
-  Grafana Alloy
-        │
-        ▼
-       Loki
-        │
-        ▼
-     Grafana
+Infrastructure Devices ──► rsyslog ──► Persistent Logs ──► Grafana Alloy ──► Loki ──► Grafana
 ```
 
-rsyslog provides traditional syslog collection, Alloy processes and forwards log streams, Loki stores and queries logs, and Grafana provides visualization and investigation.
+rsyslog receives syslog, Alloy processes and forwards it, Loki stores and queries it, and Grafana displays it.
 
-See [`log-monitoring.md`](./log-monitoring.md) for:
-
-- centralized syslog
-- log collection and processing
-- source and severity labeling
-- Loki storage and querying
-- LogQL
-- Grafana Logs Overview
-- log troubleshooting
+Details: [`log-monitoring.md`](./log-monitoring.md), covering centralized syslog, collection and processing, source and severity labels, Loki and LogQL, the Grafana Logs Overview and troubleshooting.
 
 ## Troubleshooting Model
 
-The monitoring capabilities are designed to be used together during incident investigation.
-
-For example:
+During an incident the three signals are checked in order:
 
 ```text
-Service Alert
-     │
-     ▼
-Availability
-Is the service reachable?
-     │
-     ▼
-Metrics
-What changed in system behavior?
-     │
-     ▼
-Logs
-What events occurred around the failure?
-     │
-     ▼
-Investigation
+Alert ──► Availability: is it reachable? ──► Metrics: what changed? ──► Logs: what happened around it?
 ```
 
-A single infrastructure failure may therefore produce several complementary signals:
-
-| Signal | Monitoring Capability | Example |
+| Signal | Source | Example |
 |---|---|---|
-| Service becomes unreachable | Availability | Uptime Kuma detects outage |
-| Resource or network behavior changes | Metrics | Prometheus records telemetry change |
-| System generates an event | Logs | Event appears in Loki |
-| Administrator investigates | Visualization | Grafana provides metrics and log context |
+| Service becomes unreachable | Availability | Uptime Kuma detects the outage |
+| Resource or network behavior changes | Metrics | Prometheus records the change |
+| System logs an event | Logs | The event appears in Loki |
+| Investigation | Visualization | Grafana shows metrics and logs for the same window |
 
-Correlation does not necessarily establish root cause, but it provides the context needed to investigate efficiently.
+Lining the signals up doesn't prove the root cause, but it narrows where to look.
 
 ## Alerting
 
-Alerting is treated as a function across the monitoring capabilities rather than as a separate telemetry layer.
-
-```text
-Uptime Kuma
-    │
-    └──► Availability Notifications
-
-Prometheus
-    │
-    └──► Alert Rules
-             │
-             ▼
-        Alertmanager
-             │
-             ▼
-        Notifications
-```
-
-Uptime Kuma currently provides remote availability notifications.
-
-Prometheus and Alertmanager provide the foundation for metrics-based alerting as thresholds and baselines are developed.
+Uptime Kuma sends availability notifications today. Prometheus alert rules and Alertmanager will add metrics-based alerts once baselines and thresholds are set. Details: [`alerting.md`](./alerting.md).
 
 ## Current State
-
-The core observability platform is operational:
 
 ```text
 Availability   🟢
@@ -245,33 +135,30 @@ Alerting       🟡
 Cloud          ⚪
 ```
 
-Current work is focused on expanding monitoring coverage, refining dashboards and baselines, and developing actionable alerting.
-
+Current work: wider coverage, better dashboards and baselines, and useful alert rules.
 
 ## Next Steps
 
 - 🟡 Complete Alertmanager routing and notification delivery
 - 🟡 Expand metrics coverage across infrastructure
-- 🟡 Refine Grafana Metrics Overview
-- 🟡 Establish useful alert thresholds from observed baselines
+- 🟡 Refine the Grafana Metrics Overview
+- 🟡 Set alert thresholds from observed baselines
 - ⚪ Expand application and infrastructure log coverage
-- ⚪ Define and validate telemetry retention policies
-- ⚪ Integrate Azure monitoring where applicable
-- ⚪ Continue separating monitoring dependencies where practical
+- ⚪ Define and validate retention policies
+- ⚪ Integrate Azure monitoring
+- ⚪ Reduce shared dependencies between monitoring components
 
 ## Repository Structure
 
 ```text
 infrastructure-monitoring/
 ├── diagrams/
-│   └── monitoring-architecture.png
 ├── README.md
+├── alerting.md
 ├── architecture.md
 ├── availability-monitoring.md
+├── lessons-learned.md
+├── log-monitoring.md
 ├── metric-monitoring.md
-├── logs-monitoring.md
-├── monitoring-strategy.md
-├── retention-policy.md
-├── implementation-roadmap.md
-└── lessons-learned.md
+└── monitoring-strategy.md
 ```

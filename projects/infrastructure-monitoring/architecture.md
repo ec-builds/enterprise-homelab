@@ -1,6 +1,6 @@
 # Monitoring Architecture
 
-This document describes how the monitoring capabilities defined in the Infrastructure Monitoring Lab are implemented and connected: where components run, how telemetry flows between them, how alerts are delivered, and how component failures affect monitoring.
+Where each monitoring component runs, how data flows between them, how alerts are delivered, and what breaks when a component fails.
 
 **Legend:** 🟢 Operational · 🟡 In Progress · ⚪ Planned
 
@@ -8,9 +8,7 @@ This document describes how the monitoring capabilities defined in the Infrastru
 
 <img src="./diagrams/monitoring-architecture-target.svg" alt="Infrastructure Monitoring Architecture" width="100%">
 
-*Figure 1. Target monitoring architecture showing availability, metrics, logs, visualization, cloud telemetry, and alerting flows.*
-
-The architecture is organized around three primary telemetry capabilities:
+*Figure 1. Target monitoring architecture showing availability, metrics, logs, visualization, cloud telemetry and alerting flows.*
 
 ```text
 Availability ──► Uptime Kuma
@@ -21,8 +19,6 @@ Logs ──────────► rsyslog / Alloy ──► Loki ──┘
 
 Alerting ──────► Uptime Kuma / Prometheus / Alertmanager
 ```
-
-Detailed monitoring strategy and capability-specific implementation are documented separately.
 
 ## Component Placement
 
@@ -37,46 +33,28 @@ Detailed monitoring strategy and capability-specific implementation are document
 | Node Exporter | Monitored Linux hosts and VMs | Agent / container | 🟢 |
 | cAdvisor | Docker hosts | Docker container | 🟡 |
 | Loki | Docker Monitoring Host | Docker container | 🟢 |
-| Grafana Alloy | Applicable Linux / Docker hosts | Agent / container | 🟢 |
+| Grafana Alloy | Linux / Docker hosts that need it | Agent / container | 🟢 |
 | rsyslog | Docker Monitoring Host | Docker container | 🟢 |
 | Azure Monitor | Azure | Cloud service / Grafana data source | ⚪ |
 
-The core monitoring services are currently consolidated on a single Docker Monitoring Host.
-
-This simplifies deployment and management but creates a shared monitoring failure domain. Separating critical availability monitoring from the primary monitoring host remains a future resilience improvement.
+The core services share one Docker Monitoring Host. That's simpler to run but makes the host a single failure domain; moving critical availability monitoring off it is a planned improvement.
 
 ## Data Flow
 
 ### Availability 🟢
 
-Uptime Kuma performs direct availability and synthetic checks against infrastructure and services independently of the Prometheus metrics pipeline.
-
-```text
-Infrastructure / Services / Applications
-                    ▲
-                    │
-          HTTP · TCP · ICMP · DNS
-                    │
-               Uptime Kuma
-                    │
-                    ▼
-          Availability State
-```
-
-Blackbox Exporter also performs endpoint probes, but its results are collected by Prometheus as metrics.
-
-The two systems therefore serve complementary purposes:
+Uptime Kuma checks infrastructure and services directly over HTTP, TCP, ICMP and DNS, separate from the Prometheus pipeline. Blackbox Exporter also probes endpoints, but its results become Prometheus metrics:
 
 ```text
 Uptime Kuma       → Current availability and notifications
-Blackbox Exporter → Probe metrics, trends, and metric-based alerting
+Blackbox Exporter → Probe metrics, trends and metric-based alerting
 ```
 
-Detailed monitor organization and dependency-based monitoring are documented in `availability-monitoring.md`.
+Monitor organization is in [Availability Monitoring](./availability-monitoring.md).
 
 ### Metrics 🟢
 
-Prometheus uses a pull-based model to scrape metrics from exporters.
+Prometheus pulls metrics from exporters:
 
 ```text
 Linux Hosts ───────► Node Exporter ────┐
@@ -85,126 +63,59 @@ Network Devices ───► SNMP Exporter ────┼──► Prometheus �
 Endpoints ─────────► Blackbox Exporter ┘
 ```
 
-Node Exporter and cAdvisor expose metrics directly from monitored systems.
-
-SNMP Exporter and Blackbox Exporter operate as intermediaries:
-
-```text
-Prometheus
-    │
-    ▼
-Exporter
-    │
-    ▼
-Target
-```
-
-Prometheus stores the resulting time-series data and Grafana queries Prometheus for visualization.
-
-Detailed metrics collection and dashboard implementation are documented in `metric-monitoring.md`.
+Node Exporter and cAdvisor run on the monitored systems. SNMP Exporter and Blackbox Exporter sit in between: Prometheus queries the exporter, and the exporter queries the target. Details are in [Metric Monitoring](./metric-monitoring.md).
 
 ### Logs 🟢
 
-Centralized logging supports both traditional syslog collection and direct Alloy collection.
+Logs reach Loki two ways:
 
 ```text
 Linux / Docker / Applications ──► Grafana Alloy ─────────┐
-                                                          │
                                                           ▼
                                                          Loki ──► Grafana
                                                           ▲
-                                                          │
 Infrastructure / Network ──► rsyslog ──► Log Files ──► Alloy
 ```
 
-The two collection paths serve different types of sources.
+Systems that can run an agent send logs through Alloy directly. Devices that only support syslog forward to the central rsyslog collector, which normalizes and writes events to files before Alloy ships them to Loki. Those files separate ingestion from processing and keep a local copy independent of Loki.
 
-Systems capable of running an agent can use Alloy directly where appropriate.
-
-Infrastructure that supports standard syslog forwarding sends events to the central rsyslog collector. rsyslog normalizes and persists those events before Alloy processes and forwards them to Loki.
-
-```text
-Syslog Source
-     │
-     ▼
-  rsyslog
-     │
-     ▼
-Persistent Log Files
-     │
-     ▼
-Grafana Alloy
-     │
-     ▼
-    Loki
-     │
-     ▼
-  Grafana
-```
-
-The persistent file layer separates syslog ingestion from downstream log processing and provides local retention independently of Loki.
-
-Detailed log processing, labels, queries, dashboards, and validation are documented in `logs-monitoring.md`.
+Labels, queries, dashboards and validation are in [Log Monitoring](./log-monitoring.md).
 
 ### Visualization 🟢
 
-Grafana provides centralized visualization and investigation but does not serve as the primary telemetry store.
+Grafana queries each data source directly and stores none of the data itself:
 
 ```text
 Prometheus ────── Metrics 🟢 ──┐
-                               │
 Loki ──────────── Logs 🟢 ─────┼──► Grafana
-                               │
 Azure Monitor ─── Cloud ⚪ ─────┘
 ```
 
-Prometheus remains responsible for metrics storage, while Loki stores centralized logs.
-
-Grafana queries each data source independently and provides dashboards for investigating infrastructure behavior across telemetry types.
-
 ### Cloud Monitoring ⚪
 
-Azure monitoring remains part of the target architecture.
-
-```text
-Azure Resources
-       │
-       ▼
- Azure Monitor
-       │
-       ▼
-    Grafana
-```
-
-Azure Monitor provides the planned cloud telemetry source rather than routing Azure telemetry through the on-premises Prometheus or Loki pipelines.
+Azure telemetry is planned to come from Azure Monitor straight into Grafana, not through the on-premises Prometheus or Loki pipelines.
 
 ## Alerting
 
-Availability and metrics alerting use separate paths.
+Availability and metrics alerts use separate paths:
 
 ```text
 Availability Alerting 🟢          Metrics Alerting 🟡
 
       Uptime Kuma                     Prometheus
            │                         Alert Rules
-           │                              │
            ▼                              ▼
     Discord Webhook                 Alertmanager
-           │                              │
-           ▼                              ├──► ntfy       ⚪
-        Discord                           ├──► Email      ⚪
-                                          └──► Webhooks   ⚪
+           │                              ├──► ntfy       ⚪
+           ▼                              ├──► Email      ⚪
+        Discord                           └──► Webhooks   ⚪
 ```
 
-Uptime Kuma provides direct availability and recovery notifications through a Discord webhook.
-
-Prometheus evaluates metrics-based alert rules. Alertmanager provides the routing, grouping, silencing, and notification layer for those alerts.
-
-Grafana-based alerting may be introduced later where alert conditions depend on data sources outside Prometheus.
+Uptime Kuma sends availability and recovery notifications through a Discord webhook. Prometheus evaluates metrics rules, and Alertmanager handles routing, grouping, silencing and delivery. Grafana alerting may be added later for conditions based on data outside Prometheus. See [Alerting](./alerting.md).
 
 ## Ports & Protocols
 
-Default or currently defined service ports are shown below. Environment-specific addressing is intentionally omitted.
+Default or currently defined ports; addressing is omitted.
 
 | Source | Destination | Port / Protocol | Purpose |
 |---|---|---|---|
@@ -223,116 +134,30 @@ Default or currently defined service ports are shown below. Environment-specific
 | Uptime Kuma | Discord | `443/TCP` | Availability notifications |
 | Grafana | Azure Monitor | `443/TCP` | Cloud telemetry queries ⚪ |
 
-TCP is preferred for syslog sources that support it. UDP remains available for devices that require traditional UDP syslog.
-
-Plain syslog over TCP or UDP does not provide encryption or sender authentication and is restricted to trusted internal infrastructure.
+Syslog sources use TCP when they support it, UDP otherwise. Plain syslog has no encryption or sender authentication, so it's limited to trusted internal infrastructure.
 
 ## Failure Domains
-
-The monitoring architecture contains several independent services, but many currently share the same Docker Monitoring Host.
 
 | Failure | Impact | Still Working |
 |---|---|---|
 | Prometheus unavailable | Metrics collection and Prometheus alert evaluation stop | Uptime Kuma and logging pipeline |
-| Alertmanager unavailable | Prometheus alerts may be evaluated but notification routing stops | Metrics collection, Uptime Kuma, logs |
-| Loki unavailable | Centralized log ingestion/storage into Loki stops | rsyslog persistent collection, metrics, Uptime Kuma |
-| Alloy unavailable | Affected log forwarding to Loki stops | rsyslog persistent collection where applicable |
+| Alertmanager unavailable | Alerts may be evaluated but aren't delivered | Metrics collection, Uptime Kuma, logs |
+| Loki unavailable | Log ingestion into Loki stops | rsyslog file collection, metrics, Uptime Kuma |
+| Alloy unavailable | Log forwarding to Loki stops for affected sources | rsyslog file collection |
 | rsyslog unavailable | Central syslog ingestion stops | Direct Alloy collection, metrics, Uptime Kuma |
-| Grafana unavailable | Dashboards and centralized investigation unavailable | Telemetry collection and independent alerting |
+| Grafana unavailable | Dashboards and investigation unavailable | Data collection and alerting |
 | Uptime Kuma unavailable | Availability checks and Discord notifications stop | Metrics and logging pipelines |
-| Internet unavailable | External monitoring targets and remote notifications may fail | Local telemetry collection and local dashboards |
-| Docker Monitoring Host unavailable | Most centralized monitoring services become unavailable | Agents/exporters may continue locally, but centralized collection and alerting are substantially impaired |
+| Internet unavailable | External targets and remote notifications may fail | Local collection and dashboards |
+| Docker Monitoring Host unavailable | Most centralized monitoring stops | Agents and exporters may keep running locally, but collection and alerting are largely down |
 
 ### Shared Monitoring Host
 
-The Docker Monitoring Host remains the largest monitoring failure domain.
+The Docker Monitoring Host is the largest single failure domain. It runs Uptime Kuma, Prometheus, Grafana, Alertmanager, rsyslog, Alloy, Loki and the exporter services. Uptime Kuma doesn't depend on Prometheus, but because they share a host, one host failure takes out both monitoring paths. The planned fix is to move Uptime Kuma to a separate host or device, optionally with an external heartbeat check.
 
-```text
-Docker Monitoring Host
-        │
-        ├── Uptime Kuma
-        ├── Prometheus
-        ├── Grafana
-        ├── Alertmanager
-        ├── rsyslog
-        ├── Alloy
-        ├── Loki
-        └── Exporter Services
-```
+## Persistence
 
-Although Uptime Kuma is independent of Prometheus at the application level, placing both on the same host means a host-level failure can remove both monitoring paths simultaneously.
+Metrics are stored in Prometheus's time-series database. Syslog is written to files by rsyslog before Alloy sends it to Loki, so an Alloy or Loki outage doesn't stop rsyslog from receiving and saving events. Recovery for other sources depends on the collector. Backup, retention and recovery policies are documented separately.
 
-A future resilience improvement is to move Uptime Kuma to a separate host or device and optionally introduce an external heartbeat or availability check.
+## Documentation Boundaries
 
-## Persistence Boundaries
-
-Monitoring components use different persistence models.
-
-```text
-Metrics
-Prometheus
-    │
-    ▼
-Time-Series Storage
-
-
-Syslog
-rsyslog
-    │
-    ▼
-Persistent Log Files
-    │
-    ▼
-Alloy
-    │
-    ▼
-Loki
-    │
-    ▼
-Log Storage
-```
-
-This distinction is important during component failures.
-
-For example, an Alloy or Loki outage does not necessarily stop rsyslog from receiving and persisting incoming syslog events. Recovery behavior for other telemetry depends on the individual collector and source.
-
-Backup, retention, and recovery policies are documented separately from the architecture.
-
-## Architecture Boundaries
-
-The Infrastructure Monitoring Lab documents the monitoring system as a whole.
-
-Component-specific Docker deployment details are maintained in the Docker Lab.
-
-```text
-Infrastructure Monitoring
-        │
-        ├── Architecture
-        ├── Availability Monitoring
-        ├── Metrics Monitoring
-        └── Log Monitoring
-
-Docker Lab
-        │
-        ├── Uptime Kuma
-        ├── Prometheus
-        ├── Grafana
-        ├── rsyslog
-        ├── Alloy
-        └── Loki
-```
-
-This keeps the architecture documentation focused on how components interact while container documentation remains focused on how each service is deployed.
-
-## Design Principles
-
-- **Separate monitoring capabilities by purpose.** Availability, metrics, and logs answer different operational questions.
-- **Keep availability monitoring independent where practical.** Availability monitoring should not depend on the metrics or logging pipelines.
-- **Separate metrics from logs.** Prometheus records quantitative telemetry; Loki stores event and log data.
-- **Centralize visualization, not telemetry storage.** Grafana queries the appropriate telemetry stores rather than duplicating their data.
-- **Use purpose-specific collection.** Exporters collect metrics, SNMP provides network telemetry, rsyslog receives traditional syslog, and Alloy processes and forwards logs.
-- **Preserve telemetry before downstream processing where practical.** Persistent syslog files provide a buffer between collection and the Loki pipeline.
-- **Monitor infrastructure before applications.** Core network, compute, storage, and platform dependencies provide context for application failures.
-- **Alert on actionable conditions.** Notifications should identify conditions that warrant investigation or intervention.
-- **Expand incrementally.** Monitoring coverage and alerting should grow alongside the infrastructure.
-- **Keep deployed and target state distinguishable.** Planned components and integrations remain explicitly identified.
+This project documents the monitoring system as a whole. How each container is deployed (Uptime Kuma, Prometheus, Grafana, rsyslog, Alloy, Loki) is documented in the [Docker lab](../containerization-lab/README.md).

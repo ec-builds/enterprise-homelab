@@ -4,156 +4,59 @@
 
 <img src="./diagrams/containerization-banner.png" alt="Containerization Lab Banner" width="1000">
 
-Containerized self-hosted applications running across dedicated Debian Docker hosts. Services are deployed using version-controlled Docker Compose configuration and centrally managed through Portainer Community Edition.
-
 ## Overview
 
-This project deploys and manages self-hosted services using Docker and Docker Compose. It provides a platform for developing practical experience with container operations, service networking, monitoring, persistent storage, backup strategies, and multi-host Docker administration.
+Self-hosted services running on three Debian Docker hosts, deployed from version-controlled Docker Compose files and managed centrally with Portainer Community Edition. The lab covers container operations, service networking, monitoring, persistent storage, backups and multi-host Docker administration.
 
-Workloads are separated by operational role across the Proxmox VE cluster:
+Each host has one role and runs on its own Proxmox node, so applications, monitoring and media can fail and be maintained independently:
 
-- `docker-lab-01` hosts general applications and centralized Docker management.
-- `monitor-lab-01` hosts the monitoring stack: availability monitoring, metrics, and logging, with alerting in progress.
-- `media-lab-01` hosts containerized media services.
+| Host | Node | Role | Current Workloads |
+|---|---|---|---|
+| `docker-lab-01` | `prox-lab-01` | General applications and Docker management | Portainer CE, Homepage |
+| `monitor-lab-01` | `prox-lab-02` | Monitoring and observability | Uptime Kuma, Prometheus, Grafana, Loki, Grafana Alloy, SNMP Exporter, rsyslog, Portainer Agent (Alertmanager in progress) |
+| `media-lab-01` | `prox-lab-03` | Media services | Jellyfin, Portainer Agent |
 
-Separating workloads by role provides better fault isolation and allows application, monitoring, and media services to be maintained independently.
-
-## Architecture
-
-```text
-                         Proxmox VE Cluster
-                                │
-              ┌─────────────────┼─────────────────┐
-              │                 │                 │
-              ▼                 ▼                 ▼
-        prox-lab-01       prox-lab-02       prox-lab-03
-              │                 │                 │
-              ▼                 ▼                 ▼
-       docker-lab-01      monitor-lab-01     media-lab-01
-              │                 │                 │
-       Portainer CE          Uptime Kuma          Jellyfin
-          Server          Portainer Agent     Portainer Agent
-              │                 │                 │
-              └─────────────────┼─────────────────┘
-                                │
-                       Centralized Docker
-                          Management
-
-```
-
-The three permanent Docker environments are distributed across separate Proxmox nodes.
-
-Portainer CE runs on `docker-lab-01` and provides centralized management of all three environments. `monitor-lab-01` and `media-lab-01` connect to the central Portainer Server through Portainer Agent.
-
-`monitor-lab-01` also runs Prometheus, Grafana, Loki, and Grafana Alloy. Alertmanager has a placeholder configuration on `monitor-lab-01` and has not been deployed yet.
-
-## Docker Hosts
-
-| Host | Role | Current Workloads |
-|---|---|---|
-| `docker-lab-01` | General applications and Docker management | Portainer CE, Homepage |
-| `monitor-lab-01` | Monitoring and observability | Uptime Kuma, Prometheus, Grafana, Loki, Grafana Alloy, SNMP Exporter, rsyslog, Portainer Agent (Alertmanager in progress) |
-| `media-lab-01` | Media services | Jellyfin, Portainer Agent |
+The full layout, deployment model and design decisions are in [Architecture](./architecture.md).
 
 ## Services
 
 ### General Applications
 
-| Node | Docker Host | Category | Service | Status |
-|---|---|---|---|---|
-| `prox-lab-01` | `docker-lab-01` | Management | Portainer CE | 🟢 Deployed |
-| `prox-lab-01` | `docker-lab-01` | Dashboard | Homepage | 🟢 Deployed |
-| `prox-lab-01` | `docker-lab-01` | Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
-| `prox-lab-01` | `docker-lab-01` | Password Management | Bitwarden Lite | ⚪ Planned |
+| Docker Host | Category | Service | Status |
+|---|---|---|---|
+| `docker-lab-01` | Management | Portainer CE | 🟢 Deployed |
+| `docker-lab-01` | Dashboard | Homepage | 🟢 Deployed |
+| `docker-lab-01` | Reverse Proxy | Nginx Proxy Manager | ⚪ Planned |
+| `docker-lab-01` | Password Management | Bitwarden Lite | ⚪ Planned |
 
 ### Monitoring and Observability
 
-Uptime Kuma is deployed independently on `monitor-lab-01` for service and infrastructure availability monitoring.
+Uptime Kuma was deployed on its own on `monitor-lab-01`. The rest of the stack was tested on a temporary host first, then moved to `monitor-lab-01`. Alertmanager has a placeholder configuration there and isn't deployed yet.
 
-The rest of the monitoring stack was validated on a temporary test host, then deployed to `monitor-lab-01`. Alertmanager has a placeholder configuration there and has not been deployed yet.
-
-| Environment | Category | Service | Status |
+| Docker Host | Category | Service | Status |
 |---|---|---|---|
 | `monitor-lab-01` | Availability Monitoring | Uptime Kuma | 🟢 Deployed |
 | `monitor-lab-01` | Metrics | Prometheus | 🟢 Deployed |
 | `monitor-lab-01` | Visualization | Grafana | 🟢 Deployed |
 | `monitor-lab-01` | Logging | Loki | 🟢 Deployed |
-| `monitor-lab-01` | Alerting | Alertmanager | 🟡 In Progress |
 | `monitor-lab-01` | Log Collection | Grafana Alloy | 🟢 Deployed |
+| `monitor-lab-01` | Alerting | Alertmanager | 🟡 In Progress |
 
-The target monitoring architecture includes additional exporters as monitoring coverage expands.
-
-```text
-Node Exporter ──────┐
-cAdvisor ───────────┤
-SNMP Exporter ──────┼──► Prometheus ───► Grafana
-Blackbox Exporter ──┘          │
-                               └──► Alertmanager
-
-Servers / Containers ─► Alloy ─► Loki ─► Grafana
-
-Uptime Kuma ─► Independent availability checks and notifications
-```
+How the monitoring stack is used is documented in the [Infrastructure Monitoring](../infrastructure-monitoring/README.md) project.
 
 ### Media Services
 
-| Node | Docker Host | Category | Service | Deployment | Status |
-|---|---|---|---|---|---|
-| `prox-lab-03` | `media-lab-01` | Media Server | Jellyfin | Docker Compose | 🟢 Deployed |
+| Docker Host | Category | Service | Deployment | Status |
+|---|---|---|---|---|
+| `media-lab-01` | Media Server | Jellyfin | Docker Compose | 🟢 Deployed |
 
-Jellyfin runs as a Docker container on a dedicated Debian media VM hosted on the third Proxmox node.
+Jellyfin was moved from a host-based install to Docker Compose so it's easier to recreate, migrate and back up. Its data lives in bind mounts and its media library on the NAS.
 
-The service was migrated from a host-based installation to Docker Compose to improve portability and simplify service recreation, migration, and backup workflows.
+## Management and Configuration
 
-Persistent application data and required host resources are provided through bind mounts, while media storage is integrated from network-attached storage.
+Portainer CE Server on `docker-lab-01` manages all three hosts: the local engine directly, and the other two through Portainer Agent on TCP 9001. Compose files remain the source of truth, so services can be recreated, migrated and backed up without Portainer. See [Portainer CE Deployment](./portainer.md).
 
-## Container Management
-
-Portainer Community Edition provides centralized visibility and routine administration across the three permanent Docker environments.
-
-```text
-docker-lab-01
-    │
-    └── Portainer CE Server
-              │
-              ├──── Local ─────► docker-lab-01
-              │
-              ├── TCP 9001 ───► monitor-lab-01
-              │                  Portainer Agent
-              │
-              └── TCP 9001 ───► media-lab-01
-                                 Portainer Agent
-```
-
-Portainer complements rather than replaces the existing Docker administration model:
-
-```text
-Docker Compose = Service configuration and deployment
-Docker CLI     = Direct administration and troubleshooting
-Portainer CE   = Centralized management and visibility
-```
-
-Portainer manages the Docker Engines running inside the Docker VMs. Proxmox VE remains responsible for the underlying virtualization platform and VM lifecycle.
-
-See [portainer.md](portainer.md) for the detailed Portainer architecture and deployment design.
-
-## Configuration Management
-
-Docker Compose remains the source of truth for important container deployments.
-
-Version-controlled Compose configurations and examples are maintained under:
-
-```text
-configs/
-```
-
-This includes `docker-compose.yaml` examples for the Portainer CE Server and Portainer Agent deployments.
-
-Configurations are deployed to the appropriate Docker hosts, where persistent service data is generally maintained outside the disposable container filesystem using bind mounts or Docker volumes as appropriate.
-
-This approach keeps deployments reproducible while allowing services to be recreated, migrated, and backed up independently of Portainer.
-
-See [architecture.md](architecture.md) for the broader Docker environment architecture.
+Example Compose files, including Portainer Server and Agent, are under [`configs/docker`](../../configs/docker/). On each host, persistent data is kept outside the container in bind mounts or Docker volumes.
 
 ## What's Next
 
@@ -208,18 +111,14 @@ See [architecture.md](architecture.md) for the broader Docker environment archit
 
 ## Security Notes
 
-- Secrets are not committed to source control; `.env` files are excluded through `.gitignore`.
-- Public configuration examples exclude credentials and other sensitive values.
-- Portainer is treated as part of the privileged infrastructure management plane.
-- Portainer and Agent interfaces are not intentionally exposed to the public Internet.
-- Administrative access is restricted to trusted networks or VPN access.
-- Docker socket access is treated as highly privileged.
-- Persistent application data is maintained outside disposable container filesystems where appropriate.
-- Reverse proxy services will initially remain internal to the lab without Internet-facing router port forwarding.
+- Secrets are never committed; `.env` files are excluded by `.gitignore`, and public examples contain no credentials.
+- Portainer, its Agents and the Docker socket are treated as privileged; they're reachable only from trusted networks or the VPN, never the internet.
+- Persistent data is kept outside container filesystems.
+- The reverse proxy will start internal-only, with no port forwarding from the internet.
 
 ## Reference Documentation
 
-Foundational Docker documentation is maintained centrally under `docs/reference/`:
+General Docker documentation lives in `docs/reference/` to avoid duplicating it per project:
 
 | Document | Purpose |
 |---|---|
@@ -227,6 +126,3 @@ Foundational Docker documentation is maintained centrally under `docs/reference/
 | [docker-container-deployment.md](../../docs/reference/docker/docker-container-deployment.md) | Standard container deployment process |
 | [docker-concepts.md](../../docs/reference/docker/docker-concepts.md) | Core Docker concepts and architecture |
 | [docker-command-reference.md](../../docs/reference/docker/docker-command-reference.md) | Administration and troubleshooting commands |
-
-> [!NOTE]
-> Reference documentation is maintained outside this project directory to avoid duplication and drift. Project documentation focuses on the deployed architecture, implementation decisions, and current environment state.

@@ -41,6 +41,8 @@ The `README.md` is the landing page. It should include status, objectives, techn
 
 Only create documents that provide useful information for the project.
 
+Number lab documents (`01-`, `02-`) only when they form a build sequence meant to be read in order, for example `01-proxmox-baseline-build.md` before `02-storage-configuration.md`. Topic-based documents, such as one document per service or component, are not numbered. Renumbering changes site URLs and links, so new documents in a sequence are added at the end instead of renumbering.
+
 ## Document Structure
 
 ### Every Document
