@@ -42,6 +42,7 @@ Use the pattern:
 | `adguard-lab-01`, `adguard-lab-02` | AdGuard Home DNS filtering |
 | `docker-lab-01` | Docker host VM |
 | `monitor-lab-01` | Monitoring and observability platform |
+| `monitor-lab-02` | Secondary monitoring host (standalone, outside the Proxmox cluster) |
 | `media-lab-01` | Media services VM |
 | `win11-lab-01`, `win11-lab-02` | Windows 11 endpoint test VMs |
 | `security-lab-01`, `utility-lab-01` | Planned security and utility VMs |
@@ -71,6 +72,8 @@ Documentation uses a fixed placeholder scheme in `10.0.0.0/8`:
 |---|---|
 | `10.0.0.0/24` | Primary LAN |
 | `10.0.<VLAN ID>.0/24` | Additional VLANs, for example `10.0.20.0/24` for VLAN 20 |
+| `10.0.20.0/24` | Household network (trusted clients) |
+| `10.0.100.0/24` | WireGuard VPN tunnel (not a VLAN) |
 | `.1` | Default gateway |
 | `.10`, `.11` | Domain controllers (`dc-lab-01`, `dc-lab-02`) |
 | `.100`–`.199` | DHCP range |

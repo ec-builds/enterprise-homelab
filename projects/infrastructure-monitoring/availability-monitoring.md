@@ -304,6 +304,36 @@ Notifications provide:
 
 The Discord webhook URL is treated as a secret and is never stored in repository documentation or committed to source control.
 
+## Secondary Instance (Planned)
+
+**Status: ⚪ Planned**
+
+A second Uptime Kuma instance on `monitor-lab-02`, a standalone mini PC outside the Proxmox cluster, keeps outage alerts working when the primary instance, its host or the cluster itself is down.
+
+It watches a short list of critical checks rather than duplicating every monitor:
+
+| Monitor | Why |
+|---|---|
+| Primary Uptime Kuma | Detects loss of the primary availability layer |
+| Gateway | Local network reachability |
+| Internet | Upstream connectivity |
+| `prox-lab-01`, `prox-lab-02`, `prox-lab-03` | Cluster host reachability |
+
+```text
+Primary Uptime Kuma  ──► Discord webhook ──► Primary alert channel
+        ▲
+        │ monitored by
+        │
+Secondary Uptime Kuma ──► Separate Discord webhook ──► Secondary alert channel
+  (monitor-lab-02)
+```
+
+Design notes:
+
+- **Separate webhook and channel.** A broken primary notification path does not silence the secondary, and each alert shows which instance sent it.
+- **Seeded from the primary.** The instance starts from a copy of the primary's data folder, then is trimmed to the monitors above. The two are not synchronized; changes are made on each instance separately.
+- **Independent of the cluster.** Running on separate hardware avoids the shared-host failure described in [Alerting](./alerting.md#failure-considerations).
+
 ## Current Monitoring Coverage
 
 Monitoring is currently deployed across the primary infrastructure dependency layers, including:

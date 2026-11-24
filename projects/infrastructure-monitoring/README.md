@@ -58,6 +58,7 @@ Infrastructure
 | Component | Capability | Purpose | Status |
 |---|---|---|:---:|
 | Uptime Kuma | Availability | Availability and synthetic monitoring | 🟢 |
+| Uptime Kuma (secondary) | Availability | Independent checks from outside the Proxmox cluster | ⚪ |
 | Prometheus | Metrics | Metrics collection and time-series storage | 🟢 |
 | Node Exporter | Metrics | Linux host metrics | 🟢 |
 | cAdvisor | Metrics | Container metrics | 🟡 |
@@ -147,6 +148,7 @@ Current work: wider coverage, better dashboards and baselines, and useful alert 
 - ⚪ Define and validate retention policies
 - ⚪ Integrate Azure monitoring
 - ⚪ Reduce shared dependencies between monitoring components
+- ⚪ Deploy a secondary Uptime Kuma on `monitor-lab-02` with its own notification channel
 
 ## Repository Structure
 

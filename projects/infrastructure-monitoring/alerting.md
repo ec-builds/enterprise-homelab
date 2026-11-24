@@ -101,6 +101,8 @@ Severity reflects impact, not the severity label in the source log.
 
 Current path: Uptime Kuma → Discord webhook → a dedicated channel. The webhook URL is treated as a secret and is never committed or published.
 
+Planned: a secondary Uptime Kuma on `monitor-lab-02` alerts through its own webhook and channel, so a failure in the primary path does not hide outages. See [Availability Monitoring](./availability-monitoring.md#secondary-instance-planned).
+
 Planned path for metrics alerts:
 
 ```text
@@ -123,7 +125,7 @@ Availability alerts are tested with controlled service interruptions or test mon
 
 ## Failure Considerations
 
-The alerting path can fail like any other system, and a failure anywhere in it can stop a valid alert from arriving. Several monitoring services share the Docker monitoring host, so losing that host affects both detection and notification. Moving critical availability monitoring off that host is a planned improvement. Failure domains are described in [Architecture](./architecture.md).
+The alerting path can fail like any other system, and a failure anywhere in it can stop a valid alert from arriving. Several monitoring services share the Docker monitoring host, so losing that host affects both detection and notification. Moving critical availability monitoring off that host is a planned improvement, through the secondary Uptime Kuma instance. Failure domains are described in [Architecture](./architecture.md).
 
 ## Security
 
