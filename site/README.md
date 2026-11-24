@@ -130,3 +130,11 @@ site/
 | `REPO_DIR` | `..`, then `../enterprise-homelab` | where the repo is, relative to `site/` |
 | `REPO_URL` | `https://github.com/ec-builds/enterprise-homelab` | base for GitHub links |
 | `REPO_BRANCH` | `main` | branch used in GitHub links |
+
+## Possible TODO
+
+- [ ] **Reference section in the sidebar.** Sync `docs/reference/` as well as `projects/`, publish it under
+  `/reference/` as a "Reference" sidebar group below Projects (one collapsed group per folder), and add a
+  `docs/reference/README.md` landing page. Project links to reference docs would then stay on the site instead
+  of going to GitHub. Changes: `scripts/sync-repo.mjs` (second source folder, link rewriting) and the sidebar in
+  `astro.config.mjs`. Give the reference docs a cleanup pass before publishing.
