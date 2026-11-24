@@ -64,6 +64,7 @@ Nothing gets marked 🟢 Operational until it's been restored:
 - [ ] Export Cisco and ASUS configs
 - [ ] Add the backup server to [Infrastructure Monitoring](../infrastructure-monitoring/) and alert on failed jobs
 - [ ] Write a short recovery runbook
+- [ ] Set up UPS power protection with NUT: see [UPS Power Protection Plan](./TODO-ups-power-protection-plan.md)
 
 ## Future
 
