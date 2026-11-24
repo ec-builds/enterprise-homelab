@@ -19,7 +19,8 @@ npm run dev      # syncs the docs, then serves http://localhost:4321
 
 ## How the sync works
 
-`scripts/sync-repo.mjs` runs before every `dev` and `build`. For each Markdown file under `projects/` it:
+`scripts/sync-repo.mjs` runs before every `dev` and `build`. For each Markdown file under `projects/` and
+`docs/reference/` it:
 
 1. Takes the page title from the first `# heading` and adds the frontmatter Starlight needs.
 2. Rewrites links between docs to site pages (`./alerting.md` → `/projects/infrastructure-monitoring/alerting/`).
@@ -31,6 +32,12 @@ npm run dev      # syncs the docs, then serves http://localhost:4321
 6. Converts GitHub alerts (`> [!NOTE]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`, `> [!TIP]`) into Starlight callouts.
 7. Wraps tables in a bordered box that fills the column and scrolls sideways on small screens.
 8. Turns status emoji in table cells (✅ 🟢 🟡 ⚪) into the same colored pills and dots as the home page.
+
+**Reference:** `docs/reference/` is published under `/reference/` as a "Reference" sidebar group below
+Projects, with one collapsed group per category folder. Subfolders are flattened into their category
+(`docs/reference/microsoft/entra/x.md` → `/reference/microsoft/x/`), so file names must be unique within a
+category. `docs/reference/README.md` is the landing page. Category labels come from the folder name; set
+exceptions in `REFERENCE_LABELS` in `astro.config.mjs`.
 
 **Plans:** `TODO-*.md` files and anything in a `planned/` folder are published with a "Planned" badge in the
 sidebar and a gray "not yet deployed" banner. The `TODO-` prefix is dropped from their URLs.
@@ -101,7 +108,7 @@ site/
 ├── astro.config.mjs        site settings and sidebar
 ├── wrangler.jsonc          Cloudflare Workers deployment
 ├── .node-version           Node version for Cloudflare builds
-├── scripts/sync-repo.mjs   turns ../projects into site pages
+├── scripts/sync-repo.mjs   turns ../projects and ../docs/reference into site pages
 ├── public/
 │   ├── _headers            security and cache headers (CSP, HSTS, etc.)
 │   ├── .well-known/security.txt   how to report a vulnerability (RFC 9116)
@@ -131,10 +138,3 @@ site/
 | `REPO_URL` | `https://github.com/ec-builds/enterprise-homelab` | base for GitHub links |
 | `REPO_BRANCH` | `main` | branch used in GitHub links |
 
-## Possible TODO
-
-- [ ] **Reference section in the sidebar.** Sync `docs/reference/` as well as `projects/`, publish it under
-  `/reference/` as a "Reference" sidebar group below Projects (one collapsed group per folder), and add a
-  `docs/reference/README.md` landing page. Project links to reference docs would then stay on the site instead
-  of going to GitHub. Changes: `scripts/sync-repo.mjs` (second source folder, link rewriting) and the sidebar in
-  `astro.config.mjs`. Give the reference docs a cleanup pass before publishing.

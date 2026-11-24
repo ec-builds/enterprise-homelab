@@ -23,6 +23,21 @@ const projectGroups = fs.existsSync(PROJECT_DOCS)
       .sort((a, b) => a.label.localeCompare(b.label))
   : [];
 
+// Reference section: one collapsed group per category folder, labelled from this map (folder name otherwise).
+const REFERENCE_DOCS = new URL('./src/content/docs/reference/', import.meta.url);
+const REFERENCE_LABELS = { rustdesk: 'RustDesk', ssh: 'SSH' };
+const referenceGroups = fs.existsSync(REFERENCE_DOCS)
+  ? fs.readdirSync(REFERENCE_DOCS, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => ({
+        label: REFERENCE_LABELS[d.name] ?? d.name.charAt(0).toUpperCase() + d.name.slice(1),
+        collapsed: true,
+        items: [{ autogenerate: { directory: `reference/${d.name}` } }],
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+  : [];
+const referenceIndex = fs.existsSync(new URL('index.md', REFERENCE_DOCS));
+
 export default defineConfig({
   site: 'https://ec-builds.com',
   integrations: [
@@ -75,6 +90,11 @@ export default defineConfig({
           label: 'Projects',
           items: [{ label: 'All projects', slug: 'projects' }, ...projectGroups],
         },
+        ...(referenceGroups.length ? [{
+          label: 'Reference',
+          collapsed: true,
+          items: [...(referenceIndex ? [{ label: 'All reference', slug: 'reference' }] : []), ...referenceGroups],
+        }] : []),
       ],
     }),
   ],

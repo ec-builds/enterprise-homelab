@@ -1,4 +1,4 @@
-// Generates the site's project pages from ../projects (or REPO_DIR).
+// Generates the site's project and reference pages from ../projects and ../docs/reference (or REPO_DIR).
 // Outputs are git-ignored: edit the docs in the repo, not these.
 
 import fs from 'node:fs';
@@ -27,10 +27,15 @@ const PLAN = [/(^|\/)TODO-[^/]*\.md$/i, /(^|\/)planned\//i];
 
 const GITHUB_MARK = 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z';
 
-const SRC = path.join(REPO, 'projects');
-const OUT_DOCS = path.join(SITE, 'src/content/docs/projects');
 const OUT_ASSETS = path.join(SITE, 'public/repo-assets');
-const ROUTE_BASE = '/projects';
+
+// Each repo folder published as a site section. Reference docs are flattened to one folder per category
+// (docs/reference/microsoft/entra/x.md -> /reference/microsoft/x/) so the sidebar has one level of groups.
+const SECTIONS = [
+  { name: 'projects', src: path.join(REPO, 'projects'), out: path.join(SITE, 'src/content/docs/projects'), route: '/projects', flatten: false },
+  { name: 'reference', src: path.join(REPO, 'docs/reference'), out: path.join(SITE, 'src/content/docs/reference'), route: '/reference', flatten: true },
+].filter((s) => fs.existsSync(s.src));
+const SRC = SECTIONS[0].src; // projects/
 
 const report = {
   repo: REPO, pages: 0, pagesWritten: 0, skipped: [], images: 0, imagesCopied: 0, removed: 0,
@@ -100,21 +105,22 @@ function prune(dir) {
   }
 }
 const toPosix = (p) => p.split(path.sep).join('/');
-const isSkipped = (relFromProjects) => SKIP.some((re) => re.test(toPosix(relFromProjects)));
-const isPlan = (relFromProjects) => PLAN.some((re) => re.test(toPosix(relFromProjects)));
+const isSkipped = (rel) => SKIP.some((re) => re.test(toPosix(rel)));
+const isPlan = (rel) => PLAN.some((re) => re.test(toPosix(rel)));
 
-// README.md -> index.md, lowercase file names, no todo- prefix in URLs.
-function outRel(relFromProjects) {
-  const dir = path.dirname(relFromProjects);
-  const base = path.basename(relFromProjects);
+// README.md -> index.md, lowercase file names, no todo- prefix in URLs. Paths are relative to the section's src.
+function outRel(rel, section = SECTIONS[0]) {
+  let dir = toPosix(path.dirname(rel));
+  if (section.flatten && dir !== '.') dir = dir.split('/')[0];
+  const base = path.basename(rel);
   const name = /^readme\.md$/i.test(base) ? 'index.md' : base.toLowerCase().replace(/^todo-/, '');
   return toPosix(path.join(dir.toLowerCase(), name));
 }
 
-function routeFor(relFromProjects) {
-  const o = outRel(relFromProjects).replace(/\.md$/, '');
+function routeFor(rel, section = SECTIONS[0]) {
+  const o = outRel(rel, section).replace(/\.md$/, '');
   const r = o === 'index' ? '' : o.replace(/\/index$/, '');
-  return `${ROUTE_BASE}/${r}${r ? '/' : ''}`;
+  return `${section.route}/${r}${r ? '/' : ''}`;
 }
 
 const isExternal = (u) => /^(?:[a-z]+:|\/\/|#|\/)/i.test(u);
@@ -135,8 +141,9 @@ function rewriteTarget(target, fromFile, kind) {
   }
   const exists = fs.existsSync(abs);
   const isDir = exists && fs.statSync(abs).isDirectory();
-  const projRel = toPosix(path.relative(SRC, abs));
-  const inProjects = !projRel.startsWith('..');
+  // Which published section (projects/, docs/reference/) the target is in, if any.
+  const section = SECTIONS.find((s) => !toPosix(path.relative(s.src, abs)).startsWith('..'));
+  const secRel = section ? toPosix(path.relative(section.src, abs)) : '';
 
   if (kind === 'image') {
     if (!exists) {
@@ -151,16 +158,16 @@ function rewriteTarget(target, fromFile, kind) {
     return `/repo-assets/${assetRel.split('/').map(encodeURIComponent).join('/')}`;
   }
 
-  if (inProjects && exists && !isSkipped(projRel)) {
+  if (section && exists && !isSkipped(secRel)) {
     if (isDir) {
       const readme = fs.readdirSync(abs).find((f) => /^readme\.md$/i.test(f));
-      if (readme && !isSkipped(path.join(projRel, readme))) {
+      if (readme && !isSkipped(path.join(secRel, readme))) {
         report.linksToPages++;
-        return routeFor(path.join(projRel, readme)) + anchor;
+        return routeFor(path.join(secRel, readme), section) + anchor;
       }
     } else if (/\.md$/i.test(abs)) {
       report.linksToPages++;
-      return routeFor(projRel) + anchor;
+      return routeFor(secRel, section) + anchor;
     }
   }
   if (!exists) report.unresolved.push({ file: from, target, reason: 'target not found in repo' });
@@ -248,29 +255,31 @@ function prettify(name) {
   return name.replace(/\.md$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-// Project name for a doc (from its project's README H1), used in descriptions and generic titles.
+// Project (or reference category) name for a doc, from its folder's README H1 or the folder name.
+// Used in descriptions and generic titles.
 const projectNames = new Map();
-function projectName(rel) {
+function projectName(rel, section = SECTIONS[0]) {
   const dir = toPosix(rel).split('/')[0];
   if (!dir || dir === toPosix(rel)) return '';
-  if (!projectNames.has(dir)) {
-    const readme = path.join(SRC, dir, 'README.md');
+  const key = `${section.name}/${dir}`;
+  if (!projectNames.has(key)) {
+    const readme = path.join(section.src, dir, 'README.md');
     const h1 = fs.existsSync(readme) ? fs.readFileSync(readme, 'utf8').match(/^#\s+(.+?)\s*#*\s*$/m) : null;
-    projectNames.set(dir, cleanName(h1 ? h1[1] : prettify(dir)));
+    projectNames.set(key, cleanName(h1 ? h1[1] : prettify(dir)));
   }
-  return projectNames.get(dir);
+  return projectNames.get(key);
 }
 
 // Titles shared by several projects get the project name in the browser tab and search result.
 const GENERIC_TITLE = /^(overview|architecture|troubleshooting|lessons learned|roadmap|deployment)$/i;
 
-function walk(dir) {
+function walk(dir, section) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const abs = path.join(dir, entry.name);
-    if (entry.isDirectory()) { walk(abs); continue; }
+    if (entry.isDirectory()) { walk(abs, section); continue; }
     if (!/\.md$/i.test(entry.name)) continue;
 
-    const rel = path.relative(SRC, abs);
+    const rel = path.relative(section.src, abs);
     if (isSkipped(rel)) { report.skipped.push(toPosix(rel)); continue; }
 
     let md = fs.readFileSync(abs, 'utf8').replace(/\r\n/g, '\n');
@@ -293,7 +302,7 @@ function walk(dir) {
     const sourcePath = toPosix(path.relative(REPO, abs));
     const editUrl = `${GITHUB}/blob/${BRANCH}/${sourcePath}`;
     const plan = isPlan(rel);
-    const project = projectName(rel);
+    const project = projectName(rel, section);
     const description = ownDescription || describe(md, title, project);
     const pageTitle = !isReadme && project && GENERIC_TITLE.test(cleanName(title)) ? `${project} ${cleanName(title)}` : null;
     const front = [
@@ -324,13 +333,16 @@ function walk(dir) {
       `<svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="${GITHUB_MARK}"/></svg>` +
       `Synced from GitHub<span aria-hidden="true">↗</span></a></p>\n\n`;
 
-    if (writeText(path.join(OUT_DOCS, outRel(rel)), front + source + rewriteBody(md, abs))) report.pagesWritten++;
+    const dest = path.join(section.out, outRel(rel, section));
+    if (produced.has(dest)) report.unresolved.push({ file: sourcePath, target: dest, reason: 'two docs map to the same page' });
+    if (writeText(dest, front + source + rewriteBody(md, abs))) report.pagesWritten++;
+    report.sections = { ...report.sections, [section.name]: (report.sections?.[section.name] ?? 0) + 1 };
     if (plan) report.plans = (report.plans ?? 0) + 1;
     report.pages++;
   }
 }
 
-walk(SRC);
+for (const section of SECTIONS) walk(section.src, section);
 
 // Home page cards come from the table in projects/README.md.
 const projects = [];
@@ -350,12 +362,12 @@ for (const rel of ['diagrams/homelab-architecture-simple.png']) {
 await Promise.all(conversions);
 
 // Remove outputs whose source was renamed, deleted, or is now skipped.
-prune(OUT_DOCS);
+for (const section of SECTIONS) prune(section.out);
 prune(OUT_ASSETS);
 
 fs.writeFileSync(path.join(SITE, 'sync-report.json'), JSON.stringify(report, null, 2));
 console.log(`[sync] repo: ${REPO}`);
-console.log(`[sync] ${report.pages} pages (${report.plans ?? 0} plans), ${report.skipped.length} skipped, ${report.images} images, ` +
+console.log(`[sync] ${report.pages} pages (${Object.entries(report.sections ?? {}).map(([k, v]) => `${v} ${k}`).join(', ')}; ${report.plans ?? 0} plans), ${report.skipped.length} skipped, ${report.images} images, ` +
   `${report.linksToPages} internal links, ${report.linksToGitHub} links to GitHub, ` +
   `${report.unresolved.length} unresolved (see sync-report.json)`);
 console.log(`[sync] changed: ${report.pagesWritten} pages written, ${report.imagesCopied} images copied, ` +
