@@ -204,7 +204,7 @@ Add the SMB share to `/etc/fstab`.
 Example Jellyfin configuration:
 
 ```fstab
-//nas-lab.local/media /mnt/media cifs credentials=/root/.smbcredentials-jellyfin,vers=3.0,ro,nofail,x-systemd.automount,_netdev 0 0
+//nas-lab/media-share /mnt/media cifs credentials=/root/.smbcredentials-jellyfin,vers=3.0,ro,nofail,x-systemd.automount,_netdev 0 0
 ```
 
 ### Configuration Options
@@ -272,7 +272,7 @@ Example:
 
 ```text
 TARGET      SOURCE                 FSTYPE OPTIONS
-/mnt/media  //nas-lab.local/media  cifs   ro,...
+/mnt/media  //nas-lab/media-share  cifs   ro,...
 ```
 
 The output should identify:
@@ -491,7 +491,7 @@ service-account-jellyfin
         │
         ▼
 NAS Share
-//nas-lab.local/media
+//nas-lab/media-share
         │
         │ SMB 3.0
         ▼
@@ -513,7 +513,7 @@ Credentials:
 Persistent host mount:
 
 ```fstab
-//nas-lab.local/media /mnt/media cifs credentials=/root/.smbcredentials-jellyfin,vers=3.0,ro,nofail,x-systemd.automount,_netdev 0 0
+//nas-lab/media-share /mnt/media cifs credentials=/root/.smbcredentials-jellyfin,vers=3.0,ro,nofail,x-systemd.automount,_netdev 0 0
 ```
 
 Docker bind mount:

@@ -62,9 +62,9 @@ During installation:
 Use a sanitized naming convention in public examples:
 
 ```text
-prox-lab-01.example.internal
-prox-lab-02.example.internal
-prox-lab-03.example.internal
+prox-lab-01.lab.example.com
+prox-lab-02.lab.example.com
+prox-lab-03.lab.example.com
 ```
 
 Example management network:
@@ -447,9 +447,9 @@ scrape_configs:
 
     static_configs:
       - targets:
-          - "prox-lab-01.example.internal:9100"
-          - "prox-lab-02.example.internal:9100"
-          - "prox-lab-03.example.internal:9100"
+          - "prox-lab-01.lab.example.com:9100"
+          - "prox-lab-02.lab.example.com:9100"
+          - "prox-lab-03.lab.example.com:9100"
 ```
 
 Validate the Prometheus configuration before applying it:

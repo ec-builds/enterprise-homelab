@@ -146,11 +146,11 @@ Use `pvesm` to create a Proxmox storage definition referencing the existing LVM-
 Example:
 
 ```bash
-pvesm add lvmthin nvme-04-lvm \
+pvesm add lvmthin nvme-03-lvm \
   --vgname pve \
   --thinpool data \
   --content images,rootdir \
-  --nodes prox04
+  --nodes prox-lab-03
 ```
 
 For a sanitized/general deployment:

@@ -39,7 +39,7 @@ iface eth0 inet manual
 
 auto vmbr0
 iface vmbr0 inet static
-        address 10.0.0.10/24
+        address 10.0.0.20/24
         gateway 10.0.0.1
         bridge-ports eth0
         bridge-stp off
@@ -57,7 +57,7 @@ eth0
  ▼
 vmbr0
  │
- ├── 10.0.0.10/24
+ ├── 10.0.0.20/24
  ├── Default gateway
  ├── Proxmox management
  └── VM networking
@@ -80,14 +80,14 @@ ip addr show vmbr0
 A statically configured address should appear similar to:
 
 ```text
-inet 10.0.0.10/24 scope global vmbr0
+inet 10.0.0.20/24 scope global vmbr0
     valid_lft forever preferred_lft forever
 ```
 
 A DHCP-managed address typically includes `dynamic` and lease timers:
 
 ```text
-inet 10.0.0.10/24 scope global dynamic vmbr0
+inet 10.0.0.150/24 scope global dynamic vmbr0
     valid_lft 86000sec preferred_lft 86000sec
 ```
 
@@ -111,7 +111,7 @@ Recommended for persistent Proxmox infrastructure:
 
 ```text
 iface vmbr0 inet static
-        address 10.0.0.10/24
+        address 10.0.0.20/24
         gateway 10.0.0.1
 ```
 
@@ -180,13 +180,13 @@ Example:
 
 ```text
 $ hostname
-pve01
+prox-lab-01
 
 $ hostname -I
-10.0.0.10
+10.0.0.20
 
-$ getent hosts pve01
-10.0.0.10    pve01.example.test pve01
+$ getent hosts prox-lab-01
+10.0.0.20    prox-lab-01.lab.example.com prox-lab-01
 ```
 
 The management address and resolved hostname should agree.
@@ -200,7 +200,7 @@ cat /etc/hosts
 Example:
 
 ```text
-10.0.0.10 pve01.example.test pve01
+10.0.0.20 prox-lab-01.lab.example.com prox-lab-01
 ```
 
 ## Cluster Networking
@@ -216,8 +216,8 @@ A basic deployment can use the existing management network:
           │                     │
         vmbr0                 vmbr0
           │                     │
-       pve01                  pve02
-     10.0.0.10              10.0.0.11
+     prox-lab-01           prox-lab-02
+     10.0.0.20              10.0.0.21
           │                     │
           └──── Corosync ───────┘
                   Link 0
@@ -240,10 +240,10 @@ ip addr show vmbr0
 shows something similar to:
 
 ```text
-inet 10.0.0.20/24 scope global vmbr0
+inet 10.0.0.30/24 scope global vmbr0
     valid_lft forever
 
-inet 10.0.0.10/24 scope global secondary dynamic vmbr0
+inet 10.0.0.150/24 scope global secondary dynamic vmbr0
     valid_lft 86000sec
 ```
 
@@ -252,8 +252,8 @@ inet 10.0.0.10/24 scope global secondary dynamic vmbr0
 The interface has both:
 
 ```text
-10.0.0.20 → static address
-10.0.0.10 → DHCP address
+10.0.0.30 → static address
+10.0.0.150 → DHCP address
 ```
 
 Useful indicators:
@@ -278,7 +278,7 @@ If DHCP should control the management IP, change:
 
 ```text
 iface vmbr0 inet static
-        address 10.0.0.20/24
+        address 10.0.0.30/24
         gateway 10.0.0.1
 ```
 
@@ -305,13 +305,13 @@ Only the intended management IPv4 address should remain.
 The network interface is correctly using the new address:
 
 ```text
-10.0.0.10
+10.0.0.20
 ```
 
 but the Proxmox console still displays an old address:
 
 ```text
-https://10.0.0.20:8006/
+https://10.0.0.30:8006/
 ```
 
 ### Cause
@@ -331,19 +331,19 @@ cat /etc/hosts
 Example old entry:
 
 ```text
-10.0.0.20 pve01.example.test pve01
+10.0.0.30 prox-lab-01.lab.example.com prox-lab-01
 ```
 
 Update it to the current management address:
 
 ```text
-10.0.0.10 pve01.example.test pve01
+10.0.0.20 prox-lab-01.lab.example.com prox-lab-01
 ```
 
 After rebooting, the console should advertise the correct management URL:
 
 ```text
-https://10.0.0.10:8006/
+https://10.0.0.20:8006/
 ```
 
 ## Issue 3 — No Address Available for Corosync Link 0
@@ -361,7 +361,7 @@ ip addr show vmbr0
 If the address appears as dynamically assigned:
 
 ```text
-inet 10.0.0.10/24 scope global dynamic vmbr0
+inet 10.0.0.150/24 scope global dynamic vmbr0
 ```
 
 review the management configuration:
@@ -375,7 +375,7 @@ For a cluster node, configure a stable host-level address:
 ```text
 auto vmbr0
 iface vmbr0 inet static
-        address 10.0.0.10/24
+        address 10.0.0.20/24
         gateway 10.0.0.1
         bridge-ports eth0
         bridge-stp off
@@ -394,8 +394,8 @@ getent hosts $(hostname)
 Expected:
 
 ```text
-10.0.0.10
-10.0.0.10    pve01.example.test pve01
+10.0.0.20
+10.0.0.20    prox-lab-01.lab.example.com prox-lab-01
 ```
 
 If the hostname resolves to an obsolete address, inspect:

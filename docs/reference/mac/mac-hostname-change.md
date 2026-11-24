@@ -31,9 +31,9 @@ sudo scutil --set HostName "newhostname"
 Example:
 
 ```bash
-sudo scutil --set ComputerName "media-lab"
-sudo scutil --set LocalHostName "media-lab"
-sudo scutil --set HostName "media-lab"
+sudo scutil --set ComputerName "media-lab-01"
+sudo scutil --set LocalHostName "media-lab-01"
+sudo scutil --set HostName "media-lab-01"
 ```
 
 ## Verify
@@ -47,9 +47,9 @@ echo "HostName: $(scutil --get HostName)"
 Expected:
 
 ```text
-ComputerName: media-lab
-LocalHostName: media-lab
-HostName: media-lab
+ComputerName: media-lab-01
+LocalHostName: media-lab-01
+HostName: media-lab-01
 ```
 
 Open a new Terminal session or reboot if the old hostname still appears in the shell prompt.

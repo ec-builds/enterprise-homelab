@@ -184,9 +184,9 @@ Proxmox Storage ID: nvme-01-lvm
 In a multi-node cluster, a consistent naming convention makes node-local storage easier to identify:
 
 ```text
-pve01 → nvme-01-lvm
-pve02 → nvme-02-lvm
-pve03 → nvme-03-lvm
+prox-lab-01 → nvme-01-lvm
+prox-lab-02 → nvme-02-lvm
+prox-lab-03 → nvme-03-lvm
 ```
 
 These names identify separate local storage devices. They do not imply shared storage.
@@ -223,7 +223,7 @@ lvmthin: nvme-01-lvm
         thinpool nvme-01
         vgname nvme-01
         content images,rootdir
-        nodes pve01
+        nodes prox-lab-01
 ```
 
 This describes the relationship:
@@ -232,7 +232,7 @@ This describes the relationship:
 Proxmox Storage ID
 nvme-01-lvm
       │
-      ├── Node: pve01
+      ├── Node: prox-lab-01
       ├── VG: nvme-01
       └── Thin Pool: nvme-01
 ```
@@ -262,7 +262,7 @@ For example:
                        │
           ┌────────────┴────────────┐
           │                         │
-        pve01                     pve02
+     prox-lab-01               prox-lab-02
           │                         │
    Local NVMe SSD            Local NVMe SSD
           │                         │
@@ -276,7 +276,7 @@ lvmthin: nvme-01-lvm
         thinpool nvme-01
         vgname nvme-01
         content images,rootdir
-        nodes pve01
+        nodes prox-lab-01
 ```
 
 This prevents Proxmox from treating the storage definition as available on nodes that do not contain the corresponding LVM structures.
@@ -456,7 +456,7 @@ Node
 Example naming:
 
 ```text
-Node:       pve01
+Node:       prox-lab-01
 Disk:       /dev/nvme0n1
 VG Name:    nvme-01
 Thin Pool:  nvme-01
@@ -468,7 +468,7 @@ Example:
 
 ```text
 Storage ID: nvme-01-lvm
-Node:       pve01
+Node:       prox-lab-01
 VG:         nvme-01
 Thin Pool:  nvme-01
 Content:    Disk image, Container
@@ -534,7 +534,7 @@ Add an LVM-thin storage definition pointing to the existing VG and thin pool:
 Storage ID: nvme-02-lvm
 VG:         nvme-02
 Thin Pool:  nvme-02
-Node:       pve02
+Node:       prox-lab-02
 ```
 
 No disk wipe or LVM recreation is required when the existing structures are correct.
@@ -573,20 +573,20 @@ The cluster may contain a definition similar to:
 lvmthin: nvme-01-lvm
         thinpool nvme-01
         vgname nvme-01
-        nodes pve01
+        nodes prox-lab-01
 ```
 
-On `pve02`, this storage is correctly unavailable because the definition is restricted to `pve01`.
+On `prox-lab-02`, this storage is correctly unavailable because the definition is restricted to `prox-lab-01`.
 
-Meanwhile, `pve02` may have its own completely separate local NVMe and LVM configuration.
+Meanwhile, `prox-lab-02` may have its own completely separate local NVMe and LVM configuration.
 
 ### Resolution
 
 Create a separate node-specific storage definition:
 
 ```text
-pve01 → nvme-01-lvm
-pve02 → nvme-02-lvm
+prox-lab-01 → nvme-01-lvm
+prox-lab-02 → nvme-02-lvm
 ```
 
 Each definition should point to the VG and thin pool physically present on that node.
@@ -648,8 +648,8 @@ Only after confirming the correct device and that no required data exists should
 A cluster may accumulate inconsistent storage names during initial deployment:
 
 ```text
-pve01 → nvme-lvm
-pve02 → nvme-01
+prox-lab-01 → nvme-lvm
+prox-lab-02 → nvme-01
 ```
 
 While technically functional, inconsistent naming makes larger environments harder to understand.
@@ -657,9 +657,9 @@ While technically functional, inconsistent naming makes larger environments hard
 A standardized convention could instead be:
 
 ```text
-pve01 → nvme-01-lvm
-pve02 → nvme-02-lvm
-pve03 → nvme-03-lvm
+prox-lab-01 → nvme-01-lvm
+prox-lab-02 → nvme-02-lvm
+prox-lab-03 → nvme-03-lvm
 ```
 
 ### Storage ID vs Underlying LVM Name

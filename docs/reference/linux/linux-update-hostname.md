@@ -55,7 +55,7 @@ sudo hostnamectl set-hostname <new-hostname>
 Example:
 
 ```bash
-sudo hostnamectl set-hostname media-server
+sudo hostnamectl set-hostname media-lab-01
 ```
 
 Verify the change.
@@ -67,7 +67,7 @@ hostnamectl
 Expected output:
 
 ```text
-Static hostname: media-server
+Static hostname: media-lab-01
 ```
 
 ---
@@ -91,14 +91,14 @@ Example:
 Replace it with the new hostname.
 
 ```text
-127.0.1.1    media-server
+127.0.1.1    media-lab-01
 ```
 
 A typical hosts file should contain:
 
 ```text
 127.0.0.1    localhost
-127.0.1.1    media-server
+127.0.1.1    media-lab-01
 
 ::1          localhost ip6-localhost ip6-loopback
 ```
@@ -128,7 +128,7 @@ getent hosts $(hostname)
 Expected output:
 
 ```text
-127.0.1.1    media-server
+127.0.1.1    media-lab-01
 ```
 
 ---

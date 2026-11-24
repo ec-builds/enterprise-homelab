@@ -6,12 +6,12 @@ Reference guide for deploying Uptime Kuma using Docker Compose.
 
 This document provides a repeatable procedure for deploying Uptime Kuma within the homelab environment using Docker Compose.
 
-Uptime Kuma is a self-hosted monitoring platform used to monitor the availability and health of websites, servers, network devices, APIs, and other services. ([GitHub](https://github.com/louislam/uptime-kuma?utm_source=chatgpt.com))
+Uptime Kuma is a self-hosted monitoring platform used to monitor the availability and health of websites, servers, network devices, APIs, and other services. ([GitHub](https://github.com/louislam/uptime-kuma))
 
 > [!NOTE]
 > This guide was created by following and validating procedures documented in the official Uptime Kuma project:
 >
-> [Uptime Kuma GitHub Repository](https://github.com/louislam/uptime-kuma?utm_source=chatgpt.com)
+> [Uptime Kuma GitHub Repository](https://github.com/louislam/uptime-kuma)
 >
 > The Uptime Kuma project documentation is the authoritative source and should be consulted for the latest installation procedures, supported features, and upgrade guidance.
 
@@ -81,7 +81,7 @@ services:
       - "3001:3001"
 ```
 
-The official project recommends the `:2` image tag for Uptime Kuma v2 deployments. ([Docker Hub](https://hub.docker.com/r/louislam/uptime-kuma?utm_source=chatgpt.com))
+The official project recommends the `:2` image tag for Uptime Kuma v2 deployments. ([Docker Hub](https://hub.docker.com/r/louislam/uptime-kuma))
 
 
 > [!NOTE]
@@ -125,7 +125,7 @@ Docker Compose will:
 1. Download the image if required.
 2. Create the Docker network.
 3. Create the Docker volume.
-4. Create and start the container. ([GitHub](https://github.com/louislam/uptime-kuma/blob/master/compose.yaml?utm_source=chatgpt.com))
+4. Create and start the container. ([GitHub](https://github.com/louislam/uptime-kuma/blob/master/compose.yaml))
 
 
 
@@ -231,7 +231,7 @@ Mountpoint:
 ```
 
 > [!IMPORTANT]
-> Uptime Kuma stores configuration, monitor definitions, notifications, and historical data within `/app/data`. This data is persisted through the Docker volume and survives container recreation. ([GitHub](https://github.com/louislam/uptime-kuma?utm_source=chatgpt.com))
+> Uptime Kuma stores configuration, monitor definitions, notifications, and historical data within `/app/data`. This data is persisted through the Docker volume and survives container recreation. ([GitHub](https://github.com/louislam/uptime-kuma))
 
 
 
@@ -261,7 +261,7 @@ Verify status:
 docker compose ps
 ```
 
-The existing volume is automatically reattached and configuration data remains intact. ([GitHub](https://github.com/louislam/uptime-kuma/wiki/%F0%9F%86%99-How-to-Update?utm_source=chatgpt.com))
+The existing volume is automatically reattached and configuration data remains intact. ([GitHub](https://github.com/louislam/uptime-kuma/wiki/%F0%9F%86%99-How-to-Update))
 
 
 

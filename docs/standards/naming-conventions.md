@@ -38,7 +38,7 @@ Use the pattern:
 | Placeholder | System Role |
 |---|---|
 | `dc-lab-01`, `dc-lab-02` | Active Directory domain controllers |
-| `prox-lab-01`, `prox-lab-02` | Proxmox VE hosts |
+| `prox-lab-01`, `prox-lab-02`, `prox-lab-03` | Proxmox VE hosts |
 | `adguard-lab-01`, `adguard-lab-02` | AdGuard Home DNS filtering |
 | `docker-lab-01` | Docker host VM |
 | `monitor-lab-01` | Monitoring and observability platform |

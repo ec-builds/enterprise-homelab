@@ -60,7 +60,7 @@ qm migrate <VMID> <TARGET-NODE> \
 Example:
 
 ```bash
-qm migrate 100 pve-node02 \
+qm migrate 100 prox-lab-02 \
   --online \
   --with-local-disks \
   --targetstorage local-lvm
