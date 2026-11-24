@@ -409,7 +409,7 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 
 ## Implementation Plan
 
-### Phase 1 — Preparation
+### Step 1 — Preparation
 
 - [ ] Back up ASUS and Cisco configurations.
 - [ ] Document existing IP assignments.
@@ -421,7 +421,7 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 - [ ] Connect the firewall to a smart plug on the IoT wireless network, confirm remote control through the vendor app, and confirm automatic boot after power loss.
 - [ ] Determine whether the ASUS assigns WireGuard clients their own subnet or translates them to its LAN address.
 
-### Phase 2 — Firewall Deployment
+### Step 2 — Firewall Deployment
 
 - [x] Test OPNsense on a 2014 Mac mini (failed validation; see [Hardware Validation](./opnsense-mac-mini-validation.md)).
 - [ ] Build and test the [virtual test lab](#virtual-test-lab).
@@ -435,7 +435,7 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 - [ ] Verify baseline firewall and NAT settings.
 - [ ] Back up OPNsense configuration.
 
-### Phase 3 — Network Migration
+### Step 3 — Network Migration
 
 - [ ] Disconnect ASUS from the Cisco switch.
 - [ ] Move household wired devices from the Cisco switch to the ASUS.
@@ -451,7 +451,7 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 - [ ] Remove household reservations from the Windows DHCP scope.
 - [ ] Validate internet connectivity.
 
-### Phase 4 — Service Integration
+### Step 4 — Service Integration
 
 - [ ] Configure ASUS static routing.
 - [ ] Create firewall aliases.
@@ -462,7 +462,7 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 - [ ] Verify Active Directory functionality.
 - [ ] Verify virtualization and storage services.
 
-### Phase 5 — Secure Remote Access
+### Step 5 — Secure Remote Access
 
 - [ ] Deploy WireGuard on OPNsense.
 - [ ] Configure administrative peers.
@@ -473,7 +473,7 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 - [ ] Test unauthorized access attempts.
 - [ ] Reduce the ASUS WireGuard service to break-glass use and document its access scope.
 
-### Phase 6 — Security Hardening
+### Step 6 — Security Hardening
 
 - [ ] Restrict homelab-to-household traffic.
 - [ ] Enable relevant firewall logging.
