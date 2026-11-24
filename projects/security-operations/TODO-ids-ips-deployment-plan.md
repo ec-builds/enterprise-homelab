@@ -10,30 +10,44 @@ Deploy Suricata to provide network intrusion detection and prevention capabiliti
 
 Implementation will follow a multi-step approach, beginning with passive intrusion detection (IDS) to establish visibility, evaluate alerts, and tune detection rules before enabling active intrusion prevention (IPS).
 
+## Hardware Constraint
+
+The OPNsense firewall currently runs on a 2014 Mac mini with 4 GB of RAM. Suricata's memory use grows with the number of enabled rules and the volume of inspected traffic, so full IPS may exceed what this hardware can support alongside routing, NAT, VPN and logging.
+
+The deployment is therefore phased:
+
+1. OPNsense is deployed as router and firewall first, and a resource baseline is recorded.
+2. Light IDS: detection-only mode on a limited scope, such as one interface and a reduced rule set.
+3. IPS only if light IDS leaves sufficient memory headroom and throughput; otherwise IPS waits for upgraded firewall hardware.
+
+See [Firewall Capacity and IDS/IPS Readiness](../network-security/TODO-opnsense-deployment-plan.md#firewall-capacity-and-idsips-readiness) in the OPNsense plan.
+
 ## Planned Work
 
 ### Step 1 — Intrusion Detection (IDS)
 
 1. Determine Suricata deployment architecture: OPNsense-integrated or dedicated network sensor.
 2. Identify monitored interfaces and VLANs, ensuring appropriate traffic visibility.
-3. Deploy Suricata in detection-only mode.
-4. Configure detection rules and establish baseline network activity.
+3. Deploy Suricata in detection-only mode on a limited scope, such as one interface and a reduced rule set.
+4. Configure detection rules, establish baseline network activity, and measure firewall memory, CPU and throughput against the pre-IDS baseline.
 5. Integrate security events with the existing Loki/Grafana monitoring stack.
 6. Configure actionable alerts and document investigation procedures.
 7. Validate detection using safe, authorized testing scenarios.
 
 ### Step 2 — Intrusion Prevention (IPS)
 
-1. Evaluate IDS findings and tune rules to minimize false positives.
-2. Configure Suricata for inline intrusion prevention on supported OPNsense interfaces.
-3. Enable blocking for selected, validated detection rules.
-4. Test threat prevention and confirm legitimate traffic remains unaffected.
-5. Establish procedures for reviewing blocked traffic, managing exceptions, and reverting problematic rules.
-6. Monitor IPS effectiveness and adjust policies as needed.
+1. Confirm the firewall has sufficient memory headroom and throughput for inline inspection; if not, defer this step until the firewall hardware is upgraded.
+2. Evaluate IDS findings and tune rules to minimize false positives.
+3. Configure Suricata for inline intrusion prevention on supported OPNsense interfaces.
+4. Enable blocking for selected, validated detection rules.
+5. Test threat prevention and confirm legitimate traffic remains unaffected.
+6. Establish procedures for reviewing blocked traffic, managing exceptions, and reverting problematic rules.
+7. Monitor IPS effectiveness and adjust policies as needed.
 
 ## Dependencies / Decisions
 
 - OPNsense deployment and network architecture
+- Firewall memory headroom on the current 4 GB hardware, or a hardware upgrade before IPS
 - VLAN segmentation and firewall policies
 - Suricata deployment method and traffic inspection placement
 - Existing Loki/Grafana logging and monitoring infrastructure
@@ -49,6 +63,7 @@ Implementation will follow a multi-step approach, beginning with passive intrusi
 - [ ] Alerts include source, destination, timestamp, and rule context.
 - [ ] Security events are accessible through the monitoring stack.
 - [ ] Detection rules and false-positive tuning are documented.
+- [ ] Firewall memory, CPU and throughput with IDS enabled are recorded against the pre-IDS baseline.
 
 ### IPS
 
@@ -67,6 +82,6 @@ Implementation will follow a multi-step approach, beginning with passive intrusi
 
 > Placeholder: Record final architecture, Suricata configuration, monitored interfaces, detection rules, alerting integrations, test results, screenshots, and lessons learned as implementation progresses.
 
-**Implementation sequence:** IDS deployment → monitoring integration → rule tuning → IPS activation → prevention validation.
+**Implementation sequence:** router baseline → light IDS → monitoring integration → rule tuning → capacity review → IPS activation (current or upgraded hardware) → prevention validation.
 
-Do not mark the project complete until both detection and prevention capabilities have been tested and documented.
+Do not mark the project complete until both detection and prevention capabilities have been tested and documented. If IPS is deferred for hardware, record that decision and the measured resource figures that led to it.

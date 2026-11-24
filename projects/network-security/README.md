@@ -50,7 +50,7 @@ See [Network Security Architecture](./architecture.md) for the detailed security
 | Managed Switching | Cisco Catalyst managed switch | 🟢 |
 | SSH Hardening | Key-based access where implemented | 🟡 |
 | Wired Segmentation | Flat VLAN 1 network | 🟡 |
-| Dedicated Firewall | OPNsense | ⚪ Planned |
+| Dedicated Firewall | OPNsense installed; cutover pending | 🟡 |
 | VLAN Security Zones | Management, server, trusted, IoT, and guest | ⚪ Planned |
 | IDS / IPS | Future implementation | ⚪ Planned |
 | Centralized Network-Security Logging | Integration planned | ⚪ Planned |

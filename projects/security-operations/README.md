@@ -26,6 +26,7 @@ The *detect and respond* side of homelab security: network intrusion detection, 
 
 | Plan | Scope | Blocked by |
 |---|---|---|
+| [Wazuh SIEM Deployment](./TODO-wazuh-siem-deployment-plan.md) | Wazuh on a dedicated VM: Windows, AD, Sysmon and Linux log collection, authentication detections | Proxmox capacity for the VM; not blocked by OPNsense |
 | [IDS/IPS Deployment](./TODO-ids-ips-deployment-plan.md) | Suricata on OPNsense: detection first, inline prevention after tuning | [OPNsense](../network-security/TODO-opnsense-deployment-plan.md), [VLANs](../network-security/TODO-vlan-implementation-plan.md) |
 
 ## Technologies
@@ -83,13 +84,22 @@ Endpoints / Servers / Identity        Network (Suricata)
 
 ```text
 security-operations/
-├── ids-ips-deployment-plan.md   # Suricata IDS → IPS plan
+├── README.md                          # Project overview
+├── TODO-wazuh-siem-deployment-plan.md # Wazuh SIEM plan
+├── TODO-ids-ips-deployment-plan.md    # Suricata IDS → IPS plan
+└── diagrams/                          # Project images
+```
+
+Planned folders, created as implementation produces content:
+
+```text
+security-operations/
 ├── detections/                  # Detection rules and KQL queries
 ├── incident-reports/            # Documented triage exercises
-├── configs/                     # Sanitized logging and agent configurations
-├── docs/                        # Build notes and lessons learned
-└── screenshots/                 # Visual documentation
+└── configs/                     # Sanitized logging and agent configurations
 ```
+
+Build notes and lessons learned are kept as documents in the project folder, and screenshots in `diagrams/`, following the [Documentation Standards](../../docs/standards/documentation-standards.md#project-structure).
 
 ## Future Integration
 
