@@ -12,13 +12,13 @@ Implementation will follow a multi-step approach, beginning with passive intrusi
 
 ## Hardware Constraint
 
-The OPNsense firewall currently runs on a 2014 Mac mini with 4 GB of RAM. Suricata's memory use grows with the number of enabled rules and the volume of inspected traffic, so full IPS may exceed what this hardware can support alongside routing, NAT, VPN and logging.
+The OPNsense firewall was first tested on a 2014 Mac mini with 4 GB of RAM, which would have limited IPS. That hardware failed validation, and the replacement is planned with 8 GB minimum and 16 GB preferred (see [Firewall Hardware](../network-security/TODO-opnsense-deployment-plan.md#firewall-hardware)). Suricata's memory use still grows with the number of enabled rules and the volume of inspected traffic, so each phase is measured before the next.
 
 The deployment is therefore phased:
 
 1. OPNsense is deployed as router and firewall first, and a resource baseline is recorded.
 2. Light IDS: detection-only mode on a limited scope, such as one interface and a reduced rule set.
-3. IPS only if light IDS leaves sufficient memory headroom and throughput; otherwise IPS waits for upgraded firewall hardware.
+3. IPS after a capacity review confirms sufficient memory headroom and throughput.
 
 See [Firewall Capacity and IDS/IPS Readiness](../network-security/TODO-opnsense-deployment-plan.md#firewall-capacity-and-idsips-readiness) in the OPNsense plan.
 
@@ -47,7 +47,7 @@ See [Firewall Capacity and IDS/IPS Readiness](../network-security/TODO-opnsense-
 ## Dependencies / Decisions
 
 - OPNsense deployment and network architecture
-- Firewall memory headroom on the current 4 GB hardware, or a hardware upgrade before IPS
+- Dedicated firewall hardware that has passed the OPNsense acceptance criteria, with measured memory headroom before IPS
 - VLAN segmentation and firewall policies
 - Suricata deployment method and traffic inspection placement
 - Existing Loki/Grafana logging and monitoring infrastructure

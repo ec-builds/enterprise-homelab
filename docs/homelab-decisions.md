@@ -16,6 +16,7 @@ The goal is to document **why** decisions were made, so future changes can be ev
 | 2026-07-30 | Prioritize security, identity, and cloud over deep networking | Aligns with long-term, remote-friendly career goals. Each state (security → identity → cloud) builds the model the next reuses. The Cisco switch is foundational infrastructure, not the focus. Full breakdown in `docs/homelab-direction.md`. | Active |
 | 2026-07-30 | Secrets: Bitwarden now, Vaultwarden as goal | Self-hosted secrets align with the lab's ownership model, but migration is gated behind research (secure export, hardening, backup/recovery, lockout risk). A misconfigured self-hosted secrets store is a serious risk, so this stays planned until vetted. | Proposed |
 | 2026-07-30 | Simplify this decision log to a single-table format | The full multi-section ADR format was more than could realistically be maintained by hand — a current, honest log beats an elaborate, stale one. | Active |
+| 2026-11-24 | Reject the Mac mini as the firewall platform; use dedicated hardware | OPNsense on the 2014 Mac mini had inconsistent WAN connectivity with no confirmed root cause. The firewall is a single point of failure, so it needs stable hardware with supported Intel network controllers and no external adapters. Details in [`opnsense-mac-mini-validation.md`](../projects/network-security/opnsense-mac-mini-validation.md). | Active |
 
 ## Status Key
 

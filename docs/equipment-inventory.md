@@ -23,7 +23,7 @@ As the homelab evolves, this document will be updated to reflect new equipment, 
 | OptiPlex 7040-01 | Virtualization Server | Core i7-6700T (4C/8T) | 16 GB | 1 TB SATA + 1 TB NVMe | Proxmox Cluster Node |
 | OptiPlex 7040-02 | Virtualization Server | Core i7-6700T (4C/8T) | 8 GB | Not recorded | Off-site Proxmox / WireGuard Host |
 | HP Pavilion TP01-3016 | Virtualization Server | Core i5-12400 (6C/12T) | 16 GB | 500 GB NVMe + 1 TB HDD | Proxmox Cluster Node |
-| Mac Mini (Late 2014) | Server | Core i5-4260U | 4 GB | 256 GB SSD | Future OPNsense Router |
+| Mac Mini (Late 2014) | Server | Core i5-4260U | 4 GB | 256 GB SSD | Spare / testing (failed OPNsense validation, Nov 2026) |
 | Latitude 7420 | Laptop | Core i7-1185G7 | 32 GB | 256 GB NVMe | Administration & Testing |
 | Desktop-01 | Workstation | Ryzen 7 5700X (8C/16T) | 64 GB | 2 × 1 TB NVMe | Pending Assignment |
 | Desktop-02 | Workstation | Pending | Pending | Pending | Pending Assignment |

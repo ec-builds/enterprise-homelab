@@ -25,7 +25,7 @@ The boundaries, trust model, known limitations and target design are in [Network
 | Managed Switching | Cisco Catalyst managed switch | 🟢 |
 | SSH Hardening | Key-based access where implemented | 🟡 |
 | Wired Segmentation | Flat VLAN 1 network | 🟡 |
-| Dedicated Firewall | OPNsense installed; cutover pending | 🟡 |
+| Dedicated Firewall | Mac mini failed validation; dedicated hardware pending | ⚪ |
 | VLAN Security Zones | Management, server, trusted, IoT and guest | ⚪ Planned |
 | IDS / IPS | Future implementation | ⚪ Planned |
 | Centralized Network-Security Logging | Integration planned | ⚪ Planned |
@@ -48,6 +48,7 @@ The boundaries, trust model, known limitations and target design are in [Network
 | [WireGuard VPN](./02-wireguard-vpn.md) | Encrypted remote access |
 | [Wireless Security](./03-wireless-security.md) | Trusted and guest/IoT wireless controls |
 | [SSH Hardening](./04-ssh-hardening.md) | Administrative-access hardening |
+| [OPNsense on Mac mini — Hardware Validation](./opnsense-mac-mini-validation.md) | Failed firewall hardware test and the decision to use dedicated hardware |
 | [Lessons Learned](./lessons-learned.md) | Implementation and troubleshooting findings |
 
 ## Planned Deployments
@@ -56,7 +57,7 @@ The `TODO-` prefix marks plans to revisit before implementation.
 
 | Plan | Scope | Key Dependencies |
 |---|---|---|
-| [OPNsense Deployment](./TODO-opnsense-deployment-plan.md) | Dedicated firewall for the homelab behind the ASUS, with validated policies and a reversible cutover | Compatible hardware and connectivity; Windows Server DHCP and its failover preserved |
+| [OPNsense Deployment](./TODO-opnsense-deployment-plan.md) | Dedicated firewall for the homelab behind the ASUS, with validated policies and a reversible cutover | Dedicated hardware passing the acceptance criteria; Windows Server DHCP and its failover preserved |
 | [VLAN Implementation](./TODO-vlan-implementation-plan.md) | Management, server, trusted, IoT and guest zones with controlled inter-VLAN access | OPNsense policies, Cisco switch configuration, VLAN-aware wireless where needed |
 | [WireGuard VPN Migration](./TODO-wireguard-vpn-deployment-plan.md) | Move primary remote access to OPNsense; keep the ASUS VPN as break-glass | Working OPNsense gateway, verified remote access, rollback path |
 

@@ -1,6 +1,6 @@
 # OPNsense Firewall Deployment Plan
 
-**Status: 🟡 In Progress**  
+**Status: ⚪ Planned**  
 **Type:** Implementation plan  
 **Lab:** Network Security
 
@@ -14,6 +14,9 @@ The implementation is designed to preserve existing infrastructure IP addresses,
 
 > [!NOTE]
 > Addresses in this document use the placeholder scheme from [Naming Conventions](../../docs/standards/naming-conventions.md). Live addresses, endpoints and credentials are not published.
+
+> [!IMPORTANT]
+> A 2014 Mac mini failed hardware validation as the firewall platform in November 2026; see [OPNsense on Mac mini — Hardware Validation](./opnsense-mac-mini-validation.md). Deployment waits for dedicated hardware that meets the [Firewall Hardware](#firewall-hardware) requirements.
 
 | Project attribute | Details |
 |---|---|
@@ -40,12 +43,8 @@ The implementation is designed to preserve existing infrastructure IP addresses,
 | Component | Platform | Role |
 |---|---|---|
 | Edge router | ASUS RT-AX5400 | Internet gateway and household wireless access |
-| Firewall appliance | Apple Mac mini (2014) | Routing, NAT, firewall and VPN |
-| Memory | 4 GB RAM | Firewall system resources |
-| Storage | 256 GB Crucial SSD | OPNsense operating system |
-| LAN interface | Integrated Gigabit Ethernet | Homelab connectivity |
-| WAN interface | Thunderbolt Gigabit Ethernet adapter | Upstream connectivity |
-| Spare interface | Second Thunderbolt Gigabit Ethernet adapter | Reserved for a future network or dedicated management |
+| Firewall appliance | Dedicated x86-64 appliance (to be acquired) | Routing, NAT, firewall and VPN; see [Firewall Hardware](#firewall-hardware) |
+| Network interfaces | Built-in Intel Ethernet | WAN, LAN, and spare ports for a future network or dedicated management |
 | Managed switch | Cisco Catalyst WS-C3560CG-8PC-S | Layer 2 switching and future VLAN segmentation |
 | Virtualization | Proxmox VE | Virtual infrastructure |
 | Identity services | Windows Server Active Directory | Identity, DHCP (failover pair) and internal DNS |
@@ -53,8 +52,37 @@ The implementation is designed to preserve existing infrastructure IP addresses,
 | Storage | Synology NAS (`nas-lab`) | Network storage |
 | VPN | WireGuard | Secure administrative access |
 
-> [!NOTE]
-> FreeBSD is reported not to reliably detect Thunderbolt adapters connected after boot. Both adapters are kept connected, and hot-plug behavior will be verified on this hardware during deployment.
+## Firewall Hardware
+
+The Mac mini test showed that driver support and stability matter more than raw performance, and that external network adapters should be avoided.
+
+| Component | Minimum | Preferred |
+|---|---|---|
+| Processor | Modern x86-64 | Intel N100 or better |
+| Memory | 8 GB | 16 GB |
+| Storage | 128 GB SSD | 256 GB SSD |
+| Network interfaces | Two supported Ethernet ports | Four Intel Ethernet ports |
+| Network controllers | Verified FreeBSD support | Intel i210, i350 or validated i226 |
+| Connectivity | Built-in or PCIe Ethernet | No external adapters |
+| Power recovery | Restarts automatically after power loss | Configurable BIOS power recovery |
+| Power protection | UPS | UPS with monitoring |
+
+### Acceptance criteria
+
+The replacement hardware must pass all of these before cutover:
+
+- [ ] Seven days of continuous stable operation
+- [ ] WAN works via DHCP
+- [ ] WAN works via DHCP reservation, including renewal
+- [ ] WAN works via static address
+- [ ] Connectivity survives multiple cold boots
+- [ ] Recovers automatically after upstream outages
+- [ ] Sustained throughput test passes
+- [ ] WireGuard handshake and remote administration work
+- [ ] Internal DNS and Active Directory reachable
+- [ ] Firewall policy and network isolation validated
+- [ ] Configuration backup and restore tested
+- [ ] Emergency management access procedure documented
 
 ## Existing Network Architecture
 
@@ -306,12 +334,12 @@ Two independent break-glass paths cover the main firewall failure cases:
 
 | Failure | Recovery path |
 |---|---|
-| OPNsense hung or unresponsive | Power-cycle the Mac mini with a smart plug, controlled through the plug vendor's cloud app |
+| OPNsense hung or unresponsive | Power-cycle the firewall with a smart plug, controlled through the plug vendor's cloud app |
 | OPNsense running, but its WireGuard VPN unavailable | Connect to the ASUS WireGuard VPN and reach the OPNsense management interface from the WAN side |
 | OPNsense running, but configuration broken | ASUS WireGuard to the management interface if WAN rules still permit it; otherwise local console access or the rollback procedure |
 | ASUS or internet connection down | No remote recovery; local access required |
 
-**Smart plug.** The plug sits on the isolated IoT wireless network and is controlled only through the vendor's cloud service, independent of both VPNs. It requires the ASUS and the internet connection to be available. Dependence on the vendor's cloud is an accepted risk: the plug is a last-resort recovery path, and the firewall can still be recovered locally. The Mac mini is configured to boot automatically when power is restored, and this is verified before the plug is relied on.
+**Smart plug.** The plug sits on the isolated IoT wireless network and is controlled only through the vendor's cloud service, independent of both VPNs. It requires the ASUS and the internet connection to be available. Dependence on the vendor's cloud is an accepted risk: the plug is a last-resort recovery path, and the firewall can still be recovered locally. The firewall's BIOS is set to power on automatically when power returns, and this is verified before the plug is relied on.
 
 **ASUS WireGuard.** The ASUS WireGuard service is retained permanently as a secondary path for reaching OPNsense when its own VPN is unavailable. Because household traffic is denied access to the OPNsense management interface, a dedicated WAN rule permits only ASUS break-glass VPN clients to reach the web GUI (and SSH, if enabled). Whether the ASUS assigns VPN clients their own subnet or translates them to its LAN address determines the source address this rule matches, and will be confirmed during deployment.
 
@@ -328,12 +356,15 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 - [ ] Document existing VPN and port-forwarding configurations.
 - [ ] Identify household devices connected to the Cisco switch.
 - [ ] Establish local console access to OPNsense.
-- [ ] Connect the Mac mini to a smart plug on the IoT wireless network, confirm remote control through the vendor app, and confirm automatic boot after power loss.
+- [ ] Connect the firewall to a smart plug on the IoT wireless network, confirm remote control through the vendor app, and confirm automatic boot after power loss.
 - [ ] Determine whether the ASUS assigns WireGuard clients their own subnet or translates them to its LAN address.
 
 ### Phase 2 — Firewall Deployment
 
-- [x] Install OPNsense on the Mac mini.
+- [x] Test OPNsense on a 2014 Mac mini (failed validation; see [Hardware Validation](./opnsense-mac-mini-validation.md)).
+- [ ] Acquire dedicated firewall hardware.
+- [ ] Install OPNsense on the dedicated hardware.
+- [ ] Pass the [acceptance criteria](#acceptance-criteria).
 - [ ] Validate physical interface assignments.
 - [ ] Configure LAN addressing.
 - [ ] Configure WAN DHCP.
@@ -409,7 +440,7 @@ Private keys and OPNsense configuration backups are not stored in public reposit
 | Local WireGuard | Successful connection | ⚪ Planned |
 | Remote WireGuard | Successful connection | ⚪ Planned |
 | ASUS fallback VPN | Reaches homelab through static route | ⚪ Planned |
-| Remote power cycle | Mac mini restarts and OPNsense returns after a smart-plug power cycle from the vendor app | ⚪ Planned |
+| Remote power cycle | Firewall restarts and OPNsense returns after a smart-plug power cycle from the vendor app | ⚪ Planned |
 | ASUS break-glass management | ASUS VPN client reaches the OPNsense web GUI; household clients are blocked | ⚪ Planned |
 | VPN administrative access | Authorized services accessible | ⚪ Planned |
 | Firewall resource utilization | Within acceptable limits | ⚪ Planned |
@@ -430,11 +461,12 @@ Validation results, screenshots and sanitized configuration excerpts will be col
 | WAN IP changes | Configure DHCP reservation |
 | Broken port forwards | Document and rebuild through both NAT layers |
 | Firewall management lockout | Maintain local console access and ASUS VPN fallback |
-| Firewall hang while remote | Power-cycle the Mac mini through the smart plug's vendor app |
+| Firewall hang while remote | Power-cycle the firewall through the smart plug's vendor app |
 | OPNsense VPN unavailable while remote | Reach OPNsense management through the ASUS break-glass VPN and its dedicated WAN rule |
 | Smart plug depends on vendor cloud service | Accepted risk; the plug is a last-resort path and local console access remains available |
 | Double-NAT limitations | Document routing and port-forwarding requirements |
-| Limited firewall memory | Phase the rollout (routing, then light IDS, then IPS only if resources allow); defer IPS to upgraded hardware if needed |
+| Unreliable or under-sized firewall hardware | Dedicated hardware with supported Intel network controllers must pass the acceptance criteria before cutover |
+| Limited firewall memory for IDS/IPS | Phase the rollout (routing, then light IDS, then IPS after a capacity review) |
 | Unauthorized lateral movement | Implement restrictive firewall policies |
 | Firewall hardware failure | Maintain configuration backups and rollback procedure |
 | Exposed configuration secrets | Store encrypted backups outside the repository |
@@ -476,15 +508,15 @@ Additional planned enhancements include:
 
 ### Firewall capacity and IDS/IPS readiness
 
-The Mac mini's 4 GB of RAM is the main constraint on intrusion detection and prevention. Suricata's memory use grows with the number of enabled rules and the traffic inspected, and it competes with the firewall's routing, NAT, VPN and logging workloads.
+Suricata's memory use grows with the number of enabled rules and the traffic inspected, and it competes with the firewall's routing, NAT, VPN and logging workloads. The Mac mini's 4 GB of RAM was a concern for IPS before it failed validation; the replacement hardware's 8–16 GB removes most of that constraint, but each stage is still measured before the next.
 
 Deployment is phased so each stage is measured before the next begins:
 
 1. **Router and firewall only.** OPNsense handles routing, NAT, firewall policy and WireGuard. A CPU, memory and throughput baseline is recorded under normal load.
 2. **Light IDS.** Suricata runs in detection-only mode on a limited scope, such as a single interface and a reduced rule set, while memory use and throughput are compared against the baseline.
-3. **IPS, only if resources allow.** Inline prevention is enabled only if light IDS runs with sufficient memory headroom and without a meaningful drop in throughput. Inline mode also depends on netmap support for the network drivers, which must be verified on this hardware.
+3. **IPS, only if resources allow.** Inline prevention is enabled only if light IDS runs with sufficient memory headroom and without a meaningful drop in throughput. Inline mode also depends on netmap support for the network drivers, which must be verified on the chosen hardware.
 
-If the Mac mini cannot support inline prevention, IPS is deferred until the firewall is moved to hardware with more memory, such as a small-form-factor appliance with 8 GB or more. The [IDS/IPS Deployment](../security-operations/TODO-ids-ips-deployment-plan.md) plan tracks the Suricata work.
+The [IDS/IPS Deployment](../security-operations/TODO-ids-ips-deployment-plan.md) plan tracks the Suricata work.
 
 ## Success Criteria
 

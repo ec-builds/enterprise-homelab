@@ -48,7 +48,7 @@ The full design, service relationships and redundancy are in [Architecture](./ar
 | Remote Access | WireGuard VPN | 🟢 |
 | Network Storage | Synology NAS | 🟢 |
 | Infrastructure Monitoring | Uptime Kuma and monitoring stack | 🟢 |
-| Dedicated Firewall | OPNsense installed; cutover pending | 🟡 |
+| Dedicated Firewall | Mac mini failed validation; dedicated hardware pending | ⚪ |
 | VLAN Segmentation | Management, server, trusted, IoT and guest zones | ⚪ Planned |
 
 ## Core Network Services

@@ -93,10 +93,10 @@ This design separates critical network infrastructure from application workloads
 ## Roadmap
 
 - [ ] Migrate Docker-based media services to Proxmox
-- [ ] Repurpose existing hardware for OPNsense
+- [x] Test existing hardware (2014 Mac mini) for OPNsense: failed validation; see [Hardware Validation](./opnsense-mac-mini-validation.md)
 - [ ] Deploy OPNsense on dedicated hardware
 - [ ] Validate WAN and LAN connectivity
-- [ ] Replace the ASUS router as the primary gateway
+- [ ] Move the homelab gateway to OPNsense, with the ASUS remaining the internet gateway
 - [ ] Implement VLAN segmentation
 - [ ] Configure inter-VLAN firewall policies
 - [ ] Migrate WireGuard remote access

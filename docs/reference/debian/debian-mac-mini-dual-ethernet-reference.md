@@ -9,7 +9,10 @@ The system uses:
 - Built-in Gigabit Ethernet
 - Apple Thunderbolt to Gigabit Ethernet Adapter
 
-In this deployment, Debian is used as a **temporary validation environment** before the Mac mini is repurposed as a dedicated OPNsense firewall.
+In this deployment, Debian was used as a **temporary validation environment** before the Mac mini was tested as a dedicated OPNsense firewall.
+
+> [!NOTE]
+> The hardware passed these checks under Debian, but the Mac mini later failed validation as an OPNsense firewall because of intermittent external connectivity. See [OPNsense on Mac mini — Hardware Validation](../../../projects/network-security/opnsense-mac-mini-validation.md).
 
 The objective is to verify that:
 
@@ -123,7 +126,7 @@ NIC 1 → Management / home network
 NIC 2 → Isolated lab network
 ```
 
-In the current deployment, these are reference examples only. The Mac mini will ultimately be repurposed as a dedicated OPNsense firewall.
+These are reference examples only.
 
 ## Hardware
 
@@ -775,4 +778,4 @@ Before considering hardware validation complete, verify:
 
 Once these checks pass, the Mac mini's built-in and Thunderbolt Ethernet hardware has been successfully validated under Debian.
 
-For the current deployment, Debian has completed its role as the hardware validation environment. The system can now be repurposed for the target firewall operating system, with OPNsense installation and interface configuration documented separately.
+In this deployment, Debian completed its role as the hardware validation environment before OPNsense was tested. The OPNsense results are documented in [OPNsense on Mac mini — Hardware Validation](../../../projects/network-security/opnsense-mac-mini-validation.md).
