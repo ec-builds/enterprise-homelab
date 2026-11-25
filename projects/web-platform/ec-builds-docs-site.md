@@ -68,7 +68,7 @@ Docs named `TODO-*.md` are published with a **Planned** badge and banner, and an
 
 - **Search** across every project and reference page, built into Starlight.
 - **Click to zoom** on screenshots and diagrams, on screens 700px and wider. It uses a native `<dialog>`: Esc, the close button, or a click on the image or backdrop closes it, and keyboard users get focus back on the image.
-- **Back to top** button on long pages, light and dark themes, and a custom 404 page.
+- **Back to top** button on long pages, light and dark themes, and a custom 404 page that shows the address the visitor tried and links back to the projects.
 
 ![Image zoom on a project page](./diagrams/ec-builds-image-zoom.png)
 
