@@ -65,7 +65,12 @@ hid-generic 0003:0764:0601.0004: hiddev1,hidraw1: USB HID v1.10 Device [CPS CP15
 
 If `lsusb` is missing, install it with `sudo apt install usbutils`. To watch detection live, run `sudo dmesg -w` and replug the cable.
 
-A UPS can be connected to only one host. Remove any USB passthrough or vendor software on the previous host before moving the cable.
+A UPS can be connected to only one host. Remove any USB passthrough or vendor software on the previous host before moving the cable. On a Proxmox host, find and remove a USB passthrough from a VM:
+
+```bash
+qm config <vmid> | grep ^usb      # e.g. usb0: host=0764:0601
+qm set <vmid> --delete usb0
+```
 
 ## 2. Install NUT
 
@@ -99,6 +104,14 @@ Warnings about SNMP, XML, Avahi or IPMI libraries can be ignored. Those scan typ
 
 ## 4. Configure NUT
 
+Back up the default configuration first:
+
+```bash
+sudo cp -a /etc/nut "/etc/nut.bak.$(date +%F)"
+```
+
+The commands in this step assume a fresh install. Run them in one terminal session, because the passwords created under [Users](#users) are reused in [Local Monitoring](#local-monitoring).
+
 ### Mode
 
 `/etc/nut/nut.conf`:
@@ -107,13 +120,23 @@ Warnings about SNMP, XML, Avahi or IPMI libraries can be ignored. Those scan typ
 MODE=netserver
 ```
 
+```bash
+sudo sed -i 's/^MODE=.*/MODE=netserver/' /etc/nut/nut.conf
+grep ^MODE /etc/nut/nut.conf
+```
+
 The package installs with `MODE=none`. Until it's changed, `nut-server` and `nut-monitor` start and exit straight away, logging `upsd disabled, please adjust the configuration to your needs`.
 
 ### UPS Definition
 
-Add to the end of `/etc/nut/ups.conf`:
+Add a section for the UPS to the end of `/etc/nut/ups.conf`:
 
-```ini
+- The UPS is named `ups` because Synology's NUT client only connects to a UPS with that name.
+- `bus` and `device` from the scan are left out. They can change after a reboot or replug; the vendor and product IDs don't.
+
+```bash
+sudo tee -a /etc/nut/ups.conf >/dev/null <<'EOF'
+
 [ups]
     driver = usbhid-ups
     port = auto
@@ -121,39 +144,26 @@ Add to the end of `/etc/nut/ups.conf`:
     productid = 0601
     desc = "CyberPower CP1500PFCLCD"
     pollinterval = 15
+EOF
 ```
-
-- The UPS is named `ups` because Synology's NUT client only connects to a UPS with that name.
-- `bus` and `device` from the scan are left out. They can change after a reboot or replug; the vendor and product IDs don't.
 
 ### Network Listener
 
-`/etc/nut/upsd.conf`:
+Have `upsd` listen locally and on the network, in `/etc/nut/upsd.conf`:
 
-```ini
+```bash
+sudo tee -a /etc/nut/upsd.conf >/dev/null <<'EOF'
 LISTEN 127.0.0.1 3493
 LISTEN 0.0.0.0 3493
+EOF
+grep ^LISTEN /etc/nut/upsd.conf
 ```
 
 Limit port `3493/TCP` to the NUT clients with a firewall rule (see [Restrict Network Access](#7-restrict-network-access)).
 
 ### Users
 
-`/etc/nut/upsd.users`:
-
-```ini
-[upsmon_local]
-    password = <long-random-password>
-    upsmon primary
-
-[upsmon_remote]
-    password = <long-random-password>
-    upsmon secondary
-
-[monuser]
-    password = <synology-fixed-password>
-    upsmon secondary
-```
+`/etc/nut/upsd.users` defines who can connect to `upsd`:
 
 | User | Used by |
 |---|---|
@@ -161,10 +171,25 @@ Limit port `3493/TCP` to the NUT clients with a firewall rule (see [Restrict Net
 | `upsmon_remote` | Linux clients, such as Proxmox nodes |
 | `monuser` | Synology DSM, which uses a fixed username and password that can't be changed |
 
-Generate passwords with:
+Create the file with generated passwords. Hex passwords avoid characters that would break the config:
 
 ```bash
-openssl rand -base64 24
+# REPLACE <synology-fixed-password> below with DSM's fixed NUT password before running
+LOCAL_PW=$(openssl rand -hex 16); REMOTE_PW=$(openssl rand -hex 16)
+sudo tee /etc/nut/upsd.users >/dev/null <<EOF
+[upsmon_local]
+    password = $LOCAL_PW
+    upsmon primary
+
+[upsmon_remote]
+    password = $REMOTE_PW
+    upsmon secondary
+
+[monuser]
+    password = <synology-fixed-password>
+    upsmon secondary
+EOF
+echo "$REMOTE_PW"      # save to the password manager; clients use it
 ```
 
 Passwords are stored outside the repository.
@@ -175,6 +200,13 @@ Add to `/etc/nut/upsmon.conf`:
 
 ```ini
 MONITOR ups@localhost 1 upsmon_local <upsmon_local-password> primary
+```
+
+```bash
+# Read the password back from upsd.users, so this works in a new shell too
+LOCAL_PW=$(sudo awk '/^\[upsmon_local\]/{f=1;next} /^\[/{f=0} f && $1=="password"{print $3}' /etc/nut/upsd.users)
+echo "length: ${#LOCAL_PW}"    # 32
+echo "MONITOR ups@localhost 1 upsmon_local $LOCAL_PW primary" | sudo tee -a /etc/nut/upsmon.conf >/dev/null
 ```
 
 Debian's default `upsmon.conf` already contains `SHUTDOWNCMD "/sbin/shutdown -h +0"` and has no active `MONITOR` line, so only the `MONITOR` line is needed. Check that there's exactly one of each:
@@ -210,7 +242,13 @@ ls -l /dev/bus/usb/<bus>/<device>     # group should be nut
 sudo systemctl restart nut-driver@ups
 ```
 
-Use the bus and device numbers from `lsusb`. The package's udev rule covers this UPS (`0764:0601`) from then on, including after reboots.
+Use the bus and device numbers from `lsusb -d 0764:`, for example `Bus 001 Device 007` becomes `/dev/bus/usb/001/007`. Check that the package's rule covers the UPS:
+
+```bash
+grep -n '0764' /lib/udev/rules.d/*nut*.rules    # should list productid 0601
+```
+
+The package's udev rule covers this UPS (`0764:0601`) from then on, including after reboots.
 
 ## 6. Verify
 
@@ -250,7 +288,7 @@ Single value:
 upsc ups@localhost battery.runtime
 ```
 
-From another host on the network:
+From another host on the network (needs the client tools, `sudo apt install nut-client`, and an address allowed by the [firewall](#7-restrict-network-access)):
 
 ```bash
 upsc ups@<nut-server-ip>
@@ -262,22 +300,24 @@ upsc ups@<nut-server-ip>
 
 Allow `3493/TCP` only from the NUT clients. The host also runs Docker, which manages its own firewall rules, so the stock `nftables` service isn't used: its default config starts with `flush ruleset`, which would remove Docker's rules too. Instead, one small table filters only port `3493` and leaves all other traffic alone.
 
-`/etc/nut/nut-firewall.nft`:
+Create `/etc/nut/nut-firewall.nft` and `/etc/systemd/system/nut-firewall.service`:
 
-```text
+```bash
+# REPLACE with the real client addresses before running
+ALLOWED="<prox-lab-01-ip>, <prox-lab-02-ip>, <prox-lab-03-ip>, <nas-ip>"
+
+sudo tee /etc/nut/nut-firewall.nft >/dev/null <<EOF
 table inet nut_filter {
   chain input {
     type filter hook input priority 0; policy accept;
     tcp dport 3493 iif "lo" accept
-    tcp dport 3493 ip saddr { <prox-lab-01-ip>, <prox-lab-02-ip>, <prox-lab-03-ip>, <nas-ip> } accept
+    tcp dport 3493 ip saddr { $ALLOWED } accept
     tcp dport 3493 drop
   }
 }
-```
+EOF
 
-`/etc/systemd/system/nut-firewall.service`:
-
-```ini
+sudo tee /etc/systemd/system/nut-firewall.service >/dev/null <<'EOF'
 [Unit]
 Description=Restrict NUT port 3493 to lab clients
 Before=nut-server.service
@@ -290,6 +330,7 @@ RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
+EOF
 ```
 
 Enable and check:
@@ -301,7 +342,13 @@ sudo nft list table inet nut_filter
 upsc ups@localhost ups.status     # still OL
 ```
 
-To add a client later, add its address to the set and run `sudo systemctl restart nut-firewall.service`.
+To add a client later, add its address to the set in `/etc/nut/nut-firewall.nft`, then reload:
+
+```bash
+sudoedit /etc/nut/nut-firewall.nft
+sudo systemctl restart nut-firewall.service
+sudo nft list table inet nut_filter
+```
 
 ## 8. Discord Alerts
 
@@ -317,9 +364,10 @@ sudo chmod 640 /etc/nut/discord-webhook
 unset WEBHOOK
 ```
 
-`/etc/nut/notify.sh` (owner `root:nut`, mode `750`):
+Create `/etc/nut/notify.sh` (owner `root:nut`, mode `750`):
 
-```sh
+```bash
+sudo tee /etc/nut/notify.sh >/dev/null <<'EOF'
 #!/bin/sh
 # Called by upsmon (NOTIFYCMD). $1 = message, NOTIFYTYPE = event type.
 WEBHOOK=$(cat /etc/nut/discord-webhook)
@@ -327,11 +375,17 @@ MSG="[$(hostname)] ${NOTIFYTYPE:-EVENT}: $1"
 curl -fsS -m 10 -H "Content-Type: application/json" \
   -d "{\"content\": \"$MSG\"}" "$WEBHOOK" >/dev/null \
   || logger -t nut-notify "Discord notification failed: $MSG"
+EOF
+sudo chown root:nut /etc/nut/notify.sh
+sudo chmod 750 /etc/nut/notify.sh
+which curl    # the script needs curl
 ```
 
-Add to `/etc/nut/upsmon.conf`, then restart `nut-monitor`:
+Add the notification lines to `/etc/nut/upsmon.conf`, then restart `nut-monitor`:
 
-```ini
+```bash
+sudo tee -a /etc/nut/upsmon.conf >/dev/null <<'EOF'
+
 NOTIFYCMD /etc/nut/notify.sh
 NOTIFYFLAG ONBATT   SYSLOG+WALL+EXEC
 NOTIFYFLAG ONLINE   SYSLOG+WALL+EXEC
@@ -342,6 +396,8 @@ NOTIFYFLAG COMMBAD  SYSLOG+WALL+EXEC
 NOTIFYFLAG COMMOK   SYSLOG+WALL+EXEC
 NOTIFYFLAG NOCOMM   SYSLOG+WALL+EXEC
 NOTIFYFLAG REPLBATT SYSLOG+WALL+EXEC
+EOF
+sudo systemctl restart nut-monitor.service
 ```
 
 Test as the `nut` user, the same way `upsmon` runs it:
@@ -360,6 +416,20 @@ Then unplug the UPS from the wall for about a minute. An `ONBATT` alert should a
 | `upsmon_remote` | `secondary` | Linux clients such as the Proxmox nodes | Stored in a password manager and later Ansible Vault |
 | `monuser` | `secondary` | Synology DSM | Fixed username and password set by DSM |
 | `upsadmin` | `instcmds` only | Admin, for battery tests | Limited to `test.battery.start.quick` and `test.battery.stop` |
+
+Add `upsadmin`, which is only needed for [battery tests](#battery-test):
+
+```bash
+ADMIN_PW=$(openssl rand -hex 16)
+sudo tee -a /etc/nut/upsd.users >/dev/null <<EOF
+
+[upsadmin]
+    password = $ADMIN_PW
+    instcmds = test.battery.start.quick, test.battery.stop
+EOF
+sudo systemctl restart nut-server
+echo "$ADMIN_PW"      # save to the password manager
+```
 
 List them on the server:
 
