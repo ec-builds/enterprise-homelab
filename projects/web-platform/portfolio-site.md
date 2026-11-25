@@ -10,6 +10,14 @@ Git-driven CI/CD deployment of a personal portfolio website to **Cloudflare Work
 
 The application source repository is private. This project documents the infrastructure, deployment workflow, and security configuration using sanitized examples.
 
+![Portfolio home page](./diagrams/site-homepage.png)
+
+*Home page, served from Cloudflare Workers.*
+
+![Portfolio projects page](./diagrams/site-projects.png)
+
+*Projects page. Each project is written up as a case study.*
+
 
 ## How this was built
 
@@ -39,11 +47,6 @@ Local working copy
 - **Assets only.** The Worker has no script; it serves the static build. Security headers come from `_headers`; requests for paths that don't exist get the custom 404 page.
 - **Zone settings live in Cloudflare, not the repo.** That covers DNS, TLS, Bot Fight Mode, Page Shield, Web Analytics and the injected-script features below.
 - **Production is checked after every meaningful deploy:** headers, TLS and the CSP console.
-
-
-<img src="./diagrams/site-homepage.png" alt="Portfolio Website Homepage" width="800">
-
-*Production homepage served from Cloudflare Workers.*
 
 
 ## Security controls
@@ -103,6 +106,14 @@ Local working copy
 - **Headers and CSP:** zero violations locally across all pages; re-verified in production; securityheaders.com A+
 - **Accessibility:** automated axe-core scan (WCAG 2.1 AA) across 17 pages at desktop and phone widths; findings remediated and re-scanned to **0**
 - **Post-deploy checks:** structured data, share preview and sitemap submission confirmed
+
+<img src="./diagrams/site-mobile.png" alt="Portfolio home page at phone width" width="300">
+
+*Home page at phone width. The accessibility scan covered both desktop and phone layouts.*
+
+![Web Platform case study page](./diagrams/site-case-study.png)
+
+*The case study page on the portfolio, with the validation summary.*
 
 ## Known limits and next steps
 
