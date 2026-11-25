@@ -10,13 +10,11 @@ I created a dedicated Microsoft Entra tenant and Intune environment through Micr
 
 ![Intune trial sign-up](./diagrams/trial-sign-up-01.png)
 
-<!-- TODO: Confirm screenshots are sanitized (tenant domain, admin UPN, email, phone). -->
-
 ## Licensing
 
-The Intune trial also provisions a trial **Enterprise Mobility + Security (EMS)** subscription, which includes Microsoft Entra ID Premium capabilities alongside Intune.
+The tenant runs on the **Microsoft Intune Plan 1** trial. I first assumed the trial also included Microsoft Entra ID Premium, but the Intune work showed it doesn't.
 
-This matters because several capabilities used with Intune depend on Entra licensing rather than Intune Plan 1 alone. **Automatic MDM enrollment** requires Microsoft Entra ID P1 or P2, and Entra Premium is also what enables **Conditional Access**. In production, Intune and Entra licensing may be purchased separately or bundled, so it's worth confirming which license actually provides each capability.
+That matters because several capabilities used with Intune depend on Entra licensing rather than Intune Plan 1. **Automatic MDM enrollment** and **Conditional Access** both require Microsoft Entra ID P1 or P2. Without it, devices are enrolled manually (see [Intune Device Enrollment](../microsoft-intune/01-intune-device-enrollment.md)), and Conditional Access is on hold until a P1 license is added. In production, Intune and Entra licensing may be purchased separately or bundled, so it's worth confirming which license actually provides each capability.
 
 ## Administrative Access
 
@@ -27,8 +25,6 @@ The account that created the subscription was automatically assigned **Global Ad
 | Original tenant account | Global Administrator | Tenant-level tasks that require elevated permissions |
 | Lab administrator | Intune Administrator | Day-to-day Intune configuration and validation |
 | Emergency access | Global Administrator | Break-glass recovery, excluded from Conditional Access |
-
-<!-- TODO: Create the emergency access account before building Conditional Access policies. -->
 
 In production, least privilege would go further, delegating narrower responsibilities through Entra and Intune RBAC roles rather than a single broad administrative role.
 
@@ -59,8 +55,8 @@ I then signed in as a member of `Intune-App-Admins` to confirm the boundary:
 
 | Test | Expected | Result |
 |---|---|---|
-| Create and assign an application | Allowed | <!-- TODO --> |
-| Edit a compliance policy | Denied | <!-- TODO --> |
+| Create and assign an application | Allowed | ✅ Allowed |
+| Edit a compliance policy | Denied | ✅ Denied |
 
 <!-- TODO: Add screenshot of the denied action. -->
 
@@ -72,7 +68,7 @@ For the rest of the initial lab, I use the broader Intune Administrator role. Fi
 
 On first administrative sign-in, I was required to register an additional authentication method. I registered **Microsoft Authenticator** and confirmed MFA-protected access to the Intune and Entra admin centers.
 
-New tenants typically have **Security Defaults** enabled. Security Defaults and Conditional Access can't be used together, so Security Defaults will be disabled — after the emergency access account is in place — before Conditional Access policies are created in this area.
+New tenants typically have **Security Defaults** enabled. Security Defaults and Conditional Access can't be used together, so With the emergency access account in place, Security Defaults will be disabled before Conditional Access policies are created in this area.
 
 ## MDM Authority
 
@@ -82,12 +78,12 @@ The trial set **Microsoft Intune** as the tenant's MDM authority automatically; 
 
 ## Compliance-Based Access
 
-*Planned:* connect device compliance to access decisions with Conditional Access so that only compliant, managed devices can reach company resources — and verify the result from both a compliant and a noncompliant device.
+*Planned, requires Entra ID P1:* connect device compliance to access decisions with Conditional Access so that only compliant, managed devices can reach company resources — and verify the result from both a compliant and a noncompliant device.
 
 ## Results
 
 - Tenant and licensing in place, with the Intune–Entra licensing dependency identified.
-- Privileged and routine administration separated.
+- Privileged and routine administration separated, with an emergency access account in place.
 - Delegated administration configured and tested through Intune RBAC.
 - Identity baseline prepared for Conditional Access.
 

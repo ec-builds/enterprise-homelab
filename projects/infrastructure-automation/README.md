@@ -71,7 +71,7 @@ Automation already running elsewhere in the lab:
 
 | Automation | What it does | Status |
 |---|---|---|
-| [EC-Builds site pipeline](../web-platform/README.md) | A push to the repo syncs the docs into the site, then Cloudflare builds and deploys it | 🟢 Operational |
+| [EC-Builds site pipeline](../../site/README.md) | A push to the repo syncs the docs into the site, then Cloudflare builds and deploys it | 🟢 Operational |
 | [Debian scripts](../../scripts/debian/) | Validate the Debian baseline and check template readiness | 🟢 Operational |
 | [Docker Compose configs](../../configs/docker/) | Service definitions as code for about 15 services, with secrets in local `.env` files kept out of Git | 🟢 Operational |
 | [Proxmox VM templates](../../docs/reference/proxmox/proxmox-debian-vm-template.md) | Debian, Windows Server 2025 and Windows 11 templates for repeatable VM builds, and the base for cloud-init and Terraform | 🟢 Operational |

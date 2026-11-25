@@ -30,10 +30,10 @@ A hands-on Microsoft 365 and Microsoft Entra ID lab focused on cloud identity, a
 
 ## Key Tasks
 
-- [ ] Set up tenant and configure custom domain
-- [ ] Create users and groups and assign licenses
-- [ ] Automate user and group administration with Microsoft Graph PowerShell
-- [ ] Configure MFA and protect privileged administrative accounts
+- [x] Set up tenant and configure custom domain
+- [x] Create users and groups and assign licenses
+- [x] Automate user and group administration with Microsoft Graph PowerShell
+- [x] Configure MFA and protect privileged administrative accounts
 - [ ] Build Conditional Access policies
 - [ ] Block legacy authentication
 - [ ] Deploy Microsoft Entra Connect Sync
@@ -43,6 +43,25 @@ A hands-on Microsoft 365 and Microsoft Entra ID lab focused on cloud identity, a
 - [ ] Integrate Intune device compliance with Conditional Access
 - [ ] Review sign-in and audit logs
 - [ ] Review security recommendations and remediate findings
+
+> [!NOTE]
+> Conditional Access, including the Intune compliance integration, requires Microsoft Entra ID P1, which the current tenant doesn't include. Those tasks are on hold until a P1 license is added. Entra Connect Sync doesn't need P1.
+
+## Documentation
+
+Lab docs:
+
+1. [Identity & Access](./01-tenant-identity.md)
+2. [Microsoft Entra ID Device Join](./02-entra-device-join.md)
+
+Reference:
+
+- [Microsoft Platform Overview](../../docs/reference/microsoft/microsoft-platform-overview.md)
+- [Microsoft Graph Reference](../../docs/reference/microsoft/graph/microsoft-graph-reference.md)
+- [Microsoft Entra User Management](../../docs/reference/microsoft/graph/microsoft-entra-user-management.md)
+- [Entra Device Join and Registration](../../docs/reference/microsoft/entra/entra-device-join-and-registration.md)
+- [Entra Device States](../../docs/reference/microsoft/entra/entra-device-states.md)
+- [Intune RBAC Role Assignments](../../docs/reference/microsoft/intune/intune-rbac-role-assignments.md)
 
 ## Folder Structure
 
