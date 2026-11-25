@@ -6,7 +6,7 @@
 
 ## Overview
 
-A backup that hasn't been restored isn't a backup. Right now the lab has storage, not a real backup strategy, and this project fixes that. The goal is 3-2-1 protection using hardware I already have, then proving it works by actually restoring things.
+A backup that hasn't been restored isn't a backup. Right now the lab has storage, not a real backup strategy, and this project fixes that. The goal is 3-2-1 protection using hardware I already have, then proving it works by actually restoring things. It also covers power loss: a UPS-driven shutdown that stops everything cleanly and brings it back on its own.
 
 ## Plan
 
@@ -38,6 +38,14 @@ I'll probably set it to wake up for the nightly backup window and shut down afte
 
 Hyper Backup doesn't support OneDrive directly, so offsite takes two steps. Hyper Backup writes an encrypted, versioned backup to a local staging folder, then Cloud Sync uploads that folder to OneDrive one way. Hyper Backup handles the actual backup work, and OneDrive is just where it ends up. I already have 1TB there, so it costs nothing extra.
 
+## Power Protection
+
+One CyberPower UPS covers the lab. NUT on `monitor-lab-02` shares its status over the network, so the
+Proxmox nodes and the NAS shut down in order and come back on their own when power returns.
+
+- Plan: [UPS Power Protection Plan](./TODO-ups-power-protection-plan.md)
+- Server setup: [NUT Server Installation](../../docs/reference/nut/nut-server-installation.md)
+
 ## Verification
 
 Nothing gets marked 🟢 Operational until it's been restored:
@@ -49,6 +57,7 @@ Nothing gets marked 🟢 Operational until it's been restored:
 - [ ] Roll back a ZFS snapshot of the `nas` dataset
 - [ ] Download the offsite backup from OneDrive and restore a VM from it
 - [ ] Rebuild a Docker service from its Git config
+- [ ] Pull wall power and confirm systems shut down in order and come back on their own
 - [ ] Log restore times and anything that went wrong
 
 ## Tasks
@@ -63,7 +72,7 @@ Nothing gets marked 🟢 Operational until it's been restored:
 - [ ] Set up Cloud Sync to upload the staging folder to OneDrive (one way, no deletions)
 - [ ] Export Cisco and ASUS configs
 - [ ] Add the backup server to [Infrastructure Monitoring](../infrastructure-monitoring/) and alert on failed jobs
-- [ ] Write a short recovery runbook
+- [ ] Write a short recovery runbook, including recovery after a power outage
 - [ ] Set up UPS power protection with NUT: see [UPS Power Protection Plan](./TODO-ups-power-protection-plan.md)
 
 ## Future
