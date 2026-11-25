@@ -14,10 +14,6 @@ The application source repository is private. This project documents the infrast
 
 *Home page, served from Cloudflare Workers.*
 
-![Portfolio projects page](./diagrams/site-projects.png)
-
-*Projects page. Each project is written up as a case study.*
-
 
 ## How this was built
 
