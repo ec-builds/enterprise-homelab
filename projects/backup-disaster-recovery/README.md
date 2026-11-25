@@ -6,7 +6,16 @@
 
 ## Overview
 
-A backup that hasn't been restored isn't a backup. Right now the lab has storage, not a real backup strategy, and this project fixes that. The goal is 3-2-1 protection using hardware I already have, then proving it works by actually restoring things. It also covers power loss, with a UPS-driven shutdown that stops everything cleanly and brings it back on its own, and tested runbooks for recovering from the failures that matter most.
+A backup that hasn't been restored isn't a backup. Right now the lab has storage, not a real backup
+strategy, and this project fixes that by covering three things:
+
+- **Backups:** 3-2-1 protection using hardware I already have, with copies on a dedicated backup server,
+  the NAS and offsite.
+- **Power protection:** a UPS-driven shutdown that stops everything cleanly during an outage and brings it
+  back on its own.
+- **Recovery:** runbooks for the failures that matter most, each tested and timed against a recovery target.
+
+Nothing counts as done until it's been proven by a real restore or a real test.
 
 ## Plan
 
