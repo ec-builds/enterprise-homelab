@@ -33,6 +33,15 @@ The lab runs on one CyberPower CP1500PFCLCD UPS, which can signal only one machi
 
 Setup steps: [NUT Server Installation](../../docs/reference/nut/nut-server-installation.md).
 
+### Resume Here
+
+- [ ] Step 3 on `monitor-lab-02`: commit timer (`upssched`, 5 min), forced shutdown, UPS outlet delays (240/300), check `nutshutdown` hook
+- [ ] Step 4: NUT clients on `prox-lab-01`–`03` and the Synology
+- [ ] Test 2: cancel test (unplug about 3 min, nothing shuts down)
+- [ ] Test 3: full sequence with a 2-minute timer, all systems down, outlets cycle, all systems back
+- [ ] Battery check at full charge: timed runtime check and quick battery test
+- [ ] Write `nut-shutdown-and-testing.md` and `nut-client-setup.md` from the results
+
 ## Target Configuration
 
 ```text
