@@ -1,6 +1,6 @@
 # UPS Power Protection Plan
 
-**Status: ⚪ Planned**  
+**Status: 🟡 In Progress**  
 **Type:** Implementation plan  
 **Lab:** Backup & Disaster Recovery
 
@@ -18,6 +18,20 @@ The lab runs on one CyberPower CP1500PFCLCD UPS, which can signal only one machi
 6. Configure UPS outlet power-cycling and Wake-on-LAN for recovery.
 7. Send power events to Discord.
 8. Test a real outage, including power returning partway through the shutdown.
+
+## Progress
+
+| Step | State |
+|---|---|
+| NUT server on `monitor-lab-02` | 🟢 Running. The driver reads the UPS, and `upsc` reports status, load and runtime |
+| Measured load and runtime | About 15% load (about 150 W of 1,000 W) with about 53 minutes of runtime at full charge (Nov 2026) |
+| Shutdown behavior | Default only: `monitor-lab-02` shuts down when the UPS reports low battery (about 5 minutes left) |
+| Firewall | 🟢 Port `3493/TCP` limited to the Proxmox nodes and the NAS |
+| Discord alerts | 🟢 Tested: unplugging the UPS sent `ONBATT` within seconds, and plugging it back in sent `ONLINE` |
+| Battery | Charge reading dropped to about 76% during the alert test, which is steep for a two-month-old battery. The reading is voltage-based, so a timed runtime check and the UPS quick test are planned at full charge |
+| Clients, timers, outlet power-cycle | ⚪ Not started |
+
+Setup steps: [NUT Server Installation](../../docs/reference/nut/nut-server-installation.md).
 
 ## Target Configuration
 
