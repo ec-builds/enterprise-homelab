@@ -1,6 +1,6 @@
 # ⚙️ Infrastructure Automation (IaC)
 
-**Status: ⚪ Planned**
+**Status: 🟡 In Progress**
 
 <img src="./diagrams/infrastructure-automation-banner.png" alt="Infrastructure & Automation Lab Banner" width="1000">
 
@@ -64,6 +64,17 @@ Infrastructure provisioning and configuration management remain planned. GitHub 
 | **Git** | Version control for automation code and configuration | 🟢 Operational |
 | **GitHub Actions** | Automated repository validation and CI/CD workflows | 🟢 Operational |
 | **Lychee** | Automated Markdown link validation | 🟢 Operational |
+
+## Existing Automation
+
+Automation already running elsewhere in the lab:
+
+| Automation | What it does | Status |
+|---|---|---|
+| [EC-Builds site pipeline](../web-platform/README.md) | A push to the repo syncs the docs into the site, then Cloudflare builds and deploys it | 🟢 Operational |
+| [Debian scripts](../../scripts/debian/) | Validate the Debian baseline and check template readiness | 🟢 Operational |
+| [Docker Compose configs](../../configs/docker/) | Service definitions as code for about 15 services, with secrets in local `.env` files kept out of Git | 🟢 Operational |
+| [Proxmox VM templates](../../docs/reference/proxmox/proxmox-debian-vm-template.md) | Debian, Windows Server 2025 and Windows 11 templates for repeatable VM builds, and the base for cloud-init and Terraform | 🟢 Operational |
 
 ## Documentation Quality Automation
 
@@ -130,6 +141,7 @@ External link monitoring remains under validation.
 ### Planned
 
 - [ ] Provision Proxmox VMs from templates with Terraform
+- [ ] Deploy NUT clients to the Proxmox nodes with Ansible: see [Ansible NUT Client Deployment](./TODO-ansible-nut-clients.md)
 - [ ] Build an Ansible server baseline for users, SSH, packages, and security settings
 - [ ] Recreate Azure lab resources using Terraform and Bicep
 - [ ] Automate Docker host deployment

@@ -91,8 +91,10 @@ documented in the cluster documentation:
 - [x] Join third node to cluster
 - [x] Configure third-node storage
 - [x] Validate three-node quorum
-- [ ] Create Linux cloud-init template
-- [ ] Create Windows Server template
+- [x] Create Debian VM template
+- [x] Create Windows Server 2025 template
+- [x] Create Windows 11 template
+- [ ] Add cloud-init to the Debian template
 - [ ] Configure VLAN-aware virtual networking
 - [ ] Test snapshots and cloning
 - [ ] Configure VM backup and restore
@@ -224,11 +226,25 @@ recovery testing.
 
 ## Documentation
 
-- [Proxmox Cluster](./06-proxmox-cluster.md)
-- [Proxmox Storage](./02-storage-configuration.md)
-- [Proxmox Resource Allocation](./04-resource-allocation.md)
-- [Proxmox Host Baseline Build](../../docs/reference/proxmox/proxmox-debian-vm-template.md)
-- [Proxmox VM Deployment Baseline](./03-vm-deployment.md)
+Lab docs, in build order:
+
+1. [Baseline Build Summary](./01-proxmox-baseline-build.md)
+2. [Proxmox Storage](./02-storage-configuration.md)
+3. [Proxmox VM Deployment Baseline](./03-vm-deployment.md)
+4. [Proxmox Resource Allocation](./04-resource-allocation.md)
+5. [Proxmox Notifications](./05-proxmox-notifications.md)
+6. [Proxmox Cluster](./06-proxmox-cluster.md)
+7. [Proxmox Node Upgrades & Maintenance](./07-proxmox-node-upgrades.md)
+8. [Proxmox Node Replacement](./08-proxmox-node-replacement.md)
+
+Reference:
+
+- [Proxmox Host Baseline Build](../../docs/reference/proxmox/proxmox-baseline-build.md)
+- [Debian VM Template](../../docs/reference/proxmox/proxmox-debian-vm-template.md)
+- [Windows VM Templates](../../docs/reference/proxmox/proxmox-windows-vm-template.md)
+
+Also:
+
 - [Troubleshooting](./troubleshooting.md)
 - [Lessons Learned](./lessons-learned.md)
 
@@ -248,7 +264,7 @@ This virtualization environment provides infrastructure for:
 
 ## Next Steps
 
-1. Build reusable Linux and Windows templates
+1. Add cloud-init to the Debian template
 2. Test VM migration between cluster nodes
 3. Test snapshots and cloning
 4. Configure and validate VM backup and restore

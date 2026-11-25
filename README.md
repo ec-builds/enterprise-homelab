@@ -96,7 +96,7 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 | [Active Directory Lab](projects/active-directory-lab/) | Windows Server, AD DS, DNS, DHCP (Group Policy planned) | 🟢 |
 | [Backup & Disaster Recovery](projects/backup-disaster-recovery/) | Backup strategy, restore testing, DR runbooks | 🟡 |
 | [Containerization-Lab](projects/containerization-lab/) | Containerized self-hosted applications, Docker | 🟢 |
-| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | ⚪ |
+| [Infrastructure Automation](projects/infrastructure-automation/) | Terraform, Ansible, IaC, configuration management | 🟡 |
 | [Infrastructure Monitoring](projects/infrastructure-monitoring/) | Prometheus, Grafana, alerting, observability | 🟢 |
 | [Media Services Platform](projects/media-services-platform/) | Linux administration, storage, service deployment | 🟢 |
 | [Microsoft 365 & Entra ID Lab](projects/microsoft-365-entra-id/) | Microsoft 365, Entra ID, hybrid identity | 🟡 |

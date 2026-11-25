@@ -15,6 +15,7 @@ how-to steps, so each project doc can stay focused on what was built and why.
 | Monitoring | 4 | node_exporter, SNMP exporter, Uptime Kuma |
 | Logs | 3 | rsyslog, log forwarding, logrotate |
 | NUT | 1 | UPS monitoring and network shutdown server |
+| Ansible | 1 | Planned NUT client deployment to the Proxmox nodes |
 | Mac | 3 | Bootable Debian USB, Linux install, hostname |
 | RustDesk, SSH, Ventoy | 3 | Self-hosted remote support, SSH client config, multiboot USB |
 

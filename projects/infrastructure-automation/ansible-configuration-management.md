@@ -59,6 +59,7 @@ Admin Workstation
       │
       ├────────► prox-lab-01
       ├────────► prox-lab-02
+      ├────────► prox-lab-03
       ├────────► docker-lab-01
       └────────► monitor-lab-01
                    │
@@ -112,6 +113,7 @@ Example:
 [proxmox]
 prox-lab-01
 prox-lab-02
+prox-lab-03
 
 [linux_servers]
 docker-lab-01
