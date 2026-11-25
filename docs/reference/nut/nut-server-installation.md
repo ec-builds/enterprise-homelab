@@ -2,7 +2,11 @@
 
 Reference guide for connecting a USB UPS to a Debian host and sharing its status on the network with Network UPS Tools (NUT).
 
-The NUT server reads the UPS over USB and publishes its status, load and runtime on port `3493/TCP`. Other machines run NUT clients that watch that status and shut themselves down during an outage. This guide covers the server. Shutdown timers and clients are covered in the [UPS Power Protection Plan](../../../projects/backup-disaster-recovery/TODO-ups-power-protection-plan.md).
+The NUT server reads the UPS over USB and publishes its status, load and runtime on port `3493/TCP`. Other machines run NUT clients that watch that status and shut themselves down during an outage. This guide covers the server. Related docs:
+
+- [NUT Client Setup](./nut-client-setup.md): Proxmox nodes and the Synology
+- [NUT Shutdown Sequence and Testing](./nut-shutdown-and-testing.md): the commit timer, forced shutdown, outlet power-cycle and tests
+- [UPS Power Protection Plan](../../../projects/backup-disaster-recovery/TODO-ups-power-protection-plan.md): the project plan and progress
 
 ## Overview
 
@@ -149,14 +153,17 @@ EOF
 
 ### Network Listener
 
-Have `upsd` listen locally and on the network, in `/etc/nut/upsd.conf`:
+Have `upsd` listen on all addresses, in `/etc/nut/upsd.conf`. `0.0.0.0` includes localhost, so it's the only line needed:
 
 ```bash
-sudo tee -a /etc/nut/upsd.conf >/dev/null <<'EOF'
-LISTEN 127.0.0.1 3493
-LISTEN 0.0.0.0 3493
-EOF
+echo 'LISTEN 0.0.0.0 3493' | sudo tee -a /etc/nut/upsd.conf >/dev/null
 grep ^LISTEN /etc/nut/upsd.conf
+```
+
+Don't add a separate `LISTEN 127.0.0.1 3493` line as well. Once `upsd` has bound `127.0.0.1:3493`, binding `0.0.0.0:3493` on the same port fails, so `upsd` ends up listening on localhost only and clients get `Connection refused`. After starting the services, check:
+
+```bash
+ss -tlnp | grep 3493     # should show 0.0.0.0:3493
 ```
 
 Limit port `3493/TCP` to the NUT clients with a firewall rule (see [Restrict Network Access](#7-restrict-network-access)).
@@ -215,7 +222,7 @@ Debian's default `upsmon.conf` already contains `SHUTDOWNCMD "/sbin/shutdown -h 
 grep -nE '^(MONITOR|SHUTDOWNCMD)' /etc/nut/upsmon.conf
 ```
 
-With the remaining defaults, the host shuts down only when the UPS reports low battery. Staggered shutdown timers and UPS outlet power-cycling are added separately, after testing.
+With the remaining defaults, the host shuts down only when the UPS reports low battery. The commit timer and outlet power-cycle are added in [NUT Shutdown Sequence and Testing](./nut-shutdown-and-testing.md).
 
 ### File Permissions
 
@@ -352,7 +359,7 @@ sudo nft list table inet nut_filter
 
 ## 8. Discord Alerts
 
-`upsmon` runs a command for each power event it's told to report. A small script posts the event to a Discord channel through a webhook.
+`upsmon` runs a command for each power event it's told to report. Two small scripts post the event to a Discord channel through a webhook: `discord.sh` sends one message, and `notify.sh` is what `upsmon` runs. The [shutdown sequence](./nut-shutdown-and-testing.md) later adds one line to `notify.sh` to hand events to the commit timer.
 
 Store the webhook URL without putting it in shell history:
 
@@ -364,21 +371,27 @@ sudo chmod 640 /etc/nut/discord-webhook
 unset WEBHOOK
 ```
 
-Create `/etc/nut/notify.sh` (owner `root:nut`, mode `750`):
+Create `/etc/nut/discord.sh` and `/etc/nut/notify.sh` (owner `root:nut`, mode `750`):
 
 ```bash
-sudo tee /etc/nut/notify.sh >/dev/null <<'EOF'
+sudo tee /etc/nut/discord.sh >/dev/null <<'EOF'
 #!/bin/sh
-# Called by upsmon (NOTIFYCMD). $1 = message, NOTIFYTYPE = event type.
 WEBHOOK=$(cat /etc/nut/discord-webhook)
-MSG="[$(hostname)] ${NOTIFYTYPE:-EVENT}: $1"
+MSG="[$(hostname)] $1"
 curl -fsS -m 10 -H "Content-Type: application/json" \
   -d "{\"content\": \"$MSG\"}" "$WEBHOOK" >/dev/null \
   || logger -t nut-notify "Discord notification failed: $MSG"
 EOF
-sudo chown root:nut /etc/nut/notify.sh
-sudo chmod 750 /etc/nut/notify.sh
-which curl    # the script needs curl
+
+sudo tee /etc/nut/notify.sh >/dev/null <<'EOF'
+#!/bin/sh
+# Called by upsmon (NOTIFYCMD). $1 = message, NOTIFYTYPE = event type.
+/etc/nut/discord.sh "${NOTIFYTYPE:-EVENT}: $1"
+EOF
+
+sudo chown root:nut /etc/nut/discord.sh /etc/nut/notify.sh
+sudo chmod 750 /etc/nut/discord.sh /etc/nut/notify.sh
+which curl    # the scripts need curl
 ```
 
 Add the notification lines to `/etc/nut/upsmon.conf`, then restart `nut-monitor`:
@@ -491,7 +504,8 @@ journalctl -t nut-notify                                       # failed Discord 
 | `upsc` returns `Driver not connected`, driver stuck in `activating` | Driver is failing and retrying: `journalctl -u nut-driver@ups -n 30` |
 | Driver logs `insufficient permissions on everything` / `No matching HID UPS found` | The USB device isn't in the `nut` group yet. Re-apply the udev rules (step 5) or replug the cable, then restart the driver |
 | Driver can't find the UPS | Compare `vendorid` and `productid` in `ups.conf` with `lsusb` |
-| `upsc` works locally but not from another host | `LISTEN` in `upsd.conf`, the host firewall, and that `nut-server` was restarted |
+| Client log shows `Connection refused` | `upsd` isn't listening on the network: `ss -tlnp \| grep 3493` should show `0.0.0.0:3493`. A `LISTEN 127.0.0.1` line next to `LISTEN 0.0.0.0` causes this; keep only the `0.0.0.0` line |
+| Client connection hangs, then times out | The client's address isn't allowed by the firewall: `sudo nft list table inet nut_filter` |
 | Client login fails | Username, password and `primary`/`secondary` role in `upsd.users` |
 
 ## Security

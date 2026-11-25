@@ -16,12 +16,11 @@ Utility power is lost. The UPS carries the lab while NUT on `monitor-lab-02` shu
 
 No action is needed if the automatic sequence runs. Watch the alerts:
 
-1. On battery: timers start.
-2. Proxmox nodes shut down together, their VMs first.
-3. NAS shuts down.
-4. `monitor-lab-02` sets the UPS outlet power-cycle and shuts down.
+1. On battery: the 5-minute commit timer starts.
+2. At 5 minutes: the forced-shutdown alert. Proxmox nodes (VMs first) and the NAS shut down together.
+3. `monitor-lab-02` shuts down last and sets the UPS outlet power-cycle.
 
-If the alerts stop before step 4, assume the network or `monitor-lab-02` lost power early, and check every system after recovery.
+If the alerts stop before step 3, assume the network or `monitor-lab-02` lost power early, and check every system after recovery.
 
 ## After Power Returns
 
@@ -39,8 +38,8 @@ If a system stays off, power it on manually, then check its power-on-after-AC-lo
 
 ## Power Returns Mid-Sequence
 
-- Before the final step: timers cancel and nodes that already shut down are woken with Wake-on-LAN. Confirm every node came back.
-- After the final step started: the sequence finishes and the outlet power-cycle restarts everything. Follow "After Power Returns".
+- Within the first 5 minutes: the commit timer is cancelled and nothing shuts down. Confirm the `ONLINE` alert arrived.
+- After the forced shutdown started: the sequence finishes and the outlet power-cycle restarts everything. Follow "After Power Returns".
 
 ## Validation
 

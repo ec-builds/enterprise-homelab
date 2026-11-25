@@ -1,6 +1,6 @@
 # Ansible NUT Client Deployment
 
-Reference guide for deploying the Network UPS Tools (NUT) client to the Proxmox nodes with Ansible, so each node shuts down cleanly when the UPS has been on battery for a set time.
+Reference guide for deploying the Network UPS Tools (NUT) client to the Proxmox nodes with Ansible, so each node shuts down cleanly when the NUT server forces a shutdown or the UPS reports low battery. Clients run no timers: the commit timer lives on the server (see [NUT Shutdown Sequence and Testing](../nut/nut-shutdown-and-testing.md)). The manual equivalent is [NUT Client Setup](../nut/nut-client-setup.md).
 
 The NUT server runs on `monitor-lab-02` (see [NUT Server Installation](../nut/nut-server-installation.md)). This project configures the clients. Plan: [Ansible NUT Client Deployment](../../../projects/infrastructure-automation/TODO-ansible-nut-clients.md).
 
@@ -28,8 +28,8 @@ Admin workstation
         └──► prox-lab-03 ─┘
                 │
                 ▼
-     On battery for nut_shutdown_delay
-     → upssched timer → shutdown (VMs stop with the host)
+     Forced shutdown from the server, or low battery
+     → shutdown (VMs stop with the host)
 ```
 
 ## Project Layout
@@ -53,9 +53,7 @@ ansible/
         ├── tasks/main.yml
         └── templates/
             ├── nut.conf.j2
-            ├── upsmon.conf.j2
-            ├── upssched.conf.j2
-            └── upssched-cmd.j2
+            └── upsmon.conf.j2
 ```
 
 ## 1. Install Ansible on the Control Node
@@ -112,11 +110,10 @@ ansible proxmox -m ping
 `inventories/lab/group_vars/proxmox/vars.yml`:
 
 ```yaml
-nut_server: monitor-lab-02
+nut_server: <nut-server-ip>   # IP, not hostname: DNS may be down during an outage
 nut_ups_name: ups
 nut_user: upsmon_remote
 nut_password: "{{ vault_nut_password }}"
-nut_shutdown_delay: 240   # seconds on battery before shutdown; set from measured runtime
 ```
 
 Create the encrypted vault file:
@@ -139,7 +136,6 @@ Only the encrypted file is committed. The vault password itself stays outside th
 
 ```yaml
 nut_ups_name: ups
-nut_shutdown_delay: 240
 ```
 
 `roles/nut_client/tasks/main.yml`:
@@ -168,23 +164,6 @@ nut_shutdown_delay: 240
     group: nut
     mode: "0640"
   notify: Restart nut-monitor
-
-- name: Configure upssched
-  ansible.builtin.template:
-    src: upssched.conf.j2
-    dest: /etc/nut/upssched.conf
-    owner: root
-    group: nut
-    mode: "0640"
-  notify: Restart nut-monitor
-
-- name: Install upssched command script
-  ansible.builtin.template:
-    src: upssched-cmd.j2
-    dest: /usr/local/sbin/upssched-cmd
-    owner: root
-    group: root
-    mode: "0755"
 
 - name: Enable and start nut-monitor
   ansible.builtin.service:
@@ -215,39 +194,9 @@ MODE=netclient
 ```ini
 MONITOR {{ nut_ups_name }}@{{ nut_server }} 1 {{ nut_user }} {{ nut_password }} secondary
 SHUTDOWNCMD "/sbin/shutdown -h +0"
-NOTIFYCMD /sbin/upssched
-NOTIFYFLAG ONBATT SYSLOG+EXEC
-NOTIFYFLAG ONLINE SYSLOG+EXEC
 ```
 
-`upssched.conf.j2`:
-
-```ini
-CMDSCRIPT /usr/local/sbin/upssched-cmd
-PIPEFN /run/nut/upssched.pipe
-LOCKFN /run/nut/upssched.lock
-
-AT ONBATT * START-TIMER onbatt-shutdown {{ nut_shutdown_delay }}
-AT ONLINE * CANCEL-TIMER onbatt-shutdown
-```
-
-`upssched-cmd.j2`:
-
-```bash
-#!/bin/sh
-# Called by upssched when a timer expires.
-case "$1" in
-  onbatt-shutdown)
-    logger -t upssched "On battery for {{ nut_shutdown_delay }}s, shutting down"
-    /sbin/shutdown -h +0
-    ;;
-  *)
-    logger -t upssched "Unknown command: $1"
-    ;;
-esac
-```
-
-The timer shuts a node down after `nut_shutdown_delay` seconds on battery and is cancelled if power returns first. The node also shuts down if the server signals low battery or a forced shutdown before the timer ends.
+The template replaces Debian's long default `upsmon.conf` with just the settings the client needs; the other defaults are built into `upsmon`.
 
 ## 5. Playbook
 
@@ -286,13 +235,13 @@ Run it again. A second run should report `changed=0` for every host.
 ## 7. Verify
 
 ```bash
-ansible proxmox -b -a "upsc ups@monitor-lab-02 ups.status"
+ansible proxmox -b -a "upsc ups@<nut-server-ip> ups.status"
 ansible proxmox -b -a "systemctl is-active nut-monitor"
 ```
 
 Expected: `OL` and `active` on all three nodes.
 
-To test the timer without pulling power, use a short delay on one node (`--limit` plus `-e nut_shutdown_delay=60`), then unplug the UPS from the wall and confirm the node shuts down after the delay, or plug it back in before the delay and confirm it stays up. Reset the delay afterwards.
+On the NUT server, `upsc -c ups@localhost` should list all three nodes. Shutdown behavior itself is tested from the server: see [NUT Shutdown Sequence and Testing](../nut/nut-shutdown-and-testing.md#tests).
 
 ## Adding a Host
 
@@ -306,7 +255,7 @@ Add it to the `proxmox` group, or a new group that uses the same role, and run t
 | Vault error | `--ask-vault-pass` given, and the right vault password |
 | `upsc` fails from a node | NUT server reachable on `3493/TCP`, `LISTEN` in `upsd.conf`, firewall |
 | `nut-monitor` logs a login failure | `nut_user` and vault password match `upsd.users` on the server |
-| Timer never fires | `NOTIFYCMD` and `NOTIFYFLAG ... EXEC` in `upsmon.conf`, and `journalctl -t upssched` |
+| Node not listed on the server | `nut-monitor` active on the node, and the node's address allowed by the server firewall |
 
 ## Security
 

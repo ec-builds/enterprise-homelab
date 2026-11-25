@@ -11,11 +11,11 @@ The lab runs on one CyberPower CP1500PFCLCD UPS, which can signal only one machi
 ## Planned Work
 
 1. Remove the UPS USB passthrough from `win11-lab-01` on `prox-lab-01`, move the cable to `monitor-lab-02`, and install the NUT server.
-2. Measure the real load and battery runtime, then set the shutdown timers from those numbers.
+2. Measure the real load and battery runtime, then set the commit timer from those numbers.
 3. Install NUT clients on the three Proxmox nodes and configure the Synology as a NUT client.
 4. Set guest shutdown behavior and start order on the Proxmox nodes.
 5. Enable automatic power-on after power loss on every machine.
-6. Configure UPS outlet power-cycling and Wake-on-LAN for recovery.
+6. Configure the commit timer, forced shutdown and UPS outlet power-cycling for recovery.
 7. Send power events to Discord.
 8. Test a real outage, including power returning partway through the shutdown.
 
@@ -25,22 +25,25 @@ The lab runs on one CyberPower CP1500PFCLCD UPS, which can signal only one machi
 |---|---|
 | NUT server on `monitor-lab-02` | 🟢 Running. The driver reads the UPS, and `upsc` reports status, load and runtime |
 | Measured load and runtime | About 15% load (about 150 W of 1,000 W) with about 53 minutes of runtime at full charge (Nov 2026) |
-| Shutdown behavior | Default only: `monitor-lab-02` shuts down when the UPS reports low battery (about 5 minutes left) |
+| Shutdown behavior | Live, not yet tested: after 5 minutes on battery, every system shuts down and the UPS power-cycles its outlets |
 | Firewall | 🟢 Port `3493/TCP` limited to the Proxmox nodes and the NAS |
 | Discord alerts | 🟢 Tested: unplugging the UPS sent `ONBATT` within seconds, and plugging it back in sent `ONLINE` |
 | Battery | Charge reading dropped to about 76% during the alert test, which is steep for a two-month-old battery. The reading is voltage-based, so a timed runtime check and the UPS quick test are planned at full charge |
-| Clients, timers, outlet power-cycle | ⚪ Not started |
+| Clients | 🟢 `prox-lab-01`, `prox-lab-02`, `prox-lab-03` and the Synology connected to the NUT server and reading the UPS |
+| Commit timer, forced shutdown, outlet power-cycle | 🟡 Configured, not yet tested: 5-minute timer on `monitor-lab-02`, and the UPS accepted the outlet delays (off 240 s after the command, back on 300 s after power returns) |
+| Power-on after an outage | 🟢 VMs set to start at boot, Proxmox BIOS restore-on-AC-power-loss set, DSM auto restart on, and `monitor-lab-02` auto power-on set and tested (see [Mac Mini Auto Power-On Under Linux](../../docs/reference/mac/mac-linux-auto-power-on.md)) |
 
 Setup steps: [NUT Server Installation](../../docs/reference/nut/nut-server-installation.md).
 
 ### Resume Here
 
-- [ ] Step 3 on `monitor-lab-02`: commit timer (`upssched`, 5 min), forced shutdown, UPS outlet delays (240/300), check `nutshutdown` hook
-- [ ] Step 4: NUT clients on `prox-lab-01`–`03` and the Synology
+- [x] Step 3 on `monitor-lab-02`: commit timer (`upssched`, 5 min), forced shutdown, UPS outlet delays (240/300), check `nutshutdown` hook
+- [x] Power-on after an outage: VMs `onboot`, Proxmox BIOS, DSM, `monitor-lab-02` auto power-on
+- [x] Step 4: NUT clients on `prox-lab-01`–`03` and the Synology
 - [ ] Test 2: cancel test (unplug about 3 min, nothing shuts down)
 - [ ] Test 3: full sequence with a 2-minute timer, all systems down, outlets cycle, all systems back
 - [ ] Battery check at full charge: timed runtime check and quick battery test
-- [ ] Write `nut-shutdown-and-testing.md` and `nut-client-setup.md` from the results
+- [x] Write `nut-shutdown-and-testing.md` and `nut-client-setup.md` (test results added as tests are run)
 
 ## Target Configuration
 
@@ -67,22 +70,24 @@ Setup steps: [NUT Server Installation](../../docs/reference/nut/nut-server-insta
 
 ### Shutdown Sequence
 
-Timers are starting points. Final values are set after measuring runtime under the real load.
+The NUT server makes every decision; clients run no timers of their own.
 
 | Step | Trigger | What happens |
 |---|---|---|
-| 1 | Power lost | `monitor-lab-02` sends a Discord alert and starts timers |
-| 2 | ~3–5 min on battery | All three Proxmox nodes shut down together, their VMs first |
-| 3 | Proxmox nodes down, or low battery | NAS shuts down |
-| 4 | Last | `monitor-lab-02` tells the UPS to turn its outlets off after a delay, then shuts itself down |
-| 5 | Power returns | UPS turns its outlets back on, and every machine powers on |
+| 1 | Power lost | `monitor-lab-02` sends a Discord alert and starts a 5-minute commit timer |
+| 2 | Power back within 5 minutes | Timer cancelled, Discord alert, nothing shuts down |
+| 3 | Still on battery at 5 minutes | `monitor-lab-02` forces a shutdown: the Proxmox nodes (their VMs first) and the NAS shut down together |
+| 4 | Last | `monitor-lab-02` shuts down and tells the UPS to cut its outlets 240 seconds later |
+| 5 | Power returns | After 300 seconds the UPS restores its outlets, and every machine powers on |
 
 The Proxmox nodes shut down as a group. Shutting them down one at a time leaves the last node without quorum, so it can't start or change VMs, and the VMs also depend on NAS storage.
 
+Details and commands: [NUT Shutdown Sequence and Testing](../../docs/reference/nut/nut-shutdown-and-testing.md).
+
 ### Recovery
 
-- **Outage outlasts the sequence.** The UPS power-cycles its outlets, so every machine boots when power returns, even if power came back after a machine shut down but before the battery ran out.
-- **Power returns mid-sequence.** `monitor-lab-02` cancels the remaining timers and sends Wake-on-LAN to any node that already shut down. Once the final step has started, the sequence finishes and the outlet power-cycle brings everything back.
+- **Outage outlasts the sequence.** The UPS power-cycles its outlets, so every machine boots when power returns.
+- **Power returns mid-sequence.** Once the forced shutdown has started, it finishes, and the outlet power-cycle still restarts everything. No machine is left off, so Wake-on-LAN isn't needed.
 - **Start order.** Proxmox start-at-boot order brings the domain controllers up first, then the Docker host, monitoring and media VMs.
 
 ## Dependencies / Decisions
@@ -91,7 +96,7 @@ The Proxmox nodes shut down as a group. Shutting them down one at a time leaves 
 - **Power-on after AC loss.** Enable it in the BIOS of each Proxmox node, enable "restart automatically when power supply issue is fixed" in DSM, and set the equivalent on the Mac mini.
 - **Clean guest shutdown.** VMs need ACPI or the QEMU guest agent, and a guest shutdown timeout long enough for the domain controllers to stop cleanly.
 - **Synology client login.** DSM uses a fixed NUT username and password, so the NUT server must accept it. Access is limited to the lab's own hosts.
-- **Credentials.** NUT passwords, the Discord webhook and MAC addresses for Wake-on-LAN are stored outside the repository.
+- **Credentials.** NUT passwords and the Discord webhook are stored outside the repository.
 - **Backup server.** The planned Proxmox Backup Server becomes a NUT client once it's deployed.
 
 ## Validation / Completion Criteria
@@ -111,5 +116,5 @@ Stopping the NUT services leaves every machine running as before. The UPS still 
 ## Implementation Notes
 
 - The `usbhid-ups` driver supports this UPS. Its outlet off/on delays need a real test before the sequence is trusted.
-- `upssched` handles the timers on the server and clients.
+- `upssched` on the NUT server handles the commit timer. Clients only react to the server's forced shutdown or to low battery.
 - NUT event notifications go to Discord through the secondary monitoring webhook on `monitor-lab-02`.

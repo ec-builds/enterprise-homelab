@@ -14,9 +14,9 @@ how-to steps, so each project doc can stay focused on what was built and why.
 | Cisco | 4 | Console access, factory reset, SSH, syslog |
 | Monitoring | 4 | node_exporter, SNMP exporter, Uptime Kuma |
 | Logs | 3 | rsyslog, log forwarding, logrotate |
-| NUT | 1 | UPS monitoring and network shutdown server |
+| NUT | 3 | UPS server, clients, and the outage shutdown sequence and tests |
 | Ansible | 1 | Planned NUT client deployment to the Proxmox nodes |
-| Mac | 3 | Bootable Debian USB, Linux install, hostname |
+| Mac | 4 | Bootable Debian USB, Linux install, hostname, auto power-on under Linux |
 | RustDesk, SSH, Ventoy | 3 | Self-hosted remote support, SSH client config, multiboot USB |
 
 Examples use the placeholder names and addresses in the
