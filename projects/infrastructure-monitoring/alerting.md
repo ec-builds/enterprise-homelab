@@ -33,8 +33,22 @@ Logs ──────────► Loki ──► Log-Based Alerting        
 | Prometheus Alert Rules | Metrics alert evaluation | 🟡 |
 | Alertmanager | Alert grouping, routing and silencing | 🟡 |
 | ntfy / Webhooks | Alertmanager notification delivery | ⚪ |
-| Email Notifications | Additional notification channel | ⚪ |
+| Email Notifications | Proxmox notifications through Gmail SMTP | 🟢 |
 | Log-Based Alerting | Alerts on specific log events | ⚪ |
+
+## Alert Sources
+
+Every source that sends notifications, what it catches, and where it goes. Each source uses its own Discord webhook in the same alerts channel, so a message shows where it came from.
+
+| Source | Catches | Destination | Status |
+|---|---|---|:---:|
+| Uptime Kuma | Hosts and services unreachable, and recovery | Discord | 🟢 |
+| NUT on `monitor-lab-02` | Power lost and restored, low battery, forced shutdown | Discord | 🟢 |
+| Proxmox VE | Backup failures and other warnings and errors | Discord (warning, error); email (everything) | 🟢 |
+| Synology DSM | Drive health, capacity, failed backup tasks | Discord (warning, critical) | 🟢 |
+| Secondary Uptime Kuma | Primary monitoring host down | Separate Discord channel | ⚪ |
+
+Setup for each: [Availability Monitoring](./availability-monitoring.md), [NUT Server Installation](../../docs/reference/nut/nut-server-installation.md#8-discord-alerts), [Proxmox Notifications](../virtualization-lab/05-proxmox-notifications.md), [Synology Notifications](./synology-notifications.md).
 
 ## Availability Alerting
 

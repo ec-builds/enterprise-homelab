@@ -123,7 +123,7 @@ Lining the signals up doesn't prove the root cause, but it narrows where to look
 
 ## Alerting
 
-Uptime Kuma sends availability notifications today. Prometheus alert rules and Alertmanager will add metrics-based alerts once baselines and thresholds are set. Details: [`alerting.md`](./alerting.md).
+Uptime Kuma, NUT, Proxmox and the Synology send notifications to Discord today, each through its own webhook. Prometheus alert rules and Alertmanager will add metrics-based alerts once baselines and thresholds are set. Details: [`alerting.md`](./alerting.md), with the Synology setup in [`synology-notifications.md`](./synology-notifications.md).
 
 ## Current State
 
@@ -162,5 +162,6 @@ infrastructure-monitoring/
 ├── lessons-learned.md
 ├── log-monitoring.md
 ├── metric-monitoring.md
-└── monitoring-strategy.md
+├── monitoring-strategy.md
+└── synology-notifications.md
 ```
