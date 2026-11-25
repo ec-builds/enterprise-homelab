@@ -25,7 +25,7 @@ const projectGroups = fs.existsSync(PROJECT_DOCS)
 
 // Reference section: one collapsed group per category folder, labelled from this map (folder name otherwise).
 const REFERENCE_DOCS = new URL('./src/content/docs/reference/', import.meta.url);
-const REFERENCE_LABELS = { rustdesk: 'RustDesk', ssh: 'SSH' };
+const REFERENCE_LABELS = { nut: 'NUT', rustdesk: 'RustDesk', ssh: 'SSH' };
 const referenceGroups = fs.existsSync(REFERENCE_DOCS)
   ? fs.readdirSync(REFERENCE_DOCS, { withFileTypes: true })
       .filter((d) => d.isDirectory())

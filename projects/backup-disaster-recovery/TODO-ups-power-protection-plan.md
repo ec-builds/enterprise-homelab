@@ -10,7 +10,7 @@ The lab runs on one CyberPower CP1500PFCLCD UPS, which can signal only one machi
 
 ## Planned Work
 
-1. Move the UPS USB cable to `monitor-lab-02` and install the NUT server.
+1. Remove the UPS USB passthrough from `win11-lab-01` on `prox-lab-01`, move the cable to `monitor-lab-02`, and install the NUT server.
 2. Measure the real load and battery runtime, then set the shutdown timers from those numbers.
 3. Install NUT clients on the three Proxmox nodes and configure the Synology as a NUT client.
 4. Set guest shutdown behavior and start order on the Proxmox nodes.
