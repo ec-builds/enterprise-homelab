@@ -6,7 +6,7 @@
 
 ## Overview
 
-A backup that hasn't been restored isn't a backup. Right now the lab has storage, not a real backup strategy, and this project fixes that. The goal is 3-2-1 protection using hardware I already have, then proving it works by actually restoring things. It also covers power loss: a UPS-driven shutdown that stops everything cleanly and brings it back on its own.
+A backup that hasn't been restored isn't a backup. Right now the lab has storage, not a real backup strategy, and this project fixes that. The goal is 3-2-1 protection using hardware I already have, then proving it works by actually restoring things. It also covers power loss, with a UPS-driven shutdown that stops everything cleanly and brings it back on its own, and tested runbooks for recovering from the failures that matter most.
 
 ## Plan
 
@@ -46,6 +46,19 @@ Proxmox nodes and the NAS shut down in order and come back on their own when pow
 - Plan: [UPS Power Protection Plan](./TODO-ups-power-protection-plan.md)
 - Server setup: [NUT Server Installation](../../docs/reference/nut/nut-server-installation.md)
 
+## Disaster Recovery Runbooks
+
+Each likely failure gets a runbook, and each runbook gets tested. The [DR Overview](./dr-overview.md) sets recovery targets, the order systems come back in, and how to get in when the usual path is down. Results go in the [DR Test Log](./dr-test-log.md).
+
+| Runbook | Scenario |
+|---|---|
+| [Power Outage](./runbooks/TODO-power-outage.md) | Utility power lost |
+| [Proxmox Node Failure](./runbooks/TODO-node-failure.md) | One node down for good |
+| [Domain Controller Recovery](./runbooks/TODO-domain-controller-recovery.md) | One or both DCs lost |
+| [NAS Recovery](./runbooks/TODO-nas-recovery.md) | Drive failure or NAS loss |
+| [Point-in-Time Restore](./runbooks/TODO-point-in-time-restore.md) | Bad change, corruption or ransomware |
+| [Full Rebuild](./runbooks/TODO-full-rebuild.md) | Site loss, rebuild from offsite |
+
 ## Verification
 
 Nothing gets marked 🟢 Operational until it's been restored:
@@ -72,7 +85,7 @@ Nothing gets marked 🟢 Operational until it's been restored:
 - [ ] Set up Cloud Sync to upload the staging folder to OneDrive (one way, no deletions)
 - [ ] Export Cisco and ASUS configs
 - [ ] Add the backup server to [Infrastructure Monitoring](../infrastructure-monitoring/) and alert on failed jobs
-- [ ] Write a short recovery runbook, including recovery after a power outage
+- [ ] Test each DR runbook and record the results in the DR Test Log, starting with the power outage
 - [ ] Set up UPS power protection with NUT: see [UPS Power Protection Plan](./TODO-ups-power-protection-plan.md)
 
 ## Future
