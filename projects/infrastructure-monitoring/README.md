@@ -68,7 +68,7 @@ Infrastructure
 | Grafana Alloy | Logs | Log collection and processing | 🟢 |
 | Loki | Logs | Log storage and querying | 🟢 |
 | Grafana | Visualization | Metrics and log visualization | 🟢 |
-| Discord Webhook | Notifications | Uptime Kuma availability notifications | 🟢 |
+| Discord Webhooks | Notifications | Alerts from Uptime Kuma, NUT, Proxmox and the Synology, one webhook per source | 🟢 |
 | Alertmanager | Alerting | Metrics alert routing and management | 🟡 |
 | ntfy / Webhooks | Notifications | Alertmanager notification delivery | ⚪ |
 | Azure Monitor | Cloud | Azure monitoring and telemetry | ⚪ |

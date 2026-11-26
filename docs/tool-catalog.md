@@ -108,6 +108,7 @@ This catalog serves as both a reference for technologies currently used in the h
 | **Promtail** | Log Collection | Log shipping agent. | Sends system logs to Loki. |
 | **Alertmanager** | Alerting | Prometheus alert-management service. | Routes monitoring alerts and notifications. |
 | **Uptime Kuma** | Availability Monitoring | Self-hosted uptime monitor. | Monitors availability of services and endpoints. |
+| **Discord Webhooks** | Notifications | Incoming webhooks for a Discord channel. | Receives alerts from Uptime Kuma, NUT, Proxmox and the Synology. |
 
 
 
@@ -132,6 +133,7 @@ This catalog serves as both a reference for technologies currently used in the h
 | **Hyper Backup** | NAS Backup | Synology backup and disaster-recovery platform. | Protects NAS data and configuration. |
 | **Time Machine** | macOS Backup | Apple's native macOS backup system. | Backs up macOS endpoints. |
 | **Proxmox Backup Server** | VM Backup | Proxmox backup platform. | Backs up virtual machines and containers. |
+| **Network UPS Tools (NUT)** | Power Protection | UPS monitoring and network shutdown suite. | Shuts the lab down cleanly during an outage and power-cycles the UPS outlets so it restarts. |
 
 
 

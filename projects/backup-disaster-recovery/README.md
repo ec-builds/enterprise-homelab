@@ -54,6 +54,7 @@ Proxmox nodes and the NAS shut down in order and come back on their own when pow
 
 - Plan: [UPS Power Protection Plan](./TODO-ups-power-protection-plan.md)
 - Server setup: [NUT Server Installation](../../docs/reference/nut/nut-server-installation.md)
+- Lessons from the build: [Lessons Learned](./lessons-learned.md)
 
 ## Disaster Recovery Runbooks
 

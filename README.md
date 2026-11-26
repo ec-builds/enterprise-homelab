@@ -52,7 +52,8 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 | Virtualization | Three-Node Proxmox VE Cluster | Continue expanding virtualized services |
 | Identity | Windows Server Active Directory | Additional identity services and hybrid integration |
 | Containers | Docker Self-Hosted Services Platform | Continue expanding containerized services |
-| Monitoring | Prometheus, Grafana, Loki, Grafana Alloy, Uptime Kuma | Alertmanager alerting, additional exporters and dashboards |
+| Monitoring | Prometheus, Grafana, Loki, Grafana Alloy, Uptime Kuma; alerts to Discord from Uptime Kuma, NUT, Proxmox and the Synology | Alertmanager alerting, additional exporters and dashboards |
+| Power | CyberPower UPS, NUT server on a standalone Mac mini, Proxmox and NAS clients | Full outage test |
 | Networking | Managed Switching, Redundant Windows DHCP, Active Directory-integrated DNS, AdGuard DNS Filtering, DNS-over-HTTPS, WireGuard | VLAN Segmentation, Inter-VLAN Firewall Policies |
 | Documentation | GitHub + Markdown | Continue expanding standards, references, and runbooks |
 
@@ -60,7 +61,7 @@ The homelab is built on repurposed hardware, managed networking equipment, and d
 
 ![Homelab Architecture](diagrams/homelab-architecture-simple.png)
 
-A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, hosting Active Directory, network services, Docker workloads, and a full monitoring stack. Next up: an OPNsense firewall, VLAN segmentation, a reverse proxy, IDS/IPS, and proper backups. There's still a lot to do.
+A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, hosting Active Directory, network services, Docker workloads, and a full monitoring stack, all on a UPS that shuts the lab down cleanly during an outage and brings it back afterwards. Next up: an OPNsense firewall, VLAN segmentation, a reverse proxy, IDS/IPS, and proper backups with tested restores. There's still a lot to do.
 
 ### Core network services
 
@@ -77,6 +78,7 @@ A three-node Proxmox VE cluster and Synology NAS on a managed Cisco switch, host
 - **Containers & monitoring** — a Docker host for self-hosted apps and a dedicated monitoring host
 - **Storage** — Synology NAS for centralized file storage and Active Backup for Business
 - **Media services** — Jellyfin on a dedicated Debian VM, where this lab started
+- **Power protection** — a CyberPower UPS with a NUT server on a standalone Mac mini. The Proxmox nodes and the NAS shut down automatically during an outage, and the UPS power-cycles its outlets so everything restarts.
 
 
 
