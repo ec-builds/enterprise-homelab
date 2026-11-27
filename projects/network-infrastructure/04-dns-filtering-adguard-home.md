@@ -4,19 +4,9 @@
 
 ## Overview
 
-The homelab uses two AdGuard Home instances to provide centralized DNS filtering and encrypted upstream DNS resolution while preserving Active Directory DNS for internal services.
+Two AdGuard Home instances filter DNS for the whole network and send permitted queries to public resolvers over DNS-over-HTTPS (DoH). Active Directory DNS stays in front of them, so domain clients keep the internal resolution and service discovery they depend on.
 
-Both Active Directory DNS servers forward unresolved external queries to the AdGuard pair. The AdGuard instances are hosted in separate Proxmox failure domains and forward permitted queries to public resolvers using DNS-over-HTTPS (DoH).
-
-The deployment was designed to provide:
-
-- Network-wide DNS filtering.
-- Encrypted upstream DNS using DoH.
-- Redundant filtering and forwarding.
-- Failure-domain separation across Proxmox hosts.
-- Continued use of AD-integrated DNS for the internal domain.
-
-
+Each instance is a dedicated Debian VM running AdGuard Home natively as a systemd service, and the two VMs run on different Proxmox hosts.
 
 ## Architecture
 
@@ -27,388 +17,203 @@ The deployment was designed to provide:
                               ▼
                  ┌─────────────────────────┐
                  │   Active Directory DNS  │
-                 │                         │
-                 │  dc-lab-01  dc-lab-02   │
+                 │  dc-lab-01   dc-lab-02  │
                  └────────────┬────────────┘
-                              │
-                       DNS Forwarders
-                              │
+                              │ Forwarders
                  ┌────────────┴────────────┐
                  ▼                         ▼
         ┌────────────────┐        ┌────────────────┐
         │ adguard-lab-01 │        │ adguard-lab-02 │
+        │ (prox-lab-01)  │        │ (prox-lab-03)  │
         └───────┬────────┘        └───────┬────────┘
-                │                         │
-                ▼                         ▼
-        Separate Proxmox          Separate Proxmox
-               Host                      Host
-                │                         │
+                │   Filtering, then DoH   │
                 └────────────┬────────────┘
-                             │
-                             │ DNS-over-HTTPS
                              ▼
                   Cloudflare / Google
-                             │
-                             ▼
-                          Internet
 ```
-
-This creates two distinct DNS layers:
 
 | Layer | Role |
 |---|---|
 | Active Directory DNS | Internal resolution and AD service discovery |
 | AdGuard Home | Filtering and encrypted upstream resolution |
 
-
-
 ## Active Directory DNS Integration
 
-Domain clients continue to use:
+Domain clients use `dc-lab-01` and `dc-lab-02` for DNS. The DCs are authoritative for `lab.example.com` and answer internal queries themselves. Anything they can't resolve goes to their forwarders, and both DCs list both AdGuard instances.
 
-- `dc-lab-01`
-- `dc-lab-02`
-
-The sanitized internal namespace is:
+Windows DNS tries forwarders in list order and moves to the next one only when the first doesn't answer, so the forwarder order decides which AdGuard instance handles most of the traffic.
 
 ```text
-lab.example.com
+Internal query:  Client → dc-lab-01/02 → AD-integrated zone
+External query:  Client → dc-lab-01/02 → adguard-lab-01/02 → filtering → DoH → Cloudflare / Google
 ```
 
-The domain controllers remain authoritative for this namespace and provide the DNS functionality required by Active Directory, including internal records and service discovery.
+## Filtering and Upstream DNS
 
-Both domain controllers use both AdGuard instances as DNS forwarders:
+AdGuard checks each forwarded query against its blocklists. Blocked domains get a block response, and allowed queries go to the upstreams over DoH.
 
-```text
-dc-lab-01
- ├── adguard-lab-01
- └── adguard-lab-02
+### Upstream Settings
 
-dc-lab-02
- ├── adguard-lab-01
- └── adguard-lab-02
-```
+Both instances use the same settings:
 
-Internal queries are therefore handled by Active Directory DNS, while unresolved external queries are passed to the redundant AdGuard layer.
+| Setting | Value |
+|---|---|
+| Upstream DNS servers | `https://cloudflare-dns.com/dns-query`, `https://dns.google/dns-query` |
+| Upstream mode | Load-balancing: one upstream per query, weighted toward the server with the fewest failures and lowest average lookup time |
+| Bootstrap DNS servers | `1.1.1.1`, `8.8.8.8` (used only to resolve the DoH hostnames) |
+| Fallback DNS servers | None |
+| Upstream timeout | 10 seconds |
+| Private reverse DNS servers | `dc-lab-01`, `dc-lab-02` |
 
-### Resolution Flow
+### Other DNS Settings
 
-```text
-Internal Query
----------------
+| Setting | Value |
+|---|---|
+| Listening address | The VM's own IP only: port 53 for DNS, port 80 for the web interface |
+| Rate limit | Off (`0`). Every query arrives from the two DCs, which share one /24, so a per-subnet limit would cap the whole network at 20 queries per second per instance |
+| DNSSEC | On |
+| `ANY` queries | Refused |
+| Cache | 4 MB, optimistic caching off |
+| Safe browsing | On. Parental control and safe search are off |
+| Query log and statistics | Kept for 30 days |
 
-Client
-  │
-  ▼
-dc-lab-01 / dc-lab-02
-  │
-  ▼
-AD-Integrated DNS
-  │
-  ▼
-Internal Resource
+### Blocklists
 
+| List | Purpose |
+|---|---|
+| AdGuard DNS filter | Ads and tracking |
+| HaGeZi's Pro Blocklist | Ads, tracking, telemetry and other unwanted domains |
+| Phishing URL Blocklist (PhishTank and OpenPhish) | Phishing |
+| HaGeZi's Threat Intelligence Feeds | Malware, phishing and scam domains |
+| Malicious URL Blocklist (URLhaus) | Malware distribution |
 
-External Query
----------------
-
-Client
-  │
-  ▼
-dc-lab-01 / dc-lab-02
-  │
-  ▼
-adguard-lab-01 / adguard-lab-02
-  │
-  ├── DNS Filtering
-  │
-  ▼
-DNS-over-HTTPS
-  │
-  ▼
-Cloudflare / Google
-```
-
-This preserves the existing Active Directory DNS architecture while adding filtering and encrypted upstream resolution.
-
-
-
-## DNS Filtering and Encrypted Upstream Resolution
-
-Encrypted upstream DNS and network-wide filtering were the primary drivers for introducing AdGuard Home.
-
-AdGuard evaluates forwarded external queries before sending permitted requests to the configured public resolvers.
-
-```text
-Query received from AD DNS
-          │
-          ▼
-   adguard-lab-01/02
-          │
-          ▼
-   Apply DNS filtering
-          │
-     ┌────┴────┐
-     │         │
-  Blocked    Allowed
-     │         │
-     ▼         ▼
-  Block     DoH Query
- Response       │
-               ▼
-       Cloudflare / Google
-               │
-               ▼
-          DNS Response
-```
-
-Cloudflare and Google Public DNS are configured as encrypted DoH upstream resolvers.
-
-This provides centralized filtering for advertising, tracking, telemetry, and other unwanted domains without requiring filtering software on each endpoint.
+HaGeZi's Threat Intelligence Feeds is by far the largest list, at about 1.1 million rules of roughly 1.55 million in total. It accounts for most of AdGuard's memory use, roughly 1.3 to 1.7 GB on each 3 GB VM before HaGeZi's Pro Blocklist was added.
 
 ### Encryption Boundary
 
-The current deployment does **not** provide end-to-end encrypted DNS.
+DoH only covers the hop from AdGuard to the public resolvers. Inside the lab, from client to DC and from DC to AdGuard, DNS uses standard unencrypted transport.
 
 ```text
-Client
-  │
-  │ Standard DNS
-  ▼
-Active Directory DNS
-  │
-  │ Standard DNS
-  ▼
-AdGuard Home
-  │
-  │ DNS-over-HTTPS
-  ▼
-Public DNS Resolver
+Client ──DNS──► AD DNS ──DNS──► AdGuard ──DoH──► Public resolver
 ```
 
-DNS traffic inside the trusted lab network currently uses standard DNS transport. The upstream connection from AdGuard to the public resolvers uses DoH.
+### Keeping the Instances in Sync
 
-Client-side or internal encrypted DNS may be evaluated later while preserving Active Directory DNS requirements.
-
-
+Settings, blocklists and rules are configured by hand on each instance. Any change made on one has to be repeated on the other.
 
 ## Redundancy and Failure Domains
 
-A single AdGuard instance would create a new dependency in the external DNS resolution path.
-
-Two instances were therefore deployed:
-
-- `adguard-lab-01`
-- `adguard-lab-02`
-
-They are hosted on separate Proxmox nodes rather than sharing the same virtualization failure domain.
-
-```text
-          ┌──────────────────────┐
-          │ Separate Proxmox Host│
-          │                      │
-          │   adguard-lab-01     │
-          └──────────────────────┘
-
-          ┌──────────────────────┐
-          │ Separate Proxmox Host│
-          │                      │
-          │   adguard-lab-02     │
-          └──────────────────────┘
-```
-
-This protects the filtering layer against individual:
-
-- AdGuard service failures.
-- Container or guest failures.
-- Container host failures.
-- Proxmox maintenance events.
-- Proxmox host failures.
-
-Combined with the two domain controllers, the design provides redundancy at both internal DNS and filtering layers.
-
-
+A single AdGuard server would add a new single point of failure to external DNS, so there are two, on separate Proxmox hosts. This covers an AdGuard service failure, a VM failure, and a Proxmox host going down for maintenance or failing. With two DCs in front, both DNS layers are redundant.
 
 ## Failover Validation
 
-Redundancy was tested by independently taking each AdGuard instance offline.
+Each instance was taken offline in turn:
 
 | Test | Result |
 |---|---|
-| `adguard-lab-01` offline | External DNS continued through `adguard-lab-02` |
-| `adguard-lab-02` offline | External DNS continued through `adguard-lab-01` |
+| `adguard-lab-01` offline | External DNS continued through `adguard-lab-02` ✅ |
+| `adguard-lab-02` offline | External DNS continued through `adguard-lab-01` ✅ |
 
-Both tests passed.
+### Upstream Outage
 
-```text
-Normal
-────────────────────────────
+An unplanned test happened during the OPNsense validation in November 2026, when the WAN kept dropping. Both instances logged about 2,000 failed upstream lookups over two days, split almost evenly between Cloudflare and Google, and the errors stopped once the WAN was stable again.
 
-AD DNS
- ├──► adguard-lab-01
- └──► adguard-lab-02
+Failures on both instances and both providers at the same time point to the WAN, not to AdGuard or a single provider. These commands separate the two cases:
 
+```bash
+# Failed upstream lookups per day
+journalctl -u AdGuardHome --since "7 days ago" -o cat | grep 'exchange failed' \
+  | grep -v 'arpa' | cut -c1-10 | uniq -c
 
-adguard-lab-01 Offline
-────────────────────────────
-
-AD DNS
- ├──X  adguard-lab-01
- └──► adguard-lab-02 ──► DoH
-
-
-adguard-lab-02 Offline
-────────────────────────────
-
-AD DNS
- ├──► adguard-lab-01 ──► DoH
- └──X  adguard-lab-02
+# Failed upstream lookups per upstream
+journalctl -u AdGuardHome --since "7 days ago" -o cat | grep 'exchange failed' \
+  | grep -v 'arpa' | grep -o 'upstream=[^ ]*' | sort | uniq -c
 ```
-
-This validated that either AdGuard instance can be removed from service without eliminating external DNS resolution.
-
-
 
 ## Internal Reverse DNS
 
-Because Active Directory DNS forwards external queries to AdGuard, AdGuard sees the domain controller as the immediate DNS client.
+Because the DCs forward queries, AdGuard sees the DC as the client. AdGuard sends PTR lookups for private addresses to the DCs, so its query log can show `dc-lab-01` instead of a bare address.
 
-Internal reverse DNS is used to resolve those forwarding addresses to meaningful hostnames.
+### Known Issue: Reverse Lookup Loop
 
-```text
-AdGuard Home
-     │
-     │ PTR lookup
-     ▼
-Active Directory DNS
-     │
-     ▼
-dc-lab-01.lab.example.com
-```
-
-This allows AdGuard query logs to identify which domain controller forwarded a request rather than displaying only an address.
-
-
-
-## Observability Tradeoff
-
-Forwarding through Active Directory DNS introduces an intentional visibility limitation.
+This only works for subnets the DCs have a reverse zone for. For any other private subnet, a PTR lookup loops:
 
 ```text
-client-lab-01
-      │
-      ▼
-  dc-lab-01
-      │
-      ▼
-adguard-lab-01
+AdGuard ──PTR──► AD DNS (no reverse zone) ──forwarder──► AdGuard ──PTR──► AD DNS ...
 ```
 
-AdGuard sees `dc-lab-01` as the requester rather than `client-lab-01`.
+Each lookup times out after 2 seconds. Over one week each instance logged about 5,500 of these timeouts. The lab itself uses a single subnet, so none of these came from lab hosts. Most were Bonjour discovery lookups (`lb._dns-sd._udp.<subnet>.in-addr.arpa`) from Apple devices on networks the router hands out: WireGuard VPN clients (`10.0.100.0/24`) and the guest and IoT Wi-Fi networks. The rest were IPv6 link-local (`fe80::`) PTR lookups.
 
-Direct client-to-AdGuard DNS would provide greater per-client statistics, but maintaining Active Directory DNS for domain clients was prioritized over endpoint-level AdGuard attribution.
+To count them by question:
 
-This limitation is accepted in the current architecture. Internal PTR resolution still provides domain-controller-level identification in AdGuard.
+```bash
+journalctl -u AdGuardHome --since "7 days ago" -o cat | grep 'exchange failed' \
+  | grep -o 'question="[^"]*' | sort | uniq -c | sort -rn
+```
 
+**Fix:** create AD-integrated reverse lookup zones on the DCs for every private subnet whose clients can reach AD DNS, including the VPN and guest networks, plus `8.e.f.ip6.arpa` for link-local IPv6. The DCs then answer these lookups themselves, either with a name or NXDOMAIN, and the loop stops. An empty zone is enough.
 
+## Observability
 
-## Security and Privacy Considerations
+AdGuard sees the forwarding DC, not the original client, so per-client statistics aren't available. Keeping AD DNS in front for domain clients was more important than endpoint-level attribution, and this is an accepted limitation.
 
-The deployment follows several security and privacy principles:
+Uptime Kuma checks each instance with a ping monitor and a DNS monitor. The DNS monitor resolves a name against the instance, which proves resolution works, not just that the VM is up.
 
-- Active Directory DNS remains authoritative for the internal namespace.
-- External queries are filtered before reaching public resolvers.
-- Public upstream DNS traffic uses DNS-over-HTTPS.
-- AdGuard management interfaces remain internal.
-- Credentials, API secrets, and other authentication material are excluded from source control.
-- Public documentation uses sanitized domains, hostnames, and addressing.
-- Redundant instances prevent a single AdGuard service from becoming the sole external DNS dependency.
+## Security and Privacy
 
-DoH encrypts transport between AdGuard and its upstream resolvers. It does not make DNS inherently trusted or provide encryption for the complete client-to-resolver path.
+- AD DNS stays authoritative for the internal namespace.
+- External queries are filtered before they reach public resolvers, and the upstream connection uses DoH.
+- The AdGuard web interfaces are reachable only from inside the lab. They currently use plain HTTP, so logins cross the LAN unencrypted. This is an accepted risk until a reverse proxy with TLS is in place.
+- Credentials are stored outside the repository, and this document uses placeholder names and addresses.
 
+DoH protects the connection to the upstream resolvers. It doesn't make the answers trustworthy, and it doesn't encrypt DNS inside the lab.
 
+## Design Decisions
+
+| Decision | Why |
+|---|---|
+| AdGuard Home | Filtering and DoH upstreams in one tool, without replacing AD DNS |
+| AD DNS in front of AdGuard | Domain clients depend on AD DNS for internal records and service discovery |
+| Two instances | DNS is a core service, and one AdGuard server would be a single point of failure |
+| Separate Proxmox hosts | Two instances on one host wouldn't survive host failure or maintenance |
+| Native install, not Docker | Each instance has its own VM, so a container layer adds nothing |
+| Accept DC-level attribution | Keeping AD DNS behavior mattered more than per-client statistics |
 
 ## Current Deployment State
 
 | Component | State |
 |---|---|
-| Redundant Active Directory DNS | Deployed |
-| `adguard-lab-01` | Deployed |
-| `adguard-lab-02` | Deployed |
-| Separate Proxmox failure domains | Deployed |
-| Both DCs forwarding to both AdGuard instances | Deployed |
-| Network-wide DNS filtering | Deployed |
-| Cloudflare DoH | Deployed |
-| Google DoH | Deployed |
-| Internal PTR resolution for DC identification | Deployed |
-| `adguard-lab-01` failure test | Passed |
-| `adguard-lab-02` failure test | Passed |
-| Per-endpoint AdGuard attribution | Accepted limitation |
-| Client-to-resolver encrypted DNS | Future consideration |
-
-
-
-## Design Decisions
-
-### Why AdGuard Home?
-
-AdGuard Home provides both centralized DNS filtering and native encrypted upstream DNS support, allowing the lab to introduce filtering and DoH without replacing Active Directory DNS.
-
-### Why Keep Active Directory DNS in Front?
-
-Domain clients depend on Active Directory DNS for internal resolution and domain service discovery. Keeping the domain controllers as the client-facing DNS layer preserves the expected AD architecture.
-
-### Why Deploy Two AdGuard Instances?
-
-DNS is a foundational infrastructure service. A single AdGuard server would introduce a new single point of failure, so two instances were deployed and both were configured as forwarders on each domain controller.
-
-### Why Separate Virtualization Hosts?
-
-Running both instances on the same Proxmox host would provide application-level redundancy but would not protect against host failure or maintenance. The instances were therefore separated across virtualization hosts.
-
-### Why Accept Reduced Client Visibility?
-
-Direct client-to-AdGuard DNS would improve endpoint attribution, but preserving Active Directory DNS behavior was prioritized. Domain-controller-level attribution through PTR resolution is sufficient for the current deployment.
-
-
+| `adguard-lab-01`, `adguard-lab-02` | 🟢 Deployed on separate Proxmox hosts |
+| Both DCs forwarding to both instances | 🟢 Deployed |
+| Filtering and DoH upstreams | 🟢 Deployed |
+| Failover tests for each instance | ✅ Passed |
+| Uptime Kuma ping and DNS monitors | 🟢 Deployed |
+| Reverse zones for all private subnets | 🟡 In Progress |
+| Per-client attribution | Accepted limitation |
 
 ## Future Enhancements
 
-Potential improvements include:
+- Put the web interfaces behind a reverse proxy with TLS.
+- Ship the AdGuard logs to Loki with Grafana Alloy and alert on spikes in failed lookups.
+- Add an AdGuard Prometheus exporter for query rate, block rate and upstream response time in Grafana.
+- Automate keeping the two instances' settings in sync.
+- Evaluate encrypted DNS between clients and the DCs.
 
-- Evaluate encrypted DNS closer to client endpoints.
-- Improve per-client DNS attribution without disrupting Active Directory DNS.
-- Expand DNS availability monitoring and alerting.
-- Automate configuration consistency between the two AdGuard instances.
-- Continue validating DNS behavior during broader infrastructure failure scenarios.
+## Outcome
 
-
+Network-wide filtering and encrypted upstream DNS are in place without changing how domain clients use Active Directory DNS. Either AdGuard instance can go offline and external resolution keeps working, which was confirmed by testing each one. The logs were also used to tell a WAN outage apart from an AdGuard fault, and to find a reverse lookup loop for private subnets without reverse zones.
 
 ## Related Documentation
 
-This document focuses on what was deployed, why it was deployed, the resulting architecture, and the design decisions made within the lab.
-
-Reusable procedures and technical references are maintained in the repository-level:
-
-```text
-docs/
-```
-
-Sanitized Docker Compose and configuration examples are maintained in the repository-level:
-
-```text
-configs/
-```
-
-These directories are located at the top level of the repository rather than within this network infrastructure project.
-
-
+- [AdGuard Home Native Installation](../../docs/reference/adguard/adguard-home-native-install.md)
+- [Active Directory DNS](../active-directory-lab/active-directory-DNS.md)
+- [Resource Allocation](../virtualization-lab/04-resource-allocation.md)
+- [Availability Monitoring](../infrastructure-monitoring/availability-monitoring.md)
+- [Network Infrastructure](./README.md)
 
 ## Technologies
 
 - AdGuard Home
-- Docker
-- Docker Compose
 - Debian Linux
 - Proxmox VE
 - Windows Server DNS
@@ -416,15 +221,3 @@ These directories are located at the top level of the repository rather than wit
 - DNS-over-HTTPS
 - Cloudflare DNS
 - Google Public DNS
-
-
-
-## Deployment Summary
-
-The homelab uses redundant Active Directory DNS servers for internal resolution and a redundant AdGuard Home pair for network-wide filtering and encrypted upstream DNS.
-
-Both domain controllers forward unresolved external queries to both AdGuard instances. The AdGuard instances are distributed across separate Proxmox hosts to provide failure-domain isolation.
-
-Permitted external queries are forwarded to public resolvers using DNS-over-HTTPS. Independent failure testing confirmed that either AdGuard instance can be taken offline while external DNS resolution continues through the remaining server.
-
-Because queries are forwarded through Active Directory DNS, AdGuard identifies the forwarding domain controller rather than the original endpoint. This loss of per-client attribution is an accepted tradeoff that preserves the existing Active Directory DNS architecture.
