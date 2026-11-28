@@ -10,7 +10,7 @@ how-to steps, so each project doc can stay focused on what was built and why.
 | Microsoft | 8 | Entra ID, Intune, Microsoft Graph |
 | Linux | 7 | Users, sudo, systemctl, filesystem, vi/vim |
 | Windows | 6 | Domain controllers, DNS, DHCP failover |
-| AdGuard | 1 | Native install on Debian, configuration, troubleshooting, updates |
+| AdGuard | 2 | Native install on Debian, configuration, troubleshooting, upgrades |
 | Docker | 5 | Install, concepts, container deployment, monitoring services |
 | Cisco | 4 | Console access, factory reset, SSH, syslog |
 | Monitoring | 4 | node_exporter, SNMP exporter, Uptime Kuma |

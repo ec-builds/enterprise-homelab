@@ -176,13 +176,7 @@ It contains the admin password hash, so keep copies out of the repository. The `
 
 ## Update
 
-Update from the banner in the web interface, or from the shell:
-
-```bash
-sudo /opt/AdGuardHome/AdGuardHome --update
-```
-
-Back up `AdGuardHome.yaml` first, and update one instance at a time so DNS stays up.
+See [AdGuard Home Upgrade](./adguard-home-upgrade.md) for the backup, upgrade, verification and rollback steps.
 
 ## Uninstall
 
@@ -192,6 +186,7 @@ curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/s
 
 ## Related Documentation
 
+- [AdGuard Home Upgrade](./adguard-home-upgrade.md)
 - [DNS Filtering with AdGuard Home](../../../projects/network-infrastructure/04-dns-filtering-adguard-home.md)
 - [Debian Baseline](../debian/debian-baseline.md)
 - [Windows Server DNS Validation](../windows/windows-server-DNS-validation.md)
